@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 
@@ -8,6 +10,9 @@ interface IProps {
 }
 
 const Footer = (props: IProps) => {
+  // Consts
+  const { t } = useTranslation(["layout\\footer"]);
+
   return (
     <FooterStyled
       component='footer'
@@ -17,7 +22,7 @@ const Footer = (props: IProps) => {
         <Box>Není kompletní</Box>
         <Box>
           <LoadingButton variant='contained' color='secondary'>
-            Uložit
+            {t("save")}
           </LoadingButton>
         </Box>
       </Box>

@@ -10,12 +10,15 @@ interface IProps {
 }
 
 const Layout = (props: IProps) => {
+  // Constants
+  const sideBarWidth: number = 240;
+
   return (
     <LayoutStyled>
       <NavBar />
-      <SideBar />
+      <SideBar width={sideBarWidth} />
       {props.children}
-      <Footer paddingLeft={272} />
+      <Footer paddingLeft={sideBarWidth + 32} />
     </LayoutStyled>
   );
 };
