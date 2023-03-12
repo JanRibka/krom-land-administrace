@@ -1,16 +1,20 @@
-import Stack from '@mui/material/Stack';
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 
-import AboutUs from './aboutUs/AboutUs';
-import Seo from './seo/Seo';
-import WhatPeopleSay from './whatPeopleSay/WhatPeopleSay';
+import Stack from "@mui/material/Stack";
+
+import AboutUs from "./aboutUs/AboutUs";
+import Seo from "./seo/Seo";
+import WhatPeopleSay from "./whatPeopleSay/WhatPeopleSay";
 
 const Home = () => {
   return (
-    <Stack spacing={4}>
-      <Seo />
-      <AboutUs />
-      <WhatPeopleSay />
-    </Stack>
+    <ErrorBoundary>
+      <Stack spacing={4}>
+        <Seo />
+        <AboutUs />
+        <WhatPeopleSay />
+      </Stack>
+    </ErrorBoundary>
   );
 };
 

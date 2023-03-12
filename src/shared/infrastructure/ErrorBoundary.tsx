@@ -1,6 +1,6 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from "react";
 
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 interface IProps {
   children: ReactNode;
@@ -64,7 +64,11 @@ class ErrorBoundary extends Component<IProps, IState> {
             {!!this.state.error ? this.state.error.message : ""}
           </p>
 
-          <Button className='' onClick={this.reloadComponent}>
+          <Button
+            variant='contained'
+            color='secondary'
+            onClick={this.reloadComponent}
+          >
             Reload section
           </Button>
         </React.Fragment>
