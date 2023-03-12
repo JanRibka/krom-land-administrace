@@ -18,7 +18,7 @@ const NavLinksStyled = styled(Box)(({ theme }) => ({
           alignItems: "center",
 
           svg: {
-            marginRight: "10px",
+            marginRight: "15px",
           },
         },
       },
