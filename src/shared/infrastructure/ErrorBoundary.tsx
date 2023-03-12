@@ -52,7 +52,7 @@ class ErrorBoundary extends Component<IProps, IState> {
     if (this.state.hasError) {
       return (
         <React.Fragment>
-          <h2>Something wen wrong.</h2>
+          <h2>Something went wrong.</h2>
 
           <p>
             <strong>Error name: </strong>

@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 
-const AppTextFieldStyled = styled(TextField)(({ theme }) => ({
+const AppTextAreaStyled = styled(TextField)(({ theme }) => ({
   ".MuiFormLabel-root": {
     "&.Mui-focused": {
       color: theme.palette.secondary.main,
@@ -19,4 +19,4 @@ const AppTextFieldStyled = styled(TextField)(({ theme }) => ({
   },
 }));
 
-export default AppTextFieldStyled;
+export default AppTextAreaStyled;
