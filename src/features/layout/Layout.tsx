@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 
+import Footer from "./footer/Footer";
 import NavBar from "./navBar/NavBar";
 import SideBar from "./sideBar/SideBar";
 import LayoutStyled from "./styledComponents/LayoutStyled";
@@ -14,6 +15,7 @@ const Layout = (props: IProps) => {
       <NavBar />
       <SideBar />
       {props.children}
+      <Footer paddingLeft={272} />
     </LayoutStyled>
   );
 };
