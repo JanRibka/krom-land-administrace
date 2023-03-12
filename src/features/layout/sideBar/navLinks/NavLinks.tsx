@@ -1,16 +1,16 @@
-import { forwardRef, Ref } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { forwardRef, Ref } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
-import AttractionsOutlinedIcon from "@mui/icons-material/AttractionsOutlined";
-import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
-import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
-import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import Box from "@mui/material/Box";
+import AttractionsOutlinedIcon from '@mui/icons-material/AttractionsOutlined';
+import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
+import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import Box from '@mui/material/Box';
 
-import { AppRoute } from "../../../../shared/infrastructure/router/appRoutes";
-import NavLinksStyled from "./styledComponents/NavLinksStyled";
+import { AppRoute } from '../../../../shared/infrastructure/router/appRoutes';
+import NavLinksStyled from './styledComponents/NavLinksStyled';
 
 interface IProps {
   innerWrapperName: string;
