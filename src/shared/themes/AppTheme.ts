@@ -1,7 +1,8 @@
-import { csCZ } from '@mui/material/locale';
-import { createTheme } from '@mui/material/styles';
+import { csCZ } from "@mui/material/locale";
+import { createTheme } from "@mui/material/styles";
 
 // Colors definition
+const palettePrimaryLight = "rgb(252, 252, 252)";
 const palettePrimaryMain = "rgb(238, 238, 238)";
 const palettePrimaryDark = "rgb(214, 214, 214)";
 const paletteSecondaryLight = "rgb(254, 205, 210)";
@@ -15,6 +16,7 @@ const AppThemeComponets = createTheme({ components: {} }, csCZ);
 const AppThemePallete = createTheme(AppThemeComponets, {
   palette: {
     primary: {
+      light: palettePrimaryLight,
       main: palettePrimaryMain,
       dark: palettePrimaryDark,
     },
