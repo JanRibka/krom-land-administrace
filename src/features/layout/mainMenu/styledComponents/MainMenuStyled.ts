@@ -11,6 +11,7 @@ const MainMenuStyled = styled(Box)(({ theme }) => ({
 
     li: {
       marginTop: "35px",
+      fontSize: "large",
       borderLeft: "5px solid transparent",
       transition: "all 300ms ease",
 

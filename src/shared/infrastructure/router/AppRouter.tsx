@@ -1,10 +1,13 @@
-import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import usePrevious from "shared/customHooks/usePrevious/usePrevious";
+import ActionsPage from 'features/pages/ActionsPage';
+import ContactPage from 'features/pages/ContactPage';
+import DashboardPage from 'features/pages/DashboardPage';
+import GalleryPage from 'features/pages/GalleryPage';
+import HomePage from 'features/pages/HomePage';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import usePrevious from 'shared/customHooks/usePrevious/usePrevious';
 
-import { Box } from "@mui/material";
-
-import { AppRoute } from "./appRoutes";
+import { AppRoute } from './appRoutes';
 
 const AppRouter = () => {
   // Constants
@@ -39,10 +42,11 @@ const AppRouter = () => {
 
   return (
     <Routes>
-      <Route
-        path={AppRoute.Dashboard}
-        element={<Box sx={{ flexGrow: 1, p: 3 }}>asdfasdf</Box>}
-      />
+      <Route path={AppRoute.Dashboard} element={<DashboardPage />} />
+      <Route path={AppRoute.Home} element={<HomePage />} />
+      <Route path={AppRoute.Actions} element={<ActionsPage />} />
+      <Route path={AppRoute.Gallery} element={<GalleryPage />} />
+      <Route path={AppRoute.Contact} element={<ContactPage />} />
     </Routes>
   );
 };
