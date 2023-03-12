@@ -1,4 +1,4 @@
-import { Stack } from '@mui/system';
+import Stack from '@mui/material/Stack';
 
 import AboutUs from './aboutUs/AboutUs';
 import Seo from './seo/Seo';
