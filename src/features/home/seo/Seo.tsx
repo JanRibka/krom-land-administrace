@@ -1,10 +1,10 @@
-import SectionStyled from 'features/styledComponents/SectionStyled';
-import { useTranslation } from 'react-i18next';
-import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
-import AppTextField from 'shared/components/textField/AppTextField';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import SectionStyled from "features/styledComponents/SectionStyled";
+import { useTranslation } from "react-i18next";
+import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import AppTextField from "shared/components/textField/AppTextField";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 
-import Stack from '@mui/material/Stack';
+import Stack from "@mui/material/Stack";
 
 const Seo = () => {
   // Consts
