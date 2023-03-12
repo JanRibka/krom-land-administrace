@@ -1,8 +1,8 @@
-import React, { MouseEvent } from "react";
+import { MouseEvent } from 'react';
 
-import Button from "@mui/material/Button";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import FileUploadStyled from "./styledComponents/FIleUploadStyled";
+import FileUploadStyled from './styledComponents/FIleUploadStyled';
 
 interface IProps {
   FileName: string;
@@ -26,17 +26,39 @@ interface IProps {
 const FileUpload = (props: IProps) => {
   return (
     <FileUploadStyled>
-      <label
-        className='file-upload-label'
-        htmlFor={props.Name + "_fileInputId"}
-      >
-        Nahrát
-      </label>
-      <input
-        type='file'
-        id={props.Name + "_fileInputId"}
-        className='file-upload-input'
-      ></input>
+      {!!props.Name ? (
+        <div
+        // style={{
+        //   display: "flex",
+        //   alignItems: "center",
+        //   justifyContent: "flex-end",
+        // }}
+        >
+          <span>{props.FileName}</span>
+          <div
+            // style={{ cursor: "pointer", margin: "5px", pointerEvents: "all" }}
+            onClick={(e) => props.OnFileDelete?.(e, props.Name)}
+            data-filetype={props.Name + "FileName"}
+            data-filedescription={props.Name}
+          >
+            <DeleteIcon />
+          </div>
+        </div>
+      ) : (
+        <>
+          <label
+            className='file-upload-label'
+            htmlFor={props.Name + "_fileInputId"}
+          >
+            Nahrát
+          </label>
+          <input
+            type='file'
+            id={props.Name + "_fileInputId"}
+            className='file-upload-input'
+          />
+        </>
+      )}
     </FileUploadStyled>
   );
 };
@@ -310,23 +332,14 @@ export default FileUpload;
 //                         </FormLabel>
 
 //                         <div className={_classes.formComponentWrapper + formComponentWrapper}>
-
 //                               {!!props.FileName ?
-
 //                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-
 //                                          <span>{props.FileName}</span>
-
 //                                          <div style={{ cursor: "pointer", margin: "5px", pointerEvents: "all" }} onClick={(e) => props.OnFileDelete(e, props.Name)} data-filetype={props.Name + "FileName"} data-filedescription={props.Name}>
-
 //                                                <DeleteIcon />
-
 //                                          </div>
-
 //                                    </div>
-
 //                                    :
-
 //                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
 
 //                                          <label
