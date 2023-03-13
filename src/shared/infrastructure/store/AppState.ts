@@ -1,1 +1,7 @@
-export default interface AppState {}
+import { CommonState } from "./common/commonSlice";
+import { WebPartsState } from "./webParts/webPartsSlice";
+
+export default interface AppState {
+  webParts: WebPartsState;
+  common: CommonState;
+}

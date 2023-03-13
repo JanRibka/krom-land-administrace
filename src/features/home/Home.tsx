@@ -1,3 +1,4 @@
+import PageTitle from "shared/components/pageTitle/PageTitle";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 
 import Stack from "@mui/material/Stack";
@@ -10,6 +11,7 @@ const Home = () => {
   return (
     <ErrorBoundary>
       <Stack spacing={4}>
+        <PageTitle title='O nás' />
         <Seo />
         <AboutUs />
         <WhatPeopleSay />

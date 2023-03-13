@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
-import MainMenu from "../mainMenu/MainMenu";
+import MainMenu from "./mainMenu/MainMenu";
 import SideBarStyled from "./styledComponents/SideBarStyled";
 
 interface IProps {

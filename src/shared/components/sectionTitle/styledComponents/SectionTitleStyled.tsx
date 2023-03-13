@@ -1,5 +1,5 @@
-import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
 
 const SectionTitleStyled = styled(Box)(
   ({ theme }) =>
@@ -10,13 +10,13 @@ const SectionTitleStyled = styled(Box)(
   flex-direction: column;
   align-items: start;
 
-  & .main-text {
+  & .title {
     font-size: 2rem;
     line-height: 1.235;
     letter-spacing: 0.00735em;
     text-align: center;
     text-align-last: center;
-    color: ${theme.palette.text.primary}
+    color: ${theme.palette.secondary.main}
   }
 `
 );

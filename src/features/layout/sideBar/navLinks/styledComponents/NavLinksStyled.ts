@@ -1,25 +1,23 @@
-import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
 
 const NavLinksStyled = styled(Box)(({ theme }) => ({
-  ul: {
-    display: "flex",
-    listStyleType: "none",
+  display: "flex",
+  listStyleType: "none",
 
-    li: {
-      backfaceVisibility: "hidden",
+  li: {
+    backfaceVisibility: "hidden",
 
-      a: {
-        textDecoration: "none",
-        color: "inherit",
+    a: {
+      textDecoration: "none",
+      color: "inherit",
 
-        ".link-inner-wrapper": {
-          display: "flex",
-          alignItems: "center",
+      ".link-inner-wrapper": {
+        display: "flex",
+        alignItems: "center",
 
-          svg: {
-            marginRight: "15px",
-          },
+        svg: {
+          marginRight: "15px",
         },
       },
     },

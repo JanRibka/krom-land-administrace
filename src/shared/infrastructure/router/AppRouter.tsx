@@ -1,13 +1,13 @@
-import ActionsPage from 'features/pages/ActionsPage';
-import ContactPage from 'features/pages/ContactPage';
-import DashboardPage from 'features/pages/DashboardPage';
-import GalleryPage from 'features/pages/GalleryPage';
-import HomePage from 'features/pages/HomePage';
-import { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
-import usePrevious from 'shared/customHooks/usePrevious/usePrevious';
+import ActionsPage from "features/pages/ActionsPage";
+import ContactPage from "features/pages/ContactPage";
+import DashboardPage from "features/pages/DashboardPage";
+import GalleryPage from "features/pages/GalleryPage";
+import HomePage from "features/pages/HomePage";
+import { useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import usePrevious from "shared/customHooks/usePrevious/usePrevious";
 
-import { AppRoute } from './appRoutes';
+import { AppRoute } from "./appRoutes";
 
 const AppRouter = () => {
   // Constants
@@ -23,9 +23,11 @@ const AppRouter = () => {
 
   const changeMenuActiveButton = () => {
     // Main menu
-    const navLinksWrapper = document.getElementById("nav-links-inner-wrapper");
+    const navLinksWrapper = document.getElementById("nav-links-wrapper");
+    const liCollection = navLinksWrapper?.getElementsByTagName("li");
+    const lis = Array.prototype.slice.call(liCollection);
 
-    navLinksWrapper?.childNodes.forEach((item) => {
+    lis?.forEach((item) => {
       const newItem = item as HTMLLIElement;
 
       if (newItem.dataset.route === pathname) {

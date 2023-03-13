@@ -1,8 +1,11 @@
-import { MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent, useState } from "react";
 
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
-import FileUploadStyled from './styledComponents/FIleUploadStyled';
+import AppNotification from "../notification/AppNotification";
+import ValidateFileSizeReturnModel from "./models/ValidateFileSizeReturnModel ";
+import ValidateFileTypeReturnModel from "./models/ValidateFileTypeReturnModel ";
+import FileUploadStyled from "./styledComponents/FIleUploadStyled";
 
 interface IProps {
   FileName: string;
@@ -24,8 +27,173 @@ interface IProps {
 }
 
 const FileUpload = (props: IProps) => {
+  const [fileContent, setFileContent] = useState<string>("nic");
+
+  // Other
+  const getFileType = (extensions: string[]) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const png: string = "image/png";
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const jpg: string = "image/jpeg";
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const jpeg: string = "image/jpeg";
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const pdf: string = "application/pdf";
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const xls: string = "application/vnd.ms-excel";
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const xlsx: string =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const doc: string = "application/msword";
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const docx: string =
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    let result = "";
+
+    extensions.forEach((extension, index) => {
+      // eslint-disable-next-line no-eval
+      if (index === 0) result += eval(extension);
+      // eslint-disable-next-line no-eval
+      else return (result += ", " + eval(extension));
+    });
+
+    return result;
+  };
+
+  /**
+   * Vrátí příponu souboru, nebo undefined
+   * @param pFileName
+   */
+  const getFileTypeExtension = (pFileName: string) => {
+    if (!pFileName) return undefined;
+
+    const re: RegExp = /(?:\.([^.]+))?$/;
+
+    return re.exec(pFileName.toLowerCase())?.[1] ?? "";
+  };
+
+  /**
+   * Validace typu souboru
+   * @param pFileName
+   */
+
+  const validateFileType = (fileName: string): ValidateFileTypeReturnModel => {
+    let result: ValidateFileTypeReturnModel = new ValidateFileTypeReturnModel();
+    const ext: string = getFileTypeExtension(fileName) ?? "";
+
+    result.Result = props.SupportedExtensions.includes(ext ?? "");
+    result.Extension = ext;
+
+    return result;
+  };
+
+  /**
+   * Kontrola na velikost souboru
+   * @param pFile
+   */
+
+  const checkFileSize = (pFile: File): ValidateFileSizeReturnModel => {
+    let result: ValidateFileSizeReturnModel = new ValidateFileSizeReturnModel();
+    const filesize: number = parseInt((pFile.size / 1024 / 1024).toFixed(4)); // MB
+
+    if (
+      pFile.name !== "item" &&
+      typeof pFile.name != "undefined" &&
+      pFile.size < 1024
+    ) {
+      result.SizeLimRchd = true;
+
+      result.Message = "Vybraný soubor je prázdný!";
+    } else if (
+      pFile.name !== "item" &&
+      typeof pFile.name != "undefined" &&
+      filesize > props.MaxFileSize
+    ) {
+      result.SizeLimRchd = true;
+      result.Message = `Velikost souboru překročila limit ${props.MaxFileSize} MB`;
+    }
+
+    return result;
+  };
+
+  /**
+         *  Akce pro nahrání souboru do cache
+      * @param pE
+
+      */
+
+  const onFileUploadHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+    let file: File | undefined = e.target.files?.[0];
+    debugger;
+    if (file) {
+      let fileName: string = file.name;
+
+      if (props.RenameFile) {
+        const extension: string = getFileTypeExtension(fileName) ?? "";
+        fileName = props.NewFileName + "." + extension;
+      }
+
+      // Kontrola na typ souboru
+      const validate = validateFileType(fileName);
+
+      if (!validate.Result) {
+        e.target.value = "";
+        AppNotification(
+          "Chyba",
+          `Přípona ${validate.Extension} není podporována`,
+          "danger"
+        );
+
+        return false;
+      }
+
+      // kontrola na velikost souboru, musi byt > 50B a < props.MaxFIleSize MB
+      const result: ValidateFileSizeReturnModel = checkFileSize(file);
+
+      if (result.SizeLimRchd) {
+        e.target.value = "";
+        AppNotification("Chyba", result.Message, "danger");
+
+        return false;
+      }
+
+      // TODO: Tady p5es propsy nahraju soubor do store
+      // const data: FormData = new FormData();
+
+      // data.append(props.Name, file);
+
+      // const uploadResult: Response = await _zaznamyCZRepo.SaveFilesToCache(
+      //   data,
+      //   props.DocEntityEnum,
+      //   props.Name,
+      //   null,
+      //   props.RenameFile ? fileName : ""
+      // );
+
+      // if (uploadResult.ok) {
+      //   uploadResult.text().then((result) => {
+      //     if (result === '""') {
+      //       // Zápis do contextu
+
+      //       props.OnAfterFileUpload(fileName, props.Name);
+
+      //       crm.notify("success", "Soubor úspěšně nahrán");
+      //     } else if (result.length > 0) {
+      //       crm.notify("danger", result);
+      //     } else {
+      //       crm.notify("danger", "Soubor se nepodařilo nahrát");
+      //     }
+      //   });
+      // } else {
+      //   crm.notify("danger", "Soubor se nepodařilo nahrát");
+      // }
+    }
+  };
+
   return (
     <FileUploadStyled>
+      {fileContent}
       {!!props.Name ? (
         <div
         // style={{
@@ -54,8 +222,10 @@ const FileUpload = (props: IProps) => {
           </label>
           <input
             type='file'
+            accept={getFileType(props.SupportedExtensions)}
             id={props.Name + "_fileInputId"}
             className='file-upload-input'
+            onChange={onFileUploadHandler}
           />
         </>
       )}

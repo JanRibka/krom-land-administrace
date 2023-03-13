@@ -1,3 +1,5 @@
+import KromLandService from "features/KromLandService";
+
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 
@@ -8,6 +10,14 @@ interface IProps {
 }
 
 const Footer = (props: IProps) => {
+  // Constants
+  const _kromLandService = new KromLandService();
+
+  // Other
+  const handleSaveOnClick = () => {
+    _kromLandService.saveStore();
+  };
+
   return (
     <FooterStyled
       component='footer'
@@ -16,7 +26,11 @@ const Footer = (props: IProps) => {
       <Box className='footer-inner-wrapper'>
         <Box>Není kompletní</Box>
         <Box>
-          <LoadingButton variant='contained' color='secondary'>
+          <LoadingButton
+            variant='contained'
+            color='secondary'
+            onClick={handleSaveOnClick}
+          >
             Uložit
           </LoadingButton>
         </Box>

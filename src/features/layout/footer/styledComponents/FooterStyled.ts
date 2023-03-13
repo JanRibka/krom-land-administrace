@@ -7,6 +7,7 @@ const FooterStyled = styled(Box)(({ theme }) => ({
   left: 0,
   width: "100%",
   height: "60px",
+  zIndex: 2,
 
   ".footer-inner-wrapper": {
     display: "flex",
