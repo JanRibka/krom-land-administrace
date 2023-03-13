@@ -88,11 +88,40 @@ class WebContent
 
   public static function saveAll()
   {
+    $homeId = 1;
+    $actionsId = 1;
+    $galleryId = 1;
+    $contactId = 1;
+
     try
     {
       $jsonData = file_get_contents('php://input');
+      $data = json_decode($jsonData);
+      $webParts = $data->WebParts;
+      $home = $webParts->Home;
 
-      apiResponse(true, "", $jsonData);
+      // Home
+      $homeQuery = dibi::query(
+        'UPDATE home as h SET', [
+          'Title' => $home->Title,
+          'Description' => $home->Description,
+          'AboutUs' => $home->AboutUs,
+          'MainImagePath' => $home->MainImagePath,
+          'MainImageAlt' => $home->MainImageAlt,
+          'AboutUsImagePath' => $home->AboutUsImagePath,
+          'AboutUsImageAlt' => $home->AboutUsImageAlt,
+          'PeopleSay1Text' => $home->PeopleSay1Text,
+          'PeopleSay1Name' => $home->PeopleSay1Name,
+          'PeopleSay2Text' => $home->PeopleSay2Text,
+          'PeopleSay2Name' => $home->PeopleSay2Name,
+          'PeopleSay3Text' => $home->PeopleSay3Text,
+          'PeopleSay3Name' => $home->PeopleSay3Name
+        ],         
+        'WHERE h.Id = %i',
+        $homeId
+      );
+
+      apiResponse(true, "");
     } catch(Exception $ex)
     {
       apiResponse(false, $ex->getMessage());
