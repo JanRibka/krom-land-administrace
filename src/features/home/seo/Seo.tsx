@@ -1,5 +1,4 @@
 import SectionStyled from "features/styledComponents/SectionStyled";
-import { useTranslation } from "react-i18next";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
 import AppTextField from "shared/components/textField/AppTextField";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
@@ -7,17 +6,14 @@ import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import Stack from "@mui/material/Stack";
 
 const Seo = () => {
-  // Consts
-  const { t } = useTranslation(["home\\seo"]);
-
   return (
     <ErrorBoundary>
       <SectionStyled component='section'>
-        <SectionTitle mainText={t("sectionTitle")} />
+        <SectionTitle mainText='Seo' />
         <Stack spacing={2} direction='row'>
           <AppTextField
             name=''
-            label={t("title")}
+            label='Nadpis stránky'
             value=''
             variant='outlined'
             fullWidth
@@ -27,7 +23,7 @@ const Seo = () => {
           />
           <AppTextField
             name=''
-            label={t("description")}
+            label='Popis stránky'
             value=''
             variant='outlined'
             fullWidth

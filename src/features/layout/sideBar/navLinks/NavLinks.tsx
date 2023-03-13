@@ -1,25 +1,21 @@
-import { forwardRef, Ref } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { forwardRef, Ref } from "react";
+import { Link } from "react-router-dom";
 
-import AttractionsOutlinedIcon from '@mui/icons-material/AttractionsOutlined';
-import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
-import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import Box from '@mui/material/Box';
+import AttractionsOutlinedIcon from "@mui/icons-material/AttractionsOutlined";
+import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
+import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import Box from "@mui/material/Box";
 
-import { AppRoute } from '../../../../shared/infrastructure/router/appRoutes';
-import NavLinksStyled from './styledComponents/NavLinksStyled';
+import { AppRoute } from "../../../../shared/infrastructure/router/appRoutes";
+import NavLinksStyled from "./styledComponents/NavLinksStyled";
 
 interface IProps {
   innerWrapperName: string;
 }
 
 const NavLinks = forwardRef((props: IProps, ref: Ref<HTMLDivElement>) => {
-  // Consts
-  const { t } = useTranslation(["layout\\sideBar"]);
-
   return (
     <NavLinksStyled ref={ref} component='nav' className='nav-links-wrapper'>
       <Box component='ul' id={props.innerWrapperName}>
@@ -28,7 +24,7 @@ const NavLinks = forwardRef((props: IProps, ref: Ref<HTMLDivElement>) => {
           <Link to={AppRoute.Dashboard}>
             {
               <Box className='link-inner-wrapper'>
-                <DashboardOutlinedIcon /> {t("dashboard")}
+                <DashboardOutlinedIcon /> Dashboard
               </Box>
             }
           </Link>
@@ -39,7 +35,7 @@ const NavLinks = forwardRef((props: IProps, ref: Ref<HTMLDivElement>) => {
           <Link to={AppRoute.Home}>
             {
               <Box className='link-inner-wrapper'>
-                <HomeOutlinedIcon /> {t("home")}
+                <HomeOutlinedIcon /> Úvod
               </Box>
             }
           </Link>
@@ -50,7 +46,7 @@ const NavLinks = forwardRef((props: IProps, ref: Ref<HTMLDivElement>) => {
           <Link to={AppRoute.Actions}>
             {
               <Box className='link-inner-wrapper'>
-                <AttractionsOutlinedIcon /> {t("actions")}
+                <AttractionsOutlinedIcon /> Akce
               </Box>
             }
           </Link>
@@ -61,7 +57,7 @@ const NavLinks = forwardRef((props: IProps, ref: Ref<HTMLDivElement>) => {
           <Link to={AppRoute.Gallery}>
             {
               <Box className='link-inner-wrapper'>
-                <CollectionsOutlinedIcon /> {t("gallery")}
+                <CollectionsOutlinedIcon /> Galerie
               </Box>
             }
           </Link>
@@ -72,7 +68,7 @@ const NavLinks = forwardRef((props: IProps, ref: Ref<HTMLDivElement>) => {
           <Link to={AppRoute.Contact}>
             {
               <Box className='link-inner-wrapper'>
-                <ContactMailOutlinedIcon /> {t("contact")}
+                <ContactMailOutlinedIcon /> Kontakt
               </Box>
             }
           </Link>
