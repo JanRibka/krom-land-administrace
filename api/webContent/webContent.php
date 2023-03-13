@@ -101,7 +101,7 @@ class WebContent
       $home = $webParts->Home;
 
       // Home
-      $homeQuery = dibi::query(
+      dibi::query(
         'UPDATE home as h SET', [
           'Title' => $home->Title,
           'Description' => $home->Description,
