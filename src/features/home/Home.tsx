@@ -1,17 +1,17 @@
-import PageTitle from "shared/components/pageTitle/PageTitle";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import PageTitle from 'shared/components/pageTitle/PageTitle';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
 
-import Stack from "@mui/material/Stack";
+import Stack from '@mui/material/Stack';
 
-import AboutUs from "./aboutUs/AboutUs";
-import Seo from "./seo/Seo";
-import WhatPeopleSay from "./whatPeopleSay/WhatPeopleSay";
+import AboutUs from './aboutUs/AboutUs';
+import Seo from './seo/Seo';
+import WhatPeopleSay from './whatPeopleSay/WhatPeopleSay';
 
 const Home = () => {
   return (
     <ErrorBoundary>
       <Stack spacing={4}>
-        <PageTitle title='O nás' />
+        <PageTitle title='Úvod' />
         <Seo />
         <AboutUs />
         <WhatPeopleSay />
