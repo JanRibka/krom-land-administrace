@@ -1,11 +1,11 @@
-import { HttpStatusCode } from 'axios';
-import AppNotification from 'shared/components/notification/AppNotification';
-import JsonResulObjectDTO from 'shared/DTOs/JsonResulObjectDTO';
-import KromLandDTO from 'shared/DTOs/KromLandDTO';
-import Repository from 'shared/infrastructure/repositiory/Repository';
-import { store } from 'shared/infrastructure/store/store';
+import { HttpStatusCode } from "axios";
+import AppNotification from "shared/components/notification/AppNotification";
+import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
+import KromLandDTO from "shared/DTOs/KromLandDTO";
+import Repository from "shared/infrastructure/repositiory/Repository";
+import { store } from "shared/infrastructure/store/store";
 
-import { mapToWebPartsDTO } from './save/mapToWebPartsDTO';
+import { mapToWebPartsDTO } from "./save/mapToWebPartsDTO";
 
 export default class KromLandService {
   private _repo = new Repository();
@@ -32,12 +32,12 @@ export default class KromLandService {
         AppNotification("Chyba", String(response.data), "danger");
       } else if (dataType === "object") {
         if (response.data?.Success) {
-          AppNotification("Úspěch", "Data uložena", "success");
+          AppNotification("Úspěch", "Úspěšně uloženo", "success");
         } else {
           AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
         }
       } else {
-        AppNotification("Úspěch", "Data uložena", "success");
+        AppNotification("Úspěch", "Úspěšně uloženo", "success");
       }
     } else {
       AppNotification("Chyba", "Chyba při ukládání dat", "danger");

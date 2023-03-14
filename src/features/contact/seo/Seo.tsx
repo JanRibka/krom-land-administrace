@@ -2,17 +2,17 @@ import { useSelector } from "react-redux";
 import AppSeo from "shared/components/seo/AppSeo";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
+import { selectContact } from "shared/infrastructure/store/webParts/webPartsSlice";
 import { nameof } from "shared/nameof";
 
-import HomeModel from "../models/HomeModel";
+import { ContactModel } from "../models/ContactModel";
 
 const Seo = () => {
   // Store
-  const home = useSelector(selectHome);
+  const contact = useSelector(selectContact);
 
   // Constants
-  const { handleHomeUpdate } = useWebPartsSlice();
+  const { handleContactUpdate } = useWebPartsSlice();
 
   // Other
   const handleTextFieldOnBlur = (
@@ -21,16 +21,16 @@ const Seo = () => {
     const name: string = e.target.name;
     const value: string = e.target.value;
 
-    handleHomeUpdate({ [name]: value });
+    handleContactUpdate({ [name]: value });
   };
 
   return (
     <ErrorBoundary>
       <AppSeo
-        nameTitile={nameof<HomeModel>("Title")}
-        nameDescription={nameof<HomeModel>("Description")}
-        valueTitle={home.Title}
-        valueDescription={home.Description}
+        nameTitile={nameof<ContactModel>("Title")}
+        nameDescription={nameof<ContactModel>("Description")}
+        valueTitle={contact.Title}
+        valueDescription={contact.Description}
         handleTextFieldOnBlur={handleTextFieldOnBlur}
       />
     </ErrorBoundary>

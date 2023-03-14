@@ -38,6 +38,8 @@ class WebContent
         $actions->Id,
         $actions->Title,
         $actions->Description,
+        $actions->PageHeaderTextMain,
+        $actions->PageHeaderTextMainColor,        
         $actions->MainImagePath,
         $actions->MainImageAlt,
         $actinDeatilsQuery->fetchAll(),
@@ -61,6 +63,8 @@ class WebContent
         $gallery->Id,
         $gallery->Title,
         $gallery->Description,
+        $gallery->PageHeaderTextMain,
+        $gallery->PageHeaderTextMainColor,
         $gallery->MainImagePath,
         $gallery->MainImageAlt,
         $galleryImageQuery->fetchAll()
@@ -99,12 +103,19 @@ class WebContent
       $data = json_decode($jsonData);
       $webParts = $data->WebParts;
       $home = $webParts->Home;
+      $actions = $webParts->Actions;
+      $gallery = $webParts->Gallery;
+      $contact = $webParts->Contact;
 
       // Home
       dibi::query(
         'UPDATE home as h SET', [
           'Title' => $home->Title,
           'Description' => $home->Description,
+          'PageHeaderTextMain' => $home->PageHeaderTextMain,
+          'PageHeaderTextMainColor' => $home->PageHeaderTextMainColor,
+          'PageHeaderTextSecondary' => $home->PageHeaderTextSecondary,
+          'PageHeaderTextSecondaryColor' => $home->PageHeaderTextSecondaryColor,
           'AboutUs' => $home->AboutUs,
           'MainImagePath' => $home->MainImagePath,
           'MainImageAlt' => $home->MainImageAlt,
@@ -120,6 +131,49 @@ class WebContent
         'WHERE h.Id = %i',
         $homeId
       );
+
+      // Actions
+      dibi::query(
+        'UPDATE actions as a SET', [
+          'Title' => $actions->Title,
+          'Description' => $actions->Description,
+          'PageHeaderTextMain' => $actions->PageHeaderTextMain,
+          'PageHeaderTextMainColor' => $actions->PageHeaderTextMainColor,                    
+          'MainImagePath' => $actions->MainImagePath,
+          'MainImageAlt' => $actions->MainImageAlt,          
+        ],         
+        'WHERE a.Id = %i',
+        $actionsId
+      );
+
+      // Gallery
+      dibi::query(
+        'UPDATE gallery as g SET', [
+          'Title' => $gallery->Title,
+          'Description' => $gallery->Description,
+          'PageHeaderTextMain' => $gallery->PageHeaderTextMain,
+          'PageHeaderTextMainColor' => $gallery->PageHeaderTextMainColor,                    
+          'MainImagePath' => $gallery->MainImagePath,
+          'MainImageAlt' => $gallery->MainImageAlt,          
+        ],         
+        'WHERE g.Id = %i',
+        $galleryId
+      );      
+
+      // Contact
+      dibi::query(
+        'UPDATE contact as c SET', [
+          'Title' => $contact->Title,
+          'Description' => $contact->Description,
+          'PageHeaderTextMain' => $contact->PageHeaderTextMain,
+          'PageHeaderTextMainColor' => $contact->PageHeaderTextMainColor,                    
+          'MainImagePath' => $contact->MainImagePath,
+          'MainImageAlt' => $contact->MainImageAlt,          
+          'GoogleMapsUrl' => $contact->GoogleMapsUrl,
+        ],         
+        'WHERE c.Id = %i',
+        $contactId
+      );        
 
       apiResponse(true, "");
     } catch(Exception $ex)
@@ -137,6 +191,8 @@ class ActionsModel
   public $Id;
   public $Title;
   public $Description;
+  public $PageHeaderTextMain;
+  public $PageHeaderTextMainColor;  
   public $MainImagePath;
   public $MainImageAlt;
   public $ActionDetails;
@@ -146,14 +202,18 @@ class ActionsModel
     $id,
     $title,
     $description,
+    $pageHeaderTextMain,
+    $pageHeaderTextMainColor,    
     $mainImagePath,
     $mainImageAlt,
     $actionDetails,
-    $documentsToDownload
+    $documentsToDownload,
   ) {
     $this->Id = $id;
     $this->Title = $title;
     $this->Description = $description;
+    $this->PageHeaderTextMainColor = $pageHeaderTextMain;
+    $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;    
     $this->MainImagePath = $mainImagePath;
     $this->MainImageAlt = $mainImageAlt;
     $this->ActionDetails = $actionDetails;
@@ -166,6 +226,8 @@ class GalleryModel
   public $Id;
   public $Title;
   public $Description;
+  public $PageHeaderTextMain;
+  public $PageHeaderTextMainColor;
   public $MainImagePath;
   public $MainImageAlt;
   public $Images;
@@ -174,16 +236,20 @@ class GalleryModel
     $id,
     $title,
     $description,
+    $pageHeaderTextMain,
+    $pageHeaderTextMainColor,
     $mainImagePath,
     $mainImageAlt,
-    $images
+    $images,    
   ) {
     $this->Id = $id;
     $this->Images = $images;
     $this->Title = $title;
     $this->Description = $description;
+    $this->PageHeaderTextMainColor = $pageHeaderTextMain;
+    $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;
     $this->MainImagePath = $mainImagePath;
-    $this->MainImageAlt = $mainImageAlt;
+    $this->MainImageAlt = $mainImageAlt;    
   }
 }
 

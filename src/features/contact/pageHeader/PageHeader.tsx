@@ -1,0 +1,60 @@
+import SectionStyled from "features/styledComponents/SectionStyled";
+import { useSelector } from "react-redux";
+import FileUpload from "shared/components/fileUpload/FileUpload";
+import AppPageHeader from "shared/components/pageHeader/AppPageHeader";
+import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
+import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectContact } from "shared/infrastructure/store/webParts/webPartsSlice";
+import { nameof } from "shared/nameof";
+
+import Box from "@mui/material/Box";
+
+import { ContactModel } from "../models/ContactModel";
+
+const PageHeader = () => {
+  // Store
+  const contact = useSelector(selectContact);
+
+  // Constants
+  const { handleContactUpdate } = useWebPartsSlice();
+
+  // Other
+  const handleTextFieldOnBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+  ) => {
+    const name: string = e.target.name;
+    const value: string = e.target.value;
+
+    handleContactUpdate({ [name]: value });
+  };
+
+  return (
+    <ErrorBoundary>
+      <SectionStyled component='section'>
+        <SectionTitle title='Hlavička stránky' />
+        <SectionSubTitle title='Hlavní text' />
+        <AppPageHeader
+          nameText={nameof<ContactModel>("PageHeaderTextMain")}
+          valueText={contact.PageHeaderTextMain}
+          nameColor={nameof<ContactModel>("PageHeaderTextMainColor")}
+          valueColor={contact.PageHeaderTextMainColor}
+          handleTextFieldOnBlur={handleTextFieldOnBlur}
+        />
+        <Box className='sub-section-separator'>
+          <SectionSubTitle title='Obrázek' />
+          <FileUpload
+            FileName=''
+            Name=''
+            Label=''
+            SupportedExtensions={["png", "jpg", "jpeg"]}
+            MaxFileSize={5}
+          />
+        </Box>
+      </SectionStyled>
+    </ErrorBoundary>
+  );
+};
+
+export default PageHeader;

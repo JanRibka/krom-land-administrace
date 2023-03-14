@@ -2,6 +2,10 @@ export default class HomeDTO {
   Id: number | null = null;
   Title: string | null = null;
   Description: string | null = null;
+  PageHeaderTextMain: string | null = null;
+  PageHeaderTextMainColor: string | null = null;
+  PageHeaderTextSecondary: string | null = null;
+  PageHeaderTextSecondaryColor: string | null = null;
   MainImagePath: string | null = null;
   MainImageAlt: string | null = null;
   AboutUs: string | null = null;

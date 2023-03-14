@@ -18,6 +18,7 @@ import { store } from "./shared/infrastructure/store/store";
 import AppTheme from "./shared/themes/AppTheme";
 
 // TODO: Přihlašovací udaje se budou hashovat pomoci MD5
+// TODO: Pro překlady použiju dictionary [key: string]: string. data["cs"]
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

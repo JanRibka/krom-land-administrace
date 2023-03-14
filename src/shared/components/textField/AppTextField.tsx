@@ -1,9 +1,9 @@
-import React, { forwardRef, Ref, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, Ref, useEffect, useRef, useState } from "react";
 
-import { CircularProgress, InputAdornment } from '@mui/material';
+import { CircularProgress, InputAdornment } from "@mui/material";
 
-import AppTextFieldProps from './AppTextFieldProps';
-import AppTextFieldStyled from './styledComponents/AppTextFieldStyled';
+import AppTextFieldProps from "./AppTextFieldProps";
+import AppTextFieldStyled from "./styledComponents/AppTextFieldStyled";
 
 const AppTextField = forwardRef(
   (props: AppTextFieldProps, ref: Ref<HTMLInputElement>) => {

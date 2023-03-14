@@ -1,6 +1,10 @@
 export default class HomeModel {
   Title: string = "";
   Description: string = "";
+  PageHeaderTextMain: string = "";
+  PageHeaderTextMainColor: string = "";
+  PageHeaderTextSecondary: string = "";
+  PageHeaderTextSecondaryColor: string = "";
   MainImagePath: string = "";
   MainImageAlt: string = "";
   AboutUs: string = "";

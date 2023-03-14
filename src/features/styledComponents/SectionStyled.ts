@@ -11,6 +11,15 @@ const SectionStyled = styled(Box)(({ theme }) => ({
   ".sub-section-separator": {
     marginTop: "50px",
   },
+
+  ".item-wrapper": {
+    display: "flex",
+    alignItems: "center",
+
+    svg: {
+      fontSize: "xxx-large",
+    },
+  },
 }));
 
 export default SectionStyled;
