@@ -27,8 +27,6 @@ interface IProps {
 }
 
 const FileUpload = (props: IProps) => {
-  const [fileContent, setFileContent] = useState<string>("nic");
-
   // Other
   const getFileType = (extensions: string[]) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -193,7 +191,6 @@ const FileUpload = (props: IProps) => {
 
   return (
     <FileUploadStyled>
-      {fileContent}
       {!!props.Name ? (
         <div
         // style={{

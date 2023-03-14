@@ -48,7 +48,7 @@ const AboutUs = () => {
             FileName=''
             Name=''
             Label=''
-            SupportedExtensions={["pdf"]}
+            SupportedExtensions={["png", "jpg", "jpeg"]}
             MaxFileSize={5}
           />
         </Stack>
