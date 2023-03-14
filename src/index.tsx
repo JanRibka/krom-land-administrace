@@ -17,6 +17,7 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./shared/infrastructure/store/store";
 import AppTheme from "./shared/themes/AppTheme";
 
+// TODO: Přihlašovací udaje se budou hashovat pomoci MD5
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
