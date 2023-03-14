@@ -212,7 +212,7 @@ class ActionsModel
     $this->Id = $id;
     $this->Title = $title;
     $this->Description = $description;
-    $this->PageHeaderTextMainColor = $pageHeaderTextMain;
+    $this->PageHeaderTextMain = $pageHeaderTextMain;
     $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;    
     $this->MainImagePath = $mainImagePath;
     $this->MainImageAlt = $mainImageAlt;
@@ -246,7 +246,7 @@ class GalleryModel
     $this->Images = $images;
     $this->Title = $title;
     $this->Description = $description;
-    $this->PageHeaderTextMainColor = $pageHeaderTextMain;
+    $this->PageHeaderTextMain = $pageHeaderTextMain;
     $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;
     $this->MainImagePath = $mainImagePath;
     $this->MainImageAlt = $mainImageAlt;    

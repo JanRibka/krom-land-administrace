@@ -1,6 +1,6 @@
-import Typography from "@mui/material/Typography";
+import Typography from '@mui/material/Typography';
 
-import SectionSubTitleStyled from "./styledComponents/SectionSubTitleStyled";
+import SectionSubTitleStyled from './styledComponents/SectionSubTitleStyled';
 
 interface IProps {
   title: string;
