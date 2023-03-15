@@ -42,6 +42,7 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
         webPartsDTO?.Actions.ActionDetails.map(
           (item) =>
             new ActionDetailModel({
+              Id: item.Id ?? 0,
               ActionOrder: item.ActionOrder ?? 0,
               MonthName: item.MonthName ?? "",
               ActionImagePath: item.ActionImagePath ?? "",
@@ -71,14 +72,14 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
         webPartsDTO?.Gallery.PageHeaderTextMainColor ?? "",
       MainImagePath: webPartsDTO?.Gallery.MainImagePath ?? "",
       MainImageAlt: webPartsDTO?.Gallery.MainImageAlt ?? "",
-      Images:
-        webPartsDTO?.Gallery.Images.map(
-          (item) =>
-            new ImageModel({
-              Path: item.ImagePath ?? "",
-              Alt: item.ImageAlt ?? "",
-            })
-        ) ?? [],
+      Images: [],
+      // webPartsDTO?.Gallery.Images.map(
+      //   (item) =>
+      //     new ImageModel({
+      //       Path: item.ImagePath ?? "",
+      //       Alt: item.ImageAlt ?? "",
+      //     })
+      // ) ?? [],
     },
     Contact: {
       Title: webPartsDTO?.Contact.Title ?? "",

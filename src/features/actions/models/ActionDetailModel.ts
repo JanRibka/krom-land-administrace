@@ -1,4 +1,5 @@
 export default class ActionDetailModel {
+  Id: number = 0;
   ActionOrder: number = 0;
   MonthName: string = "";
   ActionImagePath: string = "";

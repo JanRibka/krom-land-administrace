@@ -38,7 +38,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       ActionDetails: webPartsState.Actions.ActionDetails.map(
         (item) =>
           new ActionDetailDTO({
-            Id: null,
+            Id: item.Id,
             ActionOrder: item.ActionOrder,
             MonthName: item.MonthName,
             ActionImagePath: item.ActionImagePath,
@@ -68,11 +68,11 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       PageHeaderTextMainColor: webPartsState.Gallery.PageHeaderTextMainColor,
       MainImagePath: webPartsState.Gallery.MainImagePath,
       MainImageAlt: webPartsState.Gallery.MainImageAlt,
-      Images:
-        webPartsState.Gallery.Images.map(
-          (item) =>
-            new ImageDTO({ Id: null, ImagePath: item.Path, ImageAlt: item.Alt })
-        ) ?? [],
+      Images: [],
+      // webPartsState.Gallery.Images.map(
+      //   (item) =>
+      //     new ImageDTO({ Id: null, ImagePath: item.Path, ImageAlt: item.Alt })
+      // ) ?? [],
     },
     Contact: {
       Id: null,

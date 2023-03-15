@@ -104,6 +104,7 @@ class WebContent
       $webParts = $data->WebParts;
       $home = $webParts->Home;
       $actions = $webParts->Actions;
+      $actionDetails = $actions->ActionDetails;
       $gallery = $webParts->Gallery;
       $contact = $webParts->Contact;
 
@@ -145,6 +146,26 @@ class WebContent
         'WHERE a.Id = %i',
         $actionsId
       );
+
+      // Action details
+      foreach ($actionDetails as $detail) {
+        dibi::query(
+          'UPDATE actionDeatil as ad SET', [            
+            'ActionOrder' => $detail->ActionOrder,
+            'MonthName' => $detail->MonthName,
+            'ActionImagePath' => $detail->ActionImagePath,                    
+            'ActionImageAlt' => $detail->ActionImageAlt,
+            'ActionName' => $detail->ActionName,
+            'ActionDescritption' => $detail->ActionDescritption,
+            'VideoLink' => $detail->VideoLink,
+            'Price' => $detail->Price,
+            'Place' => $detail->Place,
+            'Date' => $detail->Date,
+          ],         
+          'WHERE ad.Id = %i',
+          $detail->Id
+        );
+      }
 
       // Gallery
       dibi::query(
