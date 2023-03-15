@@ -1,3 +1,5 @@
+import ImageModel from "shared/models/ImageModel";
+
 export default class HomeModel {
   Title: string = "";
   Description: string = "";
@@ -7,9 +9,11 @@ export default class HomeModel {
   PageHeaderTextSecondaryColor: string = "";
   MainImagePath: string = "";
   MainImageAlt: string = "";
+  MainImageData?: ImageModel = new ImageModel();
   AboutUs: string = "";
   AboutUsImagePath: string = "";
   AboutUsImageAlt: string = "";
+  AboutUsImageData?: string = "";
   PeopleSay1Text: string = "";
   PeopleSay1Name: string = "";
   PeopleSay2Text: string = "";

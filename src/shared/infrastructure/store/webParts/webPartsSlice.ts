@@ -37,7 +37,6 @@ export const webPartsSlice = createSlice({
         ...state.Home,
         ...action.payload,
       };
-
       return {
         ...state,
         Home: newHome,

@@ -1,4 +1,5 @@
-import { ChangeEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent } from "react";
+import ImageModel from "shared/models/ImageModel";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -8,21 +9,20 @@ import ValidateFileTypeReturnModel from "./models/ValidateFileTypeReturnModel ";
 import FileUploadStyled from "./styledComponents/FIleUploadStyled";
 
 interface IProps {
-  FileName: string;
-  Name: string;
-  Label: string;
-  Disabled?: boolean;
-  HideLabel?: boolean;
-  ExtendedItem?: boolean;
-  ShortenItem?: boolean;
-  Valid?: boolean;
-  ErrorText?: string;
-  RenameFile?: boolean;
-  NewFileName?: string;
-  SupportedExtensions: Array<string>;
-  MaxFileSize: number;
-  // DocEntityEnum: DocEntityEnum;
-  OnAfterFileUpload?: (fileName: string, name: string) => void;
+  image: ImageModel;
+  fileDestination: string;
+  name: string;
+  label: string;
+  disabled?: boolean;
+  newImageAlt: string;
+  supportedExtensions: Array<string>;
+  maxFileSize: number;
+  OnAfterFileUpload: (
+    fileName: string,
+    name: string,
+    alt: string,
+    destination: string
+  ) => void;
   OnFileDelete?: (e: MouseEvent<HTMLDivElement>, name: string) => void;
 }
 
@@ -80,7 +80,7 @@ const FileUpload = (props: IProps) => {
     let result: ValidateFileTypeReturnModel = new ValidateFileTypeReturnModel();
     const ext: string = getFileTypeExtension(fileName) ?? "";
 
-    result.Result = props.SupportedExtensions.includes(ext ?? "");
+    result.Result = props.supportedExtensions.includes(ext ?? "");
     result.Extension = ext;
 
     return result;
@@ -106,10 +106,10 @@ const FileUpload = (props: IProps) => {
     } else if (
       pFile.name !== "item" &&
       typeof pFile.name != "undefined" &&
-      filesize > props.MaxFileSize
+      filesize > props.maxFileSize
     ) {
       result.SizeLimRchd = true;
-      result.Message = `Velikost souboru překročila limit ${props.MaxFileSize} MB`;
+      result.Message = `Velikost souboru překročila limit ${props.maxFileSize} MB`;
     }
 
     return result;
@@ -123,14 +123,12 @@ const FileUpload = (props: IProps) => {
 
   const onFileUploadHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     let file: File | undefined = e.target.files?.[0];
-    debugger;
+
     if (file) {
       let fileName: string = file.name;
-
-      if (props.RenameFile) {
-        const extension: string = getFileTypeExtension(fileName) ?? "";
-        fileName = props.NewFileName + "." + extension;
-      }
+      const extension: string = getFileTypeExtension(fileName) ?? "";
+      fileName = Math.random().toString(36).substring(2, 12);
+      fileName += "." + extension;
 
       // Kontrola na typ souboru
       const validate = validateFileType(fileName);
@@ -156,7 +154,15 @@ const FileUpload = (props: IProps) => {
         return false;
       }
 
-      // TODO: Tady p5es propsy nahraju soubor do store
+      props.OnAfterFileUpload(
+        fileName,
+        props.name,
+        props.newImageAlt,
+        props.fileDestination
+      );
+
+      // TODO: Tady p5es propsy nahraju soubor do cache
+      // TODO: Soubory se budou nahrávat do cache. Musím nějak zařídit smazání souboru z cache, pokud soubor nahraju znova, nebo dám smazat soubor. Nejprve musí dát smazat soubor, ten se smže z cache, pokud tam existuje a až potom půjde nahrát nový. Co se stane, když dám smazat soubor který je již na disku, asi se smaže rovnou? Nebo tam budu mít oldfile name a podle toho se bude mazat z diksu. Do old file name se načtě hodnota pouze z DB, ale musím tam mít i file name. Asi tom budu mít jednu bunku, kde bude uložený json se všema udajema o souboru
       // const data: FormData = new FormData();
 
       // data.append(props.Name, file);
@@ -191,7 +197,7 @@ const FileUpload = (props: IProps) => {
 
   return (
     <FileUploadStyled>
-      {!!props.Name ? (
+      {!!props.image.Name ? (
         <div
         // style={{
         //   display: "flex",
@@ -199,12 +205,12 @@ const FileUpload = (props: IProps) => {
         //   justifyContent: "flex-end",
         // }}
         >
-          <span>{props.FileName}</span>
+          <span>{props.image.Name}</span>
           <div
             // style={{ cursor: "pointer", margin: "5px", pointerEvents: "all" }}
-            onClick={(e) => props.OnFileDelete?.(e, props.Name)}
-            data-filetype={props.Name + "FileName"}
-            data-filedescription={props.Name}
+            onClick={(e) => props.OnFileDelete?.(e, props.name)}
+            data-filetype={props.name + "FileName"}
+            data-filedescription={props.name}
           >
             <DeleteIcon />
           </div>
@@ -213,14 +219,14 @@ const FileUpload = (props: IProps) => {
         <>
           <label
             className='file-upload-label'
-            htmlFor={props.Name + "_fileInputId"}
+            htmlFor={props.name + "_fileInputId"}
           >
             Nahrát
           </label>
           <input
             type='file'
-            accept={getFileType(props.SupportedExtensions)}
-            id={props.Name + "_fileInputId"}
+            accept={getFileType(props.supportedExtensions)}
+            id={props.name + "_fileInputId"}
             className='file-upload-input'
             onChange={onFileUploadHandler}
           />

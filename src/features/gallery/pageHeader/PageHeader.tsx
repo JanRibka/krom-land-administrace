@@ -7,6 +7,7 @@ import SectionTitle from "shared/components/sectionTitle/SectionTitle";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectGallery } from "shared/infrastructure/store/webParts/webPartsSlice";
+import ImageModel from "shared/models/ImageModel";
 import { nameof } from "shared/nameof";
 
 import Box from "@mui/material/Box";
@@ -45,11 +46,14 @@ const PageHeader = () => {
         <Box className='sub-section-separator'>
           <SectionSubTitle title='Obrázek' />
           <FileUpload
-            FileName=''
-            Name=''
-            Label=''
-            SupportedExtensions={["png", "jpg", "jpeg"]}
-            MaxFileSize={5}
+            image={new ImageModel()}
+            name=''
+            label=''
+            supportedExtensions={["png", "jpg", "jpeg"]}
+            newImageAlt=''
+            maxFileSize={1}
+            fileDestination=''
+            OnAfterFileUpload={() => {}}
           />
         </Box>
       </SectionStyled>
