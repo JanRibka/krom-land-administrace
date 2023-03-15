@@ -26,7 +26,7 @@ class WebContent
       $actions = $actinsQuery->fetch();
 
       $actinDeatilsQuery = dibi::query(
-        "SELECT ad.* FROM actions as a JOIN actionDeatil as ad on a.Id = ad.ActionsId WHERE a.Id = %i ORDER BY ad.ActionOrder",
+        "SELECT ad.* FROM actions as a JOIN actionDeatil as ad on a.Id = ad.ActionsId WHERE a.Id = %i",
         $actionsId
       );
 
@@ -212,7 +212,7 @@ class ActionsModel
     $this->Id = $id;
     $this->Title = $title;
     $this->Description = $description;
-    $this->PageHeaderTextMainColor = $pageHeaderTextMain;
+    $this->PageHeaderTextMain = $pageHeaderTextMain;
     $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;    
     $this->MainImagePath = $mainImagePath;
     $this->MainImageAlt = $mainImageAlt;
@@ -246,7 +246,7 @@ class GalleryModel
     $this->Images = $images;
     $this->Title = $title;
     $this->Description = $description;
-    $this->PageHeaderTextMainColor = $pageHeaderTextMain;
+    $this->PageHeaderTextMain = $pageHeaderTextMain;
     $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;
     $this->MainImagePath = $mainImagePath;
     $this->MainImageAlt = $mainImageAlt;    

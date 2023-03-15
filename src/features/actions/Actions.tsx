@@ -1,10 +1,11 @@
-import PageTitle from "shared/components/pageTitle/PageTitle";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import PageTitle from 'shared/components/pageTitle/PageTitle';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
 
-import { Stack } from "@mui/system";
+import { Stack } from '@mui/system';
 
-import PageHeader from "./pageHeader/PageHeader";
-import Seo from "./seo/Seo";
+import ActionDetails from './actionDetails/Actions';
+import PageHeader from './pageHeader/PageHeader';
+import Seo from './seo/Seo';
 
 const Actions = () => {
   return (
@@ -13,6 +14,7 @@ const Actions = () => {
         <PageTitle title='Akce' />
         <Seo />
         <PageHeader />
+        <ActionDetails />
       </Stack>
     </ErrorBoundary>
   );
