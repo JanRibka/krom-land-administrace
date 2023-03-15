@@ -1,8 +1,9 @@
 import PageTitle from "shared/components/pageTitle/PageTitle";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 
-import { Stack } from "@mui/system";
+import Stack from "@mui/material/Stack";
 
+import GoogleMaps from "./googleMaps/GoogleMaps";
 import PageHeader from "./pageHeader/PageHeader";
 import Seo from "./seo/Seo";
 
@@ -13,6 +14,7 @@ const Contact = () => {
         <PageTitle title='Kontakt' />
         <Seo />
         <PageHeader />
+        <GoogleMaps />
       </Stack>
     </ErrorBoundary>
   );
