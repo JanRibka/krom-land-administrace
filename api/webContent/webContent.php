@@ -26,7 +26,7 @@ class WebContent
       $actions = $actinsQuery->fetch();
 
       $actinDeatilsQuery = dibi::query(
-        "SELECT ad.* FROM actions as a JOIN actionDeatil as ad on a.Id = ad.ActionsId WHERE a.Id = %i ORDER BY ad.ActionOrder",
+        "SELECT ad.* FROM actions as a JOIN actionDeatil as ad on a.Id = ad.ActionsId WHERE a.Id = %i",
         $actionsId
       );
 
