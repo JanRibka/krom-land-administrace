@@ -1,3 +1,4 @@
+import KromLandService from "features/KromLandService";
 import { ChangeEvent, MouseEvent } from "react";
 import ImageModel from "shared/models/ImageModel";
 
@@ -27,6 +28,9 @@ interface IProps {
 }
 
 const FileUpload = (props: IProps) => {
+  // Constants
+  const _kromLandService = new KromLandService();
+
   // Other
   const getFileType = (extensions: string[]) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -154,12 +158,20 @@ const FileUpload = (props: IProps) => {
         return false;
       }
 
-      props.OnAfterFileUpload(
-        fileName,
-        props.name,
-        props.newImageAlt,
-        props.fileDestination
-      );
+      const formData: FormData = new FormData();
+
+      formData.append("file", file);
+      formData.append("fileName", fileName);
+      debugger;
+      const uploadResult = await _kromLandService.uploadFile(formData);
+      console.log("uploadResult", uploadResult);
+
+      // props.OnAfterFileUpload(
+      //   fileName,
+      //   props.name,
+      //   props.newImageAlt,
+      //   props.fileDestination
+      // );
 
       // TODO: Tady p5es propsy nahraju soubor do cache
       // TODO: Soubory se budou nahrávat do cache. Musím nějak zařídit smazání souboru z cache, pokud soubor nahraju znova, nebo dám smazat soubor. Nejprve musí dát smazat soubor, ten se smže z cache, pokud tam existuje a až potom půjde nahrát nový. Co se stane, když dám smazat soubor který je již na disku, asi se smaže rovnou? Nebo tam budu mít oldfile name a podle toho se bude mazat z diksu. Do old file name se načtě hodnota pouze z DB, ale musím tam mít i file name. Asi tom budu mít jednu bunku, kde bude uložený json se všema udajema o souboru
