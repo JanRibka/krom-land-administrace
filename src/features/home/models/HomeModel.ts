@@ -9,7 +9,7 @@ export default class HomeModel {
   PageHeaderTextSecondaryColor: string = "";
   MainImagePath: string = "";
   MainImageAlt: string = "";
-  MainImageData?: ImageModel = new ImageModel();
+  MainImage?: ImageModel = new ImageModel();
   AboutUs: string = "";
   AboutUsImagePath: string = "";
   AboutUsImageAlt: string = "";

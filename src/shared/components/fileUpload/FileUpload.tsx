@@ -3,6 +3,9 @@ import { ChangeEvent, MouseEvent } from "react";
 import ImageModel from "shared/models/ImageModel";
 
 import DeleteIcon from "@mui/icons-material/Delete";
+import SaveAltOutlinedIcon from "@mui/icons-material/SaveAltOutlined";
+import { LoadingButton } from "@mui/lab";
+import Box from "@mui/material/Box";
 
 import AppNotification from "../notification/AppNotification";
 import ValidateFileSizeReturnModel from "./models/ValidateFileSizeReturnModel ";
@@ -11,20 +14,20 @@ import FileUploadStyled from "./styledComponents/FIleUploadStyled";
 
 interface IProps {
   image: ImageModel;
-  fileDestination: string;
   name: string;
   label: string;
   disabled?: boolean;
   newImageAlt: string;
   supportedExtensions: Array<string>;
   maxFileSize: number;
-  OnAfterFileUpload: (
+  onAfterFileUpload: (
     fileName: string,
     name: string,
     alt: string,
     destination: string
   ) => void;
-  OnFileDelete?: (e: MouseEvent<HTMLDivElement>, name: string) => void;
+  onAfterFileDelete?: (name: string) => void;
+  onFileSave: () => void;
 }
 
 const FileUpload = (props: IProps) => {
@@ -120,11 +123,9 @@ const FileUpload = (props: IProps) => {
   };
 
   /**
-         *  Akce pro nahrání souboru do cache
-      * @param pE
-
-      */
-
+   *  Akce pro nahrání souboru na server
+   * @param pE
+   */
   const onFileUploadHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     let file: File | undefined = e.target.files?.[0];
 
@@ -162,88 +163,71 @@ const FileUpload = (props: IProps) => {
 
       formData.append("file", file);
       formData.append("fileName", fileName);
-      debugger;
-      const uploadResult = await _kromLandService.uploadFile(formData);
-      console.log("uploadResult", uploadResult);
 
-      // props.OnAfterFileUpload(
-      //   fileName,
-      //   props.name,
-      //   props.newImageAlt,
-      //   props.fileDestination
-      // );
+      await _kromLandService.uploadFile(formData);
 
-      // TODO: Tady p5es propsy nahraju soubor do cache
-      // TODO: Soubory se budou nahrávat do cache. Musím nějak zařídit smazání souboru z cache, pokud soubor nahraju znova, nebo dám smazat soubor. Nejprve musí dát smazat soubor, ten se smže z cache, pokud tam existuje a až potom půjde nahrát nový. Co se stane, když dám smazat soubor který je již na disku, asi se smaže rovnou? Nebo tam budu mít oldfile name a podle toho se bude mazat z diksu. Do old file name se načtě hodnota pouze z DB, ale musím tam mít i file name. Asi tom budu mít jednu bunku, kde bude uložený json se všema udajema o souboru
-      // const data: FormData = new FormData();
-
-      // data.append(props.Name, file);
-
-      // const uploadResult: Response = await _zaznamyCZRepo.SaveFilesToCache(
-      //   data,
-      //   props.DocEntityEnum,
-      //   props.Name,
-      //   null,
-      //   props.RenameFile ? fileName : ""
-      // );
-
-      // if (uploadResult.ok) {
-      //   uploadResult.text().then((result) => {
-      //     if (result === '""') {
-      //       // Zápis do contextu
-
-      //       props.OnAfterFileUpload(fileName, props.Name);
-
-      //       crm.notify("success", "Soubor úspěšně nahrán");
-      //     } else if (result.length > 0) {
-      //       crm.notify("danger", result);
-      //     } else {
-      //       crm.notify("danger", "Soubor se nepodařilo nahrát");
-      //     }
-      //   });
-      // } else {
-      //   crm.notify("danger", "Soubor se nepodařilo nahrát");
-      // }
+      props.onAfterFileUpload(
+        fileName,
+        props.name,
+        props.newImageAlt,
+        "/upload/"
+      );
     }
+  };
+
+  const onFileDeleteHandler = async () => {
+    const dirPath = props.image.Path.includes("/admin")
+      ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
+      : process.env.REACT_APP_IMAGES_PATH ?? "";
+
+    await _kromLandService.deleteFile(props.image.Name, dirPath);
   };
 
   return (
     <FileUploadStyled>
-      {!!props.image.Name ? (
-        <div
-        // style={{
-        //   display: "flex",
-        //   alignItems: "center",
-        //   justifyContent: "flex-end",
-        // }}
-        >
-          <span>{props.image.Name}</span>
-          <div
-            // style={{ cursor: "pointer", margin: "5px", pointerEvents: "all" }}
-            onClick={(e) => props.OnFileDelete?.(e, props.name)}
-            data-filetype={props.name + "FileName"}
-            data-filedescription={props.name}
+      <Box component='span'>{props.label}</Box>
+      <Box className='file-upload-inner-wrapper'>
+        {!!props.image.Name ? (
+          <Box>
+            <Box component='span'>Soubor nahrán</Box>
+            <LoadingButton
+              startIcon={<DeleteIcon />}
+              onClick={onFileDeleteHandler}
+              color='secondary'
+              variant='contained'
+            >
+              Smazat
+            </LoadingButton>
+          </Box>
+        ) : (
+          <>
+            <label
+              className='file-upload-label'
+              htmlFor={props.name + "_fileInputId"}
+            >
+              Nahrát
+            </label>
+            <input
+              type='file'
+              accept={getFileType(props.supportedExtensions)}
+              id={props.name + "_fileInputId"}
+              className='file-upload-input'
+              onChange={onFileUploadHandler}
+            />
+          </>
+        )}
+        {!!props.image.Path.includes("/admin") && (
+          <LoadingButton
+            startIcon={<SaveAltOutlinedIcon />}
+            onClick={props.onFileSave}
+            color='secondary'
+            variant='contained'
+            loading
           >
-            <DeleteIcon />
-          </div>
-        </div>
-      ) : (
-        <>
-          <label
-            className='file-upload-label'
-            htmlFor={props.name + "_fileInputId"}
-          >
-            Nahrát
-          </label>
-          <input
-            type='file'
-            accept={getFileType(props.supportedExtensions)}
-            id={props.name + "_fileInputId"}
-            className='file-upload-input'
-            onChange={onFileUploadHandler}
-          />
-        </>
-      )}
+            Uložit
+          </LoadingButton>
+        )}
+      </Box>
     </FileUploadStyled>
   );
 };

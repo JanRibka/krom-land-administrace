@@ -63,8 +63,6 @@ export default class KromLandService {
       }
     );
 
-    let result = null;
-
     if (response.status === HttpStatusCode.Ok) {
       const dataType = typeof response.data;
 
@@ -73,18 +71,46 @@ export default class KromLandService {
       } else if (dataType === "object") {
         if (response.data?.Success) {
           AppNotification("Úspěch", "Soubor nahrán", "success");
-          result = response.data?.Data;
         } else {
           AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
         }
       } else {
         AppNotification("Úspěch", "Soubor nahrán", "success");
-        result = response.data?.Data;
       }
     } else {
       AppNotification("Chyba", "Chyba při nahrávání souboru", "danger");
     }
+  }
 
-    return result;
+  public async deleteFile(fileName: string, directory: string) {
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: process.env.REACT_APP_API_URL ?? "",
+      params: new URLSearchParams({
+        action: "file",
+        type: "deleteFile",
+      }),
+      data: {
+        fileName: fileName,
+        directory: directory,
+      },
+    });
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          AppNotification("Úspěch", "Soubor smazán", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        AppNotification("Úspěch", "Soubor smazán", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při mazání souboru", "danger");
+    }
   }
 }

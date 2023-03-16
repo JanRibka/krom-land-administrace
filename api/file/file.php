@@ -5,32 +5,38 @@ class File
     {
         try
         {
-            $targetDir = "upload/";
-            $file = $_FILES["file"]["name"];
-            $path = pathinfo($file);            
-            $fileName = $path['filename'];
-            $ext = $path['extension'];
-            $tempName = $_FILES['file']['tmp_name'];
-            $pathFilenameExt = $targetDir.$fileName.".".$ext;
-            $random_name = rand(1000,1000000)."-".$file;
-            $upload_name = $targetDir.strtolower($random_name);
-            $upload_name = preg_replace('/\s+/', '-', $upload_name);
+            $newFileName = $_POST["fileName"];
+            $targetDir = __DIR__ . "/../../upload/" . $newFileName;
+    
+            move_uploaded_file($_FILES["file"]["tmp_name"], $targetDir);            
 
-            // move_uploaded_file($tempName,$upload_name);
-            // // $file = $_FILES["file"];
-            // $newFileName = $_POST["fileName"];            
-
-            // // Move file to directory            
-            // move_uploaded_file($fileName, $fileName);
-
-            
-
-            apiResponse(true, "", $file . " " . $upload_name);
+            apiResponse(true, "");
         } catch(Exception $ex)
         {
           apiResponse(false, $ex->getMessage());
         }        
     }
 
+    public static function deleteFile()
+    {
+        try
+        {
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+            $fileName = $data->fileName;
+            $directory = $data->directory;
+
+            // $fileName = $_POST["fileName"];
+            // $directory = $_POST["directory"];
+            $filePath = __DIR__ . $directory . $fileName;
+
+            unlink($filePath);
+
+            apiResponse(true, "");
+        } catch(Exception $ex)
+        {
+          apiResponse(false, $ex->getMessage());
+        }        
+    }
 }
 ?>

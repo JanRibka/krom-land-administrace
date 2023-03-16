@@ -38,10 +38,9 @@ const PageHeader = () => {
     destination: string
   ) => {
     const image = new ImageModel({
+      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
       Alt: alt,
       Name: fileName,
-      DeleteFile: false,
-      FileDestination: destination,
     });
 
     handleHomeUpdate({ [name]: image });
@@ -72,14 +71,15 @@ const PageHeader = () => {
         <Box className='sub-section-separator'>
           <SectionSubTitle title='Obrázek' />
           <FileUpload
-            image={new ImageModel()}
-            name={nameof<HomeModel>("MainImageData")}
-            label=''
+            image={home.MainImage ?? new ImageModel()}
+            name={nameof<HomeModel>("MainImage")}
+            label='Ideální rozlišení obrázku 1920 x 1280px. Max. velikost 1MB'
             supportedExtensions={["png", "jpg", "jpeg"]}
             newImageAlt='Úvodní obrázek stránky úvod | KROM Land'
             maxFileSize={1}
-            fileDestination={process.env.REACT_APP_FILE_DESTINATION_HOME ?? ""}
-            OnAfterFileUpload={handleOnAfterFileUpload}
+            onAfterFileUpload={handleOnAfterFileUpload}
+            onAfterFileDelete={() => {}}
+            onFileSave={() => {}}
           />
         </Box>
       </SectionStyled>

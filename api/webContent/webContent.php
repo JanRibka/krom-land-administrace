@@ -1,5 +1,9 @@
 <?php
 require_once __DIR__ . "/../db/db.php";
+require_once __DIR__ . "/./models/actionsModel.php";
+require_once __DIR__ . "/./models/galleryModel.php";
+require_once __DIR__ . "/./models/webPartsModel.php";
+require_once __DIR__ . "/./models/resultModel.php";
 
 class WebContent
 {

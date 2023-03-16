@@ -52,8 +52,8 @@ const PageHeader = () => {
             supportedExtensions={["png", "jpg", "jpeg"]}
             newImageAlt=''
             maxFileSize={1}
-            fileDestination=''
-            OnAfterFileUpload={() => {}}
+            onAfterFileUpload={() => {}}
+            onFileSave={() => {}}
           />
         </Box>
       </SectionStyled>
