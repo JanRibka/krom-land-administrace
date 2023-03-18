@@ -18,11 +18,13 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       PageHeaderTextSecondary: webPartsDTO?.Home.PageHeaderTextSecondary ?? "",
       PageHeaderTextSecondaryColor:
         webPartsDTO?.Home.PageHeaderTextSecondaryColor ?? "",
-      MainImagePath: webPartsDTO?.Home?.MainImagePath ?? "",
-      MainImageAlt: webPartsDTO?.Home?.MainImageAlt ?? "",
+      MainImage: !!webPartsDTO?.Home?.MainImage
+        ? JSON.parse(webPartsDTO?.Home?.MainImage)
+        : new ImageModel(),
       AboutUs: webPartsDTO?.Home?.AboutUs ?? "",
-      AboutUsImagePath: webPartsDTO?.Home?.AboutUsImagePath ?? "",
-      AboutUsImageAlt: webPartsDTO?.Home?.AboutUsImageAlt ?? "",
+      AboutUsImage: !!webPartsDTO?.Home?.AboutUsImage
+        ? JSON.parse(webPartsDTO?.Home?.AboutUsImage)
+        : new ImageModel(),
       PeopleSay1Text: webPartsDTO?.Home?.PeopleSay1Text ?? "",
       PeopleSay1Name: webPartsDTO?.Home?.PeopleSay1Name ?? "",
       PeopleSay2Text: webPartsDTO?.Home?.PeopleSay2Text ?? "",

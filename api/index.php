@@ -4,7 +4,7 @@ header("Access-Control-Allow-Headers: *");
 header("Content-Type: application/json");
 require __DIR__ . "/core.php";
 require __DIR__ . "/webContent/webContent.php";
-require __DIR__ . "/file/file.php";
+require __DIR__ . "/image/image.php";
 
 // $allowed_methods = ["send", "getall"];
 $action = $_GET["action"];

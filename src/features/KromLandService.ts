@@ -5,6 +5,7 @@ import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
 import KromLandDTO from "shared/DTOs/KromLandDTO";
 import Repository from "shared/infrastructure/repositiory/Repository";
 import { store } from "shared/infrastructure/store/store";
+import ImageModel from "shared/models/ImageModel";
 
 import { mapToWebPartsDTO } from "./save/mapToWebPartsDTO";
 
@@ -50,14 +51,15 @@ export default class KromLandService {
 
   /**
    * Upload souboru na server
+   * @param formData
    */
   public async uploadFile(formData: FormData) {
     const response = await this._repo.post<any, JsonResulObjectDataDTO<string>>(
       {
         url: process.env.REACT_APP_API_URL ?? "",
         params: new URLSearchParams({
-          action: "file",
-          type: "uploadfile",
+          action: "image",
+          type: "uploadimage",
         }),
         data: formData,
       }
@@ -70,27 +72,32 @@ export default class KromLandService {
         AppNotification("Chyba", String(response.data), "danger");
       } else if (dataType === "object") {
         if (response.data?.Success) {
-          AppNotification("Úspěch", "Soubor nahrán", "success");
+          AppNotification("Úspěch", "Obrázek nahrán", "success");
         } else {
           AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
         }
       } else {
-        AppNotification("Úspěch", "Soubor nahrán", "success");
+        AppNotification("Úspěch", "Obrázek nahrán", "success");
       }
     } else {
-      AppNotification("Chyba", "Chyba při nahrávání souboru", "danger");
+      AppNotification("Chyba", "Chyba při nahrávání obrázku", "danger");
     }
   }
 
-  public async deleteFile(fileName: string, directory: string) {
+  /**
+   * Smazání souboru
+   * @param imageName
+   * @param directory
+   */
+  public async deleteImage(imageName: string, directory: string) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
       url: process.env.REACT_APP_API_URL ?? "",
       params: new URLSearchParams({
-        action: "file",
-        type: "deleteFile",
+        action: "image",
+        type: "deleteimage",
       }),
       data: {
-        fileName: fileName,
+        imageName: imageName,
         directory: directory,
       },
     });
@@ -102,15 +109,57 @@ export default class KromLandService {
         AppNotification("Chyba", String(response.data), "danger");
       } else if (dataType === "object") {
         if (response.data?.Success) {
-          AppNotification("Úspěch", "Soubor smazán", "success");
+          AppNotification("Úspěch", "Obrázek smazán", "success");
         } else {
           AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
         }
       } else {
-        AppNotification("Úspěch", "Soubor smazán", "success");
+        AppNotification("Úspěch", "Obrázek smazán", "success");
       }
     } else {
-      AppNotification("Chyba", "Chyba při mazání souboru", "danger");
+      AppNotification("Chyba", "Chyba při mazání obrázku", "danger");
     }
+  }
+
+  /**
+   * Uložení obrázku - Home
+   * @param image
+   */
+  public async saveImageHome(image: ImageModel, name: string) {
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: process.env.REACT_APP_API_URL ?? "",
+      params: new URLSearchParams({
+        action: "image",
+        type: "saveimagehome",
+      }),
+      data: {
+        image: image,
+        name: name,
+      },
+    });
+
+    let result = false;
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          result = true;
+          AppNotification("Úspěch", "Obrázek uložen", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        result = true;
+        AppNotification("Úspěch", "Obrázek uložen", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při mazání obrázku", "danger");
+    }
+
+    return result;
   }
 }

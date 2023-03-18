@@ -7,13 +7,9 @@ export default class HomeModel {
   PageHeaderTextMainColor: string = "";
   PageHeaderTextSecondary: string = "";
   PageHeaderTextSecondaryColor: string = "";
-  MainImagePath: string = "";
-  MainImageAlt: string = "";
-  MainImage?: ImageModel = new ImageModel();
+  MainImage: ImageModel = new ImageModel();
   AboutUs: string = "";
-  AboutUsImagePath: string = "";
-  AboutUsImageAlt: string = "";
-  AboutUsImageData?: string = "";
+  AboutUsImage: ImageModel = new ImageModel();
   PeopleSay1Text: string = "";
   PeopleSay1Name: string = "";
   PeopleSay2Text: string = "";

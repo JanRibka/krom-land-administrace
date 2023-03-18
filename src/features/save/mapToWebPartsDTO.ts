@@ -1,6 +1,5 @@
 import ActionDetailDTO from "shared/DTOs/ActionDetailDTO";
 import DocumentDTO from "shared/DTOs/DocumentDTO";
-import ImageDTO from "shared/DTOs/ImageDTO";
 import WebPartsDTO from "shared/DTOs/WebPartsDTO";
 import { WebPartsState } from "shared/infrastructure/store/webParts/webPartsSlice";
 
@@ -15,11 +14,9 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       PageHeaderTextSecondary: webPartsState.Home.PageHeaderTextSecondary,
       PageHeaderTextSecondaryColor:
         webPartsState.Home.PageHeaderTextSecondaryColor,
-      MainImagePath: webPartsState.Home.MainImagePath,
-      MainImageAlt: webPartsState.Home.MainImageAlt,
+      MainImage: null,
       AboutUs: webPartsState.Home.AboutUs,
-      AboutUsImagePath: webPartsState.Home.AboutUsImagePath,
-      AboutUsImageAlt: webPartsState.Home.AboutUsImageAlt,
+      AboutUsImage: null,
       PeopleSay1Text: webPartsState.Home.PeopleSay1Text,
       PeopleSay1Name: webPartsState.Home.PeopleSay1Name,
       PeopleSay2Text: webPartsState.Home.PeopleSay2Text,

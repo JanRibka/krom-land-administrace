@@ -6,11 +6,9 @@ export default class HomeDTO {
   PageHeaderTextMainColor: string | null = null;
   PageHeaderTextSecondary: string | null = null;
   PageHeaderTextSecondaryColor: string | null = null;
-  MainImagePath: string | null = null;
-  MainImageAlt: string | null = null;
+  MainImage: string | null = null;
   AboutUs: string | null = null;
-  AboutUsImagePath: string | null = null;
-  AboutUsImageAlt: string | null = null;
+  AboutUsImage: string | null = null;
   PeopleSay1Text: string | null = null;
   PeopleSay1Name: string | null = null;
   PeopleSay2Text: string | null = null;

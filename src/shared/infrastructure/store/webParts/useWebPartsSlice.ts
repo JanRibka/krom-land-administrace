@@ -4,6 +4,8 @@ import { ContactModel } from "features/contact/models/ContactModel";
 import GalleryModel from "features/gallery/models/GalleryModel";
 import HomeModel from "features/home/models/HomeModel";
 import { useDispatch } from "react-redux";
+import ImageModel from "shared/models/ImageModel";
+import HomeImageType from "shared/types/HomeImageType";
 
 import { actions, WebPartsState } from "./webPartsSlice";
 
@@ -16,6 +18,13 @@ export const useWebPartsSlice = () => {
 
   const handleHomeUpdate = (home: Partial<HomeModel>) => {
     dispatch(actions.homeUpdate(home));
+  };
+
+  const handleHomeImageUpdate = (
+    name: HomeImageType,
+    image: Partial<ImageModel>
+  ) => {
+    dispatch(actions.homeImageUpdate({ name, image }));
   };
 
   const handleActionsUpdate = (actionsData: Partial<ActionsModel>) => {
@@ -40,6 +49,7 @@ export const useWebPartsSlice = () => {
   return {
     handleWebPartsUpdate,
     handleHomeUpdate,
+    handleHomeImageUpdate,
     handleActionsUpdate,
     handleActionUpdate,
     handleGalleryUpdate,

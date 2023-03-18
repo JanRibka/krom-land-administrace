@@ -1,5 +1,3 @@
-import ImageDTO from "./ImageDTO";
-
 export default class GalleryDTO {
   Id: number | null = null;
   Title: string | null = null;
@@ -8,7 +6,7 @@ export default class GalleryDTO {
   PageHeaderTextMainColor: string | null = null;
   MainImagePath: string | null = null;
   MainImageAlt: string | null = null;
-  Images: ImageDTO[] = [];
+  Images: string[] = [];
 
   public constructor(init?: Partial<GalleryDTO>) {
     Object.assign(this, init);

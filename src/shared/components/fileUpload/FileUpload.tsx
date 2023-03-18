@@ -1,5 +1,5 @@
 import KromLandService from "features/KromLandService";
-import { ChangeEvent, MouseEvent } from "react";
+import { ChangeEvent } from "react";
 import ImageModel from "shared/models/ImageModel";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -27,7 +27,7 @@ interface IProps {
     destination: string
   ) => void;
   onAfterFileDelete?: (name: string) => void;
-  onFileSave: () => void;
+  onFileSave: (name: string) => void;
 }
 
 const FileUpload = (props: IProps) => {
@@ -42,6 +42,8 @@ const FileUpload = (props: IProps) => {
     const jpg: string = "image/jpeg";
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const jpeg: string = "image/jpeg";
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const svg: string = "image/svg+xml";
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const pdf: string = "application/pdf";
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -124,7 +126,7 @@ const FileUpload = (props: IProps) => {
 
   /**
    *  Akce pro nahrání souboru na server
-   * @param pE
+   * @param e
    */
   const onFileUploadHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     let file: File | undefined = e.target.files?.[0];
@@ -180,53 +182,65 @@ const FileUpload = (props: IProps) => {
       ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
       : process.env.REACT_APP_IMAGES_PATH ?? "";
 
-    await _kromLandService.deleteFile(props.image.Name, dirPath);
+    await _kromLandService.deleteImage(props.image.Name, dirPath);
+
+    props.onAfterFileDelete?.(props.name);
+  };
+
+  const onFileSave = () => {
+    props.onFileSave(props.name);
   };
 
   return (
     <FileUploadStyled>
-      <Box component='span'>{props.label}</Box>
-      <Box className='file-upload-inner-wrapper'>
-        {!!props.image.Name ? (
-          <Box>
-            <Box component='span'>Soubor nahrán</Box>
+      <Box
+        component='img'
+        src={props.image.Path}
+        alt='Obrázek nenahrán'
+        loading='lazy'
+      />
+      <Box className='buttons-wrapper'>
+        <Box component='span'>{props.label}</Box>
+        <Box className='buttons-inner-wrapper'>
+          {!!props.image.Name ? (
+            <Box>
+              <LoadingButton
+                startIcon={<DeleteIcon />}
+                onClick={onFileDeleteHandler}
+                color='secondary'
+                variant='contained'
+              >
+                Smazat
+              </LoadingButton>
+            </Box>
+          ) : (
+            <>
+              <label
+                className='file-upload-label'
+                htmlFor={props.name + "_fileInputId"}
+              >
+                Nahrát
+              </label>
+              <input
+                type='file'
+                accept={getFileType(props.supportedExtensions)}
+                id={props.name + "_fileInputId"}
+                className='file-upload-input'
+                onChange={onFileUploadHandler}
+              />
+            </>
+          )}
+          {!!props.image.Path.includes("/admin") && (
             <LoadingButton
-              startIcon={<DeleteIcon />}
-              onClick={onFileDeleteHandler}
+              startIcon={<SaveAltOutlinedIcon />}
+              onClick={onFileSave}
               color='secondary'
               variant='contained'
             >
-              Smazat
+              Uložit
             </LoadingButton>
-          </Box>
-        ) : (
-          <>
-            <label
-              className='file-upload-label'
-              htmlFor={props.name + "_fileInputId"}
-            >
-              Nahrát
-            </label>
-            <input
-              type='file'
-              accept={getFileType(props.supportedExtensions)}
-              id={props.name + "_fileInputId"}
-              className='file-upload-input'
-              onChange={onFileUploadHandler}
-            />
-          </>
-        )}
-        {!!props.image.Path.includes("/admin") && (
-          <LoadingButton
-            startIcon={<SaveAltOutlinedIcon />}
-            onClick={props.onFileSave}
-            color='secondary'
-            variant='contained'
-            loading
-          >
-            Uložit
-          </LoadingButton>
-        )}
+          )}
+        </Box>
       </Box>
     </FileUploadStyled>
   );

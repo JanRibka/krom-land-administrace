@@ -1,3 +1,4 @@
+import KromLandService from "features/KromLandService";
 import SectionStyled from "features/styledComponents/SectionStyled";
 import { useSelector } from "react-redux";
 import FileUpload from "shared/components/fileUpload/FileUpload";
@@ -9,6 +10,7 @@ import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPar
 import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
 import ImageModel from "shared/models/ImageModel";
 import { nameof } from "shared/nameof";
+import HomeImageType from "shared/types/HomeImageType";
 
 import Box from "@mui/material/Box";
 
@@ -19,7 +21,8 @@ const PageHeader = () => {
   const home = useSelector(selectHome);
 
   // Constants
-  const { handleHomeUpdate } = useWebPartsSlice();
+  const _kromLandService = new KromLandService();
+  const { handleHomeUpdate, handleHomeImageUpdate } = useWebPartsSlice();
 
   // Other
   const handleTextFieldOnBlur = (
@@ -31,7 +34,7 @@ const PageHeader = () => {
     handleHomeUpdate({ [name]: value });
   };
 
-  const handleOnAfterFileUpload = async (
+  const handleOnAfterFileUpload = (
     fileName: string,
     name: string,
     alt: string,
@@ -44,6 +47,27 @@ const PageHeader = () => {
     });
 
     handleHomeUpdate({ [name]: image });
+  };
+
+  const handleOnAfterFileDelete = (name: string) => {
+    handleHomeImageUpdate(name as HomeImageType, new ImageModel());
+  };
+
+  const handleOnFileSave = async (name: string) => {
+    let image: ImageModel = home[name as HomeImageType] as ImageModel;
+
+    image = {
+      ...image,
+      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+    };
+
+    const result = await _kromLandService.saveImageHome(image, name);
+
+    if (result) {
+      handleHomeImageUpdate(name as HomeImageType, {
+        Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+      });
+    }
   };
 
   return (
@@ -78,8 +102,8 @@ const PageHeader = () => {
             newImageAlt='Úvodní obrázek stránky úvod | KROM Land'
             maxFileSize={1}
             onAfterFileUpload={handleOnAfterFileUpload}
-            onAfterFileDelete={() => {}}
-            onFileSave={() => {}}
+            onAfterFileDelete={handleOnAfterFileDelete}
+            onFileSave={handleOnFileSave}
           />
         </Box>
       </SectionStyled>
