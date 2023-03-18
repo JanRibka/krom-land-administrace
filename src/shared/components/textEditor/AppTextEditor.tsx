@@ -18,13 +18,16 @@ const AppTextEditor = (props: IProps) => {
     ? props.placeholder + " *"
     : props.placeholder;
 
+  const handleOnChange = (value: string) => {
+    props.onChange(value, props.name);
+  };
   return (
     <AppTextEditorStyled>
       <ReactQuill
         theme='snow'
         value={props.value}
         placeholder={placeholder}
-        onChange={() => props.onChange(props.value, props.name)}
+        onChange={handleOnChange}
       />
     </AppTextEditorStyled>
   );

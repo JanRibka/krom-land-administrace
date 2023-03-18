@@ -26,7 +26,7 @@ const AboutUs = () => {
   const { handleHomeUpdate, handleHomeImageUpdate } = useWebPartsSlice();
 
   // Other
-  const handleTextEditorOnBlur = (value: string, name: string) => {
+  const handleTextEditorOnChange = (value: string, name: string) => {
     handleHomeUpdate({ [name]: value });
   };
 
@@ -76,7 +76,7 @@ const AboutUs = () => {
           value={home.AboutUs}
           placeholder='Popis'
           required
-          onChange={handleTextEditorOnBlur}
+          onChange={handleTextEditorOnChange}
         />
 
         <Box className='sub-section-separator'>
