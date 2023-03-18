@@ -70,31 +70,29 @@ const AboutUs = () => {
     <ErrorBoundary>
       <SectionStyled component='section'>
         <SectionTitle title='O nás' />
-        <Stack spacing={2} direction='column'>
-          <SectionSubTitle title='Popis' />
-          <AppTextEditor
-            name={nameof<HomeModel>("AboutUs")}
-            value={home.AboutUs}
-            placeholder='Popis'
-            required
-            onChange={handleTextEditorOnBlur}
-          />
+        <SectionSubTitle title='Popis' />
+        <AppTextEditor
+          name={nameof<HomeModel>("AboutUs")}
+          value={home.AboutUs}
+          placeholder='Popis'
+          required
+          onChange={handleTextEditorOnBlur}
+        />
 
-          <Box className='sub-section-separator'>
-            <SectionSubTitle title='Obrázek' />
-            <FileUpload
-              image={home.AboutUsImage}
-              name={nameof<HomeModel>("AboutUsImage")}
-              label='Ideální rozlišení obrázku 600 x 600px. Max. velikost 1MB'
-              supportedExtensions={["png", "jpg", "jpeg"]}
-              newImageAlt='Rodina je základ všeho | KROM Land'
-              maxFileSize={1}
-              onAfterFileUpload={handleOnAfterFileUpload}
-              onAfterFileDelete={handleOnAfterFileDelete}
-              onFileSave={handleOnFileSave}
-            />
-          </Box>
-        </Stack>
+        <Box className='sub-section-separator'>
+          <SectionSubTitle title='Obrázek' />
+          <FileUpload
+            image={home.AboutUsImage}
+            name={nameof<HomeModel>("AboutUsImage")}
+            label='Ideální rozlišení obrázku 600 x 600px. Max. velikost 1MB'
+            supportedExtensions={["png", "jpg", "jpeg"]}
+            newImageAlt='Rodina je základ všeho | KROM Land'
+            maxFileSize={1}
+            onAfterFileUpload={handleOnAfterFileUpload}
+            onAfterFileDelete={handleOnAfterFileDelete}
+            onFileSave={handleOnFileSave}
+          />
+        </Box>
       </SectionStyled>
     </ErrorBoundary>
   );
