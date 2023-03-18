@@ -1,8 +1,8 @@
 import KromLandService from "features/KromLandService";
 import SectionStyled from "features/styledComponents/SectionStyled";
 import { useSelector } from "react-redux";
+import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
-import AppTextArea from "shared/components/textArea/AppTextArea";
 import AppTextEditor from "shared/components/textEditor/AppTextEditor";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
@@ -11,6 +11,7 @@ import ImageModel from "shared/models/ImageModel";
 import { nameof } from "shared/nameof";
 import HomeImageType from "shared/types/HomeImageType";
 
+import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
 import FileUpload from "../../../shared/components/fileUpload/FileUpload";
@@ -25,15 +26,6 @@ const AboutUs = () => {
   const { handleHomeUpdate, handleHomeImageUpdate } = useWebPartsSlice();
 
   // Other
-  const handleTextAreaOnBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
-  ) => {
-    const name: string = e.target.name;
-    const value: string = e.target.value;
-
-    handleHomeUpdate({ [name]: value });
-  };
-
   const handleTextEditorOnBlur = (value: string, name: string) => {
     handleHomeUpdate({ [name]: value });
   };
@@ -79,6 +71,7 @@ const AboutUs = () => {
       <SectionStyled component='section'>
         <SectionTitle title='O nás' />
         <Stack spacing={2} direction='column'>
+          <SectionSubTitle title='Popis' />
           <AppTextEditor
             name={nameof<HomeModel>("AboutUs")}
             value={home.AboutUs}
@@ -87,17 +80,20 @@ const AboutUs = () => {
             onChange={handleTextEditorOnBlur}
           />
 
-          <FileUpload
-            image={home.AboutUsImage}
-            name={nameof<HomeModel>("AboutUsImage")}
-            label='Ideální rozlišení obrázku 600 x 600px. Max. velikost 1MB'
-            supportedExtensions={["png", "jpg", "jpeg"]}
-            newImageAlt='Rodina je základ všeho | KROM Land'
-            maxFileSize={1}
-            onAfterFileUpload={handleOnAfterFileUpload}
-            onAfterFileDelete={handleOnAfterFileDelete}
-            onFileSave={handleOnFileSave}
-          />
+          <Box className='sub-section-separator'>
+            <SectionSubTitle title='Obrázek' />
+            <FileUpload
+              image={home.AboutUsImage}
+              name={nameof<HomeModel>("AboutUsImage")}
+              label='Ideální rozlišení obrázku 600 x 600px. Max. velikost 1MB'
+              supportedExtensions={["png", "jpg", "jpeg"]}
+              newImageAlt='Rodina je základ všeho | KROM Land'
+              maxFileSize={1}
+              onAfterFileUpload={handleOnAfterFileUpload}
+              onAfterFileDelete={handleOnAfterFileDelete}
+              onFileSave={handleOnFileSave}
+            />
+          </Box>
         </Stack>
       </SectionStyled>
     </ErrorBoundary>
