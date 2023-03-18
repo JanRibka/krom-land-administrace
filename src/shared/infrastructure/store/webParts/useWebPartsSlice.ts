@@ -27,6 +27,10 @@ export const useWebPartsSlice = () => {
     dispatch(actions.homeImageUpdate({ name, image }));
   };
 
+  const handleHomeTeamMemberAdd = () => {
+    dispatch(actions.homeTeamMemberAdd());
+  };
+
   const handleActionsUpdate = (actionsData: Partial<ActionsModel>) => {
     dispatch(actions.actionsUpdate(actionsData));
   };
@@ -50,6 +54,7 @@ export const useWebPartsSlice = () => {
     handleWebPartsUpdate,
     handleHomeUpdate,
     handleHomeImageUpdate,
+    handleHomeTeamMemberAdd,
     handleActionsUpdate,
     handleActionUpdate,
     handleGalleryUpdate,

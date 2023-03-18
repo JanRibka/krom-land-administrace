@@ -1,5 +1,6 @@
 import ActionDetailDTO from "shared/DTOs/ActionDetailDTO";
 import DocumentDTO from "shared/DTOs/DocumentDTO";
+import TeamMemberDTO from "shared/DTOs/TeamMemberDTO";
 import WebPartsDTO from "shared/DTOs/WebPartsDTO";
 import { WebPartsState } from "shared/infrastructure/store/webParts/webPartsSlice";
 
@@ -23,6 +24,14 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       PeopleSay2Name: webPartsState.Home.PeopleSay2Name,
       PeopleSay3Text: webPartsState.Home.PeopleSay3Text,
       PeopleSay3Name: webPartsState.Home.PeopleSay3Name,
+      TeamMembers: webPartsState.Home.TeamMembers.map(
+        (member) =>
+          new TeamMemberDTO({
+            Image: JSON.stringify(member.Image),
+            Name: member.Name,
+            Text: member.Text,
+          })
+      ),
     },
     Actions: {
       Id: null,

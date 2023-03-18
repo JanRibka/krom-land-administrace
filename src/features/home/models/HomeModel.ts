@@ -1,5 +1,7 @@
 import ImageModel from "shared/models/ImageModel";
 
+import TeamMemberModel from "./TeamMemberModel";
+
 export default class HomeModel {
   Title: string = "";
   Description: string = "";
@@ -16,6 +18,7 @@ export default class HomeModel {
   PeopleSay2Name: string = "";
   PeopleSay3Text: string = "";
   PeopleSay3Name: string = "";
+  TeamMembers: TeamMemberModel[] = [];
 
   public constructor(init?: Partial<HomeModel>) {
     Object.assign(this, init);

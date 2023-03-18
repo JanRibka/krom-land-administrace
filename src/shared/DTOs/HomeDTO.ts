@@ -1,3 +1,5 @@
+import TeamMemberDTO from "./TeamMemberDTO";
+
 export default class HomeDTO {
   Id: number | null = null;
   Title: string | null = null;
@@ -15,6 +17,7 @@ export default class HomeDTO {
   PeopleSay2Name: string | null = null;
   PeopleSay3Text: string | null = null;
   PeopleSay3Name: string | null = null;
+  TeamMembers: TeamMemberDTO[] | null = null;
 
   public constructor(init?: Partial<HomeDTO>) {
     Object.assign(this, init);

@@ -3,10 +3,11 @@ import ActionsModel from "features/actions/models/ActionsModel";
 import { ContactModel } from "features/contact/models/ContactModel";
 import GalleryModel from "features/gallery/models/GalleryModel";
 import HomeModel from "features/home/models/HomeModel";
+import TeamMemberModel from "features/home/models/TeamMemberModel";
 import ImageModel from "shared/models/ImageModel";
 import HomeImageType from "shared/types/HomeImageType";
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import AppState from "../AppState";
 
@@ -54,6 +55,19 @@ export const webPartsSlice = createSlice({
       };
 
       (state.Home[action.payload.name] as ImageModel) = newImage;
+    },
+    homeTeamMemberAdd: (state, action: Action) => {
+      const newTeamMembers = [...state.Home.TeamMembers];
+
+      newTeamMembers.push(new TeamMemberModel());
+
+      return {
+        ...state,
+        Home: {
+          ...state.Home,
+          TeamMembers: newTeamMembers,
+        },
+      };
     },
     actionsUpdate: (state, action: PayloadAction<Partial<ActionsModel>>) => {
       const newActions = {

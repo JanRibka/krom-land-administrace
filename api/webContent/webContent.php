@@ -22,6 +22,28 @@ class WebContent
       );
       $home = $homeQuery->fetch();
 
+      $teamMembers = dibi::query("SELECT * FROM teamMembers as tm");
+
+      $home = new HomeModel(
+        $home->Id,
+        $home->Title,
+        $home->Description,
+        $home->PageHeaderTextMain,
+        $home->PageHeaderTextMainColor,
+        $home->PageHeaderTextSecondary,
+        $home->PageHeaderTextSecondaryColor,
+        $home->MainImage,
+        $home->AboutUs,
+        $home->AboutUsImage,
+        $home->PeopleSay1Text,
+        $home->PeopleSay1Name,
+        $home->PeopleSay2Text,
+        $home->PeopleSay2Name,
+        $home->PeopleSay3Text,
+        $home->PeopleSay3Name,
+        $teamMembers->fetchAll()
+      );
+
       // Actions
       $actinsQuery = dibi::query(
         "SELECT * FROM actions as a WHERE a.Id = %i",

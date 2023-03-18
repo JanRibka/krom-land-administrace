@@ -1,4 +1,5 @@
 import ActionDetailModel from "features/actions/models/ActionDetailModel";
+import TeamMemberModel from "features/home/models/TeamMemberModel";
 import WebPartsDTO from "shared/DTOs/WebPartsDTO";
 import {
   initialState,
@@ -31,6 +32,17 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       PeopleSay2Name: webPartsDTO?.Home?.PeopleSay2Name ?? "",
       PeopleSay3Text: webPartsDTO?.Home?.PeopleSay3Text ?? "",
       PeopleSay3Name: webPartsDTO?.Home?.PeopleSay3Name ?? "",
+      TeamMembers:
+        webPartsDTO?.Home?.TeamMembers?.map(
+          (member) =>
+            new TeamMemberModel({
+              Image: !!member.Image
+                ? JSON.parse(member.Image)
+                : new ImageModel(),
+              Name: member.Name,
+              Text: member.Text,
+            })
+        ) ?? [],
     },
     Actions: {
       Title: webPartsDTO?.Actions.Title ?? "",
