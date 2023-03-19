@@ -4,6 +4,7 @@ require_once __DIR__ . "/./models/actionsModel.php";
 require_once __DIR__ . "/./models/galleryModel.php";
 require_once __DIR__ . "/./models/webPartsModel.php";
 require_once __DIR__ . "/./models/resultModel.php";
+require_once __DIR__ . "/./models/homeModel.php";
 
 class WebContent
 {
@@ -157,11 +158,17 @@ class WebContent
 
       // Team members
       $teamMembersQuery = dibi::query("SELECT * FROM teamMembers as tm");
-      $teamMembers = $teamMembersQuery->fetchAll();
+      $teamMembersDb = $teamMembersQuery->fetchAll();
+      $teamMembers = $home->TeamMembers;
 
-      foreach ($teamMembers as $member) {
+      foreach ($teamMembersDb as $member) {
         // Smazání souboru
-        if ($member->Delete) {
+        $id = $member->Id;
+        $item = array_filter($teamMembers, function($f) use ($id) {
+          return $f["Id"] == $id;
+        });
+
+        if (count($item) > 0 && $item->Delete) {
           $image = json_decode($member->Image);
           $imageName = $image->Name;
           $imagePath = __DIR__ . "/../../publicImg/" . $imageName;
@@ -184,7 +191,7 @@ class WebContent
             "Text" => $member->Text
           ];
 
-          dibi::query("INSERT INTO teamMembers as tm", $arr);
+          dibi::query("INSERT INTO teamMembers", $arr);
         }
       }
 
