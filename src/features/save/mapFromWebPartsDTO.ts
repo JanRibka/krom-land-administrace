@@ -39,8 +39,9 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
               Image: !!member.Image
                 ? JSON.parse(member.Image)
                 : new ImageModel(),
-              Name: member.Name,
-              Text: member.Text,
+              Name: member.Name ?? "",
+              Text: member.Text ?? "",
+              Delete: false,
             })
         ) ?? [],
     },

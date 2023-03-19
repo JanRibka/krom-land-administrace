@@ -30,6 +30,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
             Image: JSON.stringify(member.Image),
             Name: member.Name,
             Text: member.Text,
+            Delete: member.Delete,
           })
       ),
     },

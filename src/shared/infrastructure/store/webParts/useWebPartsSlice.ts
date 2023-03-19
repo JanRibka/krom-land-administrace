@@ -1,13 +1,14 @@
-import ActionDetailModel from "features/actions/models/ActionDetailModel";
-import ActionsModel from "features/actions/models/ActionsModel";
-import { ContactModel } from "features/contact/models/ContactModel";
-import GalleryModel from "features/gallery/models/GalleryModel";
-import HomeModel from "features/home/models/HomeModel";
-import { useDispatch } from "react-redux";
-import ImageModel from "shared/models/ImageModel";
-import HomeImageType from "shared/types/HomeImageType";
+import ActionDetailModel from 'features/actions/models/ActionDetailModel';
+import ActionsModel from 'features/actions/models/ActionsModel';
+import { ContactModel } from 'features/contact/models/ContactModel';
+import GalleryModel from 'features/gallery/models/GalleryModel';
+import HomeModel from 'features/home/models/HomeModel';
+import TeamMemberModel from 'features/home/models/TeamMemberModel';
+import { useDispatch } from 'react-redux';
+import ImageModel from 'shared/models/ImageModel';
+import HomeImageType from 'shared/types/HomeImageType';
 
-import { actions, WebPartsState } from "./webPartsSlice";
+import { actions, WebPartsState } from './webPartsSlice';
 
 export const useWebPartsSlice = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,13 @@ export const useWebPartsSlice = () => {
 
   const handleHomeTeamMemberAdd = () => {
     dispatch(actions.homeTeamMemberAdd());
+  };
+
+  const handleHomeTeamMemberUpdate = (
+    member: Partial<TeamMemberModel>,
+    index: number
+  ) => {
+    dispatch(actions.homeTeamMemberUpdate({ member, index }));
   };
 
   const handleActionsUpdate = (actionsData: Partial<ActionsModel>) => {
@@ -55,6 +63,7 @@ export const useWebPartsSlice = () => {
     handleHomeUpdate,
     handleHomeImageUpdate,
     handleHomeTeamMemberAdd,
+    handleHomeTeamMemberUpdate,
     handleActionsUpdate,
     handleActionUpdate,
     handleGalleryUpdate,

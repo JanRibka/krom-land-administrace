@@ -155,6 +155,39 @@ class WebContent
         $homeId
       );
 
+      // Team members
+      $teamMembersQuery = dibi::query("SELECT * FROM teamMembers as tm");
+      $teamMembers = $teamMembersQuery->fetchAll();
+
+      foreach ($teamMembers as $member) {
+        // Smazání souboru
+        if ($member->Delete) {
+          $image = json_decode($member->Image);
+          $imageName = $image->Name;
+          $imagePath = __DIR__ . "/../../publicImg/" . $imageName;
+  
+          if(file_exists($imagePath)) {
+            unlink($imagePath);
+          }
+        }
+  
+        dibi::query("DELETE FROM teamMembers as tm WHERE tm.Id = %i", $member->Id);
+      }
+
+      $teamMembers = $home->TeamMembers;
+
+      foreach ($teamMembers as $member) {
+        if (!$member->Delete) {
+          $arr = [
+            "Image" => $member->Image,
+            "Name" => $member->Name,
+            "Text" => $member->Text
+          ];
+
+          dibi::query("INSERT INTO teamMembers as tm", $arr);
+        }
+      }
+
       // Actions
       dibi::query(
         'UPDATE actions as a SET', [

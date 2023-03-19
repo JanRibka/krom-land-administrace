@@ -69,6 +69,20 @@ export const webPartsSlice = createSlice({
         },
       };
     },
+    homeTeamMemberUpdate: (
+      state,
+      action: PayloadAction<{ member: Partial<TeamMemberModel>; index: number }>
+    ) => {
+      let newTeamMembers = [...state.Home.TeamMembers];
+      const teamMember = {
+        ...newTeamMembers[action.payload.index],
+        ...action.payload.member,
+      };
+
+      newTeamMembers[action.payload.index] = teamMember;
+
+      state.Home.TeamMembers = newTeamMembers;
+    },
     actionsUpdate: (state, action: PayloadAction<Partial<ActionsModel>>) => {
       const newActions = {
         ...state.Actions,

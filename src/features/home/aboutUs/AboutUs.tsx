@@ -12,7 +12,6 @@ import { nameof } from "shared/nameof";
 import HomeImageType from "shared/types/HomeImageType";
 
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 
 import FileUpload from "../../../shared/components/fileUpload/FileUpload";
 import HomeModel from "../models/HomeModel";
@@ -84,7 +83,7 @@ const AboutUs = () => {
           <FileUpload
             image={home.AboutUsImage}
             name={nameof<HomeModel>("AboutUsImage")}
-            label='Ideální rozlišení obrázku 600 x 600px. Max. velikost 1MB'
+            label='Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB'
             supportedExtensions={["png", "jpg", "jpeg"]}
             newImageAlt='Rodina je základ všeho | KROM Land'
             maxFileSize={1}
