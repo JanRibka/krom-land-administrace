@@ -1,3 +1,4 @@
+import KromLandService from "features/KromLandService";
 import SectionStyled from "features/styledComponents/SectionStyled";
 import { useSelector } from "react-redux";
 import FileUpload from "shared/components/fileUpload/FileUpload";
@@ -24,6 +25,7 @@ const OurTeam = () => {
   const home = useSelector(selectHome);
 
   // Constants
+  const _kromLandService = new KromLandService();
   const { handleHomeTeamMemberAdd, handleHomeTeamMemberUpdate } =
     useWebPartsSlice();
 
@@ -42,7 +44,8 @@ const OurTeam = () => {
     fileName: string,
     name: string,
     alt: string,
-    destination: string
+    destination: string,
+    index: number
   ) => {
     const image = new ImageModel({
       Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
@@ -50,25 +53,30 @@ const OurTeam = () => {
       Name: fileName,
     });
 
-    // handleHomeUpdate({ [name]: image });
+    handleHomeTeamMemberUpdate({ [name]: image }, index);
   };
 
-  const handleOnAfterFileDelete = (name: string) => {
-    // handleHomeImageUpdate(name as HomeImageType, new ImageModel());
+  const handleOnAfterFileDelete = (name: string, index: number) => {
+    handleHomeTeamMemberUpdate({ [name]: new ImageModel() }, index);
   };
 
-  const handleOnFileSave = async (name: string) => {
-    // let image: ImageModel = home[name as HomeImageType] as ImageModel;
-    // image = {
-    //   ...image,
-    //   Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
-    // };
-    // const result = await _kromLandService.saveImageHome(image, name);
-    // if (result) {
-    //   handleHomeImageUpdate(name as HomeImageType, {
-    //     Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
-    //   });
-    // }
+  const handleOnFileSave = async (name: string, index: number) => {
+    const teamMember = { ...home.TeamMembers[index] };
+    let image = { ...teamMember.Image };
+
+    image = {
+      ...image,
+      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+    };
+
+    const result = await _kromLandService.saveImageTeamMember(
+      image,
+      teamMember.Id
+    );
+
+    if (result) {
+      handleHomeTeamMemberUpdate({ [name]: image }, index);
+    }
   };
 
   const handleAddMemberOnClick = () => {
@@ -95,13 +103,23 @@ const OurTeam = () => {
                 <FileUpload
                   image={member.Image}
                   name={nameof<TeamMemberModel>("Image")}
-                  label='Ideální rozlišení obrázku 600 x 600px. Max. velikost 1MB'
-                  supportedExtensions={["png", "jpg", "jpeg"]}
-                  newImageAlt='Rodina je základ všeho | KROM Land'
+                  label='Ideální rozlišení obrázku 1268 x 500px. Max. velikost 1MB'
+                  supportedExtensions={["png", "jpg", "jpeg", "webp"]}
+                  newImageAlt={"Fotka člena " + memberCount}
                   maxFileSize={1}
-                  onAfterFileUpload={handleOnAfterFileUpload}
-                  onAfterFileDelete={handleOnAfterFileDelete}
-                  onFileSave={handleOnFileSave}
+                  onAfterFileUpload={(fileName, name, alt, destination) =>
+                    handleOnAfterFileUpload(
+                      fileName,
+                      name,
+                      alt,
+                      destination,
+                      index
+                    )
+                  }
+                  onAfterFileDelete={(name) =>
+                    handleOnAfterFileDelete(name, index)
+                  }
+                  onFileSave={(name) => handleOnFileSave(name, index)}
                 />
 
                 <AppTextField
