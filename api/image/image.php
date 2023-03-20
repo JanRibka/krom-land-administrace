@@ -72,5 +72,36 @@ class Image
           apiResponse(false, $ex->getMessage());
         }    
     }
+
+    public static function saveImageTeamMember()
+    {
+        try
+        {
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+            $id = $data->id;
+            $imageName = $data->image->Name;            
+            $sourceImage = __DIR__ . "/../../upload/" . $imageName;
+            $targetImage = __DIR__ . "/../../../publicImg/" . $imageName;
+            
+            dibi::query(
+                'UPDATE teamMembers as tm SET', [                  
+                    "Image" => json_encode($data->image),
+                ],         
+                'WHERE tm.Id = %i',
+                $id
+            );
+            
+            copy($sourceImage, $targetImage);    
+            if(file_exists($sourceImage)) {
+                unlink($sourceImage);
+            }          
+
+            apiResponse(true, "");
+        } catch(Exception $ex)
+        {
+          apiResponse(false, $ex->getMessage());
+        }    
+    }
 }
 ?>

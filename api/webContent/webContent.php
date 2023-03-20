@@ -165,7 +165,9 @@ class WebContent
         // Smazání souboru
         $id = $member->Id;
         $item = array_filter($teamMembers, function($f) use ($id) {
-          return $f["Id"] == $id;
+          if ($f->Id == $id) {
+            return $f;
+          }
         });
 
         if (count($item) > 0 && $item->Delete) {
@@ -185,8 +187,7 @@ class WebContent
 
       foreach ($teamMembers as $member) {
         if (!$member->Delete) {
-          $arr = [
-            "Image" => $member->Image,
+          $arr = [            
             "Name" => $member->Name,
             "Text" => $member->Text
           ];

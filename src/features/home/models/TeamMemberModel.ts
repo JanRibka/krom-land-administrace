@@ -1,6 +1,7 @@
 import ImageModel from "shared/models/ImageModel";
 
 export default class TeamMemberModel {
+  Id: number = 0;
   Image: ImageModel = new ImageModel();
   Name: string = "";
   Text: string = "";

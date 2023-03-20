@@ -36,6 +36,7 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
         webPartsDTO?.Home?.TeamMembers?.map(
           (member) =>
             new TeamMemberModel({
+              Id: member.Id ?? 0,
               Image: !!member.Image
                 ? JSON.parse(member.Image)
                 : new ImageModel(),

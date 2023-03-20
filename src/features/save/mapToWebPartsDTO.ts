@@ -27,6 +27,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       TeamMembers: webPartsState.Home.TeamMembers.map(
         (member) =>
           new TeamMemberDTO({
+            Id: member.Id,
             Image: JSON.stringify(member.Image),
             Name: member.Name,
             Text: member.Text,

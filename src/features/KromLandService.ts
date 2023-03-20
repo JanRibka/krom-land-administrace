@@ -124,6 +124,7 @@ export default class KromLandService {
   /**
    * Uložení obrázku - Home
    * @param image
+   * @param name
    */
   public async saveImageHome(image: ImageModel, name: string) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
@@ -135,6 +136,49 @@ export default class KromLandService {
       data: {
         image: image,
         name: name,
+      },
+    });
+
+    let result = false;
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          result = true;
+          AppNotification("Úspěch", "Obrázek uložen", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        result = true;
+        AppNotification("Úspěch", "Obrázek uložen", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při mazání obrázku", "danger");
+    }
+
+    return result;
+  }
+
+  /**
+   * Uložení obrázku - Team member
+   * @param image
+   * @param index
+   */
+  public async saveImageTeamMember(image: ImageModel, id: number) {
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: process.env.REACT_APP_API_URL ?? "",
+      params: new URLSearchParams({
+        action: "image",
+        type: "saveimageteammember",
+      }),
+      data: {
+        image: image,
+        id: id,
       },
     });
 

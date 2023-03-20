@@ -1,4 +1,5 @@
 export default class TeamMemberDTO {
+  Id: number | null = null;
   Image: string | null = null;
   Name: string | null = null;
   Text: string | null = null;

@@ -13,7 +13,7 @@ const FileUploadStyled = styled(Box)(({ theme }) => ({
     minHeight: "250px",
     backgroundColor: theme.palette.primary.light,
     marginBottom: "25px",
-    objectFit: "none",
+    objectFit: "scale-down",
   },
 
   ".buttons-wrapper": {
