@@ -1,16 +1,16 @@
-import KromLandService from "features/KromLandService";
-import { ChangeEvent } from "react";
-import ImageModel from "shared/models/ImageModel";
+import KromLandService from 'features/KromLandService';
+import { ChangeEvent } from 'react';
+import ImageModel from 'shared/models/ImageModel';
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import SaveAltOutlinedIcon from "@mui/icons-material/SaveAltOutlined";
-import { LoadingButton } from "@mui/lab";
-import Box from "@mui/material/Box";
+import DeleteIcon from '@mui/icons-material/Delete';
+import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined';
+import { LoadingButton } from '@mui/lab';
+import Box from '@mui/material/Box';
 
-import AppNotification from "../notification/AppNotification";
-import ValidateFileSizeReturnModel from "./models/ValidateFileSizeReturnModel ";
-import ValidateFileTypeReturnModel from "./models/ValidateFileTypeReturnModel ";
-import FileUploadStyled from "./styledComponents/FIleUploadStyled";
+import AppNotification from '../notification/AppNotification';
+import ValidateFileSizeReturnModel from './models/ValidateFileSizeReturnModel ';
+import ValidateFileTypeReturnModel from './models/ValidateFileTypeReturnModel ';
+import FileUploadStyled from './styledComponents/FIleUploadStyled';
 
 interface IProps {
   image: ImageModel;

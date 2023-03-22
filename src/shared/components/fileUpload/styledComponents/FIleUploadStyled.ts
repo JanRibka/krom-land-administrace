@@ -1,6 +1,6 @@
-import { alpha } from "@mui/material";
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
+import { alpha } from '@mui/material';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
 const FileUploadStyled = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -8,6 +8,7 @@ const FileUploadStyled = styled(Box)(({ theme }) => ({
   flexDirection: "column",
 
   "& > img": {
+    width: "100%",
     maxHeight: "500px",
     height: "100%",
     minHeight: "250px",

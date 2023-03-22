@@ -1,19 +1,18 @@
-import TeamMemberModel from "features/home/models/TeamMemberModel";
-import KromLandService from "features/KromLandService";
-import { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
-import FileUpload from "shared/components/fileUpload/FileUpload";
-import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
-import AppTextField from "shared/components/textField/AppTextField";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
-import ImageModel from "shared/models/ImageModel";
-import { nameof } from "shared/nameof";
+import TeamMemberModel from 'features/home/models/TeamMemberModel';
+import KromLandService from 'features/KromLandService';
+import { useSelector } from 'react-redux';
+import FileUpload from 'shared/components/fileUpload/FileUpload';
+import SectionSubTitle from 'shared/components/sectionSubTitle/SectionSubTitle';
+import AppTextField from 'shared/components/textField/AppTextField';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectHome } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import ImageModel from 'shared/models/ImageModel';
+import { nameof } from 'shared/nameof';
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
+import DeleteIcon from '@mui/icons-material/Delete';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 interface IProps {
   index: number;
@@ -26,9 +25,6 @@ interface IProps {
 const Member = (props: IProps) => {
   // Store
   const home = useSelector(selectHome);
-
-  // State
-  //   const [index] = useState<number>(props.index);
 
   // Constants
   const _kromLandService = new KromLandService();
