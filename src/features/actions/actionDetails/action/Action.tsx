@@ -1,19 +1,21 @@
-import { useSelector } from "react-redux";
-import FileUpload from "shared/components/fileUpload/FileUpload";
-import AppSelect from "shared/components/select/AppSelect";
-import IAppSelectMenuItem from "shared/components/select/IAppSelectMenuItem";
-import AppTextArea from "shared/components/textArea/AppTextArea";
-import AppTextField from "shared/components/textField/AppTextField";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
-import ImageModel from "shared/models/ImageModel";
-import { nameof } from "shared/nameof";
+import { ChangeEvent } from 'react';
+import { useSelector } from 'react-redux';
+import AppCheckbox from 'shared/components/checkbox/AppCheckbox';
+import FileUpload from 'shared/components/fileUpload/FileUpload';
+import AppSelect from 'shared/components/select/AppSelect';
+import IAppSelectMenuItem from 'shared/components/select/IAppSelectMenuItem';
+import AppTextArea from 'shared/components/textArea/AppTextArea';
+import AppTextField from 'shared/components/textField/AppTextField';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectActions } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import ImageModel from 'shared/models/ImageModel';
+import { nameof } from 'shared/nameof';
 
-import { SelectChangeEvent } from "@mui/material/Select";
-import Stack from "@mui/material/Stack";
+import { SelectChangeEvent } from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
 
-import ActionDetailModel from "../../models/ActionDetailModel";
+import ActionDetailModel from '../../models/ActionDetailModel';
 
 interface IProps {
   index: number;
@@ -56,6 +58,26 @@ const Action = (props: IProps) => {
     const value = parseInt(e.target.value);
 
     handleActionUpdate({ [name]: value }, props.index);
+  };
+
+  const handleOnChangeCheckboxIsPriceRemark = (
+    e: ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    const name = e.target.name;
+
+    let data: Partial<ActionDetailModel> = {
+      [name]: checked,
+    };
+
+    if (!checked) {
+      data = {
+        ...data,
+        PriceRemark: "",
+      };
+    }
+
+    handleActionUpdate(data, props.index);
   };
 
   return (
@@ -108,7 +130,24 @@ const Action = (props: IProps) => {
           fullWidth
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
-        />{" "}
+        />
+        <AppCheckbox
+          name={nameof<ActionDetailModel>("IsPriceRemark")}
+          label='Zda poznámka k ceně'
+          checked={actionDetails[props.index]?.IsPriceRemark ?? false}
+          onChange={handleOnChangeCheckboxIsPriceRemark}
+        />
+        {actionDetails[props.index]?.IsPriceRemark && (
+          <AppTextField
+            name={nameof<ActionDetailModel>("PriceRemark")}
+            label='Poznámka k ceně'
+            value={actionDetails[props.index]?.PriceRemark ?? ""}
+            variant='outlined'
+            fullWidth
+            autoComplete='off'
+            onBlur={handleTextFieldOnBlur}
+          />
+        )}
         <AppTextField
           name={nameof<ActionDetailModel>("Place")}
           label='Místo'

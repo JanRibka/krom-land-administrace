@@ -55,6 +55,8 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
             ActionDescritption: item.ActionDescritption,
             VideoLink: item.VideoLink,
             Price: item.Price,
+            IsPriceRemark: item.IsPriceRemark,
+            PriceRemark: item.PriceRemark,
             Place: item.Place,
             Date: item.Date,
           })

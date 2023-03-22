@@ -9,6 +9,8 @@ export default class ActionDetailDTO {
   ActionDescritption: string | null = null;
   VideoLink: string | null = null;
   Price: string | null = null;
+  IsPriceRemark: boolean | null = null;
+  PriceRemark: string | null = null;
   Place: string | null = null;
   Date: string | null = null;
 

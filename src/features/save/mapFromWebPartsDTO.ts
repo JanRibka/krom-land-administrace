@@ -67,6 +67,8 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
               ActionDescritption: item.ActionDescritption ?? "",
               VideoLink: item.VideoLink ?? "",
               Price: item.Price ?? "",
+              IsPriceRemark: item.IsPriceRemark ?? false,
+              PriceRemark: item.PriceRemark ?? "",
               Place: item.Place ?? "",
               Date: item.Date ?? "",
             })
