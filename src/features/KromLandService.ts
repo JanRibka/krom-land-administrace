@@ -13,7 +13,7 @@ export default class KromLandService {
   private _repo = new Repository();
 
   /**
-   * Uložení store
+   * Save store
    */
   public async saveStore() {
     const state = store.getState();
@@ -50,7 +50,7 @@ export default class KromLandService {
   }
 
   /**
-   * Upload souboru na server
+   * Upload file on server
    * @param formData
    */
   public async uploadFile(formData: FormData) {
@@ -85,7 +85,7 @@ export default class KromLandService {
   }
 
   /**
-   * Smazání souboru
+   * Delete image
    * @param imageName
    * @param directory
    */
@@ -122,16 +122,25 @@ export default class KromLandService {
   }
 
   /**
-   * Uložení obrázku - Home
+   * Save image
    * @param image
    * @param name
    */
-  public async saveImageHome(image: ImageModel, name: string) {
+  public async saveImage(
+    image: ImageModel,
+    name: string,
+    method:
+      | "saveimagehome"
+      | "saveimageactions"
+      | "saveimagegallery"
+      | "saveimagecontact"
+      | "saveimageteammember"
+  ) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
       url: process.env.REACT_APP_API_URL ?? "",
       params: new URLSearchParams({
         action: "image",
-        type: "saveimagehome",
+        type: method,
       }),
       data: {
         image: image,

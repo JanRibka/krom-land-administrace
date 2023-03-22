@@ -5,6 +5,9 @@ import GalleryModel from "features/gallery/models/GalleryModel";
 import HomeModel from "features/home/models/HomeModel";
 import TeamMemberModel from "features/home/models/TeamMemberModel";
 import ImageModel from "shared/models/ImageModel";
+import ActionsImageType from "shared/types/ActionsImageType";
+import ContactImageType from "shared/types/ContactImageType";
+import GalleryImageType from "shared/types/GalleryImageType";
 import HomeImageType from "shared/types/HomeImageType";
 
 import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -94,6 +97,20 @@ export const webPartsSlice = createSlice({
         Actions: newActions,
       };
     },
+    actionsImageUpdate: (
+      state,
+      action: PayloadAction<{
+        name: ActionsImageType;
+        image: Partial<ImageModel>;
+      }>
+    ) => {
+      const newImage: ImageModel = {
+        ...(state.Actions[action.payload.name] as ImageModel),
+        ...action.payload.image,
+      };
+
+      (state.Actions[action.payload.name] as ImageModel) = newImage;
+    },
     actionUpdate: (
       state,
       action: PayloadAction<{
@@ -121,6 +138,20 @@ export const webPartsSlice = createSlice({
         Gallery: newGallery,
       };
     },
+    galleryImageUpdate: (
+      state,
+      action: PayloadAction<{
+        name: GalleryImageType;
+        image: Partial<ImageModel>;
+      }>
+    ) => {
+      const newImage: ImageModel = {
+        ...(state.Gallery[action.payload.name] as ImageModel),
+        ...action.payload.image,
+      };
+
+      (state.Gallery[action.payload.name] as ImageModel) = newImage;
+    },
     contactUpdate: (state, action: PayloadAction<Partial<ContactModel>>) => {
       const newContact = {
         ...state.Contact,
@@ -131,6 +162,20 @@ export const webPartsSlice = createSlice({
         ...state,
         Contact: newContact,
       };
+    },
+    contactImageUpdate: (
+      state,
+      action: PayloadAction<{
+        name: ContactImageType;
+        image: Partial<ImageModel>;
+      }>
+    ) => {
+      const newImage: ImageModel = {
+        ...(state.Contact[action.payload.name] as ImageModel),
+        ...action.payload.image,
+      };
+
+      (state.Contact[action.payload.name] as ImageModel) = newImage;
     },
   },
 });

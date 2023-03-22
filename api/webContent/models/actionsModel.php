@@ -6,8 +6,7 @@ class ActionsModel
   public $Description;
   public $PageHeaderTextMain;
   public $PageHeaderTextMainColor;  
-  public $MainImagePath;
-  public $MainImageAlt;
+  public $MainImage;
   public $ActionDetails;
   public $DocumentsToDownload;
 
@@ -17,8 +16,7 @@ class ActionsModel
     $description,
     $pageHeaderTextMain,
     $pageHeaderTextMainColor,    
-    $mainImagePath,
-    $mainImageAlt,
+    $mainImage,    
     $actionDetails,
     $documentsToDownload,
   ) {
@@ -27,8 +25,7 @@ class ActionsModel
     $this->Description = $description;
     $this->PageHeaderTextMain = $pageHeaderTextMain;
     $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;    
-    $this->MainImagePath = $mainImagePath;
-    $this->MainImageAlt = $mainImageAlt;
+    $this->MainImage = $mainImage;    
     $this->ActionDetails = $actionDetails;
     $this->DocumentsToDownload = $documentsToDownload;
   }

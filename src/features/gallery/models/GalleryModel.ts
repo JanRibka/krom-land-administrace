@@ -5,8 +5,7 @@ export default class GalleryModel {
   Description: string = "";
   PageHeaderTextMain: string = "";
   PageHeaderTextMainColor: string = "";
-  MainImagePath: string = "";
-  MainImageAlt: string = "";
+  MainImage: ImageModel = new ImageModel();
   Images: ImageModel[] = [];
 
   public constructor(init?: Partial<GalleryModel>) {

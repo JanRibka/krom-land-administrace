@@ -52,8 +52,9 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       PageHeaderTextMain: webPartsDTO?.Actions.PageHeaderTextMain ?? "",
       PageHeaderTextMainColor:
         webPartsDTO?.Actions.PageHeaderTextMainColor ?? "",
-      MainImagePath: webPartsDTO?.Actions.MainImagePath ?? "",
-      MainImageAlt: webPartsDTO?.Actions.MainImageAlt ?? "",
+      MainImage: !!webPartsDTO?.Actions?.MainImage
+        ? JSON.parse(webPartsDTO?.Actions?.MainImage)
+        : new ImageModel(),
       ActionDetails:
         webPartsDTO?.Actions.ActionDetails.map(
           (item) =>
@@ -86,8 +87,9 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       PageHeaderTextMain: webPartsDTO?.Gallery.PageHeaderTextMain ?? "",
       PageHeaderTextMainColor:
         webPartsDTO?.Gallery.PageHeaderTextMainColor ?? "",
-      MainImagePath: webPartsDTO?.Gallery.MainImagePath ?? "",
-      MainImageAlt: webPartsDTO?.Gallery.MainImageAlt ?? "",
+      MainImage: !!webPartsDTO?.Gallery?.MainImage
+        ? JSON.parse(webPartsDTO?.Gallery?.MainImage)
+        : new ImageModel(),
       Images: [],
       // webPartsDTO?.Gallery.Images.map(
       //   (item) =>
@@ -103,8 +105,9 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       PageHeaderTextMain: webPartsDTO?.Contact.PageHeaderTextMain ?? "",
       PageHeaderTextMainColor:
         webPartsDTO?.Contact.PageHeaderTextMainColor ?? "",
-      MainImagePath: webPartsDTO?.Contact.MainImagePath ?? "",
-      MainImageAlt: webPartsDTO?.Contact.MainImageAlt ?? "",
+      MainImage: !!webPartsDTO?.Contact?.MainImage
+        ? JSON.parse(webPartsDTO?.Contact?.MainImage)
+        : new ImageModel(),
       GoogleMapsUrl: webPartsDTO?.Contact.GoogleMapsUrl ?? "",
     },
   };

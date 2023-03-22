@@ -67,8 +67,7 @@ class WebContent
         $actions->Description,
         $actions->PageHeaderTextMain,
         $actions->PageHeaderTextMainColor,        
-        $actions->MainImagePath,
-        $actions->MainImageAlt,
+        $actions->MainImage,        
         $actinDeatilsQuery->fetchAll(),
         $documentsToDownloadQuery->fetchAll()
       );
@@ -92,8 +91,7 @@ class WebContent
         $gallery->Description,
         $gallery->PageHeaderTextMain,
         $gallery->PageHeaderTextMainColor,
-        $gallery->MainImagePath,
-        $gallery->MainImageAlt,
+        $gallery->MainImage,        
         $galleryImageQuery->fetchAll()
       );
 
@@ -161,35 +159,39 @@ class WebContent
       $teamMembersDb = $teamMembersQuery->fetchAll();
       $teamMembers = $home->TeamMembers;
 
-      foreach ($teamMembersDb as $member) {
-        // Smazání souboru
+      foreach ($teamMembers as $member) {
         $id = $member->Id;
-        $item = array_filter($teamMembers, function($f) use ($id) {
+        $item = array_filter($teamMembersDb, function($f) use ($id) {
           if ($f->Id == $id) {
             return $f;
           }
         });
 
-        if (count($item) > 0 && $item->Delete) {
+        if ($member->Delete) {
+
+          dibi::query("DELETE FROM teamMembers as tm WHERE tm.Id = %i", $id);
+
           $image = json_decode($member->Image);
           $imageName = $image->Name;
           $imagePath = __DIR__ . "/../../publicImg/" . $imageName;
-  
+          
           if(file_exists($imagePath)) {
             unlink($imagePath);
           }
-        }
-  
-        dibi::query("DELETE FROM teamMembers as tm WHERE tm.Id = %i", $member->Id);
-      }
-
-      $teamMembers = $home->TeamMembers;
-
-      foreach ($teamMembers as $member) {
-        if (!$member->Delete) {
+        } else if (count($item) > 0) {
+          dibi::query(
+            'UPDATE teamMembers as tm SET', [
+              "Name" => $member->Name,
+              "Text" => $member->Text                 
+            ],         
+            'WHERE tm.Id = %i',
+            $id
+          );            
+        } else {
           $arr = [            
             "Name" => $member->Name,
-            "Text" => $member->Text
+            "Text" => $member->Text,
+            "Image" => $member->Image
           ];
 
           dibi::query("INSERT INTO teamMembers", $arr);
@@ -203,8 +205,6 @@ class WebContent
           'Description' => $actions->Description,
           'PageHeaderTextMain' => $actions->PageHeaderTextMain,
           'PageHeaderTextMainColor' => $actions->PageHeaderTextMainColor,                    
-          'MainImagePath' => $actions->MainImagePath,
-          'MainImageAlt' => $actions->MainImageAlt,          
         ],         
         'WHERE a.Id = %i',
         $actionsId
@@ -236,9 +236,7 @@ class WebContent
           'Title' => $gallery->Title,
           'Description' => $gallery->Description,
           'PageHeaderTextMain' => $gallery->PageHeaderTextMain,
-          'PageHeaderTextMainColor' => $gallery->PageHeaderTextMainColor,                    
-          'MainImagePath' => $gallery->MainImagePath,
-          'MainImageAlt' => $gallery->MainImageAlt,          
+          'PageHeaderTextMainColor' => $gallery->PageHeaderTextMainColor,          
         ],         
         'WHERE g.Id = %i',
         $galleryId
@@ -250,9 +248,7 @@ class WebContent
           'Title' => $contact->Title,
           'Description' => $contact->Description,
           'PageHeaderTextMain' => $contact->PageHeaderTextMain,
-          'PageHeaderTextMainColor' => $contact->PageHeaderTextMainColor,                    
-          'MainImagePath' => $contact->MainImagePath,
-          'MainImageAlt' => $contact->MainImageAlt,          
+          'PageHeaderTextMainColor' => $contact->PageHeaderTextMainColor,               
           'GoogleMapsUrl' => $contact->GoogleMapsUrl,
         ],         
         'WHERE c.Id = %i',

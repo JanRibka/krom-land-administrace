@@ -1,3 +1,4 @@
+import KromLandService from "features/KromLandService";
 import SectionStyled from "features/styledComponents/SectionStyled";
 import { useSelector } from "react-redux";
 import FileUpload from "shared/components/fileUpload/FileUpload";
@@ -9,6 +10,7 @@ import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPar
 import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
 import ImageModel from "shared/models/ImageModel";
 import { nameof } from "shared/nameof";
+import ActionsImageType from "shared/types/ActionsImageType";
 
 import Box from "@mui/material/Box";
 
@@ -19,7 +21,8 @@ const PageHeader = () => {
   const actions = useSelector(selectActions);
 
   // Constants
-  const { handleActionsUpdate } = useWebPartsSlice();
+  const _kromLandService = new KromLandService();
+  const { handleActionsUpdate, handleActionsImageUpdate } = useWebPartsSlice();
 
   // Other
   const handleTextFieldOnBlur = (
@@ -29,6 +32,46 @@ const PageHeader = () => {
     const value: string = e.target.value;
 
     handleActionsUpdate({ [name]: value });
+  };
+
+  const handleOnAfterFileUpload = (
+    fileName: string,
+    name: string,
+    alt: string,
+    destination: string
+  ) => {
+    const image = new ImageModel({
+      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      Alt: alt,
+      Name: fileName,
+    });
+
+    handleActionsUpdate({ [name]: image });
+  };
+
+  const handleOnAfterFileDelete = (name: string) => {
+    handleActionsImageUpdate(name as ActionsImageType, new ImageModel());
+  };
+
+  const handleOnFileSave = async (name: string) => {
+    let image: ImageModel = actions[name as ActionsImageType] as ImageModel;
+
+    image = {
+      ...image,
+      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+    };
+
+    const result = await _kromLandService.saveImage(
+      image,
+      name,
+      "saveimageactions"
+    );
+
+    if (result) {
+      handleActionsImageUpdate(name as ActionsImageType, {
+        Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+      });
+    }
   };
 
   return (
@@ -46,14 +89,15 @@ const PageHeader = () => {
         <Box className='sub-section-separator'>
           <SectionSubTitle title='Obrázek' />
           <FileUpload
-            image={new ImageModel()}
-            name=''
-            label=''
-            supportedExtensions={["png", "jpg", "jpeg"]}
-            newImageAlt=''
+            image={actions.MainImage}
+            name={nameof<ActionsModel>("MainImage")}
+            label='Ideální rozlišení obrázku 1870 x 350px. Max. velikost 1MB'
+            supportedExtensions={["png", "jpg", "jpeg", "webp"]}
+            newImageAlt='Úvodní obrázek stránky akce | KROM Land'
             maxFileSize={1}
-            onAfterFileUpload={() => {}}
-            onFileSave={() => {}}
+            onAfterFileUpload={handleOnAfterFileUpload}
+            onAfterFileDelete={handleOnAfterFileDelete}
+            onFileSave={handleOnFileSave}
           />
         </Box>
       </SectionStyled>

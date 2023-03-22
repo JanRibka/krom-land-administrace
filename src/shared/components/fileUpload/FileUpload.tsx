@@ -1,16 +1,17 @@
-import KromLandService from 'features/KromLandService';
-import { ChangeEvent } from 'react';
-import ImageModel from 'shared/models/ImageModel';
+import KromLandService from "features/KromLandService";
+import { ChangeEvent } from "react";
+import ImageModel from "shared/models/ImageModel";
+import { v4 as uuidv4 } from "uuid";
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined';
-import { LoadingButton } from '@mui/lab';
-import Box from '@mui/material/Box';
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveAltOutlinedIcon from "@mui/icons-material/SaveAltOutlined";
+import { LoadingButton } from "@mui/lab";
+import Box from "@mui/material/Box";
 
-import AppNotification from '../notification/AppNotification';
-import ValidateFileSizeReturnModel from './models/ValidateFileSizeReturnModel ';
-import ValidateFileTypeReturnModel from './models/ValidateFileTypeReturnModel ';
-import FileUploadStyled from './styledComponents/FIleUploadStyled';
+import AppNotification from "../notification/AppNotification";
+import ValidateFileSizeReturnModel from "./models/ValidateFileSizeReturnModel ";
+import ValidateFileTypeReturnModel from "./models/ValidateFileTypeReturnModel ";
+import FileUploadStyled from "./styledComponents/FIleUploadStyled";
 
 interface IProps {
   image: ImageModel;
@@ -33,6 +34,7 @@ interface IProps {
 const FileUpload = (props: IProps) => {
   // Constants
   const _kromLandService = new KromLandService();
+  const guid = uuidv4();
 
   // Other
   const getFileType = (extensions: string[]) => {
@@ -192,7 +194,7 @@ const FileUpload = (props: IProps) => {
   const onFileSave = () => {
     props.onFileSave(props.name);
   };
-
+  // TODO: Jde nahr8t soubor v2t39 nez 1MB
   return (
     <FileUploadStyled>
       <Box
@@ -217,16 +219,13 @@ const FileUpload = (props: IProps) => {
             </Box>
           ) : (
             <>
-              <label
-                className='file-upload-label'
-                htmlFor={props.name + "_fileInputId"}
-              >
+              <label className='file-upload-label' htmlFor={guid}>
                 Nahrát
               </label>
               <input
                 type='file'
                 accept={getFileType(props.supportedExtensions)}
-                id={props.name + "_fileInputId"}
+                id={guid}
                 className='file-upload-input'
                 onChange={onFileUploadHandler}
               />

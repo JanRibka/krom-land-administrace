@@ -103,5 +103,104 @@ class Image
           apiResponse(false, $ex->getMessage());
         }    
     }
+
+    public static function saveImageActions()
+    {
+        try
+        {
+            $actionsId = 1;
+
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+            $imageName = $data->image->Name;
+            $name = $data->name;
+            $sourceImage = __DIR__ . "/../../upload/" . $imageName;
+            $targetImage = __DIR__ . "/../../../publicImg/" . $imageName;
+            
+            dibi::query(
+                'UPDATE actions as a SET', [                  
+                    $name => json_encode($data->image),
+                ],         
+                'WHERE a.Id = %i',
+                $actionsId
+            );
+            
+            copy($sourceImage, $targetImage);    
+            if(file_exists($sourceImage)) {
+                unlink($sourceImage);
+            }          
+
+            apiResponse(true, "");
+        } catch(Exception $ex)
+        {
+          apiResponse(false, $ex->getMessage());
+        }    
+    }
+
+    public static function saveImageGallery()
+    {
+        try
+        {
+            $actionsId = 1;
+
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+            $imageName = $data->image->Name;
+            $name = $data->name;
+            $sourceImage = __DIR__ . "/../../upload/" . $imageName;
+            $targetImage = __DIR__ . "/../../../publicImg/" . $imageName;
+            
+            dibi::query(
+                'UPDATE gallery as g SET', [                  
+                    $name => json_encode($data->image),
+                ],         
+                'WHERE g.Id = %i',
+                $actionsId
+            );
+            
+            copy($sourceImage, $targetImage);    
+            if(file_exists($sourceImage)) {
+                unlink($sourceImage);
+            }          
+
+            apiResponse(true, "");
+        } catch(Exception $ex)
+        {
+          apiResponse(false, $ex->getMessage());
+        }    
+    }
+    
+    public static function saveImageContact()
+    {
+        try
+        {
+            $actionsId = 1;
+
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+            $imageName = $data->image->Name;
+            $name = $data->name;
+            $sourceImage = __DIR__ . "/../../upload/" . $imageName;
+            $targetImage = __DIR__ . "/../../../publicImg/" . $imageName;
+            
+            dibi::query(
+                'UPDATE contact as c SET', [                  
+                    $name => json_encode($data->image),
+                ],         
+                'WHERE c.Id = %i',
+                $actionsId
+            );
+            
+            copy($sourceImage, $targetImage);    
+            if(file_exists($sourceImage)) {
+                unlink($sourceImage);
+            }          
+
+            apiResponse(true, "");
+        } catch(Exception $ex)
+        {
+          apiResponse(false, $ex->getMessage());
+        }    
+    }    
 }
 ?>
