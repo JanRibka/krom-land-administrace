@@ -1,4 +1,5 @@
 import DocumentModel from "shared/models/DocumentModel";
+import ImageModel from "shared/models/ImageModel";
 
 import ActionDetailModel from "./ActionDetailModel";
 
@@ -7,8 +8,7 @@ export default class ActionsModel {
   Description: string = "";
   PageHeaderTextMain: string = "";
   PageHeaderTextMainColor: string = "";
-  MainImagePath: string = "";
-  MainImageAlt: string = "";
+  MainImage: ImageModel = new ImageModel();
   ActionDetails: ActionDetailModel[] = [];
   DocumentsToDownload: DocumentModel[] = [];
 

@@ -41,8 +41,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       Description: webPartsState.Actions.Description,
       PageHeaderTextMain: webPartsState.Actions.PageHeaderTextMain,
       PageHeaderTextMainColor: webPartsState.Actions.PageHeaderTextMainColor,
-      MainImagePath: webPartsState.Actions.MainImagePath,
-      MainImageAlt: webPartsState.Actions.MainImageAlt,
+      MainImage: null,
       ActionDetails: webPartsState.Actions.ActionDetails.map(
         (item) =>
           new ActionDetailDTO({
@@ -76,8 +75,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       Description: webPartsState.Gallery.Description,
       PageHeaderTextMain: webPartsState.Gallery.PageHeaderTextMain,
       PageHeaderTextMainColor: webPartsState.Gallery.PageHeaderTextMainColor,
-      MainImagePath: webPartsState.Gallery.MainImagePath,
-      MainImageAlt: webPartsState.Gallery.MainImageAlt,
+      MainImage: null,
       Images: [],
       // webPartsState.Gallery.Images.map(
       //   (item) =>
@@ -90,8 +88,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       Description: webPartsState.Contact.Description,
       PageHeaderTextMain: webPartsState.Contact.PageHeaderTextMain,
       PageHeaderTextMainColor: webPartsState.Contact.PageHeaderTextMainColor,
-      MainImagePath: webPartsState.Contact.MainImagePath,
-      MainImageAlt: webPartsState.Contact.MainImageAlt,
+      MainImage: null,
       GoogleMapsUrl: webPartsState.Contact.GoogleMapsUrl,
     },
   };

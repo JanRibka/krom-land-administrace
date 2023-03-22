@@ -61,7 +61,11 @@ const PageHeader = () => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _kromLandService.saveImageHome(image, name);
+    const result = await _kromLandService.saveImage(
+      image,
+      name,
+      "saveimagehome"
+    );
 
     if (result) {
       handleHomeImageUpdate(name as HomeImageType, {

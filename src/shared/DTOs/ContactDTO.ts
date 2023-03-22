@@ -4,8 +4,7 @@ export default class ContactDTO {
   Description: string | null = null;
   PageHeaderTextMain: string | null = null;
   PageHeaderTextMainColor: string | null = null;
-  MainImagePath: string | null = null;
-  MainImageAlt: string | null = null;
+  MainImage: string | null = null;
   GoogleMapsUrl: string | null = null;
 
   public constructor(init?: Partial<ContactDTO>) {

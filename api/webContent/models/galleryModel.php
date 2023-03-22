@@ -6,8 +6,7 @@ class GalleryModel
     public $Description;
     public $PageHeaderTextMain;
     public $PageHeaderTextMainColor;
-    public $MainImagePath;
-    public $MainImageAlt;
+    public $MainImage;    
     public $Images;
 
   public function __construct(
@@ -16,18 +15,16 @@ class GalleryModel
     $description,
     $pageHeaderTextMain,
     $pageHeaderTextMainColor,
-    $mainImagePath,
-    $mainImageAlt,
+    $mainImage,    
     $images,    
     ) {
         $this->Id = $id;
-        $this->Images = $images;
         $this->Title = $title;
         $this->Description = $description;
         $this->PageHeaderTextMain = $pageHeaderTextMain;
         $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;
-        $this->MainImagePath = $mainImagePath;
-        $this->MainImageAlt = $mainImageAlt;    
+        $this->MainImage = $mainImage;        
+        $this->Images = $images;
     }
 }
 ?>

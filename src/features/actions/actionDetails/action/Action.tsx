@@ -4,7 +4,7 @@ import AppCheckbox from 'shared/components/checkbox/AppCheckbox';
 import FileUpload from 'shared/components/fileUpload/FileUpload';
 import AppSelect from 'shared/components/select/AppSelect';
 import IAppSelectMenuItem from 'shared/components/select/IAppSelectMenuItem';
-import AppTextArea from 'shared/components/textArea/AppTextArea';
+import AppTextEditor from 'shared/components/textEditor/AppTextEditor';
 import AppTextField from 'shared/components/textField/AppTextField';
 import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
 import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
@@ -44,12 +44,7 @@ const Action = (props: IProps) => {
     handleActionUpdate({ [name]: value }, props.index);
   };
 
-  const handleTextAreaOnBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
-  ) => {
-    const name: string = e.target.name;
-    const value: string = e.target.value;
-
+  const handleTextEditorOnChange = (value: string, name: string) => {
     handleActionUpdate({ [name]: value }, props.index);
   };
 
@@ -103,15 +98,12 @@ const Action = (props: IProps) => {
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />
-        <AppTextArea
+        <AppTextEditor
           name={nameof<ActionDetailModel>("ActionDescritption")}
-          label='Popis akce'
           value={actionDetails[props.index]?.ActionDescritption ?? ""}
-          fullWidth
+          placeholder='Popis akce'
           required
-          rows={4}
-          maxLength={1000}
-          onBlur={handleTextAreaOnBlur}
+          onChange={handleTextEditorOnChange}
         />
         <AppTextField
           name={nameof<ActionDetailModel>("VideoLink")}
