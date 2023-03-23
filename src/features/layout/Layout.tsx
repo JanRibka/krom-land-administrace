@@ -53,7 +53,7 @@ const Layout = (props: IProps) => {
     },
     (data) => {
       const dataType = typeof data;
-
+      console.log(data);
       if (dataType === "string") {
         AppNotification("Chyba", String(data), "danger");
       } else {

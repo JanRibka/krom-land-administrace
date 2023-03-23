@@ -214,11 +214,11 @@ const Action = (props: IProps) => {
           onChangeSelect={handleOnChangeAppSelect}
         />
         <FileUpload
-          image={actionDetails[props.index].Image}
+          image={actionDetails[props.index]?.Image ?? new ImageModel()}
           name={nameof<ActionDetailModel>("Image")}
           label='Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB'
           supportedExtensions={["png", "jpg", "jpeg", "webp"]}
-          newImageAlt=''
+          newImageAlt={"Obrázek akce KROM Land " + props.index}
           maxFileSize={1}
           onAfterFileUpload={handleOnAfterFileUpload}
           onAfterFileDelete={handleOnAfterFileDelete}

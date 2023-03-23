@@ -62,7 +62,7 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
               Id: item.Id ?? 0,
               ActionOrder: item.ActionOrder ?? 0,
               MonthName: item.MonthName ?? "",
-              Image: !!item.Image ? JSON.parse(item?.Image) : new ImageModel(),
+              Image: !!item?.Image ? JSON.parse(item.Image) : new ImageModel(),
               ActionName: item.ActionName ?? "",
               ActionDescritption: item.ActionDescritption ?? "",
               VideoLink: item.VideoLink ?? "",

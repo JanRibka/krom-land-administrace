@@ -213,11 +213,9 @@ class WebContent
       // Action details
       foreach ($actionDetails as $detail) {
         dibi::query(
-          'UPDATE actionDeatil as ad SET', [            
+          'UPDATE actionDetails as ad SET', [            
             'ActionOrder' => $detail->ActionOrder,
-            'MonthName' => $detail->MonthName,
-            'ActionImagePath' => $detail->ActionImagePath,                    
-            'ActionImageAlt' => $detail->ActionImageAlt,
+            'MonthName' => $detail->MonthName,                               
             'ActionName' => $detail->ActionName,
             'ActionDescritption' => $detail->ActionDescritption,
             'VideoLink' => $detail->VideoLink,
