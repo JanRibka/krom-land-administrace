@@ -174,7 +174,7 @@ export default class KromLandService {
   }
 
   /**
-   * Uložení obrázku - Team member
+   * Save image - Team member
    * @param image
    * @param index
    */
@@ -184,6 +184,49 @@ export default class KromLandService {
       params: new URLSearchParams({
         action: "image",
         type: "saveimageteammember",
+      }),
+      data: {
+        image: image,
+        id: id,
+      },
+    });
+
+    let result = false;
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          result = true;
+          AppNotification("Úspěch", "Obrázek uložen", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        result = true;
+        AppNotification("Úspěch", "Obrázek uložen", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při mazání obrázku", "danger");
+    }
+
+    return result;
+  }
+
+  /**
+   * Save image - Action details
+   * @param image
+   * @param index
+   */
+  public async saveImageActionDetails(image: ImageModel, id: number) {
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: process.env.REACT_APP_API_URL ?? "",
+      params: new URLSearchParams({
+        action: "image",
+        type: "saveimageactiondetails",
       }),
       data: {
         image: image,

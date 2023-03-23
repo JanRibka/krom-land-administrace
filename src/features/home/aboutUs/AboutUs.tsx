@@ -88,7 +88,7 @@ const AboutUs = () => {
             image={home.AboutUsImage}
             name={nameof<HomeModel>("AboutUsImage")}
             label='Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB'
-            supportedExtensions={["png", "jpg", "jpeg"]}
+            supportedExtensions={["png", "jpg", "jpeg", "webp"]}
             newImageAlt='Rodina je základ všeho | KROM Land'
             maxFileSize={1}
             onAfterFileUpload={handleOnAfterFileUpload}

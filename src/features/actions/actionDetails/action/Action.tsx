@@ -1,3 +1,4 @@
+import KromLandService from "features/KromLandService";
 import { useSelector } from "react-redux";
 import FileUpload from "shared/components/fileUpload/FileUpload";
 import AppSelect from "shared/components/select/AppSelect";
@@ -9,6 +10,7 @@ import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPar
 import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
 import ImageModel from "shared/models/ImageModel";
 import { nameof } from "shared/nameof";
+import ActionImageType from "shared/types/ActionImageType";
 
 import { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
@@ -25,6 +27,7 @@ const Action = (props: IProps) => {
   const actionDetails = actions.ActionDetails;
 
   // Constants
+  const _kromLandService = new KromLandService();
   const { handleActionUpdate } = useWebPartsSlice();
   const orderData: IAppSelectMenuItem[] = [
     { value: 1, label: "1", name: "", kod: "", isDisabled: false },
@@ -53,6 +56,48 @@ const Action = (props: IProps) => {
     handleActionUpdate({ [name]: value }, props.index);
   };
 
+  const handleOnAfterFileUpload = (
+    fileName: string,
+    name: string,
+    alt: string,
+    destination: string
+  ) => {
+    const image = new ImageModel({
+      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      Alt: alt,
+      Name: fileName,
+    });
+
+    handleActionUpdate({ [name]: image }, props.index);
+  };
+
+  const handleOnAfterFileDelete = (name: string) => {
+    handleActionUpdate(
+      { [name as ActionImageType]: new ImageModel() },
+      props.index
+    );
+  };
+
+  const handleOnFileSave = async (name: string) => {
+    let image: ImageModel = actionDetails[props.index][
+      name as ActionImageType
+    ] as ImageModel;
+
+    image = {
+      ...image,
+      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+    };
+
+    const result = await _kromLandService.saveImageActionDetails(
+      image,
+      actionDetails[props.index].Id
+    );
+
+    if (result) {
+      handleActionUpdate({ [name as ActionImageType]: image }, props.index);
+    }
+  };
+
   return (
     <ErrorBoundary>
       <Stack spacing={2} direction='column'>
@@ -76,16 +121,6 @@ const Action = (props: IProps) => {
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />
-        {/* <AppTextArea
-          name={nameof<ActionDetailModel>("ActionDescritption")}
-          label='Popis akce'
-          value={actionDetails[props.index]?.ActionDescritption ?? ""}
-          fullWidth
-          required
-          rows={4}
-          maxLength={1000}
-          onBlur={handleTextAreaOnBlur}
-        /> */}
         <AppTextEditor
           name={nameof<ActionDetailModel>("ActionDescritption")}
           value={actionDetails[props.index]?.ActionDescritption ?? ""}
@@ -140,14 +175,15 @@ const Action = (props: IProps) => {
           onChangeSelect={handleOnChangeAppSelect}
         />
         <FileUpload
-          image={new ImageModel()}
-          name=''
-          label=''
-          supportedExtensions={["png", "jpg", "jpeg"]}
+          image={actionDetails[props.index].Image}
+          name={nameof<ActionDetailModel>("Image")}
+          label='Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB'
+          supportedExtensions={["png", "jpg", "jpeg", "webp"]}
           newImageAlt=''
           maxFileSize={1}
-          onAfterFileUpload={() => {}}
-          onFileSave={() => {}}
+          onAfterFileUpload={handleOnAfterFileUpload}
+          onAfterFileDelete={handleOnAfterFileDelete}
+          onFileSave={handleOnFileSave}
         />
       </Stack>
     </ErrorBoundary>

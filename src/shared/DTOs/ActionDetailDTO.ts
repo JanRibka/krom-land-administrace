@@ -3,8 +3,7 @@ export default class ActionDetailDTO {
   ActionsId: number | null = null;
   ActionOrder: number | null = null;
   MonthName: string | null = null;
-  ActionImagePath: string | null = null;
-  ActionImageAlt: string | null = null;
+  Image: string | null = null;
   ActionName: string | null = null;
   ActionDescritption: string | null = null;
   VideoLink: string | null = null;

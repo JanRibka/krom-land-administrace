@@ -137,6 +137,37 @@ class Image
         }    
     }
 
+    public static function saveImageActionDetails()
+    {
+        try
+        {
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+            $id = $data->id;
+            $imageName = $data->image->Name;            
+            $sourceImage = __DIR__ . "/../../upload/" . $imageName;
+            $targetImage = __DIR__ . "/../../../publicImg/" . $imageName;
+            
+            dibi::query(
+                'UPDATE actionDetails as ad SET', [                  
+                    "Image" => json_encode($data->image),
+                ],         
+                'WHERE ad.Id = %i',
+                $id
+            );
+            
+            copy($sourceImage, $targetImage);    
+            if(file_exists($sourceImage)) {
+                unlink($sourceImage);
+            }          
+
+            apiResponse(true, "");
+        } catch(Exception $ex)
+        {
+          apiResponse(false, $ex->getMessage());
+        }     
+    }
+
     public static function saveImageGallery()
     {
         try
