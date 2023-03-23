@@ -222,6 +222,8 @@ class WebContent
             'ActionDescritption' => $detail->ActionDescritption,
             'VideoLink' => $detail->VideoLink,
             'Price' => $detail->Price,
+            "IsPriceRemark" => $detail->IsPriceRemark,
+            "PriceRemark" => $detail->PriceRemark,
             'Place' => $detail->Place,
             'Date' => $detail->Date,
           ],         

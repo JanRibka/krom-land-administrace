@@ -1,5 +1,7 @@
 import KromLandService from "features/KromLandService";
+import { ChangeEvent } from "react";
 import { useSelector } from "react-redux";
+import AppCheckbox from "shared/components/checkbox/AppCheckbox";
 import FileUpload from "shared/components/fileUpload/FileUpload";
 import AppSelect from "shared/components/select/AppSelect";
 import IAppSelectMenuItem from "shared/components/select/IAppSelectMenuItem";
@@ -54,6 +56,26 @@ const Action = (props: IProps) => {
     const value = parseInt(e.target.value);
 
     handleActionUpdate({ [name]: value }, props.index);
+  };
+
+  const handleOnChangeCheckboxIsPriceRemark = (
+    e: ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    const name = e.target.name;
+
+    let data: Partial<ActionDetailModel> = {
+      [name]: checked,
+    };
+
+    if (!checked) {
+      data = {
+        ...data,
+        PriceRemark: "",
+      };
+    }
+
+    handleActionUpdate(data, props.index);
   };
 
   const handleOnAfterFileUpload = (
@@ -145,7 +167,24 @@ const Action = (props: IProps) => {
           fullWidth
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
-        />{" "}
+        />
+        <AppCheckbox
+          name={nameof<ActionDetailModel>("IsPriceRemark")}
+          label='Zda poznámka k ceně'
+          checked={actionDetails[props.index]?.IsPriceRemark ?? false}
+          onChange={handleOnChangeCheckboxIsPriceRemark}
+        />
+        {actionDetails[props.index]?.IsPriceRemark && (
+          <AppTextField
+            name={nameof<ActionDetailModel>("PriceRemark")}
+            label='Poznámka k ceně'
+            value={actionDetails[props.index]?.PriceRemark ?? ""}
+            variant='outlined'
+            fullWidth
+            autoComplete='off'
+            onBlur={handleTextFieldOnBlur}
+          />
+        )}
         <AppTextField
           name={nameof<ActionDetailModel>("Place")}
           label='Místo'

@@ -9,6 +9,8 @@ export default class ActionDetailModel {
   ActionDescritption: string = "";
   VideoLink: string = "";
   Price: string = "";
+  IsPriceRemark: boolean = false;
+  PriceRemark: string = "";
   Place: string = "";
   Date: string = "";
 
