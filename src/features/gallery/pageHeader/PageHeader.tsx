@@ -1,6 +1,6 @@
 import SectionStyled from "features/styledComponents/SectionStyled";
 import { useSelector } from "react-redux";
-import FileUpload from "shared/components/fileUpload/FileUpload";
+import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import AppPageHeader from "shared/components/pageHeader/AppPageHeader";
 import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
@@ -45,7 +45,7 @@ const PageHeader = () => {
         />
         <Box className='sub-section-separator'>
           <SectionSubTitle title='Obrázek' />
-          <FileUpload
+          <ImageUpload
             image={new ImageModel()}
             name=''
             label=''

@@ -1,6 +1,7 @@
 import KromLandService from "features/KromLandService";
 import SectionStyled from "features/styledComponents/SectionStyled";
 import { useSelector } from "react-redux";
+import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
 import AppTextEditor from "shared/components/textEditor/AppTextEditor";
@@ -13,7 +14,6 @@ import HomeImageType from "shared/types/HomeImageType";
 
 import Box from "@mui/material/Box";
 
-import FileUpload from "../../../shared/components/fileUpload/FileUpload";
 import HomeModel from "../models/HomeModel";
 
 const AboutUs = () => {
@@ -84,7 +84,7 @@ const AboutUs = () => {
 
         <Box className='sub-section-separator'>
           <SectionSubTitle title='Obrázek' />
-          <FileUpload
+          <ImageUpload
             image={home.AboutUsImage}
             name={nameof<HomeModel>("AboutUsImage")}
             label='Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB'

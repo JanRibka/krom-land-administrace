@@ -1,7 +1,7 @@
 import KromLandService from "features/KromLandService";
 import SectionStyled from "features/styledComponents/SectionStyled";
 import { useSelector } from "react-redux";
-import FileUpload from "shared/components/fileUpload/FileUpload";
+import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import AppPageHeader from "shared/components/pageHeader/AppPageHeader";
 import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
@@ -98,7 +98,7 @@ const PageHeader = () => {
         </Box>
         <Box className='sub-section-separator'>
           <SectionSubTitle title='Obrázek' />
-          <FileUpload
+          <ImageUpload
             image={home.MainImage ?? new ImageModel()}
             name={nameof<HomeModel>("MainImage")}
             label='Ideální rozlišení obrázku 1920 x 1280px. Max. velikost 1MB'

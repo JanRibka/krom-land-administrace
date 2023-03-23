@@ -2,7 +2,7 @@ import KromLandService from "features/KromLandService";
 import { ChangeEvent } from "react";
 import { useSelector } from "react-redux";
 import AppCheckbox from "shared/components/checkbox/AppCheckbox";
-import FileUpload from "shared/components/fileUpload/FileUpload";
+import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import AppSelect from "shared/components/select/AppSelect";
 import IAppSelectMenuItem from "shared/components/select/IAppSelectMenuItem";
 import AppTextEditor from "shared/components/textEditor/AppTextEditor";
@@ -213,7 +213,7 @@ const Action = (props: IProps) => {
           }
           onChangeSelect={handleOnChangeAppSelect}
         />
-        <FileUpload
+        <ImageUpload
           image={actionDetails[props.index]?.Image ?? new ImageModel()}
           name={nameof<ActionDetailModel>("Image")}
           label='Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB'

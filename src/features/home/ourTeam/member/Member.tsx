@@ -1,7 +1,7 @@
 import TeamMemberModel from "features/home/models/TeamMemberModel";
 import KromLandService from "features/KromLandService";
 import { useSelector } from "react-redux";
-import FileUpload from "shared/components/fileUpload/FileUpload";
+import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import AppTextField from "shared/components/textField/AppTextField";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
@@ -87,7 +87,7 @@ const Member = (props: IProps) => {
       <Box className={props.index > 0 ? "sub-section-separator" : undefined}>
         <SectionSubTitle title={"Člen " + props.memberCount} />
         <Stack spacing={2} direction='column'>
-          <FileUpload
+          <ImageUpload
             image={props.image}
             name={nameof<TeamMemberModel>("Image")}
             label='Ideální rozlišení obrázku 1268 x 500px. Max. velikost 1MB'
