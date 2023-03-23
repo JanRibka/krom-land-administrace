@@ -1,7 +1,7 @@
-import DocumentModel from "shared/models/DocumentModel";
-import ImageModel from "shared/models/ImageModel";
+import ImageModel from 'shared/models/ImageModel';
 
-import ActionDetailModel from "./ActionDetailModel";
+import ActionDetailModel from './ActionDetailModel';
+import DocumentToDownloadModel from './DocumentToDownloadModel';
 
 export default class ActionsModel {
   Title: string = "";
@@ -10,7 +10,7 @@ export default class ActionsModel {
   PageHeaderTextMainColor: string = "";
   MainImage: ImageModel = new ImageModel();
   ActionDetails: ActionDetailModel[] = [];
-  DocumentsToDownload: DocumentModel[] = [];
+  DocumentsToDownload: DocumentToDownloadModel[] = [];
 
   public constructor(init?: Partial<ActionsModel>) {
     Object.assign(this, init);

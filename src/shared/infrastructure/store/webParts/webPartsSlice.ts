@@ -1,18 +1,19 @@
-import ActionDetailModel from "features/actions/models/ActionDetailModel";
-import ActionsModel from "features/actions/models/ActionsModel";
-import { ContactModel } from "features/contact/models/ContactModel";
-import GalleryModel from "features/gallery/models/GalleryModel";
-import HomeModel from "features/home/models/HomeModel";
-import TeamMemberModel from "features/home/models/TeamMemberModel";
-import ImageModel from "shared/models/ImageModel";
-import ActionsImageType from "shared/types/ActionsImageType";
-import ContactImageType from "shared/types/ContactImageType";
-import GalleryImageType from "shared/types/GalleryImageType";
-import HomeImageType from "shared/types/HomeImageType";
+import ActionDetailModel from 'features/actions/models/ActionDetailModel';
+import ActionsModel from 'features/actions/models/ActionsModel';
+import DocumentToDownloadModel from 'features/actions/models/DocumentToDownloadModel';
+import { ContactModel } from 'features/contact/models/ContactModel';
+import GalleryModel from 'features/gallery/models/GalleryModel';
+import HomeModel from 'features/home/models/HomeModel';
+import TeamMemberModel from 'features/home/models/TeamMemberModel';
+import ImageModel from 'shared/models/ImageModel';
+import ActionsImageType from 'shared/types/ActionsImageType';
+import ContactImageType from 'shared/types/ContactImageType';
+import GalleryImageType from 'shared/types/GalleryImageType';
+import HomeImageType from 'shared/types/HomeImageType';
 
-import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Action, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import AppState from "../AppState";
+import AppState from '../AppState';
 
 export interface WebPartsState {
   Home: HomeModel;
@@ -126,6 +127,19 @@ export const webPartsSlice = createSlice({
       };
 
       state.Actions.ActionDetails = newActionDetails;
+    },
+    actionsDocumentAdd: (state, action: Action) => {
+      const newdocumentsToDownload = [...state.Actions.DocumentsToDownload];
+
+      newdocumentsToDownload.push(new DocumentToDownloadModel());
+
+      return {
+        ...state,
+        Actions: {
+          ...state.Actions,
+          DocumentsToDownload: newdocumentsToDownload,
+        },
+      };
     },
     galleryUpdate: (state, action: PayloadAction<Partial<GalleryModel>>) => {
       const newGallery = {

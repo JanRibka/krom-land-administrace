@@ -1,5 +1,5 @@
-import ActionDetailDTO from "./ActionDetailDTO";
-import DocumentDTO from "./DocumentDTO";
+import ActionDetailDTO from './ActionDetailDTO';
+import DocumentToDownloadDTO from './DocumentToDownloadDTO';
 
 export default class ActionsDTO {
   Id: number | null = null;
@@ -9,7 +9,7 @@ export default class ActionsDTO {
   PageHeaderTextMainColor: string | null = null;
   MainImage: string | null = null;
   ActionDetails: ActionDetailDTO[] = [];
-  DocumentsToDownload: DocumentDTO[] = [];
+  DocumentsToDownload: DocumentToDownloadDTO[] = [];
 
   public constructor(init?: Partial<ActionsDTO>) {
     Object.assign(this, init);

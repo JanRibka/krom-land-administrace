@@ -1,12 +1,10 @@
-import ActionDetailModel from "features/actions/models/ActionDetailModel";
-import TeamMemberModel from "features/home/models/TeamMemberModel";
-import WebPartsDTO from "shared/DTOs/WebPartsDTO";
-import {
-  initialState,
-  WebPartsState,
-} from "shared/infrastructure/store/webParts/webPartsSlice";
-import DocumentModel from "shared/models/DocumentModel";
-import ImageModel from "shared/models/ImageModel";
+import ActionDetailModel from 'features/actions/models/ActionDetailModel';
+import DocumentToDownloadModel from 'features/actions/models/DocumentToDownloadModel';
+import TeamMemberModel from 'features/home/models/TeamMemberModel';
+import WebPartsDTO from 'shared/DTOs/WebPartsDTO';
+import { initialState, WebPartsState } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import DocumentModel from 'shared/models/DocumentModel';
+import ImageModel from 'shared/models/ImageModel';
 
 export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
   const result: WebPartsState = {
@@ -76,9 +74,12 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       DocumentsToDownload:
         webPartsDTO?.Actions.DocumentsToDownload.map(
           (item) =>
-            new DocumentModel({
-              Path: item.DocumentPath ?? "",
-              Name: item.DocumentName ?? "",
+            new DocumentToDownloadModel({
+              Id: item.Id ?? 0,
+              Document: !!item.Document
+                ? JSON.parse(item.Document)
+                : new DocumentModel(),
+              Delete: item.Delete ?? false,
             })
         ) ?? [],
     },

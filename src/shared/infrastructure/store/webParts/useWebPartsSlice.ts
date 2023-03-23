@@ -1,17 +1,17 @@
-import ActionDetailModel from "features/actions/models/ActionDetailModel";
-import ActionsModel from "features/actions/models/ActionsModel";
-import { ContactModel } from "features/contact/models/ContactModel";
-import GalleryModel from "features/gallery/models/GalleryModel";
-import HomeModel from "features/home/models/HomeModel";
-import TeamMemberModel from "features/home/models/TeamMemberModel";
-import { useDispatch } from "react-redux";
-import ImageModel from "shared/models/ImageModel";
-import ActionsImageType from "shared/types/ActionsImageType";
-import ContactImageType from "shared/types/ContactImageType";
-import GalleryImageType from "shared/types/GalleryImageType";
-import HomeImageType from "shared/types/HomeImageType";
+import ActionDetailModel from 'features/actions/models/ActionDetailModel';
+import ActionsModel from 'features/actions/models/ActionsModel';
+import { ContactModel } from 'features/contact/models/ContactModel';
+import GalleryModel from 'features/gallery/models/GalleryModel';
+import HomeModel from 'features/home/models/HomeModel';
+import TeamMemberModel from 'features/home/models/TeamMemberModel';
+import { useDispatch } from 'react-redux';
+import ImageModel from 'shared/models/ImageModel';
+import ActionsImageType from 'shared/types/ActionsImageType';
+import ContactImageType from 'shared/types/ContactImageType';
+import GalleryImageType from 'shared/types/GalleryImageType';
+import HomeImageType from 'shared/types/HomeImageType';
 
-import { actions, WebPartsState } from "./webPartsSlice";
+import { actions, WebPartsState } from './webPartsSlice';
 
 export const useWebPartsSlice = () => {
   const dispatch = useDispatch();
@@ -60,6 +60,10 @@ export const useWebPartsSlice = () => {
     dispatch(actions.actionUpdate({ actionDetail: action, index }));
   };
 
+  const handleActionsDocumentAdd = () => {
+    dispatch(actions.actionsDocumentAdd());
+  };
+
   const handleGalleryUpdate = (gallery: Partial<GalleryModel>) => {
     dispatch(actions.galleryUpdate(gallery));
   };
@@ -91,6 +95,7 @@ export const useWebPartsSlice = () => {
     handleActionsUpdate,
     handleActionsImageUpdate,
     handleActionUpdate,
+    handleActionsDocumentAdd,
     handleGalleryUpdate,
     handleGalleryImageUpdate,
     handleContactUpdate,
