@@ -1,7 +1,6 @@
 import KromLandService from "features/KromLandService";
 import { ChangeEvent } from "react";
 import DocumentModel from "shared/models/DocumentModel";
-import { nameof } from "shared/nameof";
 import { v4 as uuidv4 } from "uuid";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -10,13 +9,13 @@ import { LoadingButton } from "@mui/lab";
 import Box from "@mui/material/Box";
 
 import AppNotification from "../notification/AppNotification";
-import AppTextField from "../textField/AppTextField";
 import ValidateFileSizeReturnModel from "./models/ValidateFileSizeReturnModel ";
 import ValidateFileTypeReturnModel from "./models/ValidateFileTypeReturnModel ";
 import FileUploadStyled from "./styledComponents/FileUploadStyled";
 
 interface IProps {
   document: DocumentModel;
+  id: number | null;
   name: string;
   label: string;
   disabled?: boolean;
@@ -29,14 +28,12 @@ interface IProps {
   ) => void;
   onAfterFileDelete?: (name: string) => void;
   onFileSave: (name: string) => void;
-  handleTextFieldOnBlur: (name: string, fileName: string) => void;
 }
 
 const DocumentUpload = (props: IProps) => {
   // Constants
   const _kromLandService = new KromLandService();
   const guid = uuidv4();
-  const fileNameWithoutExtension = props.document.Name.replace(/\.[^/.]+$/, "");
 
   // Other
   const getFileType = (extensions: string[]) => {
@@ -169,7 +166,7 @@ const DocumentUpload = (props: IProps) => {
       formData.append("file", file);
       formData.append("fileName", fileName);
 
-      await _kromLandService.uploadFile(formData);
+      await _kromLandService.uploadDocument(formData);
 
       props.onAfterFileUpload(fileName, props.name, "/upload/");
     }
@@ -178,26 +175,19 @@ const DocumentUpload = (props: IProps) => {
   const onFileDeleteHandler = async () => {
     const dirPath = props.document.Path.includes("/admin")
       ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
-      : process.env.REACT_APP_IMAGES_PATH ?? "";
+      : process.env.REACT_APP_DOCUMENTS_PATH ?? "";
 
-    await _kromLandService.deleteImage(props.document.Name, dirPath);
+    await _kromLandService.deleteDocument(
+      props.document.Name,
+      dirPath,
+      props.id
+    );
 
     props.onAfterFileDelete?.(props.name);
   };
 
   const onFileSave = () => {
     props.onFileSave(props.name);
-  };
-
-  const handleTextFieldOnBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
-  ) => {
-    const name: string = e.target.name;
-    const value: string = e.target.value;
-    const extension = getFileTypeExtension(props.document.Name);
-    const fileNameWithExtension = value + "." + extension;
-
-    props.handleTextFieldOnBlur(name, fileNameWithExtension);
   };
 
   return (
@@ -207,6 +197,7 @@ const DocumentUpload = (props: IProps) => {
         <Box className='buttons-inner-wrapper'>
           {!!props.document.Name ? (
             <Box>
+              <Box>{props.document.Name}</Box>
               <LoadingButton
                 startIcon={<DeleteIcon />}
                 onClick={onFileDeleteHandler}
@@ -242,16 +233,6 @@ const DocumentUpload = (props: IProps) => {
           )}
         </Box>
       </Box>
-      <AppTextField
-        name={nameof<DocumentModel>("Name")}
-        label='Název souboru'
-        value={fileNameWithoutExtension}
-        variant='outlined'
-        fullWidth
-        required
-        autoComplete='off'
-        onBlur={handleTextFieldOnBlur}
-      />
     </FileUploadStyled>
   );
 };

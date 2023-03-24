@@ -1,11 +1,11 @@
 import ActionDetailModel from "features/actions/models/ActionDetailModel";
 import ActionsModel from "features/actions/models/ActionsModel";
+import DocumentToDownloadModel from "features/actions/models/DocumentToDownloadModel";
 import { ContactModel } from "features/contact/models/ContactModel";
 import GalleryModel from "features/gallery/models/GalleryModel";
 import HomeModel from "features/home/models/HomeModel";
 import TeamMemberModel from "features/home/models/TeamMemberModel";
 import { useDispatch } from "react-redux";
-import DocumentModel from "shared/models/DocumentModel";
 import ImageModel from "shared/models/ImageModel";
 import ActionsImageType from "shared/types/ActionsImageType";
 import ContactImageType from "shared/types/ContactImageType";
@@ -66,7 +66,7 @@ export const useWebPartsSlice = () => {
   };
 
   const handleActionsDocumentUpdate = (
-    document: Partial<DocumentModel>,
+    document: Partial<DocumentToDownloadModel>,
     index: number
   ) => {
     dispatch(actions.actionsDocumentUpadate({ document, index }));

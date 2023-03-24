@@ -5,6 +5,7 @@ import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
 import KromLandDTO from "shared/DTOs/KromLandDTO";
 import Repository from "shared/infrastructure/repositiory/Repository";
 import { store } from "shared/infrastructure/store/store";
+import DocumentModel from "shared/models/DocumentModel";
 import ImageModel from "shared/models/ImageModel";
 
 import { mapToWebPartsDTO } from "./save/mapToWebPartsDTO";
@@ -50,10 +51,10 @@ export default class KromLandService {
   }
 
   /**
-   * Upload file on server
+   * Upload image on server
    * @param formData
    */
-  public async uploadFile(formData: FormData) {
+  public async uploadImage(formData: FormData) {
     const response = await this._repo.post<any, JsonResulObjectDataDTO<string>>(
       {
         url: process.env.REACT_APP_API_URL ?? "",
@@ -167,7 +168,7 @@ export default class KromLandService {
         AppNotification("Úspěch", "Obrázek uložen", "success");
       }
     } else {
-      AppNotification("Chyba", "Chyba při mazání obrázku", "danger");
+      AppNotification("Chyba", "Chyba při ukládání obrázku", "danger");
     }
 
     return result;
@@ -210,7 +211,7 @@ export default class KromLandService {
         AppNotification("Úspěch", "Obrázek uložen", "success");
       }
     } else {
-      AppNotification("Chyba", "Chyba při mazání obrázku", "danger");
+      AppNotification("Chyba", "Chyba při ukládání obrázku", "danger");
     }
 
     return result;
@@ -253,7 +254,127 @@ export default class KromLandService {
         AppNotification("Úspěch", "Obrázek uložen", "success");
       }
     } else {
-      AppNotification("Chyba", "Chyba při mazání obrázku", "danger");
+      AppNotification("Chyba", "Chyba při ukládání obrázku", "danger");
+    }
+
+    return result;
+  }
+
+  /**
+   * Upload document on server
+   * @param formData
+   */
+  public async uploadDocument(formData: FormData) {
+    const response = await this._repo.post<any, JsonResulObjectDataDTO<string>>(
+      {
+        url: process.env.REACT_APP_API_URL ?? "",
+        params: new URLSearchParams({
+          action: "document",
+          type: "uploaddocument",
+        }),
+        data: formData,
+      }
+    );
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          AppNotification("Úspěch", "Dokument nahrán", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        AppNotification("Úspěch", "Dokument nahrán", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při nahrávání dokumentu", "danger");
+    }
+  }
+
+  /**
+   * Delete document
+   * @param documentName
+   * @param directory
+   */
+  public async deleteDocument(
+    documentName: string,
+    directory: string,
+    id: number | null
+  ) {
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: process.env.REACT_APP_API_URL ?? "",
+      params: new URLSearchParams({
+        action: "document",
+        type: "deletedocument",
+      }),
+      data: {
+        documentName: documentName,
+        directory: directory,
+        id: id,
+      },
+    });
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          AppNotification("Úspěch", "Dokument smazán", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        AppNotification("Úspěch", "Dokument smazán", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při mazání dokumentu", "danger");
+    }
+  }
+
+  /**
+   * Save document
+   * @param document
+   * @param index
+   */
+  public async saveDocument(document: DocumentModel, id: number | null) {
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: process.env.REACT_APP_API_URL ?? "",
+      params: new URLSearchParams({
+        action: "document",
+        type: "savedocument",
+      }),
+      data: {
+        document: document,
+        id: id,
+      },
+    });
+
+    let result = false;
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          result = true;
+          AppNotification("Úspěch", "Dokument uložen", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        result = true;
+        AppNotification("Úspěch", "Dokument uložen", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při mazání dokumentu", "danger");
     }
 
     return result;

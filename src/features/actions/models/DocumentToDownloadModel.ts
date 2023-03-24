@@ -1,7 +1,7 @@
-import DocumentModel from 'shared/models/DocumentModel';
+import DocumentModel from "shared/models/DocumentModel";
 
 export default class DocumentToDownloadModel {
-  Id: number = 0;
+  Id: number | null = null;
   Document: DocumentModel = new DocumentModel();
   Delete: boolean = false;
 

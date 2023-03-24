@@ -170,7 +170,7 @@ const ImageUpload = (props: IProps) => {
       formData.append("file", file);
       formData.append("fileName", fileName);
 
-      await _kromLandService.uploadFile(formData);
+      await _kromLandService.uploadImage(formData);
 
       props.onAfterFileUpload(
         fileName,

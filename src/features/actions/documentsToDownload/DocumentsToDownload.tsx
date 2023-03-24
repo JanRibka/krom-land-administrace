@@ -28,14 +28,18 @@ const DocumentsToDownload = () => {
     let result: JSX.Element[] = [];
 
     actions.DocumentsToDownload.forEach((document, index) => {
-      result.push(
-        <Document
-          key={"documentToDownload_" + uuidv4()}
-          index={index}
-          documentCount={documentCount}
-          document={document.Document}
-        />
-      );
+      documentCount += 1;
+
+      if (!document.Delete) {
+        result.push(
+          <Document
+            key={"documentToDownload_" + uuidv4()}
+            index={index}
+            documentCount={documentCount}
+            document={document.Document}
+          />
+        );
+      }
     });
 
     return result;

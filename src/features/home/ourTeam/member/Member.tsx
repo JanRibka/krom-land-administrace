@@ -81,7 +81,7 @@ const Member = (props: IProps) => {
   const handleDeleteMemberOnClick = () => {
     handleHomeTeamMemberUpdate({ Delete: true }, props.index);
   };
-  console.log(props.index);
+
   return (
     <Box>
       <Box className={props.index > 0 ? "sub-section-separator" : undefined}>

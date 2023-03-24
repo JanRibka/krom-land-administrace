@@ -5,7 +5,6 @@ import { ContactModel } from "features/contact/models/ContactModel";
 import GalleryModel from "features/gallery/models/GalleryModel";
 import HomeModel from "features/home/models/HomeModel";
 import TeamMemberModel from "features/home/models/TeamMemberModel";
-import DocumentModel from "shared/models/DocumentModel";
 import ImageModel from "shared/models/ImageModel";
 import ActionsImageType from "shared/types/ActionsImageType";
 import ContactImageType from "shared/types/ContactImageType";
@@ -144,7 +143,10 @@ export const webPartsSlice = createSlice({
     },
     actionsDocumentUpadate: (
       state,
-      action: PayloadAction<{ document: Partial<DocumentModel>; index: number }>
+      action: PayloadAction<{
+        document: Partial<DocumentToDownloadModel>;
+        index: number;
+      }>
     ) => {
       let newDocumentsToDownload = [...state.Actions.DocumentsToDownload];
       const document = {
