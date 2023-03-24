@@ -1,12 +1,15 @@
-import ButtonWrapperStyled from 'features/home/ourTeam/styledComponents/ButtonWrapperStyled';
-import SectionStyled from 'features/styledComponents/SectionStyled';
-import { useSelector } from 'react-redux';
-import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectActions } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import ButtonWrapperStyled from "features/home/ourTeam/styledComponents/ButtonWrapperStyled";
+import SectionStyled from "features/styledComponents/SectionStyled";
+import { useSelector } from "react-redux";
+import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
+import { v4 as uuidv4 } from "uuid";
 
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
+
+import Document from "./document/Document";
 
 const DocumentsToDownload = () => {
   // Store
@@ -21,9 +24,21 @@ const DocumentsToDownload = () => {
   };
 
   const renderDocuments = () => {
-    return actions.DocumentsToDownload.map(() => {
-      return <>asdfasd</>;
+    let documentCount = 0;
+    let result: JSX.Element[] = [];
+
+    actions.DocumentsToDownload.forEach((document, index) => {
+      result.push(
+        <Document
+          key={"documentToDownload_" + uuidv4()}
+          index={index}
+          documentCount={documentCount}
+          document={document.Document}
+        />
+      );
     });
+
+    return result;
   };
 
   return (

@@ -1,6 +1,7 @@
 import KromLandService from "features/KromLandService";
 import { ChangeEvent } from "react";
-import ImageModel from "shared/models/ImageModel";
+import DocumentModel from "shared/models/DocumentModel";
+import { nameof } from "shared/nameof";
 import { v4 as uuidv4 } from "uuid";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,32 +10,33 @@ import { LoadingButton } from "@mui/lab";
 import Box from "@mui/material/Box";
 
 import AppNotification from "../notification/AppNotification";
+import AppTextField from "../textField/AppTextField";
 import ValidateFileSizeReturnModel from "./models/ValidateFileSizeReturnModel ";
 import ValidateFileTypeReturnModel from "./models/ValidateFileTypeReturnModel ";
-import FileUploadStyled from "./styledComponents/FIleUploadStyled";
+import FileUploadStyled from "./styledComponents/FileUploadStyled";
 
 interface IProps {
-  image: ImageModel;
+  document: DocumentModel;
   name: string;
   label: string;
   disabled?: boolean;
-  newImageAlt: string;
   supportedExtensions: Array<string>;
   maxFileSize: number;
   onAfterFileUpload: (
     fileName: string,
     name: string,
-    alt: string,
     destination: string
   ) => void;
   onAfterFileDelete?: (name: string) => void;
   onFileSave: (name: string) => void;
+  handleTextFieldOnBlur: (name: string, fileName: string) => void;
 }
 
-const FileUpload = (props: IProps) => {
+const DocumentUpload = (props: IProps) => {
   // Constants
   const _kromLandService = new KromLandService();
   const guid = uuidv4();
+  const fileNameWithoutExtension = props.document.Name.replace(/\.[^/.]+$/, "");
 
   // Other
   const getFileType = (extensions: string[]) => {
@@ -106,7 +108,7 @@ const FileUpload = (props: IProps) => {
 
   const checkFileSize = (pFile: File): ValidateFileSizeReturnModel => {
     let result: ValidateFileSizeReturnModel = new ValidateFileSizeReturnModel();
-    const filesize: number = parseInt((pFile.size / 1024 / 1024).toFixed(4)); // MB
+    const filesize: number = parseFloat((pFile.size / 1024 / 1024).toFixed(4)); // MB
 
     if (
       pFile.name !== "item" &&
@@ -137,9 +139,6 @@ const FileUpload = (props: IProps) => {
 
     if (file) {
       let fileName: string = file.name;
-      const extension: string = getFileTypeExtension(fileName) ?? "";
-      fileName = Math.random().toString(36).substring(2, 12);
-      fileName += "." + extension;
 
       // Kontrola na typ souboru
       const validate = validateFileType(fileName);
@@ -172,21 +171,16 @@ const FileUpload = (props: IProps) => {
 
       await _kromLandService.uploadFile(formData);
 
-      props.onAfterFileUpload(
-        fileName,
-        props.name,
-        props.newImageAlt,
-        "/upload/"
-      );
+      props.onAfterFileUpload(fileName, props.name, "/upload/");
     }
   };
 
   const onFileDeleteHandler = async () => {
-    const dirPath = props.image.Path.includes("/admin")
+    const dirPath = props.document.Path.includes("/admin")
       ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
       : process.env.REACT_APP_IMAGES_PATH ?? "";
 
-    await _kromLandService.deleteImage(props.image.Name, dirPath);
+    await _kromLandService.deleteImage(props.document.Name, dirPath);
 
     props.onAfterFileDelete?.(props.name);
   };
@@ -194,19 +188,24 @@ const FileUpload = (props: IProps) => {
   const onFileSave = () => {
     props.onFileSave(props.name);
   };
-  // TODO: Jde nahr8t soubor v2t39 nez 1MB
+
+  const handleTextFieldOnBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+  ) => {
+    const name: string = e.target.name;
+    const value: string = e.target.value;
+    const extension = getFileTypeExtension(props.document.Name);
+    const fileNameWithExtension = value + "." + extension;
+
+    props.handleTextFieldOnBlur(name, fileNameWithExtension);
+  };
+
   return (
     <FileUploadStyled>
-      <Box
-        component='img'
-        src={props.image.Path}
-        alt='Obrázek nenahrán'
-        loading='lazy'
-      />
       <Box className='buttons-wrapper'>
         <Box component='span'>{props.label}</Box>
         <Box className='buttons-inner-wrapper'>
-          {!!props.image.Name ? (
+          {!!props.document.Name ? (
             <Box>
               <LoadingButton
                 startIcon={<DeleteIcon />}
@@ -231,7 +230,7 @@ const FileUpload = (props: IProps) => {
               />
             </>
           )}
-          {!!props.image.Path.includes("/admin") && (
+          {!!props.document.Path.includes("/admin") && (
             <LoadingButton
               startIcon={<SaveAltOutlinedIcon />}
               onClick={onFileSave}
@@ -243,8 +242,18 @@ const FileUpload = (props: IProps) => {
           )}
         </Box>
       </Box>
+      <AppTextField
+        name={nameof<DocumentModel>("Name")}
+        label='Název souboru'
+        value={fileNameWithoutExtension}
+        variant='outlined'
+        fullWidth
+        required
+        autoComplete='off'
+        onBlur={handleTextFieldOnBlur}
+      />
     </FileUploadStyled>
   );
 };
 
-export default FileUpload;
+export default DocumentUpload;

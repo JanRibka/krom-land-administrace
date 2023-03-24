@@ -106,7 +106,7 @@ const ImageUpload = (props: IProps) => {
 
   const checkFileSize = (pFile: File): ValidateFileSizeReturnModel => {
     let result: ValidateFileSizeReturnModel = new ValidateFileSizeReturnModel();
-    const filesize: number = parseInt((pFile.size / 1024 / 1024).toFixed(4)); // MB
+    const filesize: number = parseFloat((pFile.size / 1024 / 1024).toFixed(4)); // MB
 
     if (
       pFile.name !== "item" &&
