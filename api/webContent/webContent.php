@@ -250,6 +250,7 @@ class WebContent
           'PageHeaderTextMain' => $contact->PageHeaderTextMain,
           'PageHeaderTextMainColor' => $contact->PageHeaderTextMainColor,               
           'GoogleMapsUrl' => $contact->GoogleMapsUrl,
+          "Email" => $contact->Email
         ],         
         'WHERE c.Id = %i',
         $contactId

@@ -6,6 +6,7 @@ export default class ContactDTO {
   PageHeaderTextMainColor: string | null = null;
   MainImage: string | null = null;
   GoogleMapsUrl: string | null = null;
+  Email: string | null = null;
 
   public constructor(init?: Partial<ContactDTO>) {
     Object.assign(this, init);

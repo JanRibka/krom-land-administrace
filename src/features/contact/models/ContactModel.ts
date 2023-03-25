@@ -7,6 +7,7 @@ export class ContactModel {
   PageHeaderTextMainColor: string = "";
   MainImage: ImageModel = new ImageModel();
   GoogleMapsUrl: string = "";
+  Email: string = "";
 
   public constructor(init?: Partial<ContactModel>) {
     Object.assign(this, init);

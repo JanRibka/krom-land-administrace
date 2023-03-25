@@ -3,6 +3,7 @@ import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 
 import Stack from "@mui/material/Stack";
 
+import Email from "./email/Email";
 import GoogleMaps from "./googleMaps/GoogleMaps";
 import PageHeader from "./pageHeader/PageHeader";
 import Seo from "./seo/Seo";
@@ -15,6 +16,7 @@ const Contact = () => {
         <Seo />
         <PageHeader />
         <GoogleMaps />
+        <Email />
       </Stack>
     </ErrorBoundary>
   );
