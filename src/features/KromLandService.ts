@@ -343,19 +343,21 @@ export default class KromLandService {
    * @param index
    */
   public async saveDocument(document: DocumentModel, id: number | null) {
-    const response = await this._repo.post<any, JsonResulObjectDTO>({
-      url: process.env.REACT_APP_API_URL ?? "",
-      params: new URLSearchParams({
-        action: "document",
-        type: "savedocument",
-      }),
-      data: {
-        document: document,
-        id: id,
-      },
-    });
+    const response = await this._repo.post<any, JsonResulObjectDataDTO<number>>(
+      {
+        url: process.env.REACT_APP_API_URL ?? "",
+        params: new URLSearchParams({
+          action: "document",
+          type: "savedocument",
+        }),
+        data: {
+          document: document,
+          id: id,
+        },
+      }
+    );
 
-    let result = false;
+    let result: number | null = null;
 
     if (response.status === HttpStatusCode.Ok) {
       const dataType = typeof response.data;
@@ -364,13 +366,13 @@ export default class KromLandService {
         AppNotification("Chyba", String(response.data), "danger");
       } else if (dataType === "object") {
         if (response.data?.Success) {
-          result = true;
+          result = response.data?.Data ?? null;
           AppNotification("Úspěch", "Dokument uložen", "success");
         } else {
           AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
         }
       } else {
-        result = true;
+        result = response.data?.Data ?? null;
         AppNotification("Úspěch", "Dokument uložen", "success");
       }
     } else {

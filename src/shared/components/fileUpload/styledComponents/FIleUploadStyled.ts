@@ -1,6 +1,6 @@
-import { alpha } from '@mui/material';
-import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import { alpha } from "@mui/material";
+import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
 
 const FileUploadStyled = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -27,6 +27,11 @@ const FileUploadStyled = styled(Box)(({ theme }) => ({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+
+      ".document-name-wrapper": {
+        display: "flex",
+        alignItems: "center",
+      },
 
       ".file-upload-label": {
         textTransform: "uppercase",

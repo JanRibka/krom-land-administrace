@@ -7,7 +7,7 @@ import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlic
 import DocumentModel from "shared/models/DocumentModel";
 import { nameof } from "shared/nameof";
 
-import Box from "@mui/material/Box";
+import DocumentStyled from "./styledComponent/DocumentStyled";
 
 interface IProps {
   index: number;
@@ -44,7 +44,7 @@ const Document = (props: IProps) => {
 
     document = {
       ...document,
-      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + document.Name,
+      Path: (process.env.REACT_APP_WEB_PUBLIC_DOC_URL ?? "") + document.Name,
     };
 
     const result = await _kromLandService.saveDocument(
@@ -52,8 +52,11 @@ const Document = (props: IProps) => {
       documentToDownload.Id
     );
 
-    if (result) {
-      handleActionsDocumentUpdate({ [name]: document }, props.index);
+    if (!!result) {
+      handleActionsDocumentUpdate(
+        { [name]: document, Id: result },
+        props.index
+      );
     }
   };
 
@@ -62,7 +65,7 @@ const Document = (props: IProps) => {
   };
 
   return (
-    <Box>
+    <DocumentStyled>
       <DocumentUpload
         document={props.document}
         id={documentToDownload.Id}
@@ -74,7 +77,7 @@ const Document = (props: IProps) => {
         onAfterFileDelete={handleDeleteDocumentOnClick}
         onFileSave={handleOnFileSave}
       />
-    </Box>
+    </DocumentStyled>
   );
 };
 

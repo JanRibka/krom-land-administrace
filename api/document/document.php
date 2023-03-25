@@ -70,8 +70,8 @@ class Document
                     "INSERT INTO documentsToDownload", 
                     $arr
                 );
-
                 
+                $id = dibi::getInsertId();
             }            
 
             //TODO: ZIskat ID a vratit ho a pak updatovat ve store
@@ -81,7 +81,7 @@ class Document
                 unlink($sourceDocument);
             }          
 
-            apiResponse(true, "", );
+            apiResponse(true, "", $id);
         } catch(Exception $ex)
         {
           apiResponse(false, $ex->getMessage());

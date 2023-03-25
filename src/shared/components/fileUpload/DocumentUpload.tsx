@@ -196,7 +196,7 @@ const DocumentUpload = (props: IProps) => {
         <Box component='span'>{props.label}</Box>
         <Box className='buttons-inner-wrapper'>
           {!!props.document.Name ? (
-            <Box>
+            <Box className='document-name-wrapper'>
               <Box>{props.document.Name}</Box>
               <LoadingButton
                 startIcon={<DeleteIcon />}
