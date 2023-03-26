@@ -1,8 +1,8 @@
-import ActionDetailDTO from "shared/DTOs/ActionDetailDTO";
-import DocumentToDownloadDTO from "shared/DTOs/DocumentToDownloadDTO";
-import TeamMemberDTO from "shared/DTOs/TeamMemberDTO";
-import WebPartsDTO from "shared/DTOs/WebPartsDTO";
-import { WebPartsState } from "shared/infrastructure/store/webParts/webPartsSlice";
+import ActionDetailDTO from 'shared/DTOs/ActionDetailDTO';
+import DocumentToDownloadDTO from 'shared/DTOs/DocumentToDownloadDTO';
+import TeamMemberDTO from 'shared/DTOs/TeamMemberDTO';
+import WebPartsDTO from 'shared/DTOs/WebPartsDTO';
+import { WebPartsState } from 'shared/infrastructure/store/webParts/webPartsSlice';
 
 export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
   const result: WebPartsDTO = {
@@ -53,7 +53,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
             ActionDescritption: item.ActionDescritption,
             VideoLink: item.VideoLink,
             Price: item.Price,
-            IsPriceRemark: item.IsPriceRemark,
+            IsPriceRemark: item.IsPriceRemark === true ? "1" : "0",
             PriceRemark: item.PriceRemark,
             Place: item.Place,
             Date: item.Date,
