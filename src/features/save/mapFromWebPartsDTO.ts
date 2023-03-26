@@ -1,13 +1,10 @@
-import ActionDetailModel from "features/actions/models/ActionDetailModel";
-import DocumentToDownloadModel from "features/actions/models/DocumentToDownloadModel";
-import TeamMemberModel from "features/home/models/TeamMemberModel";
-import WebPartsDTO from "shared/DTOs/WebPartsDTO";
-import {
-  initialState,
-  WebPartsState,
-} from "shared/infrastructure/store/webParts/webPartsSlice";
-import DocumentModel from "shared/models/DocumentModel";
-import ImageModel from "shared/models/ImageModel";
+import ActionDetailModel from 'features/actions/models/ActionDetailModel';
+import DocumentToDownloadModel from 'features/actions/models/DocumentToDownloadModel';
+import TeamMemberModel from 'features/home/models/TeamMemberModel';
+import WebPartsDTO from 'shared/DTOs/WebPartsDTO';
+import { initialState, WebPartsState } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import DocumentModel from 'shared/models/DocumentModel';
+import ImageModel from 'shared/models/ImageModel';
 
 export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
   const result: WebPartsState = {
@@ -68,7 +65,7 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
               ActionDescritption: item.ActionDescritption ?? "",
               VideoLink: item.VideoLink ?? "",
               Price: item.Price ?? "",
-              IsPriceRemark: item.IsPriceRemark ?? false,
+              IsPriceRemark: item.IsPriceRemark === "1",
               PriceRemark: item.PriceRemark ?? "",
               Place: item.Place ?? "",
               Date: item.Date ?? "",
