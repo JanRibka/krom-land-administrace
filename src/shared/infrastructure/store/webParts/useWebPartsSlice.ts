@@ -1,18 +1,18 @@
-import ActionDetailModel from "features/actions/models/ActionDetailModel";
-import ActionsModel from "features/actions/models/ActionsModel";
-import DocumentToDownloadModel from "features/actions/models/DocumentToDownloadModel";
-import { ContactModel } from "features/contact/models/ContactModel";
-import GalleryModel from "features/gallery/models/GalleryModel";
-import HomeModel from "features/home/models/HomeModel";
-import TeamMemberModel from "features/home/models/TeamMemberModel";
-import { useDispatch } from "react-redux";
-import ImageModel from "shared/models/ImageModel";
-import ActionsImageType from "shared/types/ActionsImageType";
-import ContactImageType from "shared/types/ContactImageType";
-import GalleryImageType from "shared/types/GalleryImageType";
-import HomeImageType from "shared/types/HomeImageType";
+import ActionDetailModel from 'features/actions/models/ActionDetailModel';
+import ActionsModel from 'features/actions/models/ActionsModel';
+import DocumentToDownloadModel from 'features/actions/models/DocumentToDownloadModel';
+import { ContactModel } from 'features/contact/models/ContactModel';
+import GalleryModel from 'features/gallery/models/GalleryModel';
+import HomeModel from 'features/home/models/HomeModel';
+import TeamMemberModel from 'features/home/models/TeamMemberModel';
+import { useDispatch } from 'react-redux';
+import ImageModel from 'shared/models/ImageModel';
+import ActionsImageType from 'shared/types/ActionsImageType';
+import ContactImageType from 'shared/types/ContactImageType';
+import GalleryImageType from 'shared/types/GalleryImageType';
+import HomeImageType from 'shared/types/HomeImageType';
 
-import { actions, WebPartsState } from "./webPartsSlice";
+import { actions, WebPartsState } from './webPartsSlice';
 
 export const useWebPartsSlice = () => {
   const dispatch = useDispatch();
@@ -76,11 +76,15 @@ export const useWebPartsSlice = () => {
     dispatch(actions.galleryUpdate(gallery));
   };
 
-  const handleGalleryImageUpdate = (
+  const handleGalleryMainImageUpdate = (
     name: GalleryImageType,
     image: Partial<ImageModel>
   ) => {
-    dispatch(actions.galleryImageUpdate({ name, image }));
+    dispatch(actions.galleryMainImageUpdate({ name, image }));
+  };
+
+  const handleGalleryImageAdd = () => {
+    dispatch(actions.galleryImageAdd());
   };
 
   const handleContactUpdate = (contact: Partial<ContactModel>) => {
@@ -106,7 +110,8 @@ export const useWebPartsSlice = () => {
     handleActionsDocumentAdd,
     handleActionsDocumentUpdate,
     handleGalleryUpdate,
-    handleGalleryImageUpdate,
+    handleGalleryMainImageUpdate,
+    handleGalleryImageAdd,
     handleContactUpdate,
     handleContactImageUpdate,
   };

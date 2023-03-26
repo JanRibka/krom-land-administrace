@@ -1,8 +1,8 @@
-import { alpha } from "@mui/material";
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
+import { alpha } from '@mui/material';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
-const FileUploadStyled = styled(Box)(({ theme }) => ({
+const DocumentUploadStyled = styled(Box)(({ theme }) => ({
   width: "100%",
   display: "flex",
   flexDirection: "column",
@@ -60,4 +60,4 @@ const FileUploadStyled = styled(Box)(({ theme }) => ({
   },
 }));
 
-export default FileUploadStyled;
+export default DocumentUploadStyled;

@@ -1,17 +1,17 @@
-import KromLandService from "features/KromLandService";
-import { ChangeEvent } from "react";
-import DocumentModel from "shared/models/DocumentModel";
-import { v4 as uuidv4 } from "uuid";
+import KromLandService from 'features/KromLandService';
+import { ChangeEvent } from 'react';
+import DocumentModel from 'shared/models/DocumentModel';
+import { v4 as uuidv4 } from 'uuid';
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import SaveAltOutlinedIcon from "@mui/icons-material/SaveAltOutlined";
-import { LoadingButton } from "@mui/lab";
-import Box from "@mui/material/Box";
+import DeleteIcon from '@mui/icons-material/Delete';
+import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined';
+import { LoadingButton } from '@mui/lab';
+import Box from '@mui/material/Box';
 
-import AppNotification from "../notification/AppNotification";
-import ValidateFileSizeReturnModel from "./models/ValidateFileSizeReturnModel ";
-import ValidateFileTypeReturnModel from "./models/ValidateFileTypeReturnModel ";
-import FileUploadStyled from "./styledComponents/FileUploadStyled";
+import AppNotification from '../notification/AppNotification';
+import ValidateFileSizeReturnModel from './models/ValidateFileSizeReturnModel ';
+import ValidateFileTypeReturnModel from './models/ValidateFileTypeReturnModel ';
+import DocumentUploadStyled from './styledComponents/DocumentUploadStyled';
 
 interface IProps {
   document: DocumentModel;
@@ -191,7 +191,7 @@ const DocumentUpload = (props: IProps) => {
   };
 
   return (
-    <FileUploadStyled>
+    <DocumentUploadStyled>
       <Box className='buttons-wrapper'>
         <Box component='span'>{props.label}</Box>
         <Box className='buttons-inner-wrapper'>
@@ -233,7 +233,7 @@ const DocumentUpload = (props: IProps) => {
           )}
         </Box>
       </Box>
-    </FileUploadStyled>
+    </DocumentUploadStyled>
   );
 };
 

@@ -1,4 +1,6 @@
-import ImageModel from "shared/models/ImageModel";
+import ImageModel from 'shared/models/ImageModel';
+
+import GalleryImageModel from './GalleryImageModel';
 
 export default class GalleryModel {
   Title: string = "";
@@ -6,7 +8,7 @@ export default class GalleryModel {
   PageHeaderTextMain: string = "";
   PageHeaderTextMainColor: string = "";
   MainImage: ImageModel = new ImageModel();
-  Images: ImageModel[] = [];
+  Images: GalleryImageModel[] = [];
 
   public constructor(init?: Partial<GalleryModel>) {
     Object.assign(this, init);

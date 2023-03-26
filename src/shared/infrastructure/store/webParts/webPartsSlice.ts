@@ -1,19 +1,20 @@
-import ActionDetailModel from "features/actions/models/ActionDetailModel";
-import ActionsModel from "features/actions/models/ActionsModel";
-import DocumentToDownloadModel from "features/actions/models/DocumentToDownloadModel";
-import { ContactModel } from "features/contact/models/ContactModel";
-import GalleryModel from "features/gallery/models/GalleryModel";
-import HomeModel from "features/home/models/HomeModel";
-import TeamMemberModel from "features/home/models/TeamMemberModel";
-import ImageModel from "shared/models/ImageModel";
-import ActionsImageType from "shared/types/ActionsImageType";
-import ContactImageType from "shared/types/ContactImageType";
-import GalleryImageType from "shared/types/GalleryImageType";
-import HomeImageType from "shared/types/HomeImageType";
+import ActionDetailModel from 'features/actions/models/ActionDetailModel';
+import ActionsModel from 'features/actions/models/ActionsModel';
+import DocumentToDownloadModel from 'features/actions/models/DocumentToDownloadModel';
+import { ContactModel } from 'features/contact/models/ContactModel';
+import GalleryImageModel from 'features/gallery/models/GalleryImageModel';
+import GalleryModel from 'features/gallery/models/GalleryModel';
+import HomeModel from 'features/home/models/HomeModel';
+import TeamMemberModel from 'features/home/models/TeamMemberModel';
+import ImageModel from 'shared/models/ImageModel';
+import ActionsImageType from 'shared/types/ActionsImageType';
+import ContactImageType from 'shared/types/ContactImageType';
+import GalleryImageType from 'shared/types/GalleryImageType';
+import HomeImageType from 'shared/types/HomeImageType';
 
-import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Action, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import AppState from "../AppState";
+import AppState from '../AppState';
 
 export interface WebPartsState {
   Home: HomeModel;
@@ -169,7 +170,7 @@ export const webPartsSlice = createSlice({
         Gallery: newGallery,
       };
     },
-    galleryImageUpdate: (
+    galleryMainImageUpdate: (
       state,
       action: PayloadAction<{
         name: GalleryImageType;
@@ -182,6 +183,19 @@ export const webPartsSlice = createSlice({
       };
 
       (state.Gallery[action.payload.name] as ImageModel) = newImage;
+    },
+    galleryImageAdd: (state, action: Action) => {
+      const newImages = [...state.Gallery.Images];
+
+      newImages.push(new GalleryImageModel());
+      debugger;
+      return {
+        ...state,
+        Gallery: {
+          ...state.Gallery,
+          Images: newImages,
+        },
+      };
     },
     contactUpdate: (state, action: PayloadAction<Partial<ContactModel>>) => {
       const newContact = {

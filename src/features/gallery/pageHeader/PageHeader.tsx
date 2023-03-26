@@ -1,20 +1,20 @@
-import KromLandService from "features/KromLandService";
-import SectionStyled from "features/styledComponents/SectionStyled";
-import { useSelector } from "react-redux";
-import ImageUpload from "shared/components/imageUpload/ImageUpload";
-import AppPageHeader from "shared/components/pageHeader/AppPageHeader";
-import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
-import SectionTitle from "shared/components/sectionTitle/SectionTitle";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectGallery } from "shared/infrastructure/store/webParts/webPartsSlice";
-import ImageModel from "shared/models/ImageModel";
-import { nameof } from "shared/nameof";
-import GalleryImageType from "shared/types/GalleryImageType";
+import KromLandService from 'features/KromLandService';
+import SectionStyled from 'features/styledComponents/SectionStyled';
+import { useSelector } from 'react-redux';
+import ImageUpload from 'shared/components/imageUpload/ImageUpload';
+import AppPageHeader from 'shared/components/pageHeader/AppPageHeader';
+import SectionSubTitle from 'shared/components/sectionSubTitle/SectionSubTitle';
+import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectGallery } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import ImageModel from 'shared/models/ImageModel';
+import { nameof } from 'shared/nameof';
+import GalleryImageType from 'shared/types/GalleryImageType';
 
-import Box from "@mui/material/Box";
+import Box from '@mui/material/Box';
 
-import GalleryModel from "../models/GalleryModel";
+import GalleryModel from '../models/GalleryModel';
 
 const PageHeader = () => {
   // Store
@@ -22,7 +22,8 @@ const PageHeader = () => {
 
   // Constants
   const _kromLandService = new KromLandService();
-  const { handleGalleryUpdate, handleGalleryImageUpdate } = useWebPartsSlice();
+  const { handleGalleryUpdate, handleGalleryMainImageUpdate } =
+    useWebPartsSlice();
 
   // Other
   const handleTextFieldOnBlur = (
@@ -50,7 +51,7 @@ const PageHeader = () => {
   };
 
   const handleOnAfterFileDelete = (name: string) => {
-    handleGalleryImageUpdate(name as GalleryImageType, new ImageModel());
+    handleGalleryMainImageUpdate(name as GalleryImageType, new ImageModel());
   };
 
   const handleOnFileSave = async (name: string) => {
@@ -68,7 +69,7 @@ const PageHeader = () => {
     );
 
     if (result) {
-      handleGalleryImageUpdate(name as GalleryImageType, {
+      handleGalleryMainImageUpdate(name as GalleryImageType, {
         Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
       });
     }
