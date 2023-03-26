@@ -29,7 +29,6 @@ const GalleryImages = () => {
       imageCount += 1;
 
       if (!image.Delete) {
-        result.push(<>asdfa</>);
         // result.push(
         //   <Document
         //     key={"documentToDownload_" + uuidv4()}
