@@ -2,7 +2,9 @@ import ActionsPage from "features/pages/ActionsPage";
 import ContactPage from "features/pages/ContactPage";
 import DashboardPage from "features/pages/DashboardPage";
 import GalleryPage from "features/pages/GalleryPage";
+import GdprPage from "features/pages/GdprPage";
 import HomePage from "features/pages/HomePage";
+import TermsOfConditionsPage from "features/pages/TermsOfConditionsPage";
 import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import usePrevious from "shared/customHooks/usePrevious/usePrevious";
@@ -49,6 +51,11 @@ const AppRouter = () => {
       <Route path={AppRoute.Actions} element={<ActionsPage />} />
       <Route path={AppRoute.Gallery} element={<GalleryPage />} />
       <Route path={AppRoute.Contact} element={<ContactPage />} />
+      <Route path={AppRoute.Gdpr} element={<GdprPage />} />
+      <Route
+        path={AppRoute.TermsOfConditions}
+        element={<TermsOfConditionsPage />}
+      />
     </Routes>
   );
 };

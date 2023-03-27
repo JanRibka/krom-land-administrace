@@ -6,6 +6,7 @@ import GalleryImageModel from "features/gallery/models/GalleryImageModel";
 import GalleryModel from "features/gallery/models/GalleryModel";
 import HomeModel from "features/home/models/HomeModel";
 import TeamMemberModel from "features/home/models/TeamMemberModel";
+import ConditionsModel from "shared/models/ConditionsModel";
 import ImageModel from "shared/models/ImageModel";
 import ActionsImageType from "shared/types/ActionsImageType";
 import ContactImageType from "shared/types/ContactImageType";
@@ -21,6 +22,7 @@ export interface WebPartsState {
   Actions: ActionsModel;
   Gallery: GalleryModel;
   Contact: ContactModel;
+  Conditions: ConditionsModel;
 }
 
 export const initialState: WebPartsState = {
@@ -28,6 +30,7 @@ export const initialState: WebPartsState = {
   Actions: new ActionsModel(),
   Gallery: new GalleryModel(),
   Contact: new ContactModel(),
+  Conditions: new ConditionsModel(),
 };
 
 export const webPartsSlice = createSlice({
@@ -239,6 +242,20 @@ export const webPartsSlice = createSlice({
 
       (state.Contact[action.payload.name] as ImageModel) = newImage;
     },
+    conditionsUpdate: (
+      state,
+      action: PayloadAction<Partial<ConditionsModel>>
+    ) => {
+      const newConditions = {
+        ...state.Conditions,
+        ...action.payload,
+      };
+
+      return {
+        ...state,
+        Conditions: newConditions,
+      };
+    },
   },
 });
 
@@ -252,3 +269,4 @@ export const selectHome = (state: AppState) => state.webParts.Home;
 export const selectActions = (state: AppState) => state.webParts.Actions;
 export const selectGallery = (state: AppState) => state.webParts.Gallery;
 export const selectContact = (state: AppState) => state.webParts.Contact;
+export const selectConditions = (state: AppState) => state.webParts.Conditions;

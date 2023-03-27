@@ -7,6 +7,7 @@ import GalleryModel from "features/gallery/models/GalleryModel";
 import HomeModel from "features/home/models/HomeModel";
 import TeamMemberModel from "features/home/models/TeamMemberModel";
 import { useDispatch } from "react-redux";
+import ConditionsModel from "shared/models/ConditionsModel";
 import ImageModel from "shared/models/ImageModel";
 import ActionsImageType from "shared/types/ActionsImageType";
 import ContactImageType from "shared/types/ContactImageType";
@@ -106,6 +107,10 @@ export const useWebPartsSlice = () => {
     dispatch(actions.contactImageUpdate({ name, image }));
   };
 
+  const handleConditionsUpdate = (conditions: Partial<ConditionsModel>) => {
+    dispatch(actions.conditionsUpdate(conditions));
+  };
+
   return {
     handleWebPartsUpdate,
     handleHomeUpdate,
@@ -123,5 +128,6 @@ export const useWebPartsSlice = () => {
     handleGalleryGalleryImageUpdate,
     handleContactUpdate,
     handleContactImageUpdate,
+    handleConditionsUpdate,
   };
 };

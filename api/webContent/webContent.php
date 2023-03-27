@@ -14,6 +14,7 @@ class WebContent
     $actionsId = 1;
     $galleryId = 1;
     $contactId = 1;
+    $conditionsId = 1;
 
     try {
       // Home
@@ -103,8 +104,11 @@ class WebContent
 
       $contact = $contactQuery->fetch();
 
+      // Conditions
+      $conditions = dibi::query("SELECT * FROM conditions as c WHERE c.Id = %i", $conditionsId)->fetch();
+
       // Web parts
-      $webParts = new WebPartsModel($home, $actions, $gallery, $contact);
+      $webParts = new WebPartsModel($home, $actions, $gallery, $contact, $conditions);
 
       // Result
       $result = new ResultModel($webParts);
@@ -121,6 +125,7 @@ class WebContent
     $actionsId = 1;
     $galleryId = 1;
     $contactId = 1;
+    $conditionsId = 1;
 
     try
     {
@@ -132,6 +137,7 @@ class WebContent
       $actionDetails = $actions->ActionDetails;
       $gallery = $webParts->Gallery;
       $contact = $webParts->Contact;
+      $conditions = $webParts->Conditions;
 
       // Home
       dibi::query(
@@ -255,7 +261,19 @@ class WebContent
         ],         
         'WHERE c.Id = %i',
         $contactId
-      );        
+      );
+      
+      // Conditions
+      dibi::query(
+        'UPDATE conditions as c SET', [
+          'GdprLabel' => $conditions->GdprLabel,
+          'GdprText' => $conditions->GdprText,
+          'TermOfConditionsLabel' => $conditions->TermOfConditionsLabel,
+          'TermOfConditionsText' => $conditions->TermOfConditionsText          
+        ],         
+        'WHERE c.Id = %i',
+        $contactId
+      );
 
       apiResponse(true, "");
     } catch(Exception $ex)

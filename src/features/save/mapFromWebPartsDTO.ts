@@ -121,6 +121,13 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       GoogleMapsUrl: webPartsDTO?.Contact.GoogleMapsUrl ?? "",
       Email: webPartsDTO?.Contact.Email ?? "",
     },
+    Conditions: {
+      GdprLabel: webPartsDTO?.Conditions?.GdprLabel ?? "",
+      GdprText: webPartsDTO?.Conditions?.GdprText ?? "",
+      TermOfConditionsLabel:
+        webPartsDTO?.Conditions?.TermOfConditionsLabel ?? "",
+      TermOfConditionsText: webPartsDTO?.Conditions?.TermOfConditionsText ?? "",
+    },
   };
 
   return result;

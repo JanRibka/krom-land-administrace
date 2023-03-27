@@ -3,7 +3,9 @@ export type AppRoute =
   | "/admin/home"
   | "/admin/actions"
   | "/admin/gallery"
-  | "/admin/contact";
+  | "/admin/contact"
+  | "/admin/gdpr"
+  | "/admin/termsOfConditions";
 
 export const AppRoute = {
   Dashboard: "/admin" as AppRoute,
@@ -11,4 +13,6 @@ export const AppRoute = {
   Actions: "/admin/actions" as AppRoute,
   Gallery: "/admin/gallery" as AppRoute,
   Contact: "/admin/contact" as AppRoute,
+  Gdpr: "/admin/gdpr" as AppRoute,
+  TermsOfConditions: "/admin/termsOfConditions" as AppRoute,
 };

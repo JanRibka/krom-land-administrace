@@ -88,6 +88,13 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       GoogleMapsUrl: webPartsState.Contact.GoogleMapsUrl,
       Email: webPartsState.Contact.Email,
     },
+    Conditions: {
+      Id: null,
+      GdprLabel: webPartsState.Conditions.GdprLabel,
+      GdprText: webPartsState.Conditions.GdprText,
+      TermOfConditionsLabel: webPartsState.Conditions.TermOfConditionsLabel,
+      TermOfConditionsText: webPartsState.Conditions.TermOfConditionsText,
+    },
   };
 
   return result;

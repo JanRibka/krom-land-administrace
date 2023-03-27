@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import AttractionsOutlinedIcon from "@mui/icons-material/AttractionsOutlined";
 import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
+import FaceRetouchingOffIcon from "@mui/icons-material/FaceRetouchingOff";
+import GavelIcon from "@mui/icons-material/Gavel";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import Box from "@mui/material/Box";
 
@@ -51,6 +53,28 @@ const NavLinksWebParts = () => {
           {
             <Box className='link-inner-wrapper'>
               <ContactMailOutlinedIcon /> Kontakt
+            </Box>
+          }
+        </Link>
+      </Box>
+
+      {/* GDPR */}
+      <Box component='li' data-route={AppRoute.Gdpr}>
+        <Link to={AppRoute.Gdpr}>
+          {
+            <Box className='link-inner-wrapper'>
+              <FaceRetouchingOffIcon /> GDPR
+            </Box>
+          }
+        </Link>
+      </Box>
+
+      {/* Terms of conditions */}
+      <Box component='li' data-route={AppRoute.TermsOfConditions}>
+        <Link to={AppRoute.TermsOfConditions}>
+          {
+            <Box className='link-inner-wrapper'>
+              <GavelIcon /> Onchodní podmínky
             </Box>
           }
         </Link>
