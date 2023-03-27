@@ -80,9 +80,8 @@ class WebContent
 
       $gallery = $galleryQuery->fetch();
 
-      $galleryImageQuery = dibi::query(
-        "SELECT gi.* FROM gallery as g JOIN galleryImage as gi on g.Id = gi.GalleryId WHERE g.Id = %i",
-        $galleryId
+      $galleryImagesQuery = dibi::query(
+        "SELECT * FROM galleryImages"        
       );
 
       $gallery = new GalleryModel(
@@ -92,7 +91,7 @@ class WebContent
         $gallery->PageHeaderTextMain,
         $gallery->PageHeaderTextMainColor,
         $gallery->MainImage,        
-        $galleryImageQuery->fetchAll()
+        $galleryImagesQuery->fetchAll()
       );
 
       // Contact

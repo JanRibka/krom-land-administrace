@@ -28,15 +28,14 @@ const Document = (props: IProps) => {
   const handleOnAfterFileUpload = (
     fileName: string,
     name: string,
-
     destination: string
   ) => {
-    const image = new DocumentModel({
+    const document = new DocumentModel({
       Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
       Name: fileName,
     });
 
-    handleActionsDocumentUpdate({ [name]: image }, props.index);
+    handleActionsDocumentUpdate({ [name]: document }, props.index);
   };
 
   const handleOnFileSave = async (name: string) => {

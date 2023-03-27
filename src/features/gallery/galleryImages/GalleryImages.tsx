@@ -1,13 +1,15 @@
-import SectionStyled from 'features/styledComponents/SectionStyled';
-import { useSelector } from 'react-redux';
-import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectGallery } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import SectionStyled from "features/styledComponents/SectionStyled";
+import { useSelector } from "react-redux";
+import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectGallery } from "shared/infrastructure/store/webParts/webPartsSlice";
+import { v4 as uuidv4 } from "uuid";
 
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
-import ButtonWrapperStyled from './styledComponents/ButtonWrapperStyled';
+import Image from "./Image/Image";
+import ButtonWrapperStyled from "./styledComponents/ButtonWrapperStyled";
 
 const GalleryImages = () => {
   // Store
@@ -29,14 +31,14 @@ const GalleryImages = () => {
       imageCount += 1;
 
       if (!image.Delete) {
-        // result.push(
-        //   <Document
-        //     key={"documentToDownload_" + uuidv4()}
-        //     index={index}
-        //     documentCount={documentCount}
-        //     document={document.Document}
-        //   />
-        // );
+        result.push(
+          <Image
+            key={"galleryImage_" + uuidv4()}
+            index={index}
+            imageCount={imageCount}
+            image={image.Image}
+          />
+        );
       }
     });
 

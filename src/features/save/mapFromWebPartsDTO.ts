@@ -1,10 +1,14 @@
-import ActionDetailModel from 'features/actions/models/ActionDetailModel';
-import DocumentToDownloadModel from 'features/actions/models/DocumentToDownloadModel';
-import TeamMemberModel from 'features/home/models/TeamMemberModel';
-import WebPartsDTO from 'shared/DTOs/WebPartsDTO';
-import { initialState, WebPartsState } from 'shared/infrastructure/store/webParts/webPartsSlice';
-import DocumentModel from 'shared/models/DocumentModel';
-import ImageModel from 'shared/models/ImageModel';
+import ActionDetailModel from "features/actions/models/ActionDetailModel";
+import DocumentToDownloadModel from "features/actions/models/DocumentToDownloadModel";
+import GalleryImageModel from "features/gallery/models/GalleryImageModel";
+import TeamMemberModel from "features/home/models/TeamMemberModel";
+import WebPartsDTO from "shared/DTOs/WebPartsDTO";
+import {
+  initialState,
+  WebPartsState,
+} from "shared/infrastructure/store/webParts/webPartsSlice";
+import DocumentModel from "shared/models/DocumentModel";
+import ImageModel from "shared/models/ImageModel";
 
 export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
   const result: WebPartsState = {
@@ -92,14 +96,17 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       MainImage: !!webPartsDTO?.Gallery?.MainImage
         ? JSON.parse(webPartsDTO?.Gallery?.MainImage)
         : new ImageModel(),
-      Images: [],
-      // webPartsDTO?.Gallery.Images.map(
-      //   (item) =>
-      //     new ImageModel({
-      //       Path: item.ImagePath ?? "",
-      //       Alt: item.ImageAlt ?? "",
-      //     })
-      // ) ?? [],
+      Images:
+        webPartsDTO?.Gallery.Images.map(
+          (item) =>
+            new GalleryImageModel({
+              Id: item?.Id ?? 0,
+              Image: !!item?.Image
+                ? JSON.parse(item.Image)
+                : new GalleryImageModel(),
+              Delete: item?.Delete ?? false,
+            })
+        ) ?? [],
     },
     Contact: {
       Title: webPartsDTO?.Contact.Title ?? "",

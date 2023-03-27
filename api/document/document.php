@@ -73,8 +73,6 @@ class Document
                 
                 $id = dibi::getInsertId();
             }            
-
-            //TODO: ZIskat ID a vratit ho a pak updatovat ve store
             
             copy($sourceDocument, $targetDocument);    
             if(file_exists($sourceDocument)) {

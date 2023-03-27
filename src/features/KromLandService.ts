@@ -220,7 +220,7 @@ export default class KromLandService {
   /**
    * Save image - Action details
    * @param image
-   * @param index
+   * @param id
    */
   public async saveImageActionDetails(image: ImageModel, id: number) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
@@ -258,6 +258,86 @@ export default class KromLandService {
     }
 
     return result;
+  }
+
+  /**
+   * Save image - Gallery image
+   * @param image
+   * @param id
+   */
+  public async saveImageGalleryImage(image: ImageModel, id: number | null) {
+    const response = await this._repo.post<any, JsonResulObjectDataDTO<number>>(
+      {
+        url: process.env.REACT_APP_API_URL ?? "",
+        params: new URLSearchParams({
+          action: "image",
+          type: "saveimagegalleryimage",
+        }),
+        data: {
+          image: image,
+          id: id,
+        },
+      }
+    );
+
+    let result: number | null = null;
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          result = response.data?.Data ?? null;
+          AppNotification("Úspěch", "Obrázek uložen", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        result = response.data?.Data ?? null;
+        AppNotification("Úspěch", "Obrázek uložen", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při ukládání obrázku", "danger");
+    }
+
+    return result;
+  }
+
+  /**
+   * Delete gallery image
+   * @param id
+   */
+  public async deleteGalleryImage(id: number | null) {
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: process.env.REACT_APP_API_URL ?? "",
+      params: new URLSearchParams({
+        action: "image",
+        type: "deletegalleryimage",
+      }),
+      data: {
+        id: id,
+      },
+    });
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          AppNotification("Úspěch", "Obrázek smazán", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        AppNotification("Úspěch", "Obrázek smazán", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při mazání obrázku", "danger");
+    }
   }
 
   /**

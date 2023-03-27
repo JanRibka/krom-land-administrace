@@ -200,6 +200,66 @@ class Image
           apiResponse(false, $ex->getMessage());
         }    
     }
+
+    public static function saveImageGalleryImage()
+    {
+        try
+        {
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+            $id = $data->id;
+            $imageName = $data->image->Name;            
+            $sourceImage = __DIR__ . "/../../upload/" . $imageName;
+            $targetImage = __DIR__ . "/../../../publicImg/" . $imageName;
+            $arr = [
+                "Image" => json_encode($data->image),
+            ];
+
+            if (isset($id)) {
+                dibi::query(
+                    'UPDATE galleryImages as gi SET', $arr,         
+                    'WHERE gi.Id = %i',
+                    $id
+                );
+            } else {
+                dibi::query(
+                    "INSERT INTO galleryImages", 
+                    $arr
+                );
+                
+                $id = dibi::getInsertId();
+            }            
+            
+            copy($sourceImage, $targetImage);    
+            if(file_exists($sourceImage)) {
+                unlink($sourceImage);
+            }          
+
+            apiResponse(true, "", $id);
+        } catch (Exception $ex)
+        {
+            apiResponse(false, $ex->getMessage());
+        }
+    }
+
+    public static function deleteGalleryImage()
+    {
+        try
+        {
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+            $id = $data->id;            
+
+            if (isset($id)) {
+                dibi::query("DELETE FROM galleryImages as gi WHERE gi.Id = %i", $id);                
+            }            
+
+            apiResponse(true, "");
+        } catch(Exception $ex)
+        {
+          apiResponse(false, $ex->getMessage());
+        }        
+    }
     
     public static function saveImageContact()
     {
