@@ -124,9 +124,10 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
     Conditions: {
       GdprLabel: webPartsDTO?.Conditions?.GdprLabel ?? "",
       GdprText: webPartsDTO?.Conditions?.GdprText ?? "",
-      TermOfConditionsLabel:
-        webPartsDTO?.Conditions?.TermOfConditionsLabel ?? "",
-      TermOfConditionsText: webPartsDTO?.Conditions?.TermOfConditionsText ?? "",
+      TermsOfConditionsLabel:
+        webPartsDTO?.Conditions?.TermsOfConditionsLabel ?? "",
+      TermsOfConditionsText:
+        webPartsDTO?.Conditions?.TermsOfConditionsText ?? "",
     },
   };
 

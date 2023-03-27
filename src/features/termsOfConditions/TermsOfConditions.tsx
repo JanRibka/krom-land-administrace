@@ -42,9 +42,9 @@ const TermsOfConditions = () => {
         <SectionStyled component='section'>
           <SectionTitle title='Obchodní podmínky' />
           <AppTextField
-            name={nameof<ConditionsModel>("TermOfConditionsLabel")}
+            name={nameof<ConditionsModel>("TermsOfConditionsLabel")}
             label='Nadpis'
-            value={conditions.TermOfConditionsLabel}
+            value={conditions.TermsOfConditionsLabel}
             variant='outlined'
             fullWidth
             required
@@ -55,8 +55,8 @@ const TermsOfConditions = () => {
           <Box className='sub-section-separator'>
             <SectionSubTitle title='Popis' />
             <AppTextEditor
-              name={nameof<ConditionsModel>("TermOfConditionsText")}
-              value={conditions.TermOfConditionsText}
+              name={nameof<ConditionsModel>("TermsOfConditionsText")}
+              value={conditions.TermsOfConditionsText}
               placeholder='Popis'
               required
               onChange={handleTextEditorOnChange}

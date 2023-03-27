@@ -268,8 +268,8 @@ class WebContent
         'UPDATE conditions as c SET', [
           'GdprLabel' => $conditions->GdprLabel,
           'GdprText' => $conditions->GdprText,
-          'TermOfConditionsLabel' => $conditions->TermOfConditionsLabel,
-          'TermOfConditionsText' => $conditions->TermOfConditionsText          
+          'TermsOfConditionsLabel' => $conditions->TermsOfConditionsLabel,
+          'TermsOfConditionsText' => $conditions->TermsOfConditionsText          
         ],         
         'WHERE c.Id = %i',
         $contactId
