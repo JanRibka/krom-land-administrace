@@ -96,6 +96,7 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       MainImage: !!webPartsDTO?.Gallery?.MainImage
         ? JSON.parse(webPartsDTO?.Gallery?.MainImage)
         : new ImageModel(),
+      ExternalGalleryLink: webPartsDTO?.Gallery.ExternalGalleryLink ?? "",
       Images:
         webPartsDTO?.Gallery.Images.map(
           (item) =>

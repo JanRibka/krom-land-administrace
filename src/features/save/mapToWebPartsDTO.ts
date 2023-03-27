@@ -75,6 +75,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       PageHeaderTextMain: webPartsState.Gallery.PageHeaderTextMain,
       PageHeaderTextMainColor: webPartsState.Gallery.PageHeaderTextMainColor,
       MainImage: null,
+      ExternalGalleryLink: webPartsState.Gallery.ExternalGalleryLink,
       Images: [],
     },
     Contact: {

@@ -90,7 +90,8 @@ class WebContent
         $gallery->Description,
         $gallery->PageHeaderTextMain,
         $gallery->PageHeaderTextMainColor,
-        $gallery->MainImage,        
+        $gallery->MainImage,
+        $gallery->ExternalGalleryLink,     
         $galleryImagesQuery->fetchAll()
       );
 
@@ -235,7 +236,8 @@ class WebContent
           'Title' => $gallery->Title,
           'Description' => $gallery->Description,
           'PageHeaderTextMain' => $gallery->PageHeaderTextMain,
-          'PageHeaderTextMainColor' => $gallery->PageHeaderTextMainColor,          
+          'PageHeaderTextMainColor' => $gallery->PageHeaderTextMainColor,
+          "ExternalGalleryLink" => $gallery->ExternalGalleryLink      
         ],         
         'WHERE g.Id = %i',
         $galleryId

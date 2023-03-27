@@ -1,6 +1,6 @@
-import ImageModel from 'shared/models/ImageModel';
+import ImageModel from "shared/models/ImageModel";
 
-import GalleryImageModel from './GalleryImageModel';
+import GalleryImageModel from "./GalleryImageModel";
 
 export default class GalleryModel {
   Title: string = "";
@@ -8,6 +8,7 @@ export default class GalleryModel {
   PageHeaderTextMain: string = "";
   PageHeaderTextMainColor: string = "";
   MainImage: ImageModel = new ImageModel();
+  ExternalGalleryLink: string = "";
   Images: GalleryImageModel[] = [];
 
   public constructor(init?: Partial<GalleryModel>) {
