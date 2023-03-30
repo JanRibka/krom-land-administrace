@@ -48,7 +48,7 @@ const GalleryImages = () => {
   return (
     <ErrorBoundary>
       <SectionStyled component='section'>
-        <SectionTitle title='Obrázky' />
+        <SectionTitle title='Obrázky - doporučený maximální počet je 12' />
 
         {renderImages()}
 
