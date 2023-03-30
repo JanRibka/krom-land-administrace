@@ -57,6 +57,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
             PriceRemark: item.PriceRemark,
             Place: item.Place,
             Date: item.Date,
+            CapacityFull: item.CapacityFull === true ? "1" : "0",
           })
       ),
       DocumentsToDownload: webPartsState.Actions.DocumentsToDownload.map(

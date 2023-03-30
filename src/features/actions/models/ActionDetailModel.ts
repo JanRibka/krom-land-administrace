@@ -13,6 +13,7 @@ export default class ActionDetailModel {
   PriceRemark: string = "";
   Place: string = "";
   Date: string = "";
+  CapacityFull: boolean = false;
 
   public constructor(init?: Partial<ActionDetailModel>) {
     Object.assign(this, init);

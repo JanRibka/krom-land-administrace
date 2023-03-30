@@ -230,6 +230,7 @@ class WebContent
             "PriceRemark" => $detail->PriceRemark,
             'Place' => $detail->Place,
             'Date' => $detail->Date,
+            "CapacityFull" => $detail->CapacityFull
           ],         
           'WHERE ad.Id = %i',
           $detail->Id

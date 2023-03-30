@@ -12,6 +12,7 @@ export default class ActionDetailDTO {
   PriceRemark: string | null = null;
   Place: string | null = null;
   Date: string | null = null;
+  CapacityFull: string | null = null;
 
   public constructor(init?: Partial<ActionDetailDTO>) {
     Object.assign(this, init);
