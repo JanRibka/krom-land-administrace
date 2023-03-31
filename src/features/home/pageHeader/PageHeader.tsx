@@ -101,7 +101,7 @@ const PageHeader = () => {
           <ImageUpload
             image={home.MainImage ?? new ImageModel()}
             name={nameof<HomeModel>("MainImage")}
-            label='Ideální rozlišení obrázku 1920 x 1280px. Max. velikost 1MB'
+            label='Ideální rozlišení obrázku 1903 x 760px. Max. velikost 1MB'
             supportedExtensions={["png", "jpg", "jpeg"]}
             newImageAlt='Úvodní obrázek stránky úvod | KROM Land'
             maxFileSize={1}
