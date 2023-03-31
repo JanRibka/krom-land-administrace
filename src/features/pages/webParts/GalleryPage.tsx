@@ -1,6 +1,6 @@
-import Gallery from 'features/gallery/Gallery';
+import Gallery from "features/webParts/gallery/Gallery";
 
-import PageStyled from './styledComponents/PageStyled';
+import PageStyled from "../styledComponents/PageStyled";
 
 const GalleryPage = () => {
   return (

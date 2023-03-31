@@ -1,4 +1,3 @@
-import ButtonWrapperStyled from "features/home/ourTeam/styledComponents/ButtonWrapperStyled";
 import SectionStyled from "features/styledComponents/SectionStyled";
 import { useSelector } from "react-redux";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
@@ -10,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import Button from "@mui/material/Button";
 
 import Document from "./document/Document";
+import ButtonWrapperStyled from "./styledComponents/ButtonWrapperStyled";
 
 const DocumentsToDownload = () => {
   // Store

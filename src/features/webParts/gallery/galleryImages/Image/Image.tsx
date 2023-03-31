@@ -1,4 +1,3 @@
-import GalleryImageModel from "features/gallery/models/GalleryImageModel";
 import KromLandService from "features/KromLandService";
 import { useSelector } from "react-redux";
 import ImageUpload from "shared/components/imageUpload/ImageUpload";
@@ -7,6 +6,7 @@ import { selectGallery } from "shared/infrastructure/store/webParts/webPartsSlic
 import ImageModel from "shared/models/ImageModel";
 import { nameof } from "shared/nameof";
 
+import GalleryImageModel from "../../models/GalleryImageModel";
 import ImageStyled from "./styledComponents/ImageStyled";
 
 interface IProps {

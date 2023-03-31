@@ -1,4 +1,3 @@
-import DocumentToDownloadModel from "features/actions/models/DocumentToDownloadModel";
 import KromLandService from "features/KromLandService";
 import { useSelector } from "react-redux";
 import DocumentUpload from "shared/components/fileUpload/DocumentUpload";
@@ -7,6 +6,7 @@ import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlic
 import DocumentModel from "shared/models/DocumentModel";
 import { nameof } from "shared/nameof";
 
+import DocumentToDownloadModel from "../../models/DocumentToDownloadModel";
 import DocumentStyled from "./styledComponent/DocumentStyled";
 
 interface IProps {

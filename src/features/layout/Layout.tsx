@@ -1,4 +1,4 @@
-import { mapFromWebPartsDTO } from "features/save/mapFromWebPartsDTO";
+import { mapFromWebPartsDTO } from "features/webParts/save/mapFromWebPartsDTO";
 import { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import AppNotification from "shared/components/notification/AppNotification";

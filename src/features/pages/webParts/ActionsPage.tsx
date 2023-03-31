@@ -1,6 +1,6 @@
-import Actions from 'features/actions/Actions';
+import Actions from "features/webParts/actions/Actions";
 
-import PageStyled from './styledComponents/PageStyled';
+import PageStyled from "../styledComponents/PageStyled";
 
 const ActionsPage = () => {
   return (

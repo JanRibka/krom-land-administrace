@@ -1,10 +1,10 @@
-import ActionsPage from "features/pages/ActionsPage";
-import ContactPage from "features/pages/ContactPage";
 import DashboardPage from "features/pages/DashboardPage";
-import GalleryPage from "features/pages/GalleryPage";
-import GdprPage from "features/pages/GdprPage";
-import HomePage from "features/pages/HomePage";
-import TermsOfConditionsPage from "features/pages/TermsOfConditionsPage";
+import ActionsPage from "features/pages/webParts/ActionsPage";
+import ContactPage from "features/pages/webParts/ContactPage";
+import GalleryPage from "features/pages/webParts/GalleryPage";
+import GdprPage from "features/pages/webParts/GdprPage";
+import HomePage from "features/pages/webParts/HomePage";
+import TermsOfConditionsPage from "features/pages/webParts/TermsOfConditionsPage";
 import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import usePrevious from "shared/customHooks/usePrevious/usePrevious";

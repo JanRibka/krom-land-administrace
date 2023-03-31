@@ -8,7 +8,7 @@ import { store } from "shared/infrastructure/store/store";
 import DocumentModel from "shared/models/DocumentModel";
 import ImageModel from "shared/models/ImageModel";
 
-import { mapToWebPartsDTO } from "./save/mapToWebPartsDTO";
+import { mapToWebPartsDTO } from "./webParts/save/mapToWebPartsDTO";
 
 export default class KromLandService {
   private _repo = new Repository();

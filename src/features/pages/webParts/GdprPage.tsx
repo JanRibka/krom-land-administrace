@@ -1,6 +1,6 @@
-import Gdpr from "features/gdpr/Gdpr";
+import Gdpr from "features/webParts/gdpr/Gdpr";
 
-import PageStyled from "./styledComponents/PageStyled";
+import PageStyled from "../styledComponents/PageStyled";
 
 const GdprPage = () => {
   return (

@@ -1,4 +1,3 @@
-import TeamMemberModel from "features/home/models/TeamMemberModel";
 import KromLandService from "features/KromLandService";
 import { useSelector } from "react-redux";
 import ImageUpload from "shared/components/imageUpload/ImageUpload";
@@ -13,6 +12,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+
+import TeamMemberModel from "../../models/TeamMemberModel";
 
 interface IProps {
   index: number;

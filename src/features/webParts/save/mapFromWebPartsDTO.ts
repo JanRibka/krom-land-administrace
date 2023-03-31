@@ -1,7 +1,3 @@
-import ActionDetailModel from "features/actions/models/ActionDetailModel";
-import DocumentToDownloadModel from "features/actions/models/DocumentToDownloadModel";
-import GalleryImageModel from "features/gallery/models/GalleryImageModel";
-import TeamMemberModel from "features/home/models/TeamMemberModel";
 import WebPartsDTO from "shared/DTOs/WebPartsDTO";
 import {
   initialState,
@@ -9,6 +5,11 @@ import {
 } from "shared/infrastructure/store/webParts/webPartsSlice";
 import DocumentModel from "shared/models/DocumentModel";
 import ImageModel from "shared/models/ImageModel";
+
+import ActionDetailModel from "../actions/models/ActionDetailModel";
+import DocumentToDownloadModel from "../actions/models/DocumentToDownloadModel";
+import GalleryImageModel from "../gallery/models/GalleryImageModel";
+import TeamMemberModel from "../home/models/TeamMemberModel";
 
 export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
   const result: WebPartsState = {

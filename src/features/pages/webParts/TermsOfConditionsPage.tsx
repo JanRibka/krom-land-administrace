@@ -1,6 +1,6 @@
-import TermsOfConditions from "features/termsOfConditions/TermsOfConditions";
+import TermsOfConditions from "features/webParts/termsOfConditions/TermsOfConditions";
 
-import PageStyled from "./styledComponents/PageStyled";
+import PageStyled from "../styledComponents/PageStyled";
 
 const TermsOfConditionsPage = () => {
   return (

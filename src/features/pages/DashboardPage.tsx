@@ -1,6 +1,6 @@
-import Dashboard from 'features/dashboard/Dashboard';
+import Dashboard from "features/webParts/dashboard/Dashboard";
 
-import PageStyled from './styledComponents/PageStyled';
+import PageStyled from "./styledComponents/PageStyled";
 
 const DashboardPage = () => {
   return (

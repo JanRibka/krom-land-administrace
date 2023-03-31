@@ -1,6 +1,6 @@
-import Contact from 'features/contact/Contact';
+import Contact from "features/webParts/contact/Contact";
 
-import PageStyled from './styledComponents/PageStyled';
+import PageStyled from "../styledComponents/PageStyled";
 
 const ContactPage = () => {
   return (
