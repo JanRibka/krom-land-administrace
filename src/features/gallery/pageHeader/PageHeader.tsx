@@ -1,20 +1,20 @@
-import KromLandService from 'features/KromLandService';
-import SectionStyled from 'features/styledComponents/SectionStyled';
-import { useSelector } from 'react-redux';
-import ImageUpload from 'shared/components/imageUpload/ImageUpload';
-import AppPageHeader from 'shared/components/pageHeader/AppPageHeader';
-import SectionSubTitle from 'shared/components/sectionSubTitle/SectionSubTitle';
-import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectGallery } from 'shared/infrastructure/store/webParts/webPartsSlice';
-import ImageModel from 'shared/models/ImageModel';
-import { nameof } from 'shared/nameof';
-import GalleryImageType from 'shared/types/GalleryImageType';
+import KromLandService from "features/KromLandService";
+import SectionStyled from "features/styledComponents/SectionStyled";
+import { useSelector } from "react-redux";
+import ImageUpload from "shared/components/imageUpload/ImageUpload";
+import AppPageHeader from "shared/components/pageHeader/AppPageHeader";
+import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
+import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectGallery } from "shared/infrastructure/store/webParts/webPartsSlice";
+import ImageModel from "shared/models/ImageModel";
+import { nameof } from "shared/nameof";
+import GalleryImageType from "shared/types/GalleryImageType";
 
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
-import GalleryModel from '../models/GalleryModel';
+import GalleryModel from "../models/GalleryModel";
 
 const PageHeader = () => {
   // Store
@@ -92,7 +92,7 @@ const PageHeader = () => {
           <ImageUpload
             image={gallery.MainImage ?? new ImageModel()}
             name={nameof<GalleryModel>("MainImage")}
-            label='Ideální rozlišení obrázku 1870 x 350px. Max. velikost 1MB'
+            label='Ideální rozlišení obrázku 1903 x 350px. Max. velikost 1MB'
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
             newImageAlt='Úvodní obrázek stránky galerie | KROM Land'
             maxFileSize={1}

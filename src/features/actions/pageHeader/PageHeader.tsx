@@ -91,7 +91,7 @@ const PageHeader = () => {
           <ImageUpload
             image={actions.MainImage}
             name={nameof<ActionsModel>("MainImage")}
-            label='Ideální rozlišení obrázku 1870 x 350px. Max. velikost 1MB'
+            label='Ideální rozlišení obrázku 1903 x 350px. Max. velikost 1MB'
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
             newImageAlt='Úvodní obrázek stránky akce | KROM Land'
             maxFileSize={1}
