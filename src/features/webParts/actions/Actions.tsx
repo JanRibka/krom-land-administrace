@@ -5,6 +5,7 @@ import { Stack } from "@mui/system";
 
 import ActionDetails from "./actionDetails/ActionDetails";
 import DocumentsToDownload from "./documentsToDownload/DocumentsToDownload";
+import Email from "./email/Email";
 import PageHeader from "./pageHeader/PageHeader";
 import Seo from "./seo/Seo";
 
@@ -17,6 +18,7 @@ const Actions = () => {
         <PageHeader />
         <ActionDetails />
         <DocumentsToDownload />
+        <Email />
       </Stack>
     </ErrorBoundary>
   );

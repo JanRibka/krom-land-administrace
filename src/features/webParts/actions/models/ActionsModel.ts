@@ -1,7 +1,7 @@
-import ImageModel from 'shared/models/ImageModel';
+import ImageModel from "shared/models/ImageModel";
 
-import ActionDetailModel from './ActionDetailModel';
-import DocumentToDownloadModel from './DocumentToDownloadModel';
+import ActionDetailModel from "./ActionDetailModel";
+import DocumentToDownloadModel from "./DocumentToDownloadModel";
 
 export default class ActionsModel {
   Title: string = "";
@@ -9,6 +9,7 @@ export default class ActionsModel {
   PageHeaderTextMain: string = "";
   PageHeaderTextMainColor: string = "";
   MainImage: ImageModel = new ImageModel();
+  EmailKromLand: string = "";
   ActionDetails: ActionDetailModel[] = [];
   DocumentsToDownload: DocumentToDownloadModel[] = [];
 

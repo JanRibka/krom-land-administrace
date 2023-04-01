@@ -7,6 +7,7 @@ class ActionsModel
   public $PageHeaderTextMain;
   public $PageHeaderTextMainColor;  
   public $MainImage;
+  public $EmailKromLand;
   public $ActionDetails;
   public $DocumentsToDownload;
 
@@ -17,6 +18,7 @@ class ActionsModel
     $pageHeaderTextMain,
     $pageHeaderTextMainColor,    
     $mainImage,    
+    $emailKromLand,
     $actionDetails,
     $documentsToDownload,
   ) {
@@ -26,6 +28,7 @@ class ActionsModel
     $this->PageHeaderTextMain = $pageHeaderTextMain;
     $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;    
     $this->MainImage = $mainImage;    
+    $this->EmailKromLand = $emailKromLand;
     $this->ActionDetails = $actionDetails;
     $this->DocumentsToDownload = $documentsToDownload;
   }

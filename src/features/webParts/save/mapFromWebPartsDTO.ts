@@ -58,6 +58,7 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
       MainImage: !!webPartsDTO?.Actions?.MainImage
         ? JSON.parse(webPartsDTO?.Actions?.MainImage)
         : new ImageModel(),
+      EmailKromLand: webPartsDTO?.Actions.EmailKromLand ?? "",
       ActionDetails:
         webPartsDTO?.Actions.ActionDetails.map(
           (item) =>

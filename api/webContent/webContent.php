@@ -67,8 +67,9 @@ class WebContent
         $actions->Title,
         $actions->Description,
         $actions->PageHeaderTextMain,
-        $actions->PageHeaderTextMainColor,        
-        $actions->MainImage,        
+        $actions->PageHeaderTextMainColor,
+        $actions->MainImage,
+        $actions->EmailKromLand,
         $actinDeatilsQuery->fetchAll(),
         $documentsToDownloadQuery->fetchAll()
       );
@@ -210,7 +211,8 @@ class WebContent
           'Title' => $actions->Title,
           'Description' => $actions->Description,
           'PageHeaderTextMain' => $actions->PageHeaderTextMain,
-          'PageHeaderTextMainColor' => $actions->PageHeaderTextMainColor,                    
+          'PageHeaderTextMainColor' => $actions->PageHeaderTextMainColor,
+          "EmailKromLand" => $actions->EmailKromLand
         ],         
         'WHERE a.Id = %i',
         $actionsId

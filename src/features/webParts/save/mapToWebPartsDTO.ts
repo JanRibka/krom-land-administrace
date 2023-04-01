@@ -42,6 +42,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       PageHeaderTextMain: webPartsState.Actions.PageHeaderTextMain,
       PageHeaderTextMainColor: webPartsState.Actions.PageHeaderTextMainColor,
       MainImage: null,
+      EmailKromLand: webPartsState.Actions.EmailKromLand,
       ActionDetails: webPartsState.Actions.ActionDetails.map(
         (item) =>
           new ActionDetailDTO({
