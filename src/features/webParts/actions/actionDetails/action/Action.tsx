@@ -1,23 +1,23 @@
-import KromLandService from "features/KromLandService";
-import { ChangeEvent } from "react";
-import { useSelector } from "react-redux";
-import AppCheckbox from "shared/components/checkbox/AppCheckbox";
-import ImageUpload from "shared/components/imageUpload/ImageUpload";
-import AppSelect from "shared/components/select/AppSelect";
-import IAppSelectMenuItem from "shared/components/select/IAppSelectMenuItem";
-import AppTextEditor from "shared/components/textEditor/AppTextEditor";
-import AppTextField from "shared/components/textField/AppTextField";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
-import ImageModel from "shared/models/ImageModel";
-import { nameof } from "shared/nameof";
-import ActionImageType from "shared/types/ActionImageType";
+import KromLandService from 'features/KromLandService';
+import { ChangeEvent } from 'react';
+import { useSelector } from 'react-redux';
+import AppCheckbox from 'shared/components/checkbox/AppCheckbox';
+import ImageUpload from 'shared/components/imageUpload/ImageUpload';
+import AppSelect from 'shared/components/select/AppSelect';
+import IAppSelectMenuItem from 'shared/components/select/IAppSelectMenuItem';
+import AppTextEditor from 'shared/components/textEditor/AppTextEditor';
+import AppTextField from 'shared/components/textField/AppTextField';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectActions } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import ImageModel from 'shared/models/ImageModel';
+import { nameof } from 'shared/nameof';
+import ActionImageType from 'shared/types/ActionImageType';
 
-import { SelectChangeEvent } from "@mui/material/Select";
-import Stack from "@mui/material/Stack";
+import { SelectChangeEvent } from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
 
-import ActionDetailModel from "../../models/ActionDetailModel";
+import ActionDetailModel from '../../models/ActionDetailModel';
 
 interface IProps {
   index: number;
@@ -56,6 +56,15 @@ const Action = (props: IProps) => {
     const value = parseInt(e.target.value);
 
     handleActionUpdate({ [name]: value }, props.index);
+  };
+
+  const handleOnChangeCheckbox = (
+    e: ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    const name = e.target.name;
+
+    handleActionUpdate({ [name]: checked }, props.index);
   };
 
   const handleOnChangeCheckboxIsPriceRemark = (
@@ -172,7 +181,7 @@ const Action = (props: IProps) => {
           name={nameof<ActionDetailModel>("CapacityFull")}
           label='Kapacita naplněna'
           checked={actionDetails[props.index]?.CapacityFull ?? false}
-          onChange={handleOnChangeCheckboxIsPriceRemark}
+          onChange={handleOnChangeCheckbox}
         />
         <AppCheckbox
           name={nameof<ActionDetailModel>("IsPriceRemark")}
