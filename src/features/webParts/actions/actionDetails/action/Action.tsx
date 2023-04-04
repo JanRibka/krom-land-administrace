@@ -152,7 +152,7 @@ const Action = (props: IProps) => {
         />
         <AppTextField
           name={nameof<ActionDetailModel>("VideoLink")}
-          label='Odkaz na video (Pouze TikTok)'
+          label='Odkaz na video (Pouze Youtube)'
           value={actionDetails[props.index]?.VideoLink ?? ""}
           variant='outlined'
           fullWidth
