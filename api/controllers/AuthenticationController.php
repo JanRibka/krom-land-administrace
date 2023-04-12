@@ -2,10 +2,9 @@
 namespace komLand\api\controllers;
 
 require_once __DIR__ . "/../enums/httpStatucCode.php";
+require_once __DIR__ . "/./ControllerBase.php";
 
-use Dotenv\Dotenv;
 use Firebase\JWT\JWT;
-use Dibi;
 
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\models\UserModel;
@@ -25,16 +24,15 @@ class AuthenticationController extends ControllerBase
     {
         $this->_loginService = $pLoginService;
     }
-
+    
     public function register()
     {
         try
-        {
-
+        {            
             $data = json_decode(file_get_contents('php://input'), true);
             $userName = $data['userName'];
             $password = $data['password'];
-            
+
             if (!!!$userName || !!!$password) {
                 http_response_code(HTTP_STATUS_CODE_BAD_REQUEST);
                 echo "Uživatelské jméno a heslo jsou povinné";
@@ -56,6 +54,8 @@ class AuthenticationController extends ControllerBase
             $user = new UserModel();
             $user->UserName = $userName;
             $user->Password = $hashedPassword;
+
+            $this->_loginService->insertUser($user);
             
             http_response_code(HTTP_STATUS_CODE_CREATED);
             echo "Uživatel " . $user . " byl vytvořen";
@@ -74,7 +74,6 @@ class AuthenticationController extends ControllerBase
     {
         try
         {
-
             $data = json_decode(file_get_contents('php://input'), true);
             $userName = $data['userName'];
             $password = $data['password'];
