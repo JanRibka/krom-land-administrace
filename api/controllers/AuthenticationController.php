@@ -36,6 +36,7 @@ class AuthenticationController extends ControllerBase
             if (!!!$userName || !!!$password) {
                 http_response_code(HTTP_STATUS_CODE_BAD_REQUEST);
                 echo "Uživatelské jméno a heslo jsou povinné";
+                die;
             }
             
             // Check for duplicate usernames in DB
@@ -45,6 +46,7 @@ class AuthenticationController extends ControllerBase
             {
                 http_response_code(HTTP_STATUS_CODE_CONFLICT); // Conflict
                 echo "Uživatelské jméno již existuje";
+                die;
             }
             
             // Encrypt the password
@@ -81,6 +83,7 @@ class AuthenticationController extends ControllerBase
             if (!!!$userName || !!!$password) {
                 http_response_code(HTTP_STATUS_CODE_BAD_REQUEST);
                 echo "Uživatelské jméno a heslo jsou povinné";
+                die;
             }
             
             $dbUser = $this->_loginService->getUserByUserName($userName);
@@ -89,6 +92,7 @@ class AuthenticationController extends ControllerBase
             {
                 http_response_code(HTTP_STATUS_CODE_UNAUTHORIZED); // Unauthorized
                 echo "Nesprávné uživatelské jméno, nebo heslo";
+                die;
             }
             
             // Evalueate password
@@ -123,6 +127,7 @@ class AuthenticationController extends ControllerBase
                     'path' => '/',
                     'httponly' => true
                 ]);
+                
                 http_response_code(HTTP_STATUS_CODE_OK);
                 echo $accessToken;
             } else {
