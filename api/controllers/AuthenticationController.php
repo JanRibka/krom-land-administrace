@@ -27,6 +27,8 @@ class AuthenticationController extends ControllerBase
      */
     public function register()
     {
+        http_response_code(HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
+        die;
         try
         {            
             $data = json_decode(file_get_contents('php://input'), true);
@@ -35,7 +37,7 @@ class AuthenticationController extends ControllerBase
 
             if (!!!$userName || !!!$password) {
                 http_response_code(HTTP_STATUS_CODE_BAD_REQUEST);
-                echo "Uživatelské jméno a heslo jsou povinné";
+                echo "Uživatelské jméno a heslo jsou povinné"; // TODO: hl83ka bude na frontu
                 die;
             }
             
@@ -45,7 +47,7 @@ class AuthenticationController extends ControllerBase
             if ($duplicate)
             {
                 http_response_code(HTTP_STATUS_CODE_CONFLICT); // Conflict
-                echo "Uživatelské jméno již existuje";
+                echo "Uživatelské jméno již existuje"; // TODO: hl83ka bude na frontu
                 die;
             }
             
@@ -60,7 +62,7 @@ class AuthenticationController extends ControllerBase
             $this->_loginService->insertUser($user);
             
             http_response_code(HTTP_STATUS_CODE_CREATED);
-            echo "Uživatel " . $user . " byl vytvořen";
+            echo "Uživatel " . $user . " byl vytvořen"; // TODO: hl83ka bude na frontu
         }
         catch(Exception $ex) 
         {
