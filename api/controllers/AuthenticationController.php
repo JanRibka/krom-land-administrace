@@ -17,14 +17,14 @@ class AuthenticationController extends ControllerBase
 {
     private readonly ILoginService $_loginService;
 
-    /**
-     * Register new user
-     */
     public function __construct(ILoginService $pLoginService)
     {
         $this->_loginService = $pLoginService;
     }
     
+     /**
+     * Register new user
+     */
     public function register()
     {
         try
