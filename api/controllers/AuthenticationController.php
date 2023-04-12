@@ -22,7 +22,7 @@ class AuthenticationController extends ControllerBase
         $this->_loginService = $pLoginService;
     }
     
-     /**
+    /**
      * Register new user
      */
     public function register()
