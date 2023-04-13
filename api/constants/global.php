@@ -1,21 +1,36 @@
 <?php
 define("APP_ENV", "TEST"); # LOCAL / TEST / PROD
 
-// Připojení pro vývojové prostředí
-define("DB_HOST_LOCAL", "");
-define("DB_USER_NAME_LOCAL", "");
-define("DB_PASSWORD_LOCAL", "");
-define("DB_DATABASE_LOCAL", "");
+// Připojení k db
+$dbHost = [
+    "LOCAL" => "",
+    "TEST" => "sql5.webzdarma.cz",
+    "PROD" => "sql4.webzdarma.cz"
+];
 
-// Připojení pro testovací prostředí
-define("DB_HOST_TEST", "sql5.webzdarma.cz");
-define("DB_USER_NAME_TEST", "ribkavyvojkv3055");
-define("DB_PASSWORD_TEST", "9*45253qv4h.MM9Wy8Jq");
-define("DB_DATABASE_TEST", "");
+$dbUserName = [
+    "LOCAL" => "",
+    "TEST" => "ribkavyvojkv3055",
+    "PROD" => "kromlandcz6333"
+];
 
-// Připojení pro produkční prostředí
-define("DB_HOST_PROD", "");
-define("DB_USER_NAME_PROD", "");
-define("DB_PASSWORD_PROD", "");
-define("DB_DATABASE_PROD", "");
+$dbPassword = [
+    "LOCAL" => "",
+    "TEST" => "9*45253qv4h.MM9Wy8Jq",
+    "PROD" => ",yxi30nUd4-@vwrz)(3Q"
+];
+
+$dbDatabase = [
+    "LOCAL" => "",
+    "TEST" => "ribkavyvojkv3055",
+    "PROD" => "kromlandcz6333"
+];
+
+// Autorizační tokeny
+#Tokeny získám tak, že v terminálu napíšu node a potom spustím příkaz require('crypto').randomBytes(64).toString("hex")
+define("ACESS_TOKEN_SECRET_TEST", "8c92cfbfbe3b52b0109f23114ad3b16ce3d3fca4f408b78f6d3273ea75b03a91b81a9ee1e60a342ff5ad26de3af159d2c71dbbb1a81d5dba8bed9f379a900172");
+define("REFRESH_TOKEN_SECRET_TEST", "3e077da317b4d83bbc0ec910bb56c07188911339f60999fcb0ccc5c697097d2f0d5f3fa077a259f11aea34200362c1ac7a64f6f85154a78ce7264b769750fca7");
+
+define("ACESS_TOKEN_SECRET_PROD", "8c92cfbfbe3b52b0109f23114ad3b16ce3d3fca4f408b78f6d3273ea75b03a91b81a9ee1e60a342ff5ad26de3af159d2c71dbbb1a81d5dba8bed9f379a900172");
+define("REFRESH_TOKEN_SECRET_PROD", "3e077da317b4d83bbc0ec910bb56c07188911339f60999fcb0ccc5c697097d2f0d5f3fa077a259f11aea34200362c1ac7a64f6f85154a78ce7264b769750fca7");
 ?>

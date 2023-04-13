@@ -1,6 +1,9 @@
 <?php 
 namespace kromLand\api\services;
 
+require_once __DIR__ . "/./IAuthenticationService.php";
+require_once __DIR__ . "/../repositories/IAuthenticationRepository.php";
+
 use kromLand\api\models\UserModel;
 use kromLand\api\repositories\IAuthenticationRepository;
 

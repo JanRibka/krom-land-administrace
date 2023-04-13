@@ -4,6 +4,8 @@ namespace komLand\api\controllers;
 require_once __DIR__ . "/../enums/httpStatucCode.php";
 require_once __DIR__ . "/./ControllerBase.php";
 require_once __DIR__ . "/../repositories/AuthenticationRepository.php";
+require_once __DIR__ . "/../models/login/UserModel.php";
+require_once __DIR__ . "/../services/AuthenticationService.php";
 
 use Firebase\JWT\JWT;
 
@@ -86,52 +88,52 @@ class AuthenticationController extends ControllerBase
                 die;
             }
             
-            $dbUser = $this->_authenticationService->getUserByUserName($userName);
+            // $dbUser = $this->_authenticationService->getUserByUserName($userName);
             
-            if(!!!$dbUser) 
-            {
-                // Unauthorized
-                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                
-                die;
-            }
+            // if(!!!$dbUser) 
+            // {
+            //     // Unauthorized
+            //     $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                
+            //     die;
+            // }
             
-            // Evalueate password
-            $match = password_verify($password, $dbUser->Password);
+            // // Evalueate password
+            // $match = password_verify($password, $dbUser->Password);
             
-            if ($match) {
-                // Create JWTs (JSON Web Tokens)
-                $accessTokenSecret = $_ENV["ACCESS_TOKEN_SECRET"];
-                $payload = [
-                    "userName" => $dbUser->UserName,
-                    "exp" => time() + 30
-                ];
-                $accessToken = JWT::encode($payload, $accessTokenSecret, "HS256");
+            // if ($match) {
+            //     // Create JWTs (JSON Web Tokens)
+            //     $accessTokenSecret = $_ENV["ACCESS_TOKEN_SECRET"];
+            //     $payload = [
+            //         "userName" => $dbUser->UserName,
+            //         "exp" => time() + 30
+            //     ];
+            //     $accessToken = JWT::encode($payload, $accessTokenSecret, "HS256");
 
-                $refreshTokenSecret = $_ENV["REFRESH_TOKEN_SECRET"];
-                $payload = [
-                    "userName" => $dbUser->UserName,
-                    "exp" => time() + 24 * 60 * 60
-                ];
-                $refreshToken = JWT::encode($payload, $refreshTokenSecret, "HS256");
+            //     $refreshTokenSecret = $_ENV["REFRESH_TOKEN_SECRET"];
+            //     $payload = [
+            //         "userName" => $dbUser->UserName,
+            //         "exp" => time() + 24 * 60 * 60
+            //     ];
+            //     $refreshToken = JWT::encode($payload, $refreshTokenSecret, "HS256");
 
-                // Saving refreshToken with current user
-                $user = new UserModel();
-                $user->Id = $dbUser->Id;
-                $user->UserName = $dbUser;
-                $user->RefreshToken = $refreshToken;
+            //     // Saving refreshToken with current user
+            //     $user = new UserModel();
+            //     $user->Id = $dbUser->Id;
+            //     $user->UserName = $dbUser;
+            //     $user->RefreshToken = $refreshToken;
 
-                $this->_authenticationService->updatetUser($user);
+            //     $this->_authenticationService->updatetUser($user);
 
-                setcookie('jwt', $refreshToken, [
-                    'expires' => time() + 24 * 60 * 60,
-                    'path' => '/',
-                    'httponly' => true
-                ]);
+            //     setcookie('jwt', $refreshToken, [
+            //         'expires' => time() + 24 * 60 * 60,
+            //         'path' => '/',
+            //         'httponly' => true
+            //     ]);
                 
-                $this->apiResponse(true, "Nesprávné uživatelské jméno, nebo heslo", $accessToken);                
-            } else {
-                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                               
-            }
+            //     $this->apiResponse(true, "Nesprávné uživatelské jméno, nebo heslo", $accessToken);                
+            // } else {
+            //     $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                               
+            // }
         }
         catch(Exception $ex) 
         {
@@ -145,16 +147,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $functionName = $_GET['function']; 
         $authenticationRepository = new AuthenticationRepository();
         $authenticationService = new AuthenticationService($authenticationRepository);
-        $controller = new AuthenticationController($authenticationService); 
+        $controller = new AuthenticationController($authenticationService);         
         
         if (method_exists($controller, $functionName)) { 
             call_user_func([$controller, $functionName]); 
         } else {
             http_response_code(HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
-            echo JSON([
+            echo json_encode([
                 "Success" => false,
-                "ErrMsg" => "Chybná funkce nebo nebyla zadána",                
-            ]);            
+                "ErrMsg" => "Chybná funkce, nebo nebyla zadána"                
+            ], JSON_UNESCAPED_UNICODE);            
         } 
     } 
 }

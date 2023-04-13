@@ -9,11 +9,11 @@ class ControllerBase
     {
         http_response_code($httpResponse);
 
-        echo JSON([
+        echo json_encode([
             "Success" => $success,
             "ErrMsg" => $msg,
             "Data" => $data,
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
     }
 }
 ?>

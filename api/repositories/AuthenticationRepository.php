@@ -1,7 +1,10 @@
 <?php
 namespace kromLand\api\repositories;
 
+require_once __DIR__ . "/../config/db.php";
 require_once __DIR__ . "/./IAuthenticationRepository.php";
+require_once __DIR__ . "/../../vendor/autoload.php";
+require_once __DIR__ . "/../../vendor/dibi/dibi/src/Dibi/dibi.php";
 
 use Dibi;
 use kromLand\api\models\UserModel;
