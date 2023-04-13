@@ -50,8 +50,7 @@ class AuthenticationRepository implements IAuthenticationRepository
 
         dibi::query(
             "UPDATE `login` as l SET", 
-                $updateData
-            , 
+                $updateData, 
             "WHERE l.Id = %i", 
             $id
         );
