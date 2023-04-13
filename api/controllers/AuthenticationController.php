@@ -4,13 +4,14 @@ namespace komLand\api\controllers;
 require_once __DIR__ . "/../enums/httpStatucCode.php";
 require_once __DIR__ . "/./ControllerBase.php";
 require_once __DIR__ . "/../repositories/AuthenticationRepository.php";
-require_once __DIR__ . "/../models/login/UserModel.php";
+require_once __DIR__ . "/../models/authentication/UserModel.php";
 require_once __DIR__ . "/../services/AuthenticationService.php";
+require_once __DIR__ . "/../constants/global.php";
 
 use Firebase\JWT\JWT;
 
 use kromLand\api\controllers\ControllerBase;
-use kromLand\api\models\UserModel;
+use kromLand\api\models\authentication\UserModel;
 use kromLand\api\services\IAuthenticationService;
 use Exception;
 use kromLand\api\services\AuthenticationService;
@@ -64,7 +65,7 @@ class AuthenticationController extends ControllerBase
 
             $userId = $this->_authenticationService->insertUser($user);
             
-            $this->apiResponse(true, "Uživatel " . $user . " byl vytvořen", $userId, HTTP_STATUS_CODE_CREATED);            
+            $this->apiResponse(true, "Uživatel " . $user->UserName . " byl vytvořen", $userId, HTTP_STATUS_CODE_CREATED);            
         }
         catch(Exception $ex) 
         {
@@ -88,52 +89,52 @@ class AuthenticationController extends ControllerBase
                 die;
             }
             
-            // $dbUser = $this->_authenticationService->getUserByUserName($userName);
+            $dbUser = $this->_authenticationService->getUserByUserName($userName);
             
-            // if(!!!$dbUser) 
-            // {
-            //     // Unauthorized
-            //     $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                
-            //     die;
-            // }
+            if(!!!$dbUser) 
+            {
+                // Unauthorized
+                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                
+                die;
+            }
             
-            // // Evalueate password
-            // $match = password_verify($password, $dbUser->Password);
+            // Evalueate password
+            $match = password_verify($password, $dbUser->Password);
             
-            // if ($match) {
-            //     // Create JWTs (JSON Web Tokens)
-            //     $accessTokenSecret = $_ENV["ACCESS_TOKEN_SECRET"];
-            //     $payload = [
-            //         "userName" => $dbUser->UserName,
-            //         "exp" => time() + 30
-            //     ];
-            //     $accessToken = JWT::encode($payload, $accessTokenSecret, "HS256");
+            if ($match) {
+                // Create JWTs (JSON Web Tokens)
+                $payload = [
+                    "userName" => $dbUser->UserName,
+                    "exp" => time() + 30
+                ];
+                global $accessTokenSecret;
+                $accessToken = JWT::encode($payload, $accessTokenSecret[APP_ENV], "HS256");
 
-            //     $refreshTokenSecret = $_ENV["REFRESH_TOKEN_SECRET"];
-            //     $payload = [
-            //         "userName" => $dbUser->UserName,
-            //         "exp" => time() + 24 * 60 * 60
-            //     ];
-            //     $refreshToken = JWT::encode($payload, $refreshTokenSecret, "HS256");
+                $payload = [
+                    "userName" => $dbUser->UserName,
+                    "exp" => time() + 24 * 60 * 60
+                ];
+                global $refreshTokenSecret;
+                $refreshToken = JWT::encode($payload, $refreshTokenSecret[APP_ENV], "HS256");
 
-            //     // Saving refreshToken with current user
-            //     $user = new UserModel();
-            //     $user->Id = $dbUser->Id;
-            //     $user->UserName = $dbUser;
-            //     $user->RefreshToken = $refreshToken;
+                // Saving refreshToken with current user
+                $user = new UserModel();
+                $user->Id = $dbUser->Id;
+                $user->UserName = $dbUser->UserName;
+                $user->RefreshToken = $refreshToken;
 
-            //     $this->_authenticationService->updatetUser($user);
+                $this->_authenticationService->updatetUser($user);
 
-            //     setcookie('jwt', $refreshToken, [
-            //         'expires' => time() + 24 * 60 * 60,
-            //         'path' => '/',
-            //         'httponly' => true
-            //     ]);
+                setcookie('jwt', $refreshToken, [
+                    'expires' => time() + 24 * 60 * 60,
+                    'path' => '/',
+                    'httponly' => true
+                ]);
                 
-            //     $this->apiResponse(true, "Nesprávné uživatelské jméno, nebo heslo", $accessToken);                
-            // } else {
-            //     $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                               
-            // }
+                $this->apiResponse(true, "", $accessToken);                
+            } else {
+                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                               
+            }
         }
         catch(Exception $ex) 
         {

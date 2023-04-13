@@ -7,15 +7,15 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 require_once __DIR__ . "/../../vendor/dibi/dibi/src/Dibi/dibi.php";
 
 use Dibi;
-use kromLand\api\models\UserModel;
+use kromLand\api\models\authentication\UserModel;
 use kromLand\api\repositories\IAuthenticationRepository;
 
 class AuthenticationRepository implements IAuthenticationRepository
 {
     public function getUserByUserName(string $userName): UserModel
     {
-        $user = dibi::query("SELECT * FROM `login` WHERE UserName = %s", $userName)->fetchSingle();
-        
+        $user = dibi::query("SELECT * FROM `login` WHERE UserName = %s", $userName)->fetch();
+
         if (!!!$user) {
             return new UserModel();
         }
@@ -34,10 +34,11 @@ class AuthenticationRepository implements IAuthenticationRepository
 
     public function insertUser(UserModel $user): int
     {
-        $updateData = $user->GetDataForUpdate($user);
-        $updateData["DateCreated"] = date("Y-m-d H:i:s");
+        $insertData = $user->GetDataForUpdate($user);
+        $insertData["DateCreated"] = date("Y-m-d H:i:s");
+        $insertData["LoginCount"] = 0;
 
-        dibi::query("INSERT INTO `login`", $updateData);
+        dibi::query("INSERT INTO `login`", $insertData);
 
         return dibi::getInsertId();
     }
@@ -46,8 +47,14 @@ class AuthenticationRepository implements IAuthenticationRepository
     {
         $updateData = $user->GetDataForUpdate($user);
         $id = $user->Id;
-    
-        dibi::query("UPDATE 'login' as l", $updateData, "WHERE l.Id = %s", $id);
+
+        dibi::query(
+            "UPDATE `login` as l SET", 
+                $updateData
+            , 
+            "WHERE l.Id = %i", 
+            $id
+        );
     }
 }
 ?>

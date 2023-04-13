@@ -4,7 +4,7 @@ namespace kromLand\api\services;
 require_once __DIR__ . "/./IAuthenticationService.php";
 require_once __DIR__ . "/../repositories/IAuthenticationRepository.php";
 
-use kromLand\api\models\UserModel;
+use kromLand\api\models\authentication\UserModel;
 use kromLand\api\repositories\IAuthenticationRepository;
 
 class AuthenticationService implements IAuthenticationService
@@ -19,7 +19,7 @@ class AuthenticationService implements IAuthenticationService
     public function getDuplicateUser(string $userName): bool 
     {
         $user = $this->_authenticationRepository->getUserByUserName($userName);
-        return !empty($user);
+        return $user->Id !== null;
     }
 
     public function getUserByUserName(string $userName): UserModel

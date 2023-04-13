@@ -1,7 +1,7 @@
 <?php
 namespace kromLand\api\services;
 
-use kromLand\api\models\UserModel;
+use kromLand\api\models\authentication\UserModel;
 
 interface IAuthenticationService
 {

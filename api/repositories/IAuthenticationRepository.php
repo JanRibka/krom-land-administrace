@@ -4,7 +4,7 @@ namespace kromLand\api\repositories;
 
 require_once __DIR__ . "/../config/db.php";
 
-use kromLand\api\models\UserModel;
+use kromLand\api\models\authentication\UserModel;
 
 interface IAuthenticationRepository
 {

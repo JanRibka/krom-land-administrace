@@ -1,15 +1,17 @@
 <?php
-namespace kromLand\api\models;
+namespace kromLand\api\models\authentication;
+
+use DateTime;
 
 class UserModel
 {
-    public $Id;
-    public $UserName;
-    public $Password;
-    public $LastLogin;
-    public $LastLoginAttempt;
-    public $LoginCount;
-    public $RefreshToken;
+    public ?int $Id = null;
+    public ?string $UserName = null;
+    public ?string $Password = null;
+    public ?DateTime $LastLogin = null;
+    public ?DateTime $LastLoginAttempt = null;
+    public ?int $LoginCount = null;
+    public ?string $RefreshToken = null;
 
     public function GetDataForUpdate(UserModel $user): array
     {
