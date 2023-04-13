@@ -3,32 +3,34 @@ namespace komLand\api\controllers;
 
 require_once __DIR__ . "/../enums/httpStatucCode.php";
 require_once __DIR__ . "/./ControllerBase.php";
+require_once __DIR__ . "/../repositories/AuthenticationRepository.php";
 
 use Firebase\JWT\JWT;
 
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\models\UserModel;
-use kromLand\api\services\ILoginService;
+use kromLand\api\services\IAuthenticationService;
 use Exception;
+use kromLand\api\services\AuthenticationService;
+use kromLand\api\repositories\AuthenticationRepository;
+
 // TODO: Jde volat controller pouze pokud jsem autorizovan? Tady to asi nebude potřeba, jenom v ostatních controllerech
 
 
 class AuthenticationController extends ControllerBase
 {
-    private readonly ILoginService $_loginService;
+    private readonly IAuthenticationService $_authenticationService;
 
-    public function __construct(ILoginService $pLoginService)
+    public function __construct(IAuthenticationService $pAuthenticationService)
     {
-        $this->_loginService = $pLoginService;
+        $this->_authenticationService = $pAuthenticationService;
     }
     
     /**
      * Register new user
      */
     public function register()
-    {
-        http_response_code(HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
-        die;
+    {        
         try
         {            
             $data = json_decode(file_get_contents('php://input'), true);
@@ -36,18 +38,17 @@ class AuthenticationController extends ControllerBase
             $password = $data['password'];
 
             if (!!!$userName || !!!$password) {
-                http_response_code(HTTP_STATUS_CODE_BAD_REQUEST);
-                echo "Uživatelské jméno a heslo jsou povinné"; // TODO: hl83ka bude na frontu
+                $this->apiResponse(false, "Uživatelské jméno a heslo jsou povinné", null, HTTP_STATUS_CODE_BAD_REQUEST);
                 die;
             }
             
             // Check for duplicate usernames in DB
-            $duplicate = $this->_loginService->getDuplicateUser($userName);
+            $duplicate = $this->_authenticationService->getDuplicateUser($userName);
             
             if ($duplicate)
             {
-                http_response_code(HTTP_STATUS_CODE_CONFLICT); // Conflict
-                echo "Uživatelské jméno již existuje"; // TODO: hl83ka bude na frontu
+                // Conflict
+                $this->apiResponse(false, "Uživatelské jméno již existuje", null, HTTP_STATUS_CODE_CONFLICT);
                 die;
             }
             
@@ -59,15 +60,13 @@ class AuthenticationController extends ControllerBase
             $user->UserName = $userName;
             $user->Password = $hashedPassword;
 
-            $this->_loginService->insertUser($user);
+            $userId = $this->_authenticationService->insertUser($user);
             
-            http_response_code(HTTP_STATUS_CODE_CREATED);
-            echo "Uživatel " . $user . " byl vytvořen"; // TODO: hl83ka bude na frontu
+            $this->apiResponse(true, "Uživatel " . $user . " byl vytvořen", $userId, HTTP_STATUS_CODE_CREATED);            
         }
         catch(Exception $ex) 
         {
-            http_response_code(HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
-            echo $ex->getMessage();
+            $this->apiResponse(false, $ex->getMessage(), null, HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);            
         }
     }
     
@@ -83,17 +82,16 @@ class AuthenticationController extends ControllerBase
             $password = $data['password'];
             
             if (!!!$userName || !!!$password) {
-                http_response_code(HTTP_STATUS_CODE_BAD_REQUEST);
-                echo "Uživatelské jméno a heslo jsou povinné";
+                $this->apiResponse(false, "Uživatelské jméno a heslo jsou povinné", null, HTTP_STATUS_CODE_BAD_REQUEST);                
                 die;
             }
             
-            $dbUser = $this->_loginService->getUserByUserName($userName);
+            $dbUser = $this->_authenticationService->getUserByUserName($userName);
             
             if(!!!$dbUser) 
             {
-                http_response_code(HTTP_STATUS_CODE_UNAUTHORIZED); // Unauthorized
-                echo "Nesprávné uživatelské jméno, nebo heslo";
+                // Unauthorized
+                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                
                 die;
             }
             
@@ -122,7 +120,7 @@ class AuthenticationController extends ControllerBase
                 $user->UserName = $dbUser;
                 $user->RefreshToken = $refreshToken;
 
-                $this->_loginService->updatetUser($user);
+                $this->_authenticationService->updatetUser($user);
 
                 setcookie('jwt', $refreshToken, [
                     'expires' => time() + 24 * 60 * 60,
@@ -130,18 +128,30 @@ class AuthenticationController extends ControllerBase
                     'httponly' => true
                 ]);
                 
-                http_response_code(HTTP_STATUS_CODE_OK);
-                echo $accessToken;
+                $this->apiResponse(true, "Nesprávné uživatelské jméno, nebo heslo", $accessToken);                
             } else {
-                http_response_code(HTTP_STATUS_CODE_UNAUTHORIZED);
-                echo "Nesprávné uživatelské jméno, nebo heslo";
+                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                               
             }
         }
         catch(Exception $ex) 
         {
-            http_response_code(HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
-            echo $ex->getMessage();
+            $this->apiResponse(false, $ex->getMessage(), null, HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
         }
     }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+    if (isset($_GET['function'])) { 
+        $functionName = $_GET['function']; 
+        $authenticationRepository = new AuthenticationRepository();
+        $authenticationService = new AuthenticationService($authenticationRepository);
+        $controller = new AuthenticationController($authenticationService); 
+        
+        if (method_exists($controller, $functionName)) { 
+            call_user_func([$controller, $functionName]); 
+        } else {            
+            echo json_encode(['error' => 'Chybná funkce nebo nebyla zadána']); 
+        } 
+    } 
 }
 ?>

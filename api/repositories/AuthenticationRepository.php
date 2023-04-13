@@ -1,8 +1,13 @@
 <?php
-use kromLand\api\models\UserModel;
-use kromLand\api\repositories\ILoginRepository;
+namespace kromLand\api\repositories;
 
-class LoginRepository implements ILoginRepository
+require_once __DIR__ . "/./IAuthenticationRepository.php";
+
+use Dibi;
+use kromLand\api\models\UserModel;
+use kromLand\api\repositories\IAuthenticationRepository;
+
+class AuthenticationRepository implements IAuthenticationRepository
 {
     public function getUserByUserName(string $userName): UserModel
     {

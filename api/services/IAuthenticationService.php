@@ -3,7 +3,7 @@ namespace kromLand\api\services;
 
 use kromLand\api\models\UserModel;
 
-interface ILoginService
+interface IAuthenticationService
 {
     public function getDuplicateUser(string $userName): bool;
     public function getUserByUserName(string $userName): UserModel;
