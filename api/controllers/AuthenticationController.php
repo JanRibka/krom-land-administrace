@@ -149,8 +149,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (method_exists($controller, $functionName)) { 
             call_user_func([$controller, $functionName]); 
-        } else {            
-            echo json_encode(['error' => 'Chybná funkce nebo nebyla zadána']); 
+        } else {
+            http_response_code(HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
+            echo JSON([
+                "Success" => false,
+                "ErrMsg" => "Chybná funkce nebo nebyla zadána",                
+            ]);            
         } 
     } 
 }
