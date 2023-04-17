@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $response;
             $response = verifyJWT($request, $response, 
                 function($request, $response) use ($controller, $functionName) {
-                        call_user_func([$controller, $functionName]);
+                            call_user_func([$controller, $functionName]);
 
-                        return $response;
+                            return $response;
                         }
                     );            
         } else {
