@@ -1,5 +1,9 @@
 <?php
-use Dotenv\Dotenv;
+namespace kromLand\api\middleware;
+
+require_once __DIR__ . "/../constants/global.php";
+
+use Exception;
 use Firebase\JWT\JWT;
 
     function verifyJWT($request, $response, $next)
@@ -13,7 +17,8 @@ use Firebase\JWT\JWT;
         $token = explode(' ', $authHeader)[1];
 
         try {
-          $decoded = JWT::decode($token, $_ENV['ACCESS_TOKEN_SECRET']);
+          global $accessTokenSecret;
+          $decoded = JWT::decode($token, $accessTokenSecret);
           $request = $request->withAttribute('user', $decoded->username);
           
           return $next($request, $response);
