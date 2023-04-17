@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $authenticationService = new AuthenticationService($authenticationRepository);
         $controller = new AuthenticationController($authenticationService);         
         
-        if (method_exists($controller, $functionName)) { 
+        if (method_exists($controller, $functionName)) {
             call_user_func([$controller, $functionName]); 
         } else {
             http_response_code(HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
