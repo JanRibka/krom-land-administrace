@@ -2,11 +2,14 @@
 namespace kromLand\api\middleware;
 
 require_once __DIR__ . "/../constants/global.php";
+require_once __DIR__ . "/../../vendor/autoload.php";
 
 use Exception;
 use Firebase\JWT\JWT;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\ServerRequest;
 
-    function verifyJWT($request, $response, $next)
+    function verifyJWT(ServerRequest $request, Response $response, callable $next): Response
     {
         $authHeader = $request->getHeaderLine('Authorization');
 

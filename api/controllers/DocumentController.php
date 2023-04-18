@@ -1,13 +1,19 @@
 <?php
 use kromLand\api\controllers\ControllerBase;
 
+require_once __DIR__ . "/./ControllerBase.php";
 require_once __DIR__ . "/../middleware/verifyJWT.php";
+require_once __DIR__ . "/../../vendor/autoload.php";
 
 use function kromLand\api\middleware\verifyJWT;
+use GuzzleHttp\Psr7\Response;
 
 class DocumentController extends ControllerBase
 {
-    
+    public function test() 
+    {
+        $this->apiResponse(true, "jgj");
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
@@ -18,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller = new DocumentController();         
         
         if (method_exists($controller, $functionName)) {
-            $request;
-            $response;
+            $request = $_SERVER["REQUEST"];
+            $response = new Response();
             $response = verifyJWT($request, $response, 
                 function($request, $response) use ($controller, $functionName) {
                             call_user_func([$controller, $functionName]);
