@@ -7,6 +7,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 use function kromLand\api\middleware\verifyJWT;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\ServerRequest;
 
 class DocumentController extends ControllerBase
 {
@@ -24,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller = new DocumentController();         
         
         if (method_exists($controller, $functionName)) {
-            $request = $_SERVER["REQUEST"];
+            $request = ServerRequest::fromGlobals();
             $response = new Response();
             $response = verifyJWT($request, $response, 
                 function($request, $response) use ($controller, $functionName) {
