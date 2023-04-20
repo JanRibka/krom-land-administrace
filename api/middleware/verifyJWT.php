@@ -6,12 +6,13 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 use Exception;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 
     function verifyJWT(ServerRequest $request, Response $response, callable $next): Response
-    {
-        $authHeader = $request->getHeaderLine('Authorization');
+    {      
+        $authHeader = $request->getHeaderLine('HTTP_AUTHORIZATION');
 
         if (!$authHeader) {
           return $response->withStatus(HTTP_STATUS_CODE_UNAUTHORIZED);
@@ -20,9 +21,13 @@ use GuzzleHttp\Psr7\ServerRequest;
         $token = explode(' ', $authHeader)[1];
 
         try {
-          global $accessTokenSecret;
-          $decoded = JWT::decode($token, $accessTokenSecret);
-          $request = $request->withAttribute('user', $decoded->username);
+          global $accessTokenSecret;          
+
+          $key = new Key($accessTokenSecret[APP_ENV], 'HS256');
+
+          $decoded = JWT::decode($token, $key);
+          print_r($decoded);
+          $request = $request->withAttribute('userName', $decoded->username);
           
           return $next($request, $response);
         } catch (Exception $e) {

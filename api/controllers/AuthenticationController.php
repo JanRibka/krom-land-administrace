@@ -106,7 +106,8 @@ class AuthenticationController extends ControllerBase
                 $payload = [
                     "userName" => $dbUser->UserName,
                     "exp" => time() + 30
-                ];
+                ];  
+
                 global $accessTokenSecret;
                 $accessToken = JWT::encode($payload, $accessTokenSecret[APP_ENV], "HS256");
 
