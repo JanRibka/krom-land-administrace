@@ -25,8 +25,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 
           $key = new Key($accessTokenSecret[APP_ENV], 'HS256');
           $decoded = JWT::decode($token, $key);
-          print_r($decoded);
-          $request = $request->withAttribute('userName', $decoded->username);
+          $request = $request->withAttribute('username', $decoded->username);
           
           return $next($request, $response);
         } catch (Exception $e) {

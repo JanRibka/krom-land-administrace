@@ -9,6 +9,7 @@ require_once __DIR__ . "/../services/AuthenticationService.php";
 require_once __DIR__ . "/../constants/global.php";
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\models\authentication\UserModel;
@@ -16,9 +17,6 @@ use kromLand\api\services\IAuthenticationService;
 use Exception;
 use kromLand\api\services\AuthenticationService;
 use kromLand\api\repositories\AuthenticationRepository;
-
-// TODO: Jde volat controller pouze pokud jsem autorizovan? Tady to asi nebude potřeba, jenom v ostatních controllerech
-
 
 class AuthenticationController extends ControllerBase
 {
@@ -104,7 +102,7 @@ class AuthenticationController extends ControllerBase
             if ($match) {
                 // Create JWTs (JSON Web Tokens)
                 $payload = [
-                    "userName" => $dbUser->UserName,
+                    "username" => $dbUser->UserName,
                     "exp" => time() + 30
                 ];  
 
@@ -112,7 +110,7 @@ class AuthenticationController extends ControllerBase
                 $accessToken = JWT::encode($payload, $accessTokenSecret[APP_ENV], "HS256");
 
                 $payload = [
-                    "userName" => $dbUser->UserName,
+                    "username" => $dbUser->UserName,
                     "exp" => time() + 24 * 60 * 60
                 ];
                 global $refreshTokenSecret;
@@ -142,9 +140,69 @@ class AuthenticationController extends ControllerBase
             $this->apiResponse(false, $ex->getMessage(), null, HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Handle refresh token
+     */
+    public function refreshToken()
+    {
+        try
+        {
+            $data = json_decode(file_get_contents('php://input'), true);
+            
+            $jwtCookie = $_COOKIE['jwt'];
+
+            if (!isset($jwtCookie)) {
+                $this->apiResponse(false, "", null, HTTP_STATUS_CODE_UNAUTHORIZED);
+                die;
+            }
+
+            $refreshToken = $jwtCookie;
+            
+            $dbUser = $this->_authenticationService->getUserByRefreshToken($refreshToken);
+            
+            if(!!!$dbUser) 
+            {
+                // Forbidden
+                $this->apiResponse(false, "Nesprávný token", null, HTTP_STATUS_CODE_FORBIDDEN);                
+                die;
+            }
+
+            try {
+                global $refreshTokenSecret;
+                global $accessTokenSecret;          
+      
+                $key = new Key($refreshTokenSecret[APP_ENV], 'HS256');
+                $decoded = JWT::decode($refreshToken, $key);
+                
+                if ($dbUser->UserName !== $decoded->username) throw new Exception();
+
+                $payload = [
+                    "username" => $decoded->username,
+                    "exp" => time() + 30
+                ];  
+                
+                $accessToken = JWT::encode($payload, $accessTokenSecret[APP_ENV], "HS256");
+
+                $this->apiResponse(true, "", $accessToken);
+
+            } catch (Exception $e) {
+                $this->apiResponse(false, "Nesprávný token", null, HTTP_STATUS_CODE_FORBIDDEN);
+            }        
+        }
+        catch(Exception $ex) 
+        {
+            $this->apiResponse(false, $ex->getMessage(), null, HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
+        }   
+    }
+
+    public function logout()
+    {
+
+    }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') { 
     if (isset($_GET['function'])) { 
         $functionName = $_GET['function']; 
         $authenticationRepository = new AuthenticationRepository();

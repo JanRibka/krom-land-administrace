@@ -32,6 +32,26 @@ class AuthenticationRepository implements IAuthenticationRepository
         return $userModel;
     }
 
+    public function getUserByRefreshToken(string $refreshToken): UserModel
+    {
+        $user = dibi::query("SELECT * FROM `login` WHERE RefreshToken = %s", $refreshToken)->fetch();
+
+        if (!!!$user) {
+            return new UserModel();
+        }
+
+        $userModel = new UserModel();
+        $userModel->Id = $user->Id;
+        $userModel->UserName = $user->UserName;
+        $userModel->Password = $user->Password;
+        $userModel->LastLogin = $user->LastLogin;
+        $userModel->LastLoginAttempt = $user->LastLoginAttempt;
+        $userModel->LoginCount = $user->LoginCount;
+        $userModel->RefreshToken = $user->RefreshToken;
+
+        return $userModel;
+    }
+
     public function insertUser(UserModel $user): int
     {
         $insertData = $user->GetDataForUpdate($user);

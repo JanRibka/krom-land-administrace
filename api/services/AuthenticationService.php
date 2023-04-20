@@ -27,6 +27,11 @@ class AuthenticationService implements IAuthenticationService
         return $this->_authenticationRepository->getUserByUserName($userName);
     }
 
+    public function getUserByRefreshToken(string $refreshToken): UserModel
+    {
+        return $this->_authenticationRepository->getUserByRefreshToken($refreshToken);
+    }
+
     public function insertUser(UserModel $user): int
     {
         return $this->_authenticationRepository->insertUser($user);
