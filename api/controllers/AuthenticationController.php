@@ -147,9 +147,7 @@ class AuthenticationController extends ControllerBase
     public function refreshToken()
     {
         try
-        {
-            $data = json_decode(file_get_contents('php://input'), true);
-            
+        {            
             $jwtCookie = $_COOKIE['jwt'];
 
             if (!isset($jwtCookie)) {
