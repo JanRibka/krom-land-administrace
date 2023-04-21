@@ -1,22 +1,15 @@
 <?php
-// enum HttpStatusCode: int {
-//     OK = 200;
-//     CREATED = 201;
-//     NO_CONTENT = 204;
-//     BAD_REQUEST = 400;
-//     UNAUTHORIZED = 401;
-//     FORBIDDEN = 403;
-//     NOT_FOUND = 404;
-//     INTERNAL_SERVER_ERROR = 500;
-// }
+namespace kromLand\api\enums;
 
-define('HTTP_STATUS_CODE_OK', 200);
-define('HTTP_STATUS_CODE_CREATED', 201);
-define('HTTP_STATUS_CODE_NO_CONTENT', 204);
-define('HTTP_STATUS_CODE_BAD_REQUEST', 400);
-define('HTTP_STATUS_CODE_UNAUTHORIZED', 401);
-define('HTTP_STATUS_CODE_FORBIDDEN', 403);
-define('HTTP_STATUS_CODE_NOT_FOUND', 404);
-define('HTTP_STATUS_CODE_CONFLICT', 409);
-define('HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR', 500);
+final class HttpStatusCode {
+    const OK = 200;
+    const CREATED = 201;
+    const NO_CONTENT = 204;
+    const BAD_REQUEST = 400;
+    const UNAUTHORIZED = 401;
+    const FORBIDDEN = 403;
+    const NOT_FOUND = 404;
+    const CONFLICT = 409;
+    const INTERNAL_SERVER_ERROR = 500;
+}
 ?>

@@ -7,6 +7,7 @@ require_once __DIR__ . "/../repositories/AuthenticationRepository.php";
 require_once __DIR__ . "/../models/authentication/UserModel.php";
 require_once __DIR__ . "/../services/AuthenticationService.php";
 require_once __DIR__ . "/../constants/global.php";
+require_once __DIR__ . "/../enums/UserRoleEnum.php";
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -14,10 +15,12 @@ use Firebase\JWT\Key;
 use DateTime;
 use Exception;
 use kromLand\api\controllers\ControllerBase;
+use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\models\authentication\UserModel;
 use kromLand\api\services\IAuthenticationService;
 use kromLand\api\services\AuthenticationService;
 use kromLand\api\repositories\AuthenticationRepository;
+use kromLand\api\enums\UserRoleEnum;
 
 class AuthenticationController extends ControllerBase
 {
@@ -42,7 +45,7 @@ class AuthenticationController extends ControllerBase
             $idParent = $data['idParent'];
 
             if (!!!$userName || !!!$password) {
-                $this->apiResponse(false, "Uživatelské jméno a heslo jsou povinné", null, HTTP_STATUS_CODE_BAD_REQUEST);
+                $this->apiResponse(false, "Uživatelské jméno a heslo jsou povinné", null, HttpStatusCode::BAD_REQUEST);
                 die;
             }
             
@@ -52,7 +55,7 @@ class AuthenticationController extends ControllerBase
             if ($duplicate)
             {
                 // Conflict
-                $this->apiResponse(false, "Uživatelské jméno již existuje", null, HTTP_STATUS_CODE_CONFLICT);
+                $this->apiResponse(false, "Uživatelské jméno již existuje", null, HttpStatusCode::CONFLICT);
                 die;
             }
             
@@ -68,11 +71,11 @@ class AuthenticationController extends ControllerBase
 
             $userId = $this->_authenticationService->insertUser($user);
             
-            $this->apiResponse(true, "Uživatel " . $user->UserName . " byl vytvořen", $userId, HTTP_STATUS_CODE_CREATED);            
+            $this->apiResponse(true, "Uživatel " . $user->UserName . " byl vytvořen", $userId, HttpStatusCode::CREATED);            
         }
         catch(Exception $ex) 
         {
-            $this->apiResponse(false, $ex->getMessage(), null, HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);            
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);            
         }
     }
     
@@ -88,7 +91,7 @@ class AuthenticationController extends ControllerBase
             $password = $data['password'];
             
             if (!!!$userName || !!!$password) {
-                $this->apiResponse(false, "Uživatelské jméno a heslo jsou povinné", null, HTTP_STATUS_CODE_BAD_REQUEST);                
+                $this->apiResponse(false, "Uživatelské jméno a heslo jsou povinné", null, HttpStatusCode::BAD_REQUEST);                
                 die;
             }
             
@@ -97,7 +100,7 @@ class AuthenticationController extends ControllerBase
             if(!!!$dbUser->Id) 
             {
                 // Unauthorized
-                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                
+                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HttpStatusCode::UNAUTHORIZED);                
                 die;
             }
             
@@ -153,12 +156,12 @@ class AuthenticationController extends ControllerBase
                 $user->LastLoginAttempt = new DateTime();
                 $this->_authenticationService->updatetUser($user);
 
-                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                               
+                $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HttpStatusCode::UNAUTHORIZED);                               
             }
         }
         catch(Exception $ex) 
         {
-            $this->apiResponse(false, $ex->getMessage(), null, HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -172,7 +175,7 @@ class AuthenticationController extends ControllerBase
             $jwtCookie = $_COOKIE['jwt'];
 
             if (!isset($jwtCookie)) {
-                $this->apiResponse(false, "", null, HTTP_STATUS_CODE_UNAUTHORIZED);
+                $this->apiResponse(false, "", null, HttpStatusCode::UNAUTHORIZED);
                 die;
             }
 
@@ -183,7 +186,7 @@ class AuthenticationController extends ControllerBase
             if(!!!$dbUser->Id) 
             {
                 // Forbidden
-                $this->apiResponse(false, "Nesprávný token", null, HTTP_STATUS_CODE_FORBIDDEN);                
+                $this->apiResponse(false, "Nesprávný token", null, HttpStatusCode::FORBIDDEN);                
                 die;
             }
 
@@ -209,12 +212,12 @@ class AuthenticationController extends ControllerBase
                 $this->apiResponse(true, "", $accessToken);
 
             } catch (Exception $ex) {
-                $this->apiResponse(false, "Nesprávný token", null, HTTP_STATUS_CODE_FORBIDDEN);
+                $this->apiResponse(false, "Nesprávný token", null, HttpStatusCode::FORBIDDEN);
             }        
         }
         catch(Exception $ex) 
         {
-            $this->apiResponse(false, $ex->getMessage(), null, HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }   
     }
 
@@ -227,7 +230,7 @@ class AuthenticationController extends ControllerBase
 
             if (!isset($jwtCookie)) {
                 // No content
-                $this->apiResponse(false, "", null, HTTP_STATUS_CODE_NO_CONTENT);
+                $this->apiResponse(false, "", null, HttpStatusCode::NO_CONTENT);
                 die;
             }
 
@@ -247,7 +250,7 @@ class AuthenticationController extends ControllerBase
                 ]);
 
                 // Forbidden
-                $this->apiResponse(false, "Nesprávný token", null, HTTP_STATUS_CODE_NO_CONTENT);                
+                $this->apiResponse(false, "Nesprávný token", null, HttpStatusCode::NO_CONTENT);                
                 die;
             }
 
@@ -265,17 +268,23 @@ class AuthenticationController extends ControllerBase
                 "secure" => true,
                 "sameSite" => "None"
             ]);
-            $this->apiResponse(true, "", null, HTTP_STATUS_CODE_NO_CONTENT);
+            $this->apiResponse(true, "", null, HttpStatusCode::NO_CONTENT);
 
         } catch (Exception $ex)
         {
-            $this->apiResponse(false, $ex->getMessage(), null, HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') { 
-    if (isset($_GET['function'])) { 
+    if (isset($_GET['function'])) {
+        $userRoles = [
+            "register" => [
+                UserRoleEnum::ADMIN
+            ]
+        ];
+
         $functionName = $_GET['function']; 
         $authenticationRepository = new AuthenticationRepository();
         $authenticationService = new AuthenticationService($authenticationRepository);
@@ -284,7 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         if (method_exists($controller, $functionName)) {
             call_user_func([$controller, $functionName]); 
         } else {
-            http_response_code(HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
+            http_response_code(HttpStatusCode::INTERNAL_SERVER_ERROR);
             echo json_encode([
                 "Success" => false,
                 "ErrMsg" => "Chybná funkce, nebo nebyla zadána"                

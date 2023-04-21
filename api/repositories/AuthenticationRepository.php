@@ -26,9 +26,9 @@ class AuthenticationRepository implements IAuthenticationRepository
         $userModel->IdParent = $user->IdParent;
         $userModel->UserName = $user->UserName;
         $userModel->Password = $user->Password;
-        $userModel->DateCreated = $user->DateCreated ? DateTime::createFromFormat('Y-m-d H:i:s', $user->DateCreated) : null;
-        $userModel->LastLogin = $user->LastLogin;
-        $userModel->LastLoginAttempt = $user->LastLoginAttempt;
+        $userModel->DateCreated = $user->DateCreated ? new DateTime($user->DateCreated) : null;
+        $userModel->LastLogin = $user->LastLogin ? new DateTime($user->LastLogin) : null;
+        $userModel->LastLoginAttempt = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LoginCount = $user->LoginCount;
         $userModel->RefreshToken = $user->RefreshToken;
         $userModel->UserRoleValue = $user->UserRoleValue;
@@ -49,9 +49,9 @@ class AuthenticationRepository implements IAuthenticationRepository
         $userModel->IdParent = $user->IdParent;
         $userModel->UserName = $user->UserName;
         $userModel->Password = $user->Password;
-        $userModel->DateCreated = $user->DateCreated;
-        $userModel->LastLogin = $user->LastLogin;
-        $userModel->LastLoginAttempt = $user->LastLoginAttempt;
+        $userModel->DateCreated = $user->DateCreated ? new DateTime($user->DateCreated) : null;
+        $userModel->LastLogin = $user->LastLogin ? new DateTime($user->LastLogin) : null;
+        $userModel->LastLoginAttempt = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LoginCount = $user->LoginCount;
         $userModel->RefreshToken = $user->RefreshToken;
         $userModel->UserRoleValue = $user->UserRoleValue;

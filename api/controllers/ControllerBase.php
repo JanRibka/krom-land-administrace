@@ -1,11 +1,12 @@
 <?php
 namespace kromLand\api\controllers;
+use kromLand\api\enums\HttpStatusCode;
 
 require_once __DIR__ . "/../enums/httpStatucCode.php";
 
 class ControllerBase 
 {
-    protected function apiResponse(bool $success, string $msg, $data = null, $httpResponse = HTTP_STATUS_CODE_OK)
+    protected function apiResponse(bool $success, string $msg, $data = null, $httpResponse = HttpStatusCode::OK)
     {
         http_response_code($httpResponse);
 

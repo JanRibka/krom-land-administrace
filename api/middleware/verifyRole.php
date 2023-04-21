@@ -6,7 +6,8 @@ use GuzzleHttp\Psr7\ServerRequest;
 function verifyRole(...$allowedRoles) 
 {
     return function (ServerRequest $request, Response $response, callable $next) use ($allowedRoles) {
-        print_r($request);
+        echo $request->getAttribute('username');
+        echo $request->getAttribute('userrole');
         // if (!isset($request->getHeaderLine('userrole'))) {
         //     return $request->sendStatus(401);
         //   }
@@ -20,7 +21,7 @@ function verifyRole(...$allowedRoles)
         //     return $request->sendStatus(401);
         //   }
       
-        $next();
+        return $next($request, $response);
     };
 
 }
