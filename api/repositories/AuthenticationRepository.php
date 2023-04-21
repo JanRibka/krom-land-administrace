@@ -6,6 +6,7 @@ require_once __DIR__ . "/./IAuthenticationRepository.php";
 require_once __DIR__ . "/../../vendor/autoload.php";
 require_once __DIR__ . "/../../vendor/dibi/dibi/src/Dibi/dibi.php";
 
+use DateTime;
 use Dibi;
 use kromLand\api\models\authentication\UserModel;
 use kromLand\api\repositories\IAuthenticationRepository;
@@ -22,12 +23,15 @@ class AuthenticationRepository implements IAuthenticationRepository
 
         $userModel = new UserModel();
         $userModel->Id = $user->Id;
+        $userModel->IdParent = $user->IdParent;
         $userModel->UserName = $user->UserName;
         $userModel->Password = $user->Password;
+        $userModel->DateCreated = $user->DateCreated ? DateTime::createFromFormat('Y-m-d H:i:s', $user->DateCreated) : null;
         $userModel->LastLogin = $user->LastLogin;
         $userModel->LastLoginAttempt = $user->LastLoginAttempt;
         $userModel->LoginCount = $user->LoginCount;
         $userModel->RefreshToken = $user->RefreshToken;
+        $userModel->UserRoleValue = $user->UserRoleValue;
 
         return $userModel;
     }
@@ -42,12 +46,15 @@ class AuthenticationRepository implements IAuthenticationRepository
 
         $userModel = new UserModel();
         $userModel->Id = $user->Id;
+        $userModel->IdParent = $user->IdParent;
         $userModel->UserName = $user->UserName;
         $userModel->Password = $user->Password;
+        $userModel->DateCreated = $user->DateCreated;
         $userModel->LastLogin = $user->LastLogin;
         $userModel->LastLoginAttempt = $user->LastLoginAttempt;
         $userModel->LoginCount = $user->LoginCount;
         $userModel->RefreshToken = $user->RefreshToken;
+        $userModel->UserRoleValue = $user->UserRoleValue;
 
         return $userModel;
     }

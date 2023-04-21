@@ -11,10 +11,11 @@ require_once __DIR__ . "/../constants/global.php";
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+use DateTime;
+use Exception;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\models\authentication\UserModel;
 use kromLand\api\services\IAuthenticationService;
-use Exception;
 use kromLand\api\services\AuthenticationService;
 use kromLand\api\repositories\AuthenticationRepository;
 
@@ -37,6 +38,8 @@ class AuthenticationController extends ControllerBase
             $data = json_decode(file_get_contents('php://input'), true);
             $userName = $data['userName'];
             $password = $data['password'];
+            $userRole = $data['userRole'];
+            $idParent = $data['idParent'];
 
             if (!!!$userName || !!!$password) {
                 $this->apiResponse(false, "Uživatelské jméno a heslo jsou povinné", null, HTTP_STATUS_CODE_BAD_REQUEST);
@@ -60,6 +63,8 @@ class AuthenticationController extends ControllerBase
             $user = new UserModel();
             $user->UserName = $userName;
             $user->Password = $hashedPassword;
+            $user->UserRoleValue = $userRole;
+            $user->IdParent = $idParent;     
 
             $userId = $this->_authenticationService->insertUser($user);
             
@@ -89,7 +94,7 @@ class AuthenticationController extends ControllerBase
             
             $dbUser = $this->_authenticationService->getUserByUserName($userName);
             
-            if(!!!$dbUser) 
+            if(!!!$dbUser->Id) 
             {
                 // Unauthorized
                 $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                
@@ -102,7 +107,10 @@ class AuthenticationController extends ControllerBase
             if ($match) {
                 // Create JWTs (JSON Web Tokens)
                 $payload = [
-                    "username" => $dbUser->UserName,
+                    "userinfo" => [
+                        "username" => $dbUser->UserName,
+                        "userrole" => $dbUser->UserRoleValue,
+                    ],                    
                     "exp" => time() + 30
                 ];  
 
@@ -127,11 +135,24 @@ class AuthenticationController extends ControllerBase
                 setcookie('jwt', $refreshToken, [
                     'expires' => time() + 24 * 60 * 60,
                     'path' => '/',
-                    'httponly' => true
+                    'httpOnly' => true,
+                    "secure" => true,
+                    "sameSite" => "None"
                 ]);
+
+                $user = new UserModel();
+                $user->Id = $dbUser->Id;
+                $user->LastLogin = new DateTime();
+                $user->LoginCount = $dbUser->LoginCount + 1;
+                $this->_authenticationService->updatetUser($user);
                 
                 $this->apiResponse(true, "", $accessToken);                
             } else {
+                $user = new UserModel();
+                $user->Id = $dbUser->Id;
+                $user->LastLoginAttempt = new DateTime();
+                $this->_authenticationService->updatetUser($user);
+
                 $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HTTP_STATUS_CODE_UNAUTHORIZED);                               
             }
         }
@@ -159,7 +180,7 @@ class AuthenticationController extends ControllerBase
             
             $dbUser = $this->_authenticationService->getUserByRefreshToken($refreshToken);
             
-            if(!!!$dbUser) 
+            if(!!!$dbUser->Id) 
             {
                 // Forbidden
                 $this->apiResponse(false, "Nesprávný token", null, HTTP_STATUS_CODE_FORBIDDEN);                
@@ -176,7 +197,10 @@ class AuthenticationController extends ControllerBase
                 if ($dbUser->UserName !== $decoded->username) throw new Exception();
 
                 $payload = [
-                    "username" => $decoded->username,
+                    "userinfo" => [
+                        "username" => $dbUser->UserName,
+                        "userrole" => $dbUser->UserRoleValue,
+                    ],  
                     "exp" => time() + 30
                 ];  
                 
@@ -184,7 +208,7 @@ class AuthenticationController extends ControllerBase
 
                 $this->apiResponse(true, "", $accessToken);
 
-            } catch (Exception $e) {
+            } catch (Exception $ex) {
                 $this->apiResponse(false, "Nesprávný token", null, HTTP_STATUS_CODE_FORBIDDEN);
             }        
         }
@@ -196,7 +220,57 @@ class AuthenticationController extends ControllerBase
 
     public function logout()
     {
+        // On client, also delete the access token
+        try
+        {
+            $jwtCookie = $_COOKIE['jwt'];
 
+            if (!isset($jwtCookie)) {
+                // No content
+                $this->apiResponse(false, "", null, HTTP_STATUS_CODE_NO_CONTENT);
+                die;
+            }
+
+            $refreshToken = $jwtCookie;
+            
+            // Is refresh token in db?            
+            $dbUser = $this->_authenticationService->getUserByRefreshToken($refreshToken);
+
+            if(!!!$dbUser->Id) 
+            {
+                setcookie('jwt', "", [
+                    'expires' => time(),
+                    'path' => '/',
+                    'httpOnly' => true,
+                    "secure" => true,
+                    "sameSite" => "None"
+                ]);
+
+                // Forbidden
+                $this->apiResponse(false, "Nesprávný token", null, HTTP_STATUS_CODE_NO_CONTENT);                
+                die;
+            }
+
+            // Delete refresh token in db            
+            $newUser = new UserModel();
+            $newUser->Id = $dbUser->Id;
+            $newUser->RefreshToken = "";
+            
+            $this->_authenticationService->updatetUser($newUser);
+            // Secure: true - only servers on https
+            setcookie('jwt', "", [
+                'expires' => time(),
+                'path' => '/',
+                'httpOnly' => true,
+                "secure" => true,
+                "sameSite" => "None"
+            ]);
+            $this->apiResponse(true, "", null, HTTP_STATUS_CODE_NO_CONTENT);
+
+        } catch (Exception $ex)
+        {
+            $this->apiResponse(false, $ex->getMessage(), null, HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR);
+        }
     }
 }
 

@@ -14,7 +14,7 @@ use GuzzleHttp\Psr7\ServerRequest;
     {      
         $authHeader = $request->getHeaderLine('HTTP_AUTHORIZATION');
 
-        if (!$authHeader) {
+        if (!$authHeader || !str_starts_with($authHeader, "Bearer ")) {
           return $response->withStatus(HTTP_STATUS_CODE_UNAUTHORIZED);
         }
 
@@ -25,7 +25,8 @@ use GuzzleHttp\Psr7\ServerRequest;
 
           $key = new Key($accessTokenSecret[APP_ENV], 'HS256');
           $decoded = JWT::decode($token, $key);
-          $request = $request->withAttribute('username', $decoded->username);
+          $request = $request->withAttribute('username', $decoded->userinfo->username);
+          $request = $request->withAttribute('userrole', $decoded->userinfo->userrole);
           
           return $next($request, $response);
         } catch (Exception $e) {
