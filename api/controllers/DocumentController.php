@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $response = new Response();       
             $response = verifyJWT($request, $response, 
                 function($request, $response) use ($controller, $functionName) {
-                    return verifyRole()($request, $response,
+                    return verifyRole($userRoles[$functionName])($request, $response,
                     function($request, $response) use($controller, $functionName){
                         call_user_func([$controller, $functionName]);
                             
