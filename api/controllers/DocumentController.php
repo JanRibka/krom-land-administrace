@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 http_response_code($response->getStatusCode());
                 echo json_encode([
                     "Success" => false,
-                    "ErrMsg" => "Token se nepodařilo se ověřit"        
+                    "ErrMsg" => "Pro provedení akce nemáte dostatečná oprávnění"        
                 ], JSON_UNESCAPED_UNICODE);            
             }                    
         } else {

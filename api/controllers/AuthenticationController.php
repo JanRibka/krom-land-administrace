@@ -8,12 +8,18 @@ require_once __DIR__ . "/../models/authentication/UserModel.php";
 require_once __DIR__ . "/../services/AuthenticationService.php";
 require_once __DIR__ . "/../constants/global.php";
 require_once __DIR__ . "/../enums/UserRoleEnum.php";
+require_once __DIR__ . "/../middleware/verifyJWT.php";
+require_once __DIR__ . "/../middleware/verifyRole.php";
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+use function kromLand\api\middleware\verifyJWT;
+use function kromLand\api\middleware\verifyRole;
 
 use DateTime;
 use Exception;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\models\authentication\UserModel;
@@ -279,9 +285,30 @@ class AuthenticationController extends ControllerBase
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') { 
     if (isset($_GET['function'])) {
+        $disableVerification = [
+            "register" => false,
+            "login" => true,
+            "refreshToken" => false,
+            "logout" => false
+        ];
         $userRoles = [
             "register" => [
                 UserRoleEnum::ADMIN
+            ],
+            "login" => [
+                UserRoleEnum::ADMIN,
+                UserRoleEnum::EDITOR,
+                UserRoleEnum::USER
+            ],
+            "refreshToken" => [
+                UserRoleEnum::ADMIN,
+                UserRoleEnum::EDITOR,
+                UserRoleEnum::USER
+            ],
+            "logout" => [
+                UserRoleEnum::ADMIN,
+                UserRoleEnum::EDITOR,
+                UserRoleEnum::USER
             ]
         ];
 
@@ -291,7 +318,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $controller = new AuthenticationController($authenticationService);         
         
         if (method_exists($controller, $functionName)) {
-            call_user_func([$controller, $functionName]); 
+            $request = new ServerRequest(
+                $_SERVER['REQUEST_METHOD'],
+                $_SERVER['REQUEST_URI'],
+                $_SERVER
+            );            
+            $response = new Response();       
+            $response = verifyJWT($request, $response, 
+                function($request, $response) use ($controller, $functionName, $userRoles, $disableVerification) {
+                    return verifyRole($userRoles[$functionName])($request, $response,
+                    function($request, $response) use($controller, $functionName){
+                        call_user_func([$controller, $functionName]);
+                            
+                        return $response;
+                    }, $disableVerification[$functionName]);
+                }, $disableVerification[$functionName]); 
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode !== HttpStatusCode::OK) {
+                http_response_code($response->getStatusCode());
+                echo json_encode([
+                    "Success" => false,
+                    "ErrMsg" => "Pro provedení akce nemáte dostatečná oprávnění"        
+                ], JSON_UNESCAPED_UNICODE);            
+            }                    
         } else {
             http_response_code(HttpStatusCode::INTERNAL_SERVER_ERROR);
             echo json_encode([

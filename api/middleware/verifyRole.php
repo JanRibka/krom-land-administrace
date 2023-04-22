@@ -9,20 +9,24 @@ use kromLand\api\enums\HttpStatusCode;
 
 function verifyRole($allowedRoles) 
 {
-    return function (ServerRequest $request, Response $response, callable $next) use ($allowedRoles) {
-        $userRole = $request->getAttribute('username');
+    return function (ServerRequest $request, Response $response, callable $next, bool $disableAuth = false) use ($allowedRoles) 
+    {
+        if ($disableAuth) return $next($request, $response);
         
+        $userRole = $request->getAttribute('userrole');
+      
         if (!isset($userRole)) {
             return $response->withStatus(HttpStatusCode::UNAUTHORIZED);
-        }      
-        
-        //   $result = array_reduce($request['roles'], function($acc, $role) use ($rolesArray) {
-        //     return $acc || in_array($role, $rolesArray);
-        //   }, false);
+        }    
+
+        $result = array_reduce([$userRole], 
+        function($acc, $role) use ($allowedRoles) {
+                    return $acc || in_array($role, $allowedRoles);
+                }, false);
       
-        //   if (!$result) {
-        //     return $request->sendStatus(401);
-        //   }
+        if (!$result) {
+            return $response->withStatus(HttpStatusCode::UNAUTHORIZED);
+        }
       
         return $next($request, $response);
     };

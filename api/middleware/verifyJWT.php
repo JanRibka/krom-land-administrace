@@ -12,27 +12,29 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\enums\HttpStatusCode;
 
-    function verifyJWT(ServerRequest $request, Response $response, callable $next): Response
+    function verifyJWT(ServerRequest $request, Response $response, callable $next, bool $disableAuth = false): Response
     {      
-        $authHeader = $request->getHeaderLine('HTTP_AUTHORIZATION');
+      if ($disableAuth) return $next($request, $response);
 
-        if (!$authHeader || !str_starts_with($authHeader, "Bearer ")) {
-          return $response->withStatus(HttpStatusCode::UNAUTHORIZED);
-        }
+      $authHeader = $request->getHeaderLine('HTTP_AUTHORIZATION');
 
-        $token = explode(' ', $authHeader)[1];
+      if (!$authHeader || !str_starts_with($authHeader, "Bearer ")) {
+        return $response->withStatus(HttpStatusCode::UNAUTHORIZED);
+      }
 
-        try {
-          global $accessTokenSecret;          
+      $token = explode(' ', $authHeader)[1];
 
-          $key = new Key($accessTokenSecret[APP_ENV], 'HS256');
-          $decoded = JWT::decode($token, $key);
-          $request = $request->withAttribute('username', $decoded->userinfo->username);
-          $request = $request->withAttribute('userrole', $decoded->userinfo->userrole);
-          
-          return $next($request, $response);
-        } catch (Exception $e) {
-          return $response->withStatus(HttpStatusCode::FORBIDDEN);
-        }
+      try {
+        global $accessTokenSecret;          
+
+        $key = new Key($accessTokenSecret[APP_ENV], 'HS256');
+        $decoded = JWT::decode($token, $key);
+        $request = $request->withAttribute('username', $decoded->userinfo->username);
+        $request = $request->withAttribute('userrole', $decoded->userinfo->userrole);
+        
+        return $next($request, $response);
+      } catch (Exception $e) {
+        return $response->withStatus(HttpStatusCode::FORBIDDEN);
+      }
     }
 ?>
