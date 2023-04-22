@@ -27,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_GET['function'])) { 
         $userRoles = [
             "test" => [
-                UserRoleEnum::ADMIN
+                UserRoleEnum::ADMIN,
+                UserRoleEnum::EDITOR
             ]
         ];
         $functionName = $_GET['function']; 
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );            
             $response = new Response();       
             $response = verifyJWT($request, $response, 
-                function($request, $response) use ($controller, $functionName) {
+                function($request, $response) use ($controller, $functionName, $userRoles) {
                     return verifyRole($userRoles[$functionName])($request, $response,
                     function($request, $response) use($controller, $functionName){
                         call_user_func([$controller, $functionName]);

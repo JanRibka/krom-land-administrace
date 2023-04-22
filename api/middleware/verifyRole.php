@@ -4,11 +4,12 @@ namespace kromLand\api\middleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 
-function verifyRole(...$allowedRoles) 
+function verifyRole($allowedRoles) 
 {
     return function (ServerRequest $request, Response $response, callable $next) use ($allowedRoles) {
         echo $request->getAttribute('username');
         echo $request->getAttribute('userrole');
+        echo json_encode($allowedRoles);
         // if (!isset($request->getHeaderLine('userrole'))) {
         //     return $request->sendStatus(401);
         //   }
