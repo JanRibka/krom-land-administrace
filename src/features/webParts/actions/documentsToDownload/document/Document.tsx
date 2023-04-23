@@ -31,7 +31,10 @@ const Document = (props: IProps) => {
     destination: string
   ) => {
     const document = new DocumentModel({
-      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      Path:
+        (process.env.PUBLIC_URL ?? "") +
+        destination +
+        fileName.replace(" ", "%20"),
       Name: fileName,
     });
 
