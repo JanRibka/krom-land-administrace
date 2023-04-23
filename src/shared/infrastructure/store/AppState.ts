@@ -1,9 +1,9 @@
-import { CommonState } from "./common/commonSlice";
-import { LoginState } from "./login/loginSlice";
-import { WebPartsState } from "./webParts/webPartsSlice";
+import { AuthenticationState } from './authentication/authenticationSlice';
+import { CommonState } from './common/commonSlice';
+import { WebPartsState } from './webParts/webPartsSlice';
 
 export default interface AppState {
   webParts: WebPartsState;
   common: CommonState;
-  login: LoginState;
+  authentication: AuthenticationState;
 }
