@@ -10,13 +10,13 @@ const SectionStyled = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.light,
 
   h1: {
-    fontSize: "5rem",
+    fontSize: "4rem",
   },
 
   ".err-msg": {
     backgroundColor: theme.palette.error.main,
     textAlign: "center",
-    padding: "10px 10",
+    padding: "10px 10px",
     borderRadius: "5px",
     fontSize: "1.2rem",
   },
@@ -37,6 +37,7 @@ const SectionStyled = styled(Box)(({ theme }) => ({
     form: {
       display: "flex",
       flexDirection: "column",
+      minWidth: "500px",
 
       ".MuiFormControl-root": {
         marginTop: "15px",
