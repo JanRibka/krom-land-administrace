@@ -1,12 +1,12 @@
 import Login from "features/login/Login";
 
-import PageStyled from "./styledComponents/PageStyled";
+import Box from "@mui/material/Box";
 
 const LoginPage = () => {
   return (
-    <PageStyled component='main'>
+    <Box component='main'>
       <Login />
-    </PageStyled>
+    </Box>
   );
 };
 

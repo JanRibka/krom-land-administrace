@@ -1,10 +1,18 @@
 <?php
 namespace komLand\api\controllers;
+use kromLand\api\models\authentication\LoginResponseModel;
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Methods: GET, POST");
+header("Content-Type: application/json");
+
 
 require_once __DIR__ . "/../enums/httpStatucCode.php";
 require_once __DIR__ . "/./ControllerBase.php";
 require_once __DIR__ . "/../repositories/AuthenticationRepository.php";
 require_once __DIR__ . "/../models/authentication/UserModel.php";
+require_once __DIR__ . "/../models/authentication/LoginResponseModel.php";
 require_once __DIR__ . "/../services/AuthenticationService.php";
 require_once __DIR__ . "/../constants/global.php";
 require_once __DIR__ . "/../enums/UserRoleEnum.php";
@@ -44,11 +52,10 @@ class AuthenticationController extends ControllerBase
     {        
         try
         {            
-            $data = json_decode(file_get_contents('php://input'), true);
-            $userName = $data['userName'];
-            $password = $data['password'];
-            $userRole = $data['userRole'];
-            $idParent = $data['idParent'];
+            $userName = $_POST['userName'];
+            $password = $_POST['password'];
+            $userRole = $_POST['userRole'];
+            $idParent = $_POST['idParent'];
 
             if (!!!$userName || !!!$password) {
                 $this->apiResponse(false, "Uživatelské jméno a heslo jsou povinné", null, HttpStatusCode::BAD_REQUEST);
@@ -91,10 +98,9 @@ class AuthenticationController extends ControllerBase
     public function login() 
     {
         try
-        {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $userName = $data['userName'];
-            $password = $data['password'];
+        {            
+            $userName = $_POST['userName'];
+            $password = $_POST['password'];
             
             if (!!!$userName || !!!$password) {
                 $this->apiResponse(false, "Uživatelské jméno a heslo jsou povinné", null, HttpStatusCode::BAD_REQUEST);                
@@ -154,8 +160,10 @@ class AuthenticationController extends ControllerBase
                 $user->LastLogin = new DateTime();
                 $user->LoginCount = $dbUser->LoginCount + 1;
                 $this->_authenticationService->updatetUser($user);
+
+                $responseData = new LoginResponseModel($dbUser->UserRoleValue, $accessToken);
                 
-                $this->apiResponse(true, "", $accessToken);                
+                $this->apiResponse(true, "", $responseData);
             } else {
                 $user = new UserModel();
                 $user->Id = $dbUser->Id;
@@ -256,7 +264,7 @@ class AuthenticationController extends ControllerBase
                 ]);
 
                 // Forbidden
-                $this->apiResponse(false, "Nesprávný token", null, HttpStatusCode::NO_CONTENT);                
+                $this->apiResponse(false, "Nesprávný token", null, HttpStatusCode::FORBIDDEN);                
                 die;
             }
 
@@ -312,7 +320,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
             ]
         ];
 
-        $functionName = $_GET['function']; 
+        $disableAuth = false;
+
+        if(isset($_GET['disableAuth'])) $disableAuth = true;
+
+        $functionName = $_GET['function'];        
         $authenticationRepository = new AuthenticationRepository();
         $authenticationService = new AuthenticationService($authenticationRepository);
         $controller = new AuthenticationController($authenticationService);         
@@ -325,14 +337,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
             );            
             $response = new Response();       
             $response = verifyJWT($request, $response, 
-                function($request, $response) use ($controller, $functionName, $userRoles, $disableVerification) {
+                function($request, $response) use ($controller, $functionName, $userRoles, $disableVerification, $disableAuth) {
                     return verifyRole($userRoles[$functionName])($request, $response,
                     function($request, $response) use($controller, $functionName){
                         call_user_func([$controller, $functionName]);
                             
                         return $response;
-                    }, $disableVerification[$functionName]);
-                }, $disableVerification[$functionName]); 
+                    }, $disableVerification[$functionName] || $disableAuth);
+                }, $disableVerification[$functionName] || $disableAuth); 
 
             $statusCode = $response->getStatusCode();
 
