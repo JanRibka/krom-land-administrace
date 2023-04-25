@@ -1,5 +1,6 @@
 export type AppRoute =
   | "/admin"
+  | "/admin/login"
   | "/admin/home"
   | "/admin/actions"
   | "/admin/gallery"
@@ -9,6 +10,7 @@ export type AppRoute =
 
 export const AppRoute = {
   Dashboard: "/admin" as AppRoute,
+  Login: "/admin/login" as AppRoute,
   Home: "/admin/home" as AppRoute,
   Actions: "/admin/actions" as AppRoute,
   Gallery: "/admin/gallery" as AppRoute,

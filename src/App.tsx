@@ -1,14 +1,11 @@
-import LoginPage from "features/pages/LoginPage";
-
-import Layout from "./features/layout/Layout";
-import AppRouter from "./shared/infrastructure/router/AppRouter";
+import Layout from './features/layout/Layout';
+import AppRouter from './shared/infrastructure/router/AppRouter';
 
 const App = () => {
   return (
-    <LoginPage />
-    // <Layout>
-    //   <AppRouter />
-    // </Layout>
+    <Layout>
+      <AppRouter />
+    </Layout>
   );
 };
 

@@ -1,15 +1,18 @@
-import DashboardPage from "features/pages/DashboardPage";
-import ActionsPage from "features/pages/webParts/ActionsPage";
-import ContactPage from "features/pages/webParts/ContactPage";
-import GalleryPage from "features/pages/webParts/GalleryPage";
-import GdprPage from "features/pages/webParts/GdprPage";
-import HomePage from "features/pages/webParts/HomePage";
-import TermsOfConditionsPage from "features/pages/webParts/TermsOfConditionsPage";
-import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import usePrevious from "shared/customHooks/usePrevious/usePrevious";
+import DashboardPage from 'features/pages/DashboardPage';
+import LoginPage from 'features/pages/LoginPage';
+import ActionsPage from 'features/pages/webParts/ActionsPage';
+import ContactPage from 'features/pages/webParts/ContactPage';
+import GalleryPage from 'features/pages/webParts/GalleryPage';
+import GdprPage from 'features/pages/webParts/GdprPage';
+import HomePage from 'features/pages/webParts/HomePage';
+import TermsOfConditionsPage from 'features/pages/webParts/TermsOfConditionsPage';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import RequireAuth from 'shared/components/requireAuth/RequireAuth';
+import usePrevious from 'shared/customHooks/usePrevious/usePrevious';
+import { UserRoleEnum } from 'shared/enums/UserRoleEnum';
 
-import { AppRoute } from "./appRoutes";
+import { AppRoute } from './appRoutes';
 
 const AppRouter = () => {
   // Constants
@@ -46,16 +49,34 @@ const AppRouter = () => {
 
   return (
     <Routes>
-      <Route path={AppRoute.Dashboard} element={<DashboardPage />} />
-      <Route path={AppRoute.Home} element={<HomePage />} />
-      <Route path={AppRoute.Actions} element={<ActionsPage />} />
-      <Route path={AppRoute.Gallery} element={<GalleryPage />} />
-      <Route path={AppRoute.Contact} element={<ContactPage />} />
-      <Route path={AppRoute.Gdpr} element={<GdprPage />} />
+      {/* Public routes */}
+      <Route path={AppRoute.Login} element={<LoginPage />} />
+
+      {/* Protected routes */}
+      <Route element={<RequireAuth allowedRoles={[UserRoleEnum.ADMIN]} />}>
+        <Route path={AppRoute.Dashboard} element={<DashboardPage />} />
+      </Route>
       <Route
-        path={AppRoute.TermsOfConditions}
-        element={<TermsOfConditionsPage />}
-      />
+        element={
+          <RequireAuth
+            allowedRoles={[
+              UserRoleEnum.ADMIN,
+              UserRoleEnum.EDITOR,
+              UserRoleEnum.USER,
+            ]}
+          />
+        }
+      >
+        <Route path={AppRoute.Home} element={<HomePage />} />
+        <Route path={AppRoute.Actions} element={<ActionsPage />} />
+        <Route path={AppRoute.Gallery} element={<GalleryPage />} />
+        <Route path={AppRoute.Contact} element={<ContactPage />} />
+        <Route path={AppRoute.Gdpr} element={<GdprPage />} />
+        <Route
+          path={AppRoute.TermsOfConditions}
+          element={<TermsOfConditionsPage />}
+        />
+      </Route>
     </Routes>
   );
 };
