@@ -35,7 +35,6 @@ export default class LoginService {
 
       if (!!response.data?.Data) result = response.data;
     } catch (err: any) {
-      debugger;
       if (err.response?.data?.Success === false) {
         result = {
           ...result,

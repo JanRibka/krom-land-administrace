@@ -1,27 +1,24 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import {
-    AuthenticationState
-} from 'shared/infrastructure/store/authentication/authenticationSlice';
-import {
-    useAuthenticationSlice
-} from 'shared/infrastructure/store/authentication/useAuthenticationSlice';
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { AppRoute } from "shared/infrastructure/router/appRoutes";
+import { AuthenticationState } from "shared/infrastructure/store/authentication/authenticationSlice";
+import { useAuthenticationSlice } from "shared/infrastructure/store/authentication/useAuthenticationSlice";
 
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 
-import LoginService from './LoginService';
-import SectionStyled from './styledComponents/SectionStyled';
+import LoginService from "./LoginService";
+import SectionStyled from "./styledComponents/SectionStyled";
 
 const Login = () => {
   // References
@@ -33,7 +30,6 @@ const Login = () => {
   const { handleAuthenticationUpdate } = useAuthenticationSlice();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
 
   // State
   const [userName, setUserName] = useState<string>("");
@@ -55,7 +51,7 @@ const Login = () => {
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await _loginService.login(userName, password);
-
+    console.log("loginRespoonse", response);
     if (response?.Success) {
       const authState: Partial<AuthenticationState> = {
         UserName: userName,
@@ -66,7 +62,10 @@ const Login = () => {
       handleAuthenticationUpdate(authState);
       setUserName("");
       setPassword("");
-      navigate(from, { replace: true });
+      navigate(AppRoute.Dashboard, {
+        state: { from: location },
+        replace: true,
+      });
     } else {
       setErrMsg(response.ErrMsg);
       refErr.current?.focus();
@@ -109,7 +108,9 @@ const Login = () => {
             />
 
             <FormControl variant='outlined'>
-              <InputLabel htmlFor='login-password'>Heslo</InputLabel>
+              <InputLabel htmlFor='login-password' required>
+                Heslo
+              </InputLabel>
               <OutlinedInput
                 id='login-password'
                 label='Heslo'

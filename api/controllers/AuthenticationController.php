@@ -149,7 +149,7 @@ class AuthenticationController extends ControllerBase
 
                 setcookie('jwt', $refreshToken, [
                     'expires' => time() + 24 * 60 * 60,
-                    'path' => '/',
+                    'path' => '/admin',
                     'httpOnly' => true,
                     "secure" => true,
                     "sameSite" => "None"

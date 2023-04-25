@@ -1,6 +1,6 @@
 import { mapFromWebPartsDTO } from "features/webParts/save/mapFromWebPartsDTO";
-import { ReactNode } from "react";
 import { useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
 import AppNotification from "shared/components/notification/AppNotification";
 import { useRequest } from "shared/dataAccess/useRequest";
 import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDataDTO";
@@ -15,11 +15,7 @@ import NavBar from "./navBar/NavBar";
 import SideBar from "./sideBar/SideBar";
 import LayoutStyled from "./styledComponents/LayoutStyled";
 
-interface IProps {
-  children: ReactNode;
-}
-
-const Layout = (props: IProps) => {
+const Layout = () => {
   // Store
   const common = useSelector(selectCommon);
 
@@ -31,47 +27,47 @@ const Layout = (props: IProps) => {
   /**
    * Get data for web
    */
-  useRequest<JsonResulObjectDTO<KromLandDTO>>(
-    {
-      url: process.env.REACT_APP_API_URL ?? "",
-      params: new URLSearchParams({
-        action: "webcontent",
-        type: "getall",
-      }),
-    },
-    {
-      Success: false,
-      ErrMsg: "",
-      Data: {
-        WebParts: new WebPartsDTO(),
-      },
-    },
-    [],
-    {
-      apply: true,
-      condition: () => common._dataLoaded === false,
-    },
-    (data) => {
-      const dataType = typeof data;
-      console.log(data);
-      if (dataType === "string") {
-        AppNotification("Chyba", String(data), "danger");
-      } else {
-        if (data.Success) {
-          handleWebPartsUpdate(mapFromWebPartsDTO(data?.Data?.WebParts));
-          handleCommonUpdate({ _dataLoaded: true });
-        } else {
-          AppNotification("Chyba", data.ErrMsg ?? "", "danger");
-        }
-      }
-    }
-  );
+  // useRequest<JsonResulObjectDTO<KromLandDTO>>(
+  //   {
+  //     url: process.env.REACT_APP_API_URL ?? "",
+  //     params: new URLSearchParams({
+  //       action: "webcontent",
+  //       type: "getall",
+  //     }),
+  //   },
+  //   {
+  //     Success: false,
+  //     ErrMsg: "",
+  //     Data: {
+  //       WebParts: new WebPartsDTO(),
+  //     },
+  //   },
+  //   [],
+  //   {
+  //     apply: true,
+  //     condition: () => common._dataLoaded === false,
+  //   },
+  //   (data) => {
+  //     const dataType = typeof data;
+  //     console.log(data);
+  //     if (dataType === "string") {
+  //       AppNotification("Chyba", String(data), "danger");
+  //     } else {
+  //       if (data.Success) {
+  //         handleWebPartsUpdate(mapFromWebPartsDTO(data?.Data?.WebParts));
+  //         handleCommonUpdate({ _dataLoaded: true });
+  //       } else {
+  //         AppNotification("Chyba", data.ErrMsg ?? "", "danger");
+  //       }
+  //     }
+  //   }
+  // );
 
   return (
     <LayoutStyled>
       <NavBar />
       <SideBar width={sideBarWidth} />
-      {props.children}
+      {<Outlet />}
       <Footer paddingLeft={sideBarWidth + 32} />
     </LayoutStyled>
   );

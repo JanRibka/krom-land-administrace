@@ -1,12 +1,7 @@
-import Layout from './features/layout/Layout';
-import AppRouter from './shared/infrastructure/router/AppRouter';
+import AppRouter from "./shared/infrastructure/router/AppRouter";
 
 const App = () => {
-  return (
-    <Layout>
-      <AppRouter />
-    </Layout>
-  );
+  return <AppRouter />;
 };
 
 export default App;
