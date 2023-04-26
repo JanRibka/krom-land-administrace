@@ -64,6 +64,7 @@ class AuthenticationRepository implements IAuthenticationRepository
         $insertData = $user->GetDataForUpdate($user);
         $insertData["DateCreated"] = date("Y-m-d H:i:s");
         $insertData["LoginCount"] = 0;
+        $insertData["LoginAttemptCount"] = 0;
 
         dibi::query("INSERT INTO `login`", $insertData);
 
