@@ -168,6 +168,7 @@ class AuthenticationController extends ControllerBase
                 $user = new UserModel();
                 $user->Id = $dbUser->Id;
                 $user->LastLoginAttempt = new DateTime();
+                $user->LoginAttemptCount = $dbUser->LoginAttemptCount + 1;
                 $this->_authenticationService->updatetUser($user);
 
                 $this->apiResponse(false, "Nesprávné uživatelské jméno, nebo heslo", null, HttpStatusCode::UNAUTHORIZED);                               
