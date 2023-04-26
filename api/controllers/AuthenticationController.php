@@ -297,7 +297,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $disableVerification = [
             "register" => false,
             "login" => true,
-            "refreshToken" => false,
+            "refreshToken" => true,
             "logout" => false
         ];
         $userRoles = [

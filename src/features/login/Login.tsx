@@ -51,7 +51,7 @@ const Login = () => {
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await _loginService.login(userName, password);
-    console.log("loginRespoonse", response);
+
     if (response?.Success) {
       const authState: Partial<AuthenticationState> = {
         UserName: userName,

@@ -1,7 +1,6 @@
-import axios from 'axios';
-
-import IPostResponse from './IPostResponse';
-import IRequest from './IRequest';
+import axios from "./axios";
+import IPostResponse from "./IPostResponse";
+import IRequest from "./IRequest";
 
 export default abstract class RepositoryBase {
   /**
@@ -34,7 +33,7 @@ export default abstract class RepositoryBase {
     request: IRequest,
     data: any
   ): Promise<IPostResponse<TResult>> {
-    return axios.post(this.getUrl(request), data, {
+    return (request.axiosPrivate || axios).post(this.getUrl(request), data, {
       cancelToken: request.cancelToken,
       params: request.params,
       headers: { ...request.headers },

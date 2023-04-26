@@ -11,7 +11,7 @@ import TermsOfConditionsPage from "features/pages/webParts/TermsOfConditionsPage
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import RequireAuth from "shared/components/requireAuth/RequireAuth";
-import usePrevious from "shared/customHooks/usePrevious/usePrevious";
+import usePrevious from "shared/customHooks/usePrevious";
 import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 
 import { AppRoute } from "./appRoutes";
