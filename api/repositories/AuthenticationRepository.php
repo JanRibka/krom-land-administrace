@@ -30,6 +30,7 @@ class AuthenticationRepository implements IAuthenticationRepository
         $userModel->LastLogin = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LastLoginAttempt = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LoginCount = $user->LoginCount;
+        $userModel->LoginAttemptCount = $user->LoginAttemptCount;
         $userModel->RefreshToken = $user->RefreshToken;
         $userModel->UserRoleValue = $user->UserRoleValue;
 
@@ -53,6 +54,7 @@ class AuthenticationRepository implements IAuthenticationRepository
         $userModel->LastLogin = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LastLoginAttempt = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LoginCount = $user->LoginCount;
+        $userModel->LoginAttemptCount = $user->LoginAttemptCount;
         $userModel->RefreshToken = $user->RefreshToken;
         $userModel->UserRoleValue = $user->UserRoleValue;
 
