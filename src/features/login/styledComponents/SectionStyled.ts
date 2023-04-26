@@ -31,13 +31,14 @@ const SectionStyled = styled(Box)(({ theme }) => ({
     padding: "40px",
     backgroundColor: theme.palette.secondary.main,
     borderRadius: "10px",
+    width: "90%",
+    maxWidth: "500px",
     boxShadow:
       "0px 0px 4px 0px rgb(0 0 0 / 20%), 0px 0px 5px 4px rgb(0 0 0 / 14%), 1px 0px 10px 1px rgb(0 0 0 / 12%)",
 
     form: {
       display: "flex",
       flexDirection: "column",
-      minWidth: "500px",
 
       ".MuiFormControl-root": {
         marginTop: "15px",
