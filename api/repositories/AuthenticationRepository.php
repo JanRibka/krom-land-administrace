@@ -30,6 +30,7 @@ class AuthenticationRepository implements IAuthenticationRepository
         $userModel->LastLogin = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LastLoginAttempt = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LoginCount = $user->LoginCount;
+        $userModel->LoginAttemptCount = $user->LoginAttemptCount;
         $userModel->RefreshToken = $user->RefreshToken;
         $userModel->UserRoleValue = $user->UserRoleValue;
 
@@ -53,6 +54,7 @@ class AuthenticationRepository implements IAuthenticationRepository
         $userModel->LastLogin = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LastLoginAttempt = $user->LastLogin ? new DateTime($user->LastLogin) : null;
         $userModel->LoginCount = $user->LoginCount;
+        $userModel->LoginAttemptCount = $user->LoginAttemptCount;
         $userModel->RefreshToken = $user->RefreshToken;
         $userModel->UserRoleValue = $user->UserRoleValue;
 
@@ -64,6 +66,7 @@ class AuthenticationRepository implements IAuthenticationRepository
         $insertData = $user->GetDataForUpdate($user);
         $insertData["DateCreated"] = date("Y-m-d H:i:s");
         $insertData["LoginCount"] = 0;
+        $insertData["LoginAttemptCount"] = 0;
 
         dibi::query("INSERT INTO `login`", $insertData);
 

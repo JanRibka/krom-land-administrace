@@ -13,6 +13,7 @@ class UserModel
     public ?DateTime $LastLogin = null;
     public ?DateTime $LastLoginAttempt = null;
     public ?int $LoginCount = null;
+    public ?int $LoginAttemptCount = null;
     public ?string $RefreshToken = null;
     public ?int $UserRoleValue = null;
 
