@@ -1,7 +1,6 @@
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import AppNotification from "shared/components/notification/AppNotification";
 
-import axios from "./axios";
 import IPostRequest from "./IPostRequest";
 import IPostResponse from "./IPostResponse";
 import IRequest from "./IRequest";
@@ -14,7 +13,7 @@ export default class Repository extends RepositoryBase {
         .get(this.getUrl(request), {
           cancelToken: request.cancelToken,
           params: request.params,
-          withCredentials: true,
+          withCredentials: request.withCredentials,
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json",
