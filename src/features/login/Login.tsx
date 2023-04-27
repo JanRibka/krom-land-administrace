@@ -1,29 +1,40 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { AppRoute } from "shared/infrastructure/router/appRoutes";
-import { AuthenticationState } from "shared/infrastructure/store/authentication/authenticationSlice";
-import { useAuthenticationSlice } from "shared/infrastructure/store/authentication/useAuthenticationSlice";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { AppRoute } from 'shared/infrastructure/router/appRoutes';
+import authenticationSlice, {
+    AuthenticationState, selectAuthentication
+} from 'shared/infrastructure/store/authentication/authenticationSlice';
+import {
+    useAuthenticationSlice
+} from 'shared/infrastructure/store/authentication/useAuthenticationSlice';
+import { nameof } from 'shared/nameof';
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
-import LoginService from "./LoginService";
-import SectionStyled from "./styledComponents/SectionStyled";
+import LoginService from './LoginService';
+import SectionStyled from './styledComponents/SectionStyled';
 
 const Login = () => {
   // References
   const refUser = useRef<any>(null);
   const refErr = useRef<HTMLSpanElement>(null);
+
+  // Store
+  const authentication = useSelector(selectAuthentication);
 
   // Constants
   const _loginService = new LoginService();
@@ -82,6 +93,16 @@ const Login = () => {
     event.preventDefault();
   };
 
+  const handleCheckboxOnChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    const name: string = e.target.name;
+
+    handleAuthenticationUpdate({ [name]: checked });
+    localStorage.setItem("persist", JSON.stringify(checked));
+  };
+
   return (
     <ErrorBoundary>
       <SectionStyled component='section'>
@@ -101,7 +122,7 @@ const Login = () => {
               label='Email'
               type='email'
               id='user-name'
-              autoComplete='off'
+              autoComplete='username'
               onChange={(e) => setUserName(e.target.value)}
               value={userName}
               required
@@ -118,6 +139,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 required
+                autoComplete='current-password'
                 endAdornment={
                   <InputAdornment position='end'>
                     <IconButton
@@ -140,6 +162,17 @@ const Login = () => {
             <Button type='submit' variant='contained'>
               Přihlásit
             </Button>
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name={nameof<AuthenticationState>("Persist")}
+                  checked={authentication.Persist}
+                  onChange={handleCheckboxOnChange}
+                />
+              }
+              label='Zůstat přihlášený'
+            />
           </form>
         </Box>
       </SectionStyled>
