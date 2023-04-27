@@ -1,9 +1,4 @@
-import {
-  AxiosHeaders,
-  AxiosInstance,
-  CancelToken,
-  RawAxiosRequestHeaders,
-} from "axios";
+import { AxiosHeaders, CancelToken, RawAxiosRequestHeaders } from "axios";
 
 export default interface IRequest {
   url: string;
@@ -15,5 +10,4 @@ export default interface IRequest {
   returnError?: boolean;
   headers?: RawAxiosRequestHeaders | AxiosHeaders;
   withCredentials?: boolean;
-  axiosPrivate?: AxiosInstance;
 }

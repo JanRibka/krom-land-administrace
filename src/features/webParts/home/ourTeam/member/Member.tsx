@@ -52,7 +52,7 @@ const Member = (props: IProps) => {
       Alt: alt,
       Name: fileName,
     });
-    console.log(props.name);
+
     handleHomeTeamMemberUpdate({ [name]: image }, props.index);
   };
 

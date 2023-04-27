@@ -10,13 +10,15 @@ import RepositoryBase from "./RepositoryBase";
 export default class Repository extends RepositoryBase {
   public async get<T>(request: IRequest) {
     return await new Promise<T>((resolve, reject) => {
-      // (request.private ? this.axiosPrivate : axios)
-      (request.axiosPrivate || axios)
+      axios
         .get(this.getUrl(request), {
           cancelToken: request.cancelToken,
           params: request.params,
-          withCredentials: request.withCredentials || !!request.axiosPrivate,
-          headers: { "Access-Control-Allow-Origin": "*" },
+          withCredentials: true,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          },
         })
         .then((response: AxiosResponse<T>) => {
           resolve(response.data);

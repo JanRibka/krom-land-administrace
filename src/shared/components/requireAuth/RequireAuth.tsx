@@ -9,7 +9,7 @@ const RequireAuth = (props: IProps) => {
   // Store
   const _store = store.getState();
   const authentication = _store.authentication;
-  console.log(authentication);
+
   // Constants
   const location = useLocation();
 

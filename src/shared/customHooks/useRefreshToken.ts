@@ -1,33 +1,39 @@
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import Repository from "shared/infrastructure/repositiory/Repository";
-import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
+import { AppRoute } from "shared/infrastructure/router/appRoutes";
 import { useAuthenticationSlice } from "shared/infrastructure/store/authentication/useAuthenticationSlice";
 
 export const useRefreshToken = () => {
   // Constants
-  const _repository = new Repository();
   const { handleAuthenticationUpdate } = useAuthenticationSlice();
-
-  // Store
-  const authentication = useSelector(selectAuthentication);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const _axios = axios.create({});
 
   // Other
   const refresh = async () => {
-    const response = await _repository.get<JsonResulObjectDataDTO<string>>({
-      url:
+    try {
+      const response = await _axios.get<JsonResulObjectDataDTO<string>>(
         (process.env.REACT_APP_API_URL ?? "") + "AuthenticationController.php",
-      params: new URLSearchParams({
-        function: "refreshToken",
-      }),
-      withCredentials: true,
-    });
+        {
+          withCredentials: true,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          },
+          params: new URLSearchParams({
+            function: "refreshToken",
+          }),
+        }
+      );
 
-    console.log(authentication);
-    console.log(response);
-    handleAuthenticationUpdate({ AccessToken: response.Data ?? "" });
+      handleAuthenticationUpdate({ AccessToken: response.data.Data ?? "" });
 
-    return response.Data;
+      return response.data.Data;
+    } catch (err) {
+      navigate(AppRoute.Login, { state: { from: location }, replace: true });
+    }
   };
 
   return refresh;
