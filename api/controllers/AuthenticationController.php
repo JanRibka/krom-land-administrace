@@ -201,7 +201,7 @@ class AuthenticationController extends ControllerBase
             if(!!!$dbUser->Id) 
             {
                 // Forbidden
-                $this->apiResponse(false, "Nesprávný token", null, HttpStatusCode::FORBIDDEN);                
+                $this->apiResponse(false, "Neplatný token", null, HttpStatusCode::FORBIDDEN);                
                 die;
             }
 
@@ -227,7 +227,7 @@ class AuthenticationController extends ControllerBase
                 $this->apiResponse(true, "", $accessToken);
 
             } catch (Exception $ex) {
-                $this->apiResponse(false, "Nesprávný token", null, HttpStatusCode::FORBIDDEN);
+                $this->apiResponse(false, "Neplatný token", null, HttpStatusCode::FORBIDDEN);
             }        
         }
         catch(Exception $ex) 
