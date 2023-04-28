@@ -1,7 +1,5 @@
 <?php
 namespace komLand\api\controllers;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\ServerRequest;
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
@@ -22,15 +20,28 @@ use Exception;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\ServerRequest;
+use kromLand\api\repositories\HomeRepository;
+use kromLand\api\services\HomeService;
+use kromLand\api\services\IHomeService;
 
 class WebContentController extends ControllerBase
 {
+    private readonly IHomeService $_homeService;
 
-    public function getHomeData()
+    public function __construct(IHomeService $pHomeService)
+    {
+        $this->_homeService = $pHomeService;
+    }
+
+    public function getHome()
     {
         try
         {
+            $home = $this->_homeService->getHome(1);
 
+            $this->apiResponse(true, "", $home);
         } catch(Exception $ex)
         {
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
@@ -47,9 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         ];        
 
         $functionName = $_GET['function'];        
-        $authenticationRepository = new AuthenticationRepository();
-        $authenticationService = new AuthenticationService($authenticationRepository);
-        $controller = new AuthenticationController($authenticationService);         
+        $homeRepository = new HomeRepository();
+        $homeService = new HomeService($homeRepository);
+        $controller = new WebContentController($homeService);         
         
         if (method_exists($controller, $functionName)) {
             $request = new ServerRequest(
