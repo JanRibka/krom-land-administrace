@@ -1,12 +1,13 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Action, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import AppState from "../AppState";
+import AppState from '../AppState';
 
 export interface AuthenticationState {
   UserName: string;
   Password: string;
   UserRole: number;
   AccessToken: string;
+  Persist: boolean;
 }
 
 export const initialState: AuthenticationState = {
@@ -14,6 +15,7 @@ export const initialState: AuthenticationState = {
   Password: "",
   UserRole: 0,
   AccessToken: "",
+  Persist: JSON.parse(localStorage.getItem("persist") ?? "false"),
 };
 
 export const authenticationSlice = createSlice({
@@ -27,6 +29,15 @@ export const authenticationSlice = createSlice({
       return {
         ...state,
         ...action.payload,
+      };
+    },
+    authenticationReset: (state, action: Action) => {
+      return {
+        ...state,
+        UserName: "",
+        Password: "",
+        UserRole: 0,
+        AccessToken: "",
       };
     },
   },

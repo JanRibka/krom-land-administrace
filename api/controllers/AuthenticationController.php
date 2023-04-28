@@ -1,6 +1,7 @@
 <?php
 namespace komLand\api\controllers;
 use kromLand\api\models\authentication\LoginResponseModel;
+use kromLand\api\models\authentication\RefreshTokenResponseModel;
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
@@ -13,6 +14,7 @@ require_once __DIR__ . "/./ControllerBase.php";
 require_once __DIR__ . "/../repositories/AuthenticationRepository.php";
 require_once __DIR__ . "/../models/authentication/UserModel.php";
 require_once __DIR__ . "/../models/authentication/LoginResponseModel.php";
+require_once __DIR__ . "/../models/authentication/RefreshTokenResponseModel.php";
 require_once __DIR__ . "/../services/AuthenticationService.php";
 require_once __DIR__ . "/../constants/global.php";
 require_once __DIR__ . "/../enums/UserRoleEnum.php";
@@ -223,8 +225,9 @@ class AuthenticationController extends ControllerBase
                 ];  
                 
                 $accessToken = JWT::encode($payload, $accessTokenSecret[APP_ENV], "HS256");
+                $responseData = new RefreshTokenResponseModel($dbUser->UserRoleValue, $accessToken);
 
-                $this->apiResponse(true, "", $accessToken);
+                $this->apiResponse(true, "", $responseData);
 
             } catch (Exception $ex) {
                 $this->apiResponse(false, "Neplatný token", null, HttpStatusCode::FORBIDDEN);
@@ -258,7 +261,7 @@ class AuthenticationController extends ControllerBase
             {
                 setcookie('jwt', "", [
                     'expires' => time(),
-                    'path' => '/',
+                    'path' => '/admin',
                     'httpOnly' => true,
                     "secure" => true,
                     "sameSite" => "None"
@@ -278,7 +281,7 @@ class AuthenticationController extends ControllerBase
             // Secure: true - only servers on https
             setcookie('jwt', "", [
                 'expires' => time(),
-                'path' => '/',
+                'path' => '/admin',
                 'httpOnly' => true,
                 "secure" => true,
                 "sameSite" => "None"

@@ -1,10 +1,13 @@
-import NavBarStyled from "./styledComponets/NavBarStyled";
-import ToolBarStyled from "./styledComponets/ToolBarStyled";
+import SignOut from './signOut/SignOut';
+import NavBarStyled from './styledComponets/NavBarStyled';
+import ToolBarStyled from './styledComponets/ToolBarStyled';
 
 const NavBar = () => {
   return (
     <NavBarStyled>
-      <ToolBarStyled></ToolBarStyled>
+      <ToolBarStyled>
+        <SignOut />
+      </ToolBarStyled>
     </NavBarStyled>
   );
 };

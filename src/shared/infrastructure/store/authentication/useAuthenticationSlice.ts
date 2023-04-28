@@ -11,7 +11,12 @@ export const useAuthenticationSlice = () => {
     dispatch(actions.authenticationUpdate(authentication));
   };
 
+  const handleAuthenticationReset = () => {
+    dispatch(actions.authenticationReset());
+  };
+
   return {
     handleAuthenticationUpdate,
+    handleAuthenticationReset,
   };
 };
