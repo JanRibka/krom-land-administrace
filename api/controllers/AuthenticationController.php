@@ -1,7 +1,5 @@
 <?php
 namespace komLand\api\controllers;
-use kromLand\api\models\authentication\LoginResponseModel;
-use kromLand\api\models\authentication\RefreshTokenResponseModel;
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
@@ -9,8 +7,8 @@ header("Access-Control-Allow-Methods: GET, POST");
 header("Content-Type: application/json");
 
 
-require_once __DIR__ . "/../enums/httpStatucCode.php";
 require_once __DIR__ . "/./ControllerBase.php";
+require_once __DIR__ . "/../enums/httpStatucCode.php";
 require_once __DIR__ . "/../repositories/AuthenticationRepository.php";
 require_once __DIR__ . "/../models/authentication/UserModel.php";
 require_once __DIR__ . "/../models/authentication/LoginResponseModel.php";
@@ -37,6 +35,8 @@ use kromLand\api\services\IAuthenticationService;
 use kromLand\api\services\AuthenticationService;
 use kromLand\api\repositories\AuthenticationRepository;
 use kromLand\api\enums\UserRoleEnum;
+use kromLand\api\models\authentication\LoginResponseModel;
+use kromLand\api\models\authentication\RefreshTokenResponseModel;
 
 class AuthenticationController extends ControllerBase
 {
@@ -90,7 +90,7 @@ class AuthenticationController extends ControllerBase
         }
         catch(Exception $ex) 
         {
-            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);            
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
     
@@ -239,6 +239,9 @@ class AuthenticationController extends ControllerBase
         }   
     }
 
+    /**
+     * Logout
+     */
     public function logout()
     {
         // On client, also delete the access token
@@ -326,7 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
 
         $disableAuth = false;
 
-        if(isset($_GET['disableAuth'])) $disableAuth = true;
+        // if(isset($_GET['disableAuth'])) $disableAuth = true;
 
         $functionName = $_GET['function'];        
         $authenticationRepository = new AuthenticationRepository();
