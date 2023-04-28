@@ -6,7 +6,7 @@ const App = () => {
   return (
     <>
       <RefreshToken />
-      <AppRouter />;
+      <AppRouter />
     </>
   );
 };
