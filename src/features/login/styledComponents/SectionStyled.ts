@@ -11,6 +11,10 @@ const SectionStyled = styled(Box)(({ theme }) => ({
 
   h1: {
     fontSize: "4rem",
+
+    [theme.breakpoints.down("md")]: {
+      fontSize: "3rem",
+    },
   },
 
   ".err-msg": {
