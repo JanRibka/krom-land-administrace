@@ -5,10 +5,12 @@ require_once __DIR__ . "/../config/db.php";
 require_once __DIR__ . "/./IAuthenticationRepository.php";
 require_once __DIR__ . "/../../vendor/autoload.php";
 require_once __DIR__ . "/../../vendor/dibi/dibi/src/Dibi/dibi.php";
+require_once __DIR__ . "/../models/home/TeamMemberModel.php";
 
 use DateTime;
 use Dibi;
 use kromLand\api\models\authentication\UserModel;
+use kromLand\api\models\home\TeamMemberModel;
 use kromLand\api\repositories\IAuthenticationRepository;
 
 class HomeDataRepository implements IHomeDataRepository
@@ -35,6 +37,26 @@ class HomeDataRepository implements IHomeDataRepository
         $userModel->UserRoleValue = $user->UserRoleValue;
 
         return $userModel;
+    }
+
+    public function getTeamMembers(): TeamMemberModel
+    {
+        $result = [];
+        $teamMembers = dibi::query("SELECT * FROM teamMembers as tm")->fetchAll();
+
+        foreach ($teamMembers as $member) {
+            $newMember = new TeamMemberModel(
+                $member->Id,
+                $member->Image,
+                $member->Name,
+                $member->Descritption,
+            );
+
+            array_push($result, $newMember);
+        }
+
+        return $result;
+
     }
 
     public function getUserByRefreshToken(string $refreshToken): UserModel
