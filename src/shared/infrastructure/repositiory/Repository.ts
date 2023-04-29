@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from "axios";
-import AppNotification from "shared/components/notification/AppNotification";
+import axios, { AxiosResponse } from 'axios';
+import AppNotification from 'shared/components/notification/AppNotification';
 
-import IPostRequest from "./IPostRequest";
-import IPostResponse from "./IPostResponse";
-import IRequest from "./IRequest";
-import RepositoryBase from "./RepositoryBase";
+import IPostRequest from './IPostRequest';
+import IPostResponse from './IPostResponse';
+import IRequest from './IRequest';
+import RepositoryBase from './RepositoryBase';
 
 export default class Repository extends RepositoryBase {
   public async get<T>(request: IRequest) {

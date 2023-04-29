@@ -1,5 +1,5 @@
 <?php
-  namespace kromLand\api\models\home;
+  namespace kromLand\api\models\webContent\home;
 
   class HomeModel
   {

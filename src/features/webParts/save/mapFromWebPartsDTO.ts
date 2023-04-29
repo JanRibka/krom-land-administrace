@@ -48,6 +48,7 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
               Delete: false,
             })
         ) ?? [],
+      _dataLoaded: true,
     },
     Actions: {
       Title: webPartsDTO?.Actions.Title ?? "",

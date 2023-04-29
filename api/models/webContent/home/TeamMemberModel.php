@@ -1,12 +1,12 @@
 <?php
-    namespace kromLand\api\models\home;
+    namespace kromLand\api\models\webContent\home;
 
     class TeamMemberModel
     {
         public ?int $Id = null;
         public ?string $Image = null;
         public ?string $Name = null;
-        public ?string $Descritpion = null;
+        public ?string $Descritption = null;
 
         public function __construct() {
             $arguments = func_get_args();
@@ -30,12 +30,12 @@
             $id,
             $image,
             $name,
-            $descritpion
+            $descritption
         ) {
             $this->Id = $id;
             $this->Image = $image;
             $this->Name = $name;
-            $this->Descritpion = $descritpion;
+            $this->Descritption = $descritption;
         }
     }
 ?>

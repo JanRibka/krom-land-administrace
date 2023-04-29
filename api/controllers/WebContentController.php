@@ -12,6 +12,8 @@ require_once __DIR__ . "/../enums/httpStatucCode.php";
 require_once __DIR__ . "/../enums/UserRoleEnum.php";
 require_once __DIR__ . "/../middleware/verifyJWT.php";
 require_once __DIR__ . "/../middleware/verifyRole.php";
+require_once __DIR__ . "/../repositories/WebContentRepository.php";
+require_once __DIR__ . "/../services/WebContentService.php";
 
 use function kromLand\api\middleware\verifyJWT;
 use function kromLand\api\middleware\verifyRole;
@@ -22,15 +24,15 @@ use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use kromLand\api\repositories\HomeRepository;
-use kromLand\api\services\HomeService;
-use kromLand\api\services\IHomeService;
+use kromLand\api\repositories\WebContentRepository;
+use kromLand\api\services\WebContentService;
+use kromLand\api\services\IWebContentService;
 
 class WebContentController extends ControllerBase
 {
-    private readonly IHomeService $_homeService;
+    private readonly IWebContentService $_homeService;
 
-    public function __construct(IHomeService $pHomeService)
+    public function __construct(IWebContentService $pHomeService)
     {
         $this->_homeService = $pHomeService;
     }
@@ -52,15 +54,15 @@ class WebContentController extends ControllerBase
 if ($_SERVER['REQUEST_METHOD'] === 'GET') { 
     if (isset($_GET['function'])) {
         $userRoles = [
-            "getHomeData" => [
+            "getHome" => [
                 UserRoleEnum::ADMIN
             ],
         ];        
 
         $functionName = $_GET['function'];        
-        $homeRepository = new HomeRepository();
-        $homeService = new HomeService($homeRepository);
-        $controller = new WebContentController($homeService);         
+        $webContentRepository = new WebContentRepository();
+        $webContentService = new WebContentService($webContentRepository);
+        $controller = new WebContentController($webContentService);         
         
         if (method_exists($controller, $functionName)) {
             $request = new ServerRequest(

@@ -2,18 +2,18 @@
 namespace kromLand\api\repositories;
 
 require_once __DIR__ . "/../config/db.php";
-require_once __DIR__ . "/./IHomeRepository.php";
 require_once __DIR__ . "/../../vendor/autoload.php";
 require_once __DIR__ . "/../../vendor/dibi/dibi/src/Dibi/dibi.php";
-require_once __DIR__ . "/../models/home/TeamMemberModel.php";
-require_once __DIR__ . "/../models/home/HomeModel.php";
+require_once __DIR__ . "/../models/webContent/home/TeamMemberModel.php";
+require_once __DIR__ . "/../models/webContent/home/HomeModel.php";
+require_once __DIR__ . "/./IWebContentRepository.php";
 
 use Dibi;
-use kromLand\api\models\home\HomeModel;
-use kromLand\api\models\home\TeamMemberModel;
-use kromLand\api\repositories\IHomeRepository;
+use kromLand\api\models\webContent\home\HomeModel;
+use kromLand\api\models\webContent\home\TeamMemberModel;
+use kromLand\api\repositories\IWebContentRepository;
 
-class HomeRepository implements IHomeRepository
+class WebContentRepository implements IWebContentRepository
 {
     public function getHome(int $id): HomeModel
     {

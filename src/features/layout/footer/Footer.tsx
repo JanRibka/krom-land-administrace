@@ -1,6 +1,4 @@
 import KromLandService from "features/KromLandService";
-import { useSelector } from "react-redux";
-import { selectCommon } from "shared/infrastructure/store/common/commonSlice";
 
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
@@ -13,7 +11,7 @@ interface IProps {
 
 const Footer = (props: IProps) => {
   // Store
-  const common = useSelector(selectCommon);
+  // const common = useSelector(selectCommon);
 
   // Constants
   const _kromLandService = new KromLandService();
@@ -34,7 +32,7 @@ const Footer = (props: IProps) => {
           <LoadingButton
             variant='contained'
             color='secondary'
-            disabled={!common._dataLoaded}
+            // disabled={!common._dataLoaded}
             onClick={handleSaveOnClick}
           >
             Uložit

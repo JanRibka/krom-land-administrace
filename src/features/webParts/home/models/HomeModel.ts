@@ -19,6 +19,7 @@ export default class HomeModel {
   PeopleSay3Text: string = "";
   PeopleSay3Name: string = "";
   TeamMembers: TeamMemberModel[] = [];
+  _dataLoaded: boolean = false;
 
   public constructor(init?: Partial<HomeModel>) {
     Object.assign(this, init);
