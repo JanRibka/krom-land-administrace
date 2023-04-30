@@ -39,7 +39,7 @@ const OurTeam = () => {
             index={index}
             memberCount={memberCount}
             name={member.Name}
-            text={member.Text}
+            description={member.Description}
             image={member.Image}
           />
         );

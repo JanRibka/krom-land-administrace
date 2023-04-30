@@ -1,9 +1,9 @@
-import HomeDTO from "shared/DTOs/HomeDTO";
-import { initialState } from "shared/infrastructure/store/webParts/webPartsSlice";
-import ImageModel from "shared/models/ImageModel";
+import HomeDTO from 'shared/DTOs/HomeDTO';
+import { initialState } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import ImageModel from 'shared/models/ImageModel';
 
-import HomeModel from "../models/HomeModel";
-import TeamMemberModel from "../models/TeamMemberModel";
+import HomeModel from '../models/HomeModel';
+import TeamMemberModel from '../models/TeamMemberModel';
 
 export const mapFromHomeDTO = (homeDTO?: HomeDTO | null) => {
   const result: HomeModel = {
@@ -34,7 +34,7 @@ export const mapFromHomeDTO = (homeDTO?: HomeDTO | null) => {
             Id: member.Id ?? 0,
             Image: !!member.Image ? JSON.parse(member.Image) : new ImageModel(),
             Name: member.Name ?? "",
-            Text: member.Text ?? "",
+            Description: member.Description ?? "",
             Delete: false,
           })
       ) ?? [],

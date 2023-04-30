@@ -1,8 +1,8 @@
-import ActionDetailDTO from "shared/DTOs/ActionDetailDTO";
-import DocumentToDownloadDTO from "shared/DTOs/DocumentToDownloadDTO";
-import TeamMemberDTO from "shared/DTOs/TeamMemberDTO";
-import WebPartsDTO from "shared/DTOs/WebPartsDTO";
-import { WebPartsState } from "shared/infrastructure/store/webParts/webPartsSlice";
+import ActionDetailDTO from 'shared/DTOs/ActionDetailDTO';
+import DocumentToDownloadDTO from 'shared/DTOs/DocumentToDownloadDTO';
+import TeamMemberDTO from 'shared/DTOs/TeamMemberDTO';
+import WebPartsDTO from 'shared/DTOs/WebPartsDTO';
+import { WebPartsState } from 'shared/infrastructure/store/webParts/webPartsSlice';
 
 export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
   const result: WebPartsDTO = {
@@ -30,7 +30,7 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
             Id: member.Id,
             Image: JSON.stringify(member.Image),
             Name: member.Name,
-            Text: member.Text,
+            Description: member.Description,
             Delete: member.Delete,
           })
       ),

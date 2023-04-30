@@ -55,7 +55,7 @@ class WebContentRepository implements IWebContentRepository
                 $member->Id,
                 $member->Image,
                 $member->Name,
-                $member->Descritption,
+                $member->Description,
             );
 
             array_push($result, $newMember);

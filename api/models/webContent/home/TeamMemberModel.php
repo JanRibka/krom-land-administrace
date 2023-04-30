@@ -6,7 +6,7 @@
         public ?int $Id = null;
         public ?string $Image = null;
         public ?string $Name = null;
-        public ?string $Descritption = null;
+        public ?string $Description = null;
 
         public function __construct() {
             $arguments = func_get_args();
@@ -20,22 +20,22 @@
             if ($constructor) {
                 call_user_func_array([$this, $fn], $arguments);
             } else {
-                print "No matching constructor found" . PHP_EOL;
+                print "No matching constructor found for TeamMemberModel" . PHP_EOL;
             }
         }
 
-        public function __construct1() {}
+        public function __construct0() {}
 
-        public function __construct2(
+        public function __construct4(
             $id,
             $image,
             $name,
-            $descritption
+            $description
         ) {
             $this->Id = $id;
             $this->Image = $image;
             $this->Name = $name;
-            $this->Descritption = $descritption;
+            $this->Description = $description;
         }
     }
 ?>
