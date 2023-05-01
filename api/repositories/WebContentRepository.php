@@ -47,7 +47,7 @@ class WebContentRepository implements IWebContentRepository
 
     public function getTeamMembers(): array 
     {
-        $result = array( new TeamMemberModel());
+        $result = [];
         $teamMembers = dibi::query("SELECT * FROM teamMembers as tm")->fetchAll();
 
         foreach ($teamMembers as $member) {
