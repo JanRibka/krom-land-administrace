@@ -285,17 +285,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
     if (isset($_GET['function'])) {
         $functionName = $_GET['function'];
 
-        $disableVerification = [
-            'register' => false,
-            'login' => true,
-            'refreshToken' => true,
-            'logout' => false,
-        ];
+        $disableVerification = false;
         $userRoles = [UserRoleEnum::ADMIN];
 
         switch ($functionName) {
             case 'login':
             case 'refreshToken':
+                $disableVerification = true;
+                // no break
             case 'logout':
                 $userRoles = [
                     UserRoleEnum::ADMIN,
@@ -323,13 +320,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
             $response = new Response();
             $response = verifyJWT($request, $response,
                 function ($request, $response) use ($controller, $functionName, $userRoles, $disableVerification, $disableAuth) {
-                    return verifyRole($userRoles[$functionName])($request, $response,
+                    return verifyRole($userRoles)($request, $response,
                         function ($request, $response) use ($controller, $functionName) {
                             call_user_func([$controller, $functionName]);
 
                             return $response;
-                        }, $disableVerification[$functionName] || $disableAuth);
-                }, $disableVerification[$functionName] || $disableAuth);
+                        }, $disableVerification || $disableAuth);
+                }, $disableVerification || $disableAuth);
 
             $statusCode = $response->getStatusCode();
 
