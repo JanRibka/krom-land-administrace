@@ -1,12 +1,15 @@
-import WebPartsDTO from 'shared/DTOs/WebPartsDTO';
-import { initialState, WebPartsState } from 'shared/infrastructure/store/webParts/webPartsSlice';
-import DocumentModel from 'shared/models/DocumentModel';
-import ImageModel from 'shared/models/ImageModel';
+import WebPartsDTO from "shared/DTOs/WebPartsDTO";
+import {
+  initialState,
+  WebPartsState,
+} from "shared/infrastructure/store/webParts/webPartsSlice";
+import DocumentModel from "shared/models/DocumentModel";
+import ImageModel from "shared/models/ImageModel";
 
-import ActionDetailModel from '../actions/models/ActionDetailModel';
-import DocumentToDownloadModel from '../actions/models/DocumentToDownloadModel';
-import GalleryImageModel from '../gallery/models/GalleryImageModel';
-import TeamMemberModel from '../home/models/TeamMemberModel';
+import ActionDetailModel from "../actions/models/ActionDetailModel";
+import DocumentToDownloadModel from "../actions/models/DocumentToDownloadModel";
+import GalleryImageModel from "../gallery/models/GalleryImageModel";
+import TeamMemberModel from "../home/models/TeamMemberModel";
 
 export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
   const result: WebPartsState = {
@@ -87,6 +90,7 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
               Delete: item.Delete ?? false,
             })
         ) ?? [],
+      _dataLoaded: true,
     },
     Gallery: {
       Title: webPartsDTO?.Gallery.Title ?? "",
@@ -109,6 +113,7 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
               Delete: item?.Delete ?? false,
             })
         ) ?? [],
+      _dataLoaded: true,
     },
     Contact: {
       Title: webPartsDTO?.Contact.Title ?? "",
@@ -121,14 +126,15 @@ export const mapFromWebPartsDTO = (webPartsDTO?: WebPartsDTO | null) => {
         : new ImageModel(),
       GoogleMapsUrl: webPartsDTO?.Contact.GoogleMapsUrl ?? "",
       Email: webPartsDTO?.Contact.Email ?? "",
+      _dataLoaded: true,
     },
     Conditions: {
-      GdprLabel: webPartsDTO?.Conditions?.GdprLabel ?? "",
-      GdprText: webPartsDTO?.Conditions?.GdprText ?? "",
-      TermsOfConditionsLabel:
-        webPartsDTO?.Conditions?.TermsOfConditionsLabel ?? "",
-      TermsOfConditionsText:
-        webPartsDTO?.Conditions?.TermsOfConditionsText ?? "",
+      GdprLabel: webPartsDTO?.Conditions?.Label ?? "",
+      GdprText: webPartsDTO?.Conditions?.Text ?? "",
+      TermsOfConditionsLabel: webPartsDTO?.Conditions?.Label ?? "",
+      TermsOfConditionsText: webPartsDTO?.Conditions?.Text ?? "",
+      _conditionsLoaded: true,
+      _gdprLoaded: true,
     },
   };
 

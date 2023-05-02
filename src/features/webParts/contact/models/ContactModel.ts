@@ -8,6 +8,7 @@ export class ContactModel {
   MainImage: ImageModel = new ImageModel();
   GoogleMapsUrl: string = "";
   Email: string = "";
+  _dataLoaded: boolean = false;
 
   public constructor(init?: Partial<ContactModel>) {
     Object.assign(this, init);

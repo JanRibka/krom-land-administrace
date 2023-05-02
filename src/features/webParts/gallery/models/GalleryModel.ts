@@ -10,6 +10,7 @@ export default class GalleryModel {
   MainImage: ImageModel = new ImageModel();
   ExternalGalleryLink: string = "";
   Images: GalleryImageModel[] = [];
+  _dataLoaded: boolean = false;
 
   public constructor(init?: Partial<GalleryModel>) {
     Object.assign(this, init);

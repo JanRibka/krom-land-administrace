@@ -12,6 +12,7 @@ export default class ActionsModel {
   EmailKromLand: string = "";
   ActionDetails: ActionDetailModel[] = [];
   DocumentsToDownload: DocumentToDownloadModel[] = [];
+  _dataLoaded: boolean = false;
 
   public constructor(init?: Partial<ActionsModel>) {
     Object.assign(this, init);

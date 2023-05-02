@@ -3,6 +3,8 @@ export default class ConditionsModel {
   GdprText: string = "";
   TermsOfConditionsLabel: string = "";
   TermsOfConditionsText: string = "";
+  _gdprLoaded: boolean = false;
+  _conditionsLoaded: boolean = false;
 
   public constructor(init?: Partial<ConditionsModel>) {
     Object.assign(this, init);

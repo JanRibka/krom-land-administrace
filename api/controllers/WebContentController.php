@@ -56,9 +56,65 @@ class WebContentController extends ControllerBase
     public function getActions()
     {
         try {
-            $home = $this->_homeService->getHome(1);
+            $actions = $this->_homeService->getActions(1);
 
-            $this->apiResponse(true, '', $home);
+            $this->apiResponse(true, '', $actions);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Get Gallery data.
+     */
+    public function getGallery()
+    {
+        try {
+            $gallery = $this->_homeService->getGallery(1);
+
+            $this->apiResponse(true, '', $gallery);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Get Contact data.
+     */
+    public function getContact()
+    {
+        try {
+            $contact = $this->_homeService->getContact(1);
+
+            $this->apiResponse(true, '', $contact);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Get Contact data.
+     */
+    public function getGdpr()
+    {
+        try {
+            $gdpr = $this->_homeService->getGdpr(1);
+
+            $this->apiResponse(true, '', $gdpr);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Get Contact data.
+     */
+    public function getTermsOfConditions()
+    {
+        try {
+            $conditions = $this->_homeService->getTermsOfConditions(1);
+
+            $this->apiResponse(true, '', $conditions);
         } catch (\Exception $ex) {
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
@@ -77,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             case 'getGallery':
             case 'getContact':
             case 'getGdpr':
-            case 'getTermOfConditions':
+            case 'getTermsOfConditions':
                 $userRoles = [
                     UserRoleEnum::ADMIN,
                     UserRoleEnum::EDITOR,
@@ -100,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $response = new Response();
             $response = verifyJWT($request, $response,
                 function ($request, $response) use ($controller, $functionName, $userRoles) {
-                    return verifyRole($userRoles[$functionName])($request, $response,
+                    return verifyRole($userRoles)($request, $response,
                         function ($request, $response) use ($controller, $functionName) {
                             call_user_func([$controller, $functionName]);
 

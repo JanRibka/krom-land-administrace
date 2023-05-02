@@ -1,8 +1,8 @@
-import ActionDetailDTO from 'shared/DTOs/ActionDetailDTO';
-import DocumentToDownloadDTO from 'shared/DTOs/DocumentToDownloadDTO';
-import TeamMemberDTO from 'shared/DTOs/TeamMemberDTO';
-import WebPartsDTO from 'shared/DTOs/WebPartsDTO';
-import { WebPartsState } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import ActionDetailDTO from "shared/DTOs/ActionDetailDTO";
+import DocumentToDownloadDTO from "shared/DTOs/DocumentToDownloadDTO";
+import TeamMemberDTO from "shared/DTOs/TeamMemberDTO";
+import WebPartsDTO from "shared/DTOs/WebPartsDTO";
+import { WebPartsState } from "shared/infrastructure/store/webParts/webPartsSlice";
 
 export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
   const result: WebPartsDTO = {
@@ -92,10 +92,8 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
     },
     Conditions: {
       Id: null,
-      GdprLabel: webPartsState.Conditions.GdprLabel,
-      GdprText: webPartsState.Conditions.GdprText,
-      TermsOfConditionsLabel: webPartsState.Conditions.TermsOfConditionsLabel,
-      TermsOfConditionsText: webPartsState.Conditions.TermsOfConditionsText,
+      Label: webPartsState.Conditions.GdprLabel,
+      Text: webPartsState.Conditions.GdprText,
     },
   };
 

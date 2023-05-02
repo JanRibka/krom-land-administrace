@@ -94,6 +94,10 @@ export const mapToWebPartsDTO = (webPartsState: WebPartsState) => {
       Id: null,
       Label: webPartsState.Conditions.GdprLabel,
       Text: webPartsState.Conditions.GdprText,
+      // onsLabel: webPartsState.Conditions.TermsOfConditionsLabel,
+      // TermsOfConditionsText: webPartsState.Conditions.TermsOfConditionsText,
+      // Label: "",
+      // Text: "",
     },
   };
 

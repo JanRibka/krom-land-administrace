@@ -39,8 +39,9 @@ export const useRequest = <T>(
       let result: T;
 
       result = await _repositiory.get<T>(request);
-
+      console.log("result", result);
       if (result) {
+        console.log("setData", result);
         setData(result);
         afterLoadAction?.(result, false);
       }
