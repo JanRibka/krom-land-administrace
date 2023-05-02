@@ -1,21 +1,23 @@
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import PageTitle from "shared/components/pageTitle/PageTitle";
-import { useRequest } from "shared/dataAccess/useRequest";
-import HomeDTO from "shared/DTOs/HomeDTO";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
+import FeatureStyled from 'features/styledComponents/FeatureStyled';
+import { useSelector } from 'react-redux';
+import AppLoader from 'shared/components/loader/AppLoader';
+import AppNotification from 'shared/components/notification/AppNotification';
+import PageTitle from 'shared/components/pageTitle/PageTitle';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import HomeDTO from 'shared/DTOs/HomeDTO';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectHome } from 'shared/infrastructure/store/webParts/webPartsSlice';
 
-import Stack from "@mui/material/Stack";
+import Stack from '@mui/material/Stack';
 
-import AboutUs from "./aboutUs/AboutUs";
-import OurTeam from "./ourTeam/OurTeam";
-import PageHeader from "./pageHeader/PageHeader";
-import { mapFromHomeDTO } from "./save/mapFromHomeDTO";
-import Seo from "./seo/Seo";
-import WhatPeopleSay from "./whatPeopleSay/WhatPeopleSay";
+import AboutUs from './aboutUs/AboutUs';
+import OurTeam from './ourTeam/OurTeam';
+import PageHeader from './pageHeader/PageHeader';
+import { mapFromHomeDTO } from './save/mapFromHomeDTO';
+import Seo from './seo/Seo';
+import WhatPeopleSay from './whatPeopleSay/WhatPeopleSay';
 
 const Home = () => {
   // Constants
@@ -59,14 +61,18 @@ const Home = () => {
 
   return (
     <ErrorBoundary>
-      <Stack spacing={4}>
-        <PageTitle title='Úvod' />
-        <Seo />
-        <PageHeader />
-        <AboutUs />
-        <OurTeam />
-        <WhatPeopleSay />
-      </Stack>
+      <FeatureStyled>
+        <Stack spacing={4}>
+          <PageTitle title='Úvod' />
+          <Seo />
+          <PageHeader />
+          <AboutUs />
+          <OurTeam />
+          <WhatPeopleSay />
+        </Stack>
+
+        {isLoading && <AppLoader />}
+      </FeatureStyled>
     </ErrorBoundary>
   );
 };

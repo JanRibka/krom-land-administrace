@@ -1,21 +1,23 @@
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import PageTitle from "shared/components/pageTitle/PageTitle";
-import { useRequest } from "shared/dataAccess/useRequest";
-import ActionsDTO from "shared/DTOs/ActionsDTO";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
+import FeatureStyled from 'features/styledComponents/FeatureStyled';
+import { useSelector } from 'react-redux';
+import AppLoader from 'shared/components/loader/AppLoader';
+import AppNotification from 'shared/components/notification/AppNotification';
+import PageTitle from 'shared/components/pageTitle/PageTitle';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import ActionsDTO from 'shared/DTOs/ActionsDTO';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectActions } from 'shared/infrastructure/store/webParts/webPartsSlice';
 
-import { Stack } from "@mui/system";
+import { Stack } from '@mui/system';
 
-import ActionDetails from "./actionDetails/ActionDetails";
-import DocumentsToDownload from "./documentsToDownload/DocumentsToDownload";
-import Email from "./email/Email";
-import PageHeader from "./pageHeader/PageHeader";
-import { mapFromActionsDTO } from "./save/mapFromActionsDTO";
-import Seo from "./seo/Seo";
+import ActionDetails from './actionDetails/ActionDetails';
+import DocumentsToDownload from './documentsToDownload/DocumentsToDownload';
+import Email from './email/Email';
+import PageHeader from './pageHeader/PageHeader';
+import { mapFromActionsDTO } from './save/mapFromActionsDTO';
+import Seo from './seo/Seo';
 
 const Actions = () => {
   // Store
@@ -61,14 +63,18 @@ const Actions = () => {
 
   return (
     <ErrorBoundary>
-      <Stack spacing={4}>
-        <PageTitle title='Akce' />
-        <Seo />
-        <PageHeader />
-        <ActionDetails />
-        <DocumentsToDownload />
-        <Email />
-      </Stack>
+      <FeatureStyled>
+        <Stack spacing={4}>
+          <PageTitle title='Akce' />
+          <Seo />
+          <PageHeader />
+          <ActionDetails />
+          <DocumentsToDownload />
+          <Email />
+        </Stack>
+
+        {isLoading && <AppLoader />}
+      </FeatureStyled>
     </ErrorBoundary>
   );
 };

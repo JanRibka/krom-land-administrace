@@ -1,24 +1,26 @@
-import SectionStyled from "features/styledComponents/SectionStyled";
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import PageTitle from "shared/components/pageTitle/PageTitle";
-import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
-import SectionTitle from "shared/components/sectionTitle/SectionTitle";
-import AppTextEditor from "shared/components/textEditor/AppTextEditor";
-import AppTextField from "shared/components/textField/AppTextField";
-import { useRequest } from "shared/dataAccess/useRequest";
-import ConditionsDTO from "shared/DTOs/ConditionsDTO";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectConditions } from "shared/infrastructure/store/webParts/webPartsSlice";
-import ConditionsModel from "shared/models/ConditionsModel";
-import { nameof } from "shared/nameof";
+import FeatureStyled from 'features/styledComponents/FeatureStyled';
+import SectionStyled from 'features/styledComponents/SectionStyled';
+import { useSelector } from 'react-redux';
+import AppLoader from 'shared/components/loader/AppLoader';
+import AppNotification from 'shared/components/notification/AppNotification';
+import PageTitle from 'shared/components/pageTitle/PageTitle';
+import SectionSubTitle from 'shared/components/sectionSubTitle/SectionSubTitle';
+import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
+import AppTextEditor from 'shared/components/textEditor/AppTextEditor';
+import AppTextField from 'shared/components/textField/AppTextField';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import ConditionsDTO from 'shared/DTOs/ConditionsDTO';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectConditions } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import ConditionsModel from 'shared/models/ConditionsModel';
+import { nameof } from 'shared/nameof';
 
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
-import { mapFromTermsOfConditionsDTO } from "./save/mapFromTermsOfConditionsDTO";
+import { mapFromTermsOfConditionsDTO } from './save/mapFromTermsOfConditionsDTO';
 
 const TermsOfConditions = () => {
   // Store
@@ -59,11 +61,11 @@ const TermsOfConditions = () => {
     [],
     {
       apply: true,
-      condition: () => conditions._gdprLoaded === false,
+      condition: () => conditions._conditionsLoaded === false,
     },
     (data) => {
       const dataType = typeof data;
-      console.log("data", data);
+
       if (dataType === "string") {
         AppNotification("Chyba", String(data), "danger");
       } else {
@@ -78,33 +80,37 @@ const TermsOfConditions = () => {
 
   return (
     <ErrorBoundary>
-      <Stack spacing={4}>
-        <PageTitle title='Obchodní podmínky' />
-        <SectionStyled component='section'>
-          <SectionTitle title='Obchodní podmínky' />
-          <AppTextField
-            name={nameof<ConditionsModel>("TermsOfConditionsLabel")}
-            label='Nadpis'
-            value={conditions.TermsOfConditionsLabel}
-            variant='outlined'
-            fullWidth
-            required
-            autoComplete='off'
-            onBlur={handleTextFieldOnBlur}
-          />
-
-          <Box className='sub-section-separator'>
-            <SectionSubTitle title='Popis' />
-            <AppTextEditor
-              name={nameof<ConditionsModel>("TermsOfConditionsText")}
-              value={conditions.TermsOfConditionsText}
-              placeholder='Popis'
+      <FeatureStyled>
+        <Stack spacing={4}>
+          <PageTitle title='Obchodní podmínky' />
+          <SectionStyled component='section'>
+            <SectionTitle title='Obchodní podmínky' />
+            <AppTextField
+              name={nameof<ConditionsModel>("TermsOfConditionsLabel")}
+              label='Nadpis'
+              value={conditions.TermsOfConditionsLabel}
+              variant='outlined'
+              fullWidth
               required
-              onChange={handleTextEditorOnChange}
+              autoComplete='off'
+              onBlur={handleTextFieldOnBlur}
             />
-          </Box>
-        </SectionStyled>
-      </Stack>
+
+            <Box className='sub-section-separator'>
+              <SectionSubTitle title='Popis' />
+              <AppTextEditor
+                name={nameof<ConditionsModel>("TermsOfConditionsText")}
+                value={conditions.TermsOfConditionsText}
+                placeholder='Popis'
+                required
+                onChange={handleTextEditorOnChange}
+              />
+            </Box>
+          </SectionStyled>
+        </Stack>
+
+        {isLoading && <AppLoader />}
+      </FeatureStyled>
     </ErrorBoundary>
   );
 };

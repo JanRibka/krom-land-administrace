@@ -1,24 +1,26 @@
-import SectionStyled from "features/styledComponents/SectionStyled";
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import PageTitle from "shared/components/pageTitle/PageTitle";
-import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
-import SectionTitle from "shared/components/sectionTitle/SectionTitle";
-import AppTextEditor from "shared/components/textEditor/AppTextEditor";
-import AppTextField from "shared/components/textField/AppTextField";
-import { useRequest } from "shared/dataAccess/useRequest";
-import ConditionsDTO from "shared/DTOs/ConditionsDTO";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectConditions } from "shared/infrastructure/store/webParts/webPartsSlice";
-import ConditionsModel from "shared/models/ConditionsModel";
-import { nameof } from "shared/nameof";
+import FeatureStyled from 'features/styledComponents/FeatureStyled';
+import SectionStyled from 'features/styledComponents/SectionStyled';
+import { useSelector } from 'react-redux';
+import AppLoader from 'shared/components/loader/AppLoader';
+import AppNotification from 'shared/components/notification/AppNotification';
+import PageTitle from 'shared/components/pageTitle/PageTitle';
+import SectionSubTitle from 'shared/components/sectionSubTitle/SectionSubTitle';
+import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
+import AppTextEditor from 'shared/components/textEditor/AppTextEditor';
+import AppTextField from 'shared/components/textField/AppTextField';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import ConditionsDTO from 'shared/DTOs/ConditionsDTO';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectConditions } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import ConditionsModel from 'shared/models/ConditionsModel';
+import { nameof } from 'shared/nameof';
 
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
-import { mapFromGdprDTO } from "./save/mapFromGdprDTO";
+import { mapFromGdprDTO } from './save/mapFromGdprDTO';
 
 const Gdpr = () => {
   // Store
@@ -63,7 +65,7 @@ const Gdpr = () => {
     },
     (data) => {
       const dataType = typeof data;
-      console.log("data", data);
+
       if (dataType === "string") {
         AppNotification("Chyba", String(data), "danger");
       } else {
@@ -78,33 +80,37 @@ const Gdpr = () => {
 
   return (
     <ErrorBoundary>
-      <Stack spacing={4}>
-        <PageTitle title='GDPR' />
-        <SectionStyled component='section'>
-          <SectionTitle title='GDPR' />
-          <AppTextField
-            name={nameof<ConditionsModel>("GdprLabel")}
-            label='Nadpis'
-            value={conditions.GdprLabel}
-            variant='outlined'
-            fullWidth
-            required
-            autoComplete='off'
-            onBlur={handleTextFieldOnBlur}
-          />
-
-          <Box className='sub-section-separator'>
-            <SectionSubTitle title='Popis' />
-            <AppTextEditor
-              name={nameof<ConditionsModel>("GdprText")}
-              value={conditions.GdprText}
-              placeholder='Popis'
+      <FeatureStyled>
+        <Stack spacing={4}>
+          <PageTitle title='GDPR' />
+          <SectionStyled component='section'>
+            <SectionTitle title='GDPR' />
+            <AppTextField
+              name={nameof<ConditionsModel>("GdprLabel")}
+              label='Nadpis'
+              value={conditions.GdprLabel}
+              variant='outlined'
+              fullWidth
               required
-              onChange={handleTextEditorOnChange}
+              autoComplete='off'
+              onBlur={handleTextFieldOnBlur}
             />
-          </Box>
-        </SectionStyled>
-      </Stack>
+
+            <Box className='sub-section-separator'>
+              <SectionSubTitle title='Popis' />
+              <AppTextEditor
+                name={nameof<ConditionsModel>("GdprText")}
+                value={conditions.GdprText}
+                placeholder='Popis'
+                required
+                onChange={handleTextEditorOnChange}
+              />
+            </Box>
+          </SectionStyled>
+        </Stack>
+
+        {isLoading && <AppLoader />}
+      </FeatureStyled>
     </ErrorBoundary>
   );
 };

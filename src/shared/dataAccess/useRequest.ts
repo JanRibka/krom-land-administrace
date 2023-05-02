@@ -1,8 +1,8 @@
-import { DependencyList, useEffect, useState } from "react";
-import IRequest from "shared/infrastructure/repositiory/IRequest";
-import Repository from "shared/infrastructure/repositiory/Repository";
+import { DependencyList, useEffect, useState } from 'react';
+import IRequest from 'shared/infrastructure/repositiory/IRequest';
+import Repository from 'shared/infrastructure/repositiory/Repository';
 
-import IRequestExecCondition from "./IRequestExecCondition";
+import IRequestExecCondition from './IRequestExecCondition';
 
 export const useRequest = <T>(
   request: IRequest,
@@ -39,9 +39,8 @@ export const useRequest = <T>(
       let result: T;
 
       result = await _repositiory.get<T>(request);
-      console.log("result", result);
+
       if (result) {
-        console.log("setData", result);
         setData(result);
         afterLoadAction?.(result, false);
       }

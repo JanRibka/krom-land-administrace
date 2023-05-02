@@ -1,20 +1,22 @@
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import PageTitle from "shared/components/pageTitle/PageTitle";
-import { useRequest } from "shared/dataAccess/useRequest";
-import ContactDTO from "shared/DTOs/ContactDTO";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectContact } from "shared/infrastructure/store/webParts/webPartsSlice";
+import FeatureStyled from 'features/styledComponents/FeatureStyled';
+import { useSelector } from 'react-redux';
+import AppLoader from 'shared/components/loader/AppLoader';
+import AppNotification from 'shared/components/notification/AppNotification';
+import PageTitle from 'shared/components/pageTitle/PageTitle';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import ContactDTO from 'shared/DTOs/ContactDTO';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectContact } from 'shared/infrastructure/store/webParts/webPartsSlice';
 
-import Stack from "@mui/material/Stack";
+import Stack from '@mui/material/Stack';
 
-import Email from "./email/Email";
-import GoogleMaps from "./googleMaps/GoogleMaps";
-import PageHeader from "./pageHeader/PageHeader";
-import { mapFromContactDTO } from "./save/mapFromContactDTO";
-import Seo from "./seo/Seo";
+import Email from './email/Email';
+import GoogleMaps from './googleMaps/GoogleMaps';
+import PageHeader from './pageHeader/PageHeader';
+import { mapFromContactDTO } from './save/mapFromContactDTO';
+import Seo from './seo/Seo';
 
 const Contact = () => {
   // Store
@@ -60,13 +62,17 @@ const Contact = () => {
 
   return (
     <ErrorBoundary>
-      <Stack spacing={4}>
-        <PageTitle title='Kontakt' />
-        <Seo />
-        <PageHeader />
-        <GoogleMaps />
-        <Email />
-      </Stack>
+      <FeatureStyled>
+        <Stack spacing={4}>
+          <PageTitle title='Kontakt' />
+          <Seo />
+          <PageHeader />
+          <GoogleMaps />
+          <Email />
+        </Stack>
+
+        {isLoading && <AppLoader />}
+      </FeatureStyled>
     </ErrorBoundary>
   );
 };
