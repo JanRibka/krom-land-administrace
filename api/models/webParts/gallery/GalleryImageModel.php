@@ -1,6 +1,6 @@
 <?php
 
-namespace kromLand\api\models\webContent\gallery;
+namespace kromLand\api\models\webParts\gallery;
 
 class GalleryImageModel
 {

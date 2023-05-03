@@ -1,6 +1,6 @@
 <?php
 
-namespace kromLand\api\models\webContent\actions;
+namespace kromLand\api\models\webParts\actions;
 
 class DocumentToDownloadModel
 {

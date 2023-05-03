@@ -1,6 +1,6 @@
 <?php
 
-namespace kromLand\api\models\webContent\conditions;
+namespace kromLand\api\models\webParts\conditions;
 
 class ConditionsModel
 {

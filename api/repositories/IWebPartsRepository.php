@@ -1,14 +1,14 @@
 <?php
 
-namespace kromLand\api\services;
+namespace kromLand\api\repositories;
 
-use kromLand\api\models\webContent\actions\ActionsModel;
-use kromLand\api\models\webContent\conditions\ConditionsModel;
-use kromLand\api\models\webContent\contact\ContactModel;
-use kromLand\api\models\webContent\gallery\GalleryModel;
-use kromLand\api\models\webContent\home\HomeModel;
+use kromLand\api\models\webParts\actions\ActionsModel;
+use kromLand\api\models\webParts\conditions\ConditionsModel;
+use kromLand\api\models\webParts\contact\ContactModel;
+use kromLand\api\models\webParts\gallery\GalleryModel;
+use kromLand\api\models\webParts\home\HomeModel;
 
-interface IWebContentService
+interface IWebPartsRepository
 {
     public function getHome(int $id): HomeModel;
 
@@ -28,5 +28,9 @@ interface IWebContentService
 
     public function getGdpr(int $id): ConditionsModel;
 
+    public function gdprUpdate(ConditionsModel $conditions): void;
+
     public function getTermsOfConditions(int $id): ConditionsModel;
+
+    public function termsOfConditionsUpdate(ConditionsModel $conditions): void;
 }

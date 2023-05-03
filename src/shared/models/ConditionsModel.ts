@@ -1,4 +1,6 @@
 export default class ConditionsModel {
+  IdGdpr: number = 0;
+  IdConditions: number = 0;
   GdprLabel: string = "";
   GdprText: string = "";
   TermsOfConditionsLabel: string = "";

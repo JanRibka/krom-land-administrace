@@ -12,28 +12,29 @@ require_once __DIR__.'/../enums/httpStatucCode.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
 require_once __DIR__.'/../middleware/verifyJWT.php';
 require_once __DIR__.'/../middleware/verifyRole.php';
-require_once __DIR__.'/../repositories/WebContentRepository.php';
-require_once __DIR__.'/../services/WebContentService.php';
+require_once __DIR__.'/../repositories/WebPartsRepository.php';
+require_once __DIR__.'/../services/WebPartsService.php';
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
-use kromLand\api\repositories\WebContentRepository;
-use kromLand\api\services\IWebContentService;
-use kromLand\api\services\WebContentService;
+use kromLand\api\models\webParts\conditions\ConditionsModel;
+use kromLand\api\repositories\WebPartsRepository;
+use kromLand\api\services\IWebPartsService;
+use kromLand\api\services\WebPartsService;
 
 use function kromLand\api\middleware\verifyJWT;
 use function kromLand\api\middleware\verifyRole;
 
-class WebContentController extends ControllerBase
+class WebPartsController extends ControllerBase
 {
-    private readonly IWebContentService $_homeService;
+    private readonly IWebPartsService $_webPartstService;
 
-    public function __construct(IWebContentService $pHomeService)
+    public function __construct(IWebPartsService $pWebPartsService)
     {
-        $this->_homeService = $pHomeService;
+        $this->_webPartstService = $pWebPartsService;
     }
 
     /**
@@ -42,7 +43,7 @@ class WebContentController extends ControllerBase
     public function getHome()
     {
         try {
-            $home = $this->_homeService->getHome(1);
+            $home = $this->_webPartstService->getHome(1);
 
             $this->apiResponse(true, '', $home);
         } catch (\Exception $ex) {
@@ -56,7 +57,7 @@ class WebContentController extends ControllerBase
     public function getActions()
     {
         try {
-            $actions = $this->_homeService->getActions(1);
+            $actions = $this->_webPartstService->getActions(1);
 
             $this->apiResponse(true, '', $actions);
         } catch (\Exception $ex) {
@@ -70,7 +71,7 @@ class WebContentController extends ControllerBase
     public function getGallery()
     {
         try {
-            $gallery = $this->_homeService->getGallery(1);
+            $gallery = $this->_webPartstService->getGallery(1);
 
             $this->apiResponse(true, '', $gallery);
         } catch (\Exception $ex) {
@@ -84,7 +85,7 @@ class WebContentController extends ControllerBase
     public function getContact()
     {
         try {
-            $contact = $this->_homeService->getContact(1);
+            $contact = $this->_webPartstService->getContact(1);
 
             $this->apiResponse(true, '', $contact);
         } catch (\Exception $ex) {
@@ -98,9 +99,32 @@ class WebContentController extends ControllerBase
     public function getGdpr()
     {
         try {
-            $gdpr = $this->_homeService->getGdpr(1);
+            $gdpr = $this->_webPartstService->getGdpr(1);
 
             $this->apiResponse(true, '', $gdpr);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * GDPR update.
+     */
+    public function gdprUpdate()
+    {
+        try {
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+
+            $conditions = new ConditionsModel(
+                $data->Id,
+                $data->Label,
+                $data->Text
+            );
+
+            $this->_webPartstService->gdprUpdate($conditions);
+
+            $this->apiResponse(true, '');
         } catch (\Exception $ex) {
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
@@ -112,16 +136,39 @@ class WebContentController extends ControllerBase
     public function getTermsOfConditions()
     {
         try {
-            $conditions = $this->_homeService->getTermsOfConditions(1);
+            $conditions = $this->_webPartstService->getTermsOfConditions(1);
 
             $this->apiResponse(true, '', $conditions);
         } catch (\Exception $ex) {
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Term of conditions update.
+     */
+    public function termsOfConditionsUpdate()
+    {
+        try {
+            $jsonData = file_get_contents('php://input');
+            $data = json_decode($jsonData);
+
+            $conditions = new ConditionsModel(
+                $data->Id,
+                $data->Label,
+                $data->Text
+            );
+
+            $this->_webPartstService->termsOfConditionsUpdate($conditions);
+
+            $this->apiResponse(true, '');
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_GET['function'])) {
         $functionName = $_GET['function'];
 
@@ -143,9 +190,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 break;
         }
 
-        $webContentRepository = new WebContentRepository();
-        $webContentService = new WebContentService($webContentRepository);
-        $controller = new WebContentController($webContentService);
+        $webPartsRepository = new WebPartsRepository();
+        $webPartsService = new WebPartsService($webPartsRepository);
+        $controller = new WebPartsController($webPartsService);
 
         if (method_exists($controller, $functionName)) {
             $request = new ServerRequest(

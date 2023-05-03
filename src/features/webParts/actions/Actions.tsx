@@ -1,5 +1,7 @@
 import FeatureStyled from 'features/styledComponents/FeatureStyled';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import Footer from 'shared/components/footer/Footer';
 import AppLoader from 'shared/components/loader/AppLoader';
 import AppNotification from 'shared/components/notification/AppNotification';
 import PageTitle from 'shared/components/pageTitle/PageTitle';
@@ -20,6 +22,9 @@ import { mapFromActionsDTO } from './save/mapFromActionsDTO';
 import Seo from './seo/Seo';
 
 const Actions = () => {
+  // State
+  const [saving, setSaving] = useState<boolean>(false);
+
   // Store
   const actions = useSelector(selectActions);
 
@@ -31,7 +36,7 @@ const Actions = () => {
    */
   const { isLoading } = useRequest<JsonResulObjectDataDTO<ActionsDTO>>(
     {
-      url: (process.env.REACT_APP_API_URL ?? "") + "WebContentController.php",
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "getActions",
       }),
@@ -61,6 +66,10 @@ const Actions = () => {
     }
   );
 
+  const handleSaveOnClick = () => {
+    debugger;
+  };
+
   return (
     <ErrorBoundary>
       <FeatureStyled>
@@ -75,6 +84,12 @@ const Actions = () => {
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
+
+      <Footer
+        disabled={!actions._dataLoaded}
+        loading={saving}
+        handleSaveOnClick={handleSaveOnClick}
+      />
     </ErrorBoundary>
   );
 };

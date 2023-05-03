@@ -1,9 +1,8 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 
-import Footer from "./footer/Footer";
-import NavBar from "./navBar/NavBar";
-import SideBar from "./sideBar/SideBar";
-import LayoutStyled from "./styledComponents/LayoutStyled";
+import NavBar from './navBar/NavBar';
+import SideBar from './sideBar/SideBar';
+import LayoutStyled from './styledComponents/LayoutStyled';
 
 const Layout = () => {
   // Constants
@@ -13,8 +12,7 @@ const Layout = () => {
     <LayoutStyled>
       <NavBar />
       <SideBar width={sideBarWidth} />
-      {<Outlet />}
-      <Footer paddingLeft={sideBarWidth + 32} />
+      <Outlet />
     </LayoutStyled>
   );
 };

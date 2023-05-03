@@ -1,14 +1,13 @@
-import Drawer from "@mui/material/Drawer";
-import { styled } from "@mui/material/styles";
+import Drawer from '@mui/material/Drawer';
+import { styled } from '@mui/material/styles';
 
 const SideBarStyled = styled(Drawer)(({ theme }) => ({
   flexShrink: 0,
 
   ".MuiDrawer-paper": {
-    marginTop: "112px",
-    height: "calc(100% - 112px)",
+    height: "100%",
     boxSizing: "border-box",
-    borderRadius: "0 20px 0 0",
+    borderRadius: "0 20px 20px 0",
     border: "none",
     backgroundColor: theme.palette.primary.main,
     boxShadow:

@@ -1,8 +1,9 @@
 <?php
-  namespace kromLand\api\models\webContent\home;
 
-  class HomeModel
-  {
+namespace kromLand\api\models\webParts\home;
+
+class HomeModel
+{
     public $Id;
     public $Title;
     public $Description;
@@ -40,23 +41,22 @@
       $peopleSay3Name,
       $teamMembers
     ) {
-      $this->Id = $id;
-      $this->Title = $title;
-      $this->Description = $description;
-      $this->PageHeaderTextMain = $pageHeaderTextMain;
-      $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;
-      $this->PageHeaderTextSecondary = $pageHeaderTextSecondary;
-      $this->PageHeaderTextSecondaryColor = $pageHeaderTextSecondaryColor;
-      $this->MainImage = $mainImage;
-      $this->AboutUs = $aboutUs;
-      $this->AboutUsImage = $aboutUsImage;
-      $this->PeopleSay1Text = $peopleSay1Text;
-      $this->PeopleSay1Name = $peopleSay1Name;
-      $this->PeopleSay2Text = $peopleSay2Text;
-      $this->PeopleSay2Name = $peopleSay2Name;
-      $this->PeopleSay3Text = $peopleSay3Text;
-      $this->PeopleSay3Name = $peopleSay3Name;
-      $this->TeamMembers = $teamMembers;
+        $this->Id = $id;
+        $this->Title = $title;
+        $this->Description = $description;
+        $this->PageHeaderTextMain = $pageHeaderTextMain;
+        $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;
+        $this->PageHeaderTextSecondary = $pageHeaderTextSecondary;
+        $this->PageHeaderTextSecondaryColor = $pageHeaderTextSecondaryColor;
+        $this->MainImage = $mainImage;
+        $this->AboutUs = $aboutUs;
+        $this->AboutUsImage = $aboutUsImage;
+        $this->PeopleSay1Text = $peopleSay1Text;
+        $this->PeopleSay1Name = $peopleSay1Name;
+        $this->PeopleSay2Text = $peopleSay2Text;
+        $this->PeopleSay2Name = $peopleSay2Name;
+        $this->PeopleSay3Text = $peopleSay3Text;
+        $this->PeopleSay3Name = $peopleSay3Name;
+        $this->TeamMembers = $teamMembers;
     }
-  }
-?>
+}

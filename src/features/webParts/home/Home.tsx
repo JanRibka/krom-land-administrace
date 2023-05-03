@@ -1,5 +1,7 @@
 import FeatureStyled from 'features/styledComponents/FeatureStyled';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import Footer from 'shared/components/footer/Footer';
 import AppLoader from 'shared/components/loader/AppLoader';
 import AppNotification from 'shared/components/notification/AppNotification';
 import PageTitle from 'shared/components/pageTitle/PageTitle';
@@ -20,6 +22,9 @@ import Seo from './seo/Seo';
 import WhatPeopleSay from './whatPeopleSay/WhatPeopleSay';
 
 const Home = () => {
+  // State
+  const [saving, setSaving] = useState<boolean>(false);
+
   // Constants
   const home = useSelector(selectHome);
   const { handleHomeUpdate } = useWebPartsSlice();
@@ -29,7 +34,7 @@ const Home = () => {
    */
   const { isLoading } = useRequest<JsonResulObjectDataDTO<HomeDTO>>(
     {
-      url: (process.env.REACT_APP_API_URL ?? "") + "WebContentController.php",
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "getHome",
       }),
@@ -59,6 +64,10 @@ const Home = () => {
     }
   );
 
+  const handleSaveOnClick = () => {
+    debugger;
+  };
+
   return (
     <ErrorBoundary>
       <FeatureStyled>
@@ -73,6 +82,12 @@ const Home = () => {
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
+
+      <Footer
+        disabled={!home._dataLoaded}
+        loading={saving}
+        handleSaveOnClick={handleSaveOnClick}
+      />
     </ErrorBoundary>
   );
 };

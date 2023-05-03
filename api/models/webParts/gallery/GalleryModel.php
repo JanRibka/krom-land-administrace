@@ -1,8 +1,8 @@
 <?php
 
-namespace kromLand\api\models\webContent\contact;
+namespace kromLand\api\models\webParts\gallery;
 
-class ContactModel
+class GalleryModel
 {
     public $Id;
     public $Title;
@@ -10,8 +10,8 @@ class ContactModel
     public $PageHeaderTextMain;
     public $PageHeaderTextMainColor;
     public $MainImage;
-    public $GoogleMapsUrl;
-    public $Email;
+    public $ExternalGalleryLink;
+    public $Images;
 
     public function __construct(
     $id,
@@ -20,16 +20,16 @@ class ContactModel
     $pageHeaderTextMain,
     $pageHeaderTextMainColor,
     $mainImage,
-    $googleMapsUrl,
-    $email,
-  ) {
+    $externalGalleryLink,
+    $images,
+    ) {
         $this->Id = $id;
         $this->Title = $title;
         $this->Description = $description;
         $this->PageHeaderTextMain = $pageHeaderTextMain;
         $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;
         $this->MainImage = $mainImage;
-        $this->GoogleMapsUrl = $googleMapsUrl;
-        $this->Email = $email;
+        $this->ExternalGalleryLink = $externalGalleryLink;
+        $this->Images = $images;
     }
 }

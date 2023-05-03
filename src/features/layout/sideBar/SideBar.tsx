@@ -1,8 +1,8 @@
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
 
-import MainMenu from "./mainMenu/MainMenu";
-import SideBarStyled from "./styledComponents/SideBarStyled";
+import MainMenu from './mainMenu/MainMenu';
+import SideBarStyled from './styledComponents/SideBarStyled';
 
 interface IProps {
   width: number;

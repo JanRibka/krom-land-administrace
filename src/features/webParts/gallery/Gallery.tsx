@@ -1,5 +1,7 @@
 import FeatureStyled from 'features/styledComponents/FeatureStyled';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import Footer from 'shared/components/footer/Footer';
 import AppLoader from 'shared/components/loader/AppLoader';
 import AppNotification from 'shared/components/notification/AppNotification';
 import PageTitle from 'shared/components/pageTitle/PageTitle';
@@ -19,6 +21,9 @@ import { mapFromGalleryDTO } from './save/mapFromGalleryDTO';
 import Seo from './seo/Seo';
 
 const Gallery = () => {
+  // State
+  const [saving, setSaving] = useState<boolean>(false);
+
   // Store
   const gallery = useSelector(selectGallery);
 
@@ -30,7 +35,7 @@ const Gallery = () => {
    */
   const { isLoading } = useRequest<JsonResulObjectDataDTO<GalleryDTO>>(
     {
-      url: (process.env.REACT_APP_API_URL ?? "") + "WebContentController.php",
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "getGallery",
       }),
@@ -60,6 +65,10 @@ const Gallery = () => {
     }
   );
 
+  const handleSaveOnClick = () => {
+    debugger;
+  };
+
   return (
     <ErrorBoundary>
       <FeatureStyled>
@@ -73,6 +82,12 @@ const Gallery = () => {
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
+
+      <Footer
+        disabled={!gallery._dataLoaded}
+        loading={saving}
+        handleSaveOnClick={handleSaveOnClick}
+      />
     </ErrorBoundary>
   );
 };

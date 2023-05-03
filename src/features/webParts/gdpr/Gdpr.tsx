@@ -1,6 +1,8 @@
 import FeatureStyled from 'features/styledComponents/FeatureStyled';
 import SectionStyled from 'features/styledComponents/SectionStyled';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import Footer from 'shared/components/footer/Footer';
 import AppLoader from 'shared/components/loader/AppLoader';
 import AppNotification from 'shared/components/notification/AppNotification';
 import PageTitle from 'shared/components/pageTitle/PageTitle';
@@ -20,13 +22,18 @@ import { nameof } from 'shared/nameof';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
+import WebPartsService from '../WebPartsService';
 import { mapFromGdprDTO } from './save/mapFromGdprDTO';
 
 const Gdpr = () => {
+  // State
+  const [saving, setSaving] = useState<boolean>(false);
+
   // Store
   const conditions = useSelector(selectConditions);
 
   // Constants
+  const _webPartsService = new WebPartsService();
   const { handleConditionsUpdate } = useWebPartsSlice();
 
   // Other
@@ -48,7 +55,7 @@ const Gdpr = () => {
    */
   const { isLoading } = useRequest<JsonResulObjectDataDTO<ConditionsDTO>>(
     {
-      url: (process.env.REACT_APP_API_URL ?? "") + "WebContentController.php",
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "getGdpr",
       }),
@@ -77,6 +84,16 @@ const Gdpr = () => {
       }
     }
   );
+
+  const handleSaveOnClick = async () => {
+    if (saving) return;
+
+    setSaving(true);
+
+    await _webPartsService.gdprUpdate();
+
+    setSaving(false);
+  };
 
   return (
     <ErrorBoundary>
@@ -111,6 +128,12 @@ const Gdpr = () => {
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
+
+      <Footer
+        disabled={!conditions._gdprLoaded}
+        loading={saving}
+        handleSaveOnClick={handleSaveOnClick}
+      />
     </ErrorBoundary>
   );
 };

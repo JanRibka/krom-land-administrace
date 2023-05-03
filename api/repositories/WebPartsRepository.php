@@ -5,28 +5,28 @@ namespace kromLand\api\repositories;
 require_once __DIR__.'/../config/db.php';
 require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../../vendor/dibi/dibi/src/Dibi/dibi.php';
-require_once __DIR__.'/../models/webContent/home/TeamMemberModel.php';
-require_once __DIR__.'/../models/webContent/home/HomeModel.php';
-require_once __DIR__.'/../models/webContent/actions/ActionsModel.php';
-require_once __DIR__.'/../models/webContent/actions/ActionDetailModel.php';
-require_once __DIR__.'/../models/webContent/actions/DocumentToDownloadModel.php';
-require_once __DIR__.'/../models/webContent/gallery/GalleryModel.php';
-require_once __DIR__.'/../models/webContent/gallery/GalleryImageModel.php';
-require_once __DIR__.'/../models/webContent/contact/ContactModel.php';
-require_once __DIR__.'/../models/webContent/conditions/ConditionsModel.php';
-require_once __DIR__.'/./IWebContentRepository.php';
+require_once __DIR__.'/../models/webParts/home/TeamMemberModel.php';
+require_once __DIR__.'/../models/webParts/home/HomeModel.php';
+require_once __DIR__.'/../models/webParts/actions/ActionsModel.php';
+require_once __DIR__.'/../models/webParts/actions/ActionDetailModel.php';
+require_once __DIR__.'/../models/webParts/actions/DocumentToDownloadModel.php';
+require_once __DIR__.'/../models/webParts/gallery/GalleryModel.php';
+require_once __DIR__.'/../models/webParts/gallery/GalleryImageModel.php';
+require_once __DIR__.'/../models/webParts/contact/ContactModel.php';
+require_once __DIR__.'/../models/webParts/conditions/ConditionsModel.php';
+require_once __DIR__.'/./IWebPartsRepository.php';
 
-use kromLand\api\models\webContent\actions\ActionDetailModel;
-use kromLand\api\models\webContent\actions\ActionsModel;
-use kromLand\api\models\webContent\actions\DocumentToDownloadModel;
-use kromLand\api\models\webContent\conditions\ConditionsModel;
-use kromLand\api\models\webContent\contact\ContactModel;
-use kromLand\api\models\webContent\gallery\GalleryImageModel;
-use kromLand\api\models\webContent\gallery\GalleryModel;
-use kromLand\api\models\webContent\home\HomeModel;
-use kromLand\api\models\webContent\home\TeamMemberModel;
+use kromLand\api\models\webParts\actions\ActionDetailModel;
+use kromLand\api\models\webParts\actions\ActionsModel;
+use kromLand\api\models\webParts\actions\DocumentToDownloadModel;
+use kromLand\api\models\webParts\conditions\ConditionsModel;
+use kromLand\api\models\webParts\contact\ContactModel;
+use kromLand\api\models\webParts\gallery\GalleryImageModel;
+use kromLand\api\models\webParts\gallery\GalleryModel;
+use kromLand\api\models\webParts\home\HomeModel;
+use kromLand\api\models\webParts\home\TeamMemberModel;
 
-class WebContentRepository implements IWebContentRepository
+class WebPartsRepository implements IWebPartsRepository
 {
     public function getHome(int $id): HomeModel
     {
@@ -224,6 +224,18 @@ class WebContentRepository implements IWebContentRepository
         return $conditionsModel;
     }
 
+    public function gdprUpdate(ConditionsModel $conditions): void
+    {
+        \dibi::query(
+            'UPDATE conditions as c SET', [
+              'GdprLabel' => $conditions->Label,
+              'GdprText' => $conditions->Text,
+            ],
+            'WHERE c.Id = %i',
+            $conditions->Id
+        );
+    }
+
     public function getTermsOfConditions(int $id): ConditionsModel
     {
         $conditions = \dibi::query('SELECT c.Id, c.TermsOfConditionsLabel, c.TermsOfConditionsText FROM conditions as c WHERE c.Id = %i', $id)->fetch();
@@ -235,5 +247,17 @@ class WebContentRepository implements IWebContentRepository
         );
 
         return $conditionsModel;
+    }
+
+    public function termsOfConditionsUpdate(ConditionsModel $conditions): void
+    {
+        \dibi::query(
+            'UPDATE conditions as c SET', [
+              'TermsOfConditionsLabel' => $conditions->Label,
+              'TermsOfConditionsText' => $conditions->Text,
+            ],
+            'WHERE c.Id = %i',
+            $conditions->Id
+        );
     }
 }

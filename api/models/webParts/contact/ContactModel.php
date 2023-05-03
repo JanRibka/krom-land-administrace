@@ -1,8 +1,8 @@
 <?php
 
-namespace kromLand\api\models\webContent\actions;
+namespace kromLand\api\models\webParts\contact;
 
-class ActionsModel
+class ContactModel
 {
     public $Id;
     public $Title;
@@ -10,9 +10,8 @@ class ActionsModel
     public $PageHeaderTextMain;
     public $PageHeaderTextMainColor;
     public $MainImage;
-    public $EmailKromLand;
-    public $ActionDetails;
-    public $DocumentsToDownload;
+    public $GoogleMapsUrl;
+    public $Email;
 
     public function __construct(
     $id,
@@ -21,9 +20,8 @@ class ActionsModel
     $pageHeaderTextMain,
     $pageHeaderTextMainColor,
     $mainImage,
-    $emailKromLand,
-    $actionDetails,
-    $documentsToDownload,
+    $googleMapsUrl,
+    $email,
   ) {
         $this->Id = $id;
         $this->Title = $title;
@@ -31,8 +29,7 @@ class ActionsModel
         $this->PageHeaderTextMain = $pageHeaderTextMain;
         $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;
         $this->MainImage = $mainImage;
-        $this->EmailKromLand = $emailKromLand;
-        $this->ActionDetails = $actionDetails;
-        $this->DocumentsToDownload = $documentsToDownload;
+        $this->GoogleMapsUrl = $googleMapsUrl;
+        $this->Email = $email;
     }
 }
