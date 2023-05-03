@@ -1,13 +1,13 @@
-import DocumentService from "features/DocumentService";
-import { useSelector } from "react-redux";
-import DocumentUpload from "shared/components/fileUpload/DocumentUpload";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
-import DocumentModel from "shared/models/DocumentModel";
-import { nameof } from "shared/nameof";
+import DocumentService from 'features/DocumentService';
+import { useSelector } from 'react-redux';
+import DocumentUpload from 'shared/components/fileUpload/DocumentUpload';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectActions } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import DocumentModel from 'shared/models/DocumentModel';
+import { nameof } from 'shared/nameof';
 
-import DocumentToDownloadModel from "../../models/DocumentToDownloadModel";
-import DocumentStyled from "./styledComponent/DocumentStyled";
+import DocumentToDownloadModel from '../../models/DocumentToDownloadModel';
+import DocumentStyled from './styledComponent/DocumentStyled';
 
 interface IProps {
   index: number;
@@ -49,7 +49,7 @@ const Document = (props: IProps) => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_DOC_URL ?? "") + document.Name,
     };
 
-    const result = await _documentService.saveDocument(
+    const result = await _documentService.documentSave(
       document,
       documentToDownload.Id
     );

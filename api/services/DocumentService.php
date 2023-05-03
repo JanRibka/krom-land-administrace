@@ -2,7 +2,10 @@
 
 namespace kromLand\api\services;
 
+use kromLand\api\models\document\DocumentModel;
 use kromLand\api\repositories\IDocumentRepository;
+
+require_once __DIR__.'/./IDocumentService.php';
 
 class DocumentService implements IDocumentService
 {
@@ -30,14 +33,16 @@ class DocumentService implements IDocumentService
         }
     }
 
-    public function documentSaveIntoDb(string $document, int|null $id): int|null
+    public function documentSaveIntoDb(DocumentModel $document, int|null $id): int|null
     {
+        $documentEncoded = json_encode($document);
+
         if (isset($id)) {
-            $this->_documentRepository->documentUpdate($document, $id);
+            $this->_documentRepository->documentUpdate($documentEncoded, $id);
 
             return null;
         } else {
-            return $this->_documentRepository->documentInsert($document);
+            return $this->_documentRepository->documentInsert($documentEncoded);
         }
     }
 

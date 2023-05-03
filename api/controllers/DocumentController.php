@@ -7,6 +7,8 @@ require_once __DIR__.'/../middleware/verifyJWT.php';
 require_once __DIR__.'/../middleware/verifyRole.php';
 require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
+require_once __DIR__.'/../repositories/DocumentRepository.php';
+require_once __DIR__.'/../services/DocumentService.php';
 
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
@@ -77,11 +79,12 @@ class DocumentController extends ControllerBase
             $jsonData = file_get_contents('php://input');
             $data = json_decode($jsonData);
             $id = $data->id;
+            $document = $data->document;
             $documentName = $data->document->Name;
             $sourceDocument = __DIR__.'/../../upload/'.$documentName;
             $targetDocument = __DIR__.'/../../../publicDocuments/'.$documentName;
-
-            $savedDocumentId = $this->_documentService->documentSaveIntoDb($data->document, $id);
+            echo json_encode($document);
+            $savedDocumentId = $this->_documentService->documentSaveIntoDb($document, $id);
             $this->_documentService->fileCopy($sourceDocument, $targetDocument);
             $this->_documentService->fileDeleteFromServer($sourceDocument);
 

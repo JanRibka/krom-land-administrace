@@ -2,6 +2,9 @@
 
 namespace kromLand\api\repositories;
 
+require_once __DIR__.'/../config/db.php';
+require_once __DIR__.'/./IDocumentRepository.php';
+
 class DocumentRepository implements IDocumentRepository
 {
     public function documentDelete(int $id): void

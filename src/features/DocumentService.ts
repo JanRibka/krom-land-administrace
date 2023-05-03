@@ -1,9 +1,8 @@
-import { HttpStatusCode } from "axios";
-import AppNotification from "shared/components/notification/AppNotification";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
-import Repository from "shared/infrastructure/repositiory/Repository";
-import DocumentModel from "shared/models/DocumentModel";
+import AppNotification from 'shared/components/notification/AppNotification';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import JsonResulObjectDTO from 'shared/DTOs/JsonResulObjectDTO';
+import Repository from 'shared/infrastructure/repositiory/Repository';
+import DocumentModel from 'shared/models/DocumentModel';
 
 export default class DocumentService {
   private _repo = new Repository();
@@ -15,31 +14,27 @@ export default class DocumentService {
   public async documentUpload(formData: FormData) {
     const response = await this._repo.post<any, JsonResulObjectDataDTO<string>>(
       {
-        url: process.env.REACT_APP_API_URL ?? "",
+        url: (process.env.REACT_APP_API_URL ?? "") + "DocumentController.php",
         params: new URLSearchParams({
-          action: "document",
-          type: "uploaddocument",
+          function: "documentUpload",
         }),
         data: formData,
       }
     );
+    console.log(response);
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Dokument nahrán", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Dokument nahrán", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při nahrávání dokumentu", "danger");
+      AppNotification("Úspěch", "Dokument nahrán", "success");
     }
   }
 
@@ -54,10 +49,9 @@ export default class DocumentService {
     id: number | null
   ) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      url: process.env.REACT_APP_API_URL ?? "",
+      url: (process.env.REACT_APP_API_URL ?? "") + "DocumentController.php",
       params: new URLSearchParams({
-        action: "document",
-        type: "deletedocument",
+        function: "documentDelete",
       }),
       data: {
         documentName: documentName,
@@ -65,23 +59,20 @@ export default class DocumentService {
         id: id,
       },
     });
+    console.log(response);
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Dokument smazán", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Dokument smazán", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při mazání dokumentu", "danger");
+      AppNotification("Úspěch", "Dokument smazán", "success");
     }
   }
 
@@ -93,10 +84,9 @@ export default class DocumentService {
   public async documentSave(document: DocumentModel, id: number | null) {
     const response = await this._repo.post<any, JsonResulObjectDataDTO<number>>(
       {
-        url: process.env.REACT_APP_API_URL ?? "",
+        url: (process.env.REACT_APP_API_URL ?? "") + "DocumentController.php",
         params: new URLSearchParams({
-          action: "document",
-          type: "savedocument",
+          function: "documentSave",
         }),
         data: {
           document: document,
@@ -106,25 +96,22 @@ export default class DocumentService {
     );
 
     let result: number | null = null;
+    console.log(response);
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          result = response.data?.Data ?? null;
-          AppNotification("Úspěch", "Dokument uložen", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         result = response.data?.Data ?? null;
         AppNotification("Úspěch", "Dokument uložen", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při mazání dokumentu", "danger");
+      result = response.data?.Data ?? null;
+      AppNotification("Úspěch", "Dokument uložen", "success");
     }
 
     return result;
