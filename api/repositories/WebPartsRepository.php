@@ -58,6 +58,29 @@ class WebPartsRepository implements IWebPartsRepository
         return $homeModel;
     }
 
+    public function homeUpdate(HomeModel $home): void
+    {
+        \dibi::query(
+            'UPDATE home as h SET', [
+              'Title' => $home->Title,
+              'Description' => $home->Description,
+              'PageHeaderTextMain' => $home->PageHeaderTextMain,
+              'PageHeaderTextMainColor' => $home->PageHeaderTextMainColor,
+              'PageHeaderTextSecondary' => $home->PageHeaderTextSecondary,
+              'PageHeaderTextSecondaryColor' => $home->PageHeaderTextSecondaryColor,
+              'AboutUs' => $home->AboutUs,
+              'PeopleSay1Text' => $home->PeopleSay1Text,
+              'PeopleSay1Name' => $home->PeopleSay1Name,
+              'PeopleSay2Text' => $home->PeopleSay2Text,
+              'PeopleSay2Name' => $home->PeopleSay2Name,
+              'PeopleSay3Text' => $home->PeopleSay3Text,
+              'PeopleSay3Name' => $home->PeopleSay3Name,
+            ],
+            'WHERE h.Id = %i',
+            $home->Id
+        );
+    }
+
     public function getTeamMembers(): array
     {
         $result = [];
@@ -75,6 +98,49 @@ class WebPartsRepository implements IWebPartsRepository
         }
 
         return $result;
+    }
+
+    public function teamMembersUpdate(array $teamMembers): void
+    {
+        $teamMembersDb = $this->getTeamMembers();
+
+        foreach ($teamMembers as $member) {
+            $id = $member->Id;
+            $item = array_filter($teamMembersDb, function ($f) use ($id) {
+                if ($f->Id == $id) {
+                    return $f;
+                }
+            });
+
+            if ($member->Delete) {
+                \dibi::query('DELETE FROM teamMembers as tm WHERE tm.Id = %i', $id);
+
+                $image = json_decode($member->Image);
+                $imageName = $image->Name;
+                $imagePath = __DIR__.'/../../publicImg/'.$imageName;
+
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            } elseif (count($item) > 0) {
+                \dibi::query(
+                    'UPDATE teamMembers as tm SET', [
+                      'Name' => $member->Name,
+                      'Text' => $member->Text,
+                    ],
+                    'WHERE tm.Id = %i',
+                    $id
+                );
+            } else {
+                $arr = [
+                  'Name' => $member->Name,
+                  'Text' => $member->Text,
+                  'Image' => $member->Image,
+                ];
+
+                \dibi::query('INSERT INTO teamMembers', $arr);
+            }
+        }
     }
 
     public function getActions(int $id): ActionsModel
@@ -97,6 +163,21 @@ class WebPartsRepository implements IWebPartsRepository
         );
 
         return $actioneModel;
+    }
+
+    public function actionsUpdate(ActionsModel $actions): void
+    {
+        \dibi::query(
+            'UPDATE actions as a SET', [
+              'Title' => $actions->Title,
+              'Description' => $actions->Description,
+              'PageHeaderTextMain' => $actions->PageHeaderTextMain,
+              'PageHeaderTextMainColor' => $actions->PageHeaderTextMainColor,
+              'EmailKromLand' => $actions->EmailKromLand,
+            ],
+            'WHERE a.Id = %i',
+            $actions->Id
+        );
     }
 
     public function getActionDetails(int $actionId): array
@@ -129,6 +210,29 @@ class WebPartsRepository implements IWebPartsRepository
         }
 
         return $result;
+    }
+
+    public function actionDetailsUpdate(array $actionDetails): void
+    {
+        foreach ($actionDetails as $detail) {
+            \dibi::query(
+                'UPDATE actionDetails as ad SET', [
+                  'ActionOrder' => $detail->ActionOrder,
+                  'MonthName' => $detail->MonthName,
+                  'ActionName' => $detail->ActionName,
+                  'ActionDescritption' => $detail->ActionDescritption,
+                  'VideoLink' => $detail->VideoLink,
+                  'Price' => $detail->Price,
+                  'IsPriceRemark' => $detail->IsPriceRemark,
+                  'PriceRemark' => $detail->PriceRemark,
+                  'Place' => $detail->Place,
+                  'Date' => $detail->Date,
+                  'CapacityFull' => $detail->CapacityFull,
+                ],
+                'WHERE ad.Id = %i',
+                $detail->Id
+            );
+        }
     }
 
     public function getDocumentsToDownload(): array
@@ -171,6 +275,21 @@ class WebPartsRepository implements IWebPartsRepository
         return $galleryModel;
     }
 
+    public function galleryUpdate(GalleryModel $gallery): void
+    {
+        \dibi::query(
+            'UPDATE gallery as g SET', [
+              'Title' => $gallery->Title,
+              'Description' => $gallery->Description,
+              'PageHeaderTextMain' => $gallery->PageHeaderTextMain,
+              'PageHeaderTextMainColor' => $gallery->PageHeaderTextMainColor,
+              'ExternalGalleryLink' => $gallery->ExternalGalleryLink,
+            ],
+            'WHERE g.Id = %i',
+            $gallery->Id
+        );
+    }
+
     public function getGalleryImages(): array
     {
         $result = [];
@@ -209,6 +328,22 @@ class WebPartsRepository implements IWebPartsRepository
         );
 
         return $contactModel;
+    }
+
+    public function contactUpdate(ContactModel $contact): void
+    {
+        \dibi::query(
+            'UPDATE contact as c SET', [
+              'Title' => $contact->Title,
+              'Description' => $contact->Description,
+              'PageHeaderTextMain' => $contact->PageHeaderTextMain,
+              'PageHeaderTextMainColor' => $contact->PageHeaderTextMainColor,
+              'GoogleMapsUrl' => $contact->GoogleMapsUrl,
+              'Email' => $contact->Email,
+            ],
+            'WHERE c.Id = %i',
+            $contact->Id
+        );
     }
 
     public function getGdpr(int $id): ConditionsModel

@@ -1,4 +1,4 @@
-import KromLandService from "features/KromLandService";
+import ImageService from "features/ImageService";
 import SectionStyled from "features/styledComponents/SectionStyled";
 import { useSelector } from "react-redux";
 import ImageUpload from "shared/components/imageUpload/ImageUpload";
@@ -21,7 +21,7 @@ const PageHeader = () => {
   const gallery = useSelector(selectGallery);
 
   // Constants
-  const _kromLandService = new KromLandService();
+  const _imageService = new ImageService();
   const { handleGalleryUpdate, handleGalleryMainImageUpdate } =
     useWebPartsSlice();
 
@@ -62,7 +62,7 @@ const PageHeader = () => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _kromLandService.saveImage(
+    const result = await _imageService.saveImage(
       image,
       name,
       "saveimagegallery"

@@ -1,6 +1,7 @@
 import ImageModel from "shared/models/ImageModel";
 
 export class ContactModel {
+  Id: number = 0;
   Title: string = "";
   Description: string = "";
   PageHeaderTextMain: string = "";

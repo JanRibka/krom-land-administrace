@@ -1,19 +1,19 @@
-import KromLandService from 'features/KromLandService';
-import { useSelector } from 'react-redux';
-import ImageUpload from 'shared/components/imageUpload/ImageUpload';
-import SectionSubTitle from 'shared/components/sectionSubTitle/SectionSubTitle';
-import AppTextField from 'shared/components/textField/AppTextField';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectHome } from 'shared/infrastructure/store/webParts/webPartsSlice';
-import ImageModel from 'shared/models/ImageModel';
-import { nameof } from 'shared/nameof';
+import ImageService from "features/ImageService";
+import { useSelector } from "react-redux";
+import ImageUpload from "shared/components/imageUpload/ImageUpload";
+import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
+import AppTextField from "shared/components/textField/AppTextField";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
+import ImageModel from "shared/models/ImageModel";
+import { nameof } from "shared/nameof";
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import DeleteIcon from "@mui/icons-material/Delete";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
-import TeamMemberModel from '../../models/TeamMemberModel';
+import TeamMemberModel from "../../models/TeamMemberModel";
 
 interface IProps {
   index: number;
@@ -28,7 +28,7 @@ const Member = (props: IProps) => {
   const home = useSelector(selectHome);
 
   // Constants
-  const _kromLandService = new KromLandService();
+  const _imageService = new ImageService();
   const { handleHomeTeamMemberUpdate } = useWebPartsSlice();
 
   // Other
@@ -69,7 +69,7 @@ const Member = (props: IProps) => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _kromLandService.saveImageTeamMember(
+    const result = await _imageService.saveImageTeamMember(
       image,
       teamMember.Id
     );

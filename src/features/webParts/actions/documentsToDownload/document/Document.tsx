@@ -1,4 +1,4 @@
-import KromLandService from "features/KromLandService";
+import DocumentService from "features/DocumentService";
 import { useSelector } from "react-redux";
 import DocumentUpload from "shared/components/fileUpload/DocumentUpload";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
@@ -20,7 +20,7 @@ const Document = (props: IProps) => {
   const actions = useSelector(selectActions);
 
   // Constants
-  const _kromLandService = new KromLandService();
+  const _documentService = new DocumentService();
   const { handleActionsDocumentUpdate } = useWebPartsSlice();
   const documentToDownload = { ...actions.DocumentsToDownload[props.index] };
 
@@ -49,7 +49,7 @@ const Document = (props: IProps) => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_DOC_URL ?? "") + document.Name,
     };
 
-    const result = await _kromLandService.saveDocument(
+    const result = await _documentService.saveDocument(
       document,
       documentToDownload.Id
     );

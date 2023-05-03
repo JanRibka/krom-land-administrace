@@ -3,6 +3,7 @@ import ImageModel from "shared/models/ImageModel";
 import GalleryImageModel from "./GalleryImageModel";
 
 export default class GalleryModel {
+  Id: number = 0;
   Title: string = "";
   Description: string = "";
   PageHeaderTextMain: string = "";

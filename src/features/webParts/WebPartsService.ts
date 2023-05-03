@@ -1,15 +1,159 @@
-import { HttpStatusCode } from 'axios';
-import AppNotification from 'shared/components/notification/AppNotification';
-import ConditionsDTO from 'shared/DTOs/ConditionsDTO';
-import JsonResulObjectDTO from 'shared/DTOs/JsonResulObjectDTO';
-import Repository from 'shared/infrastructure/repositiory/Repository';
-import { store } from 'shared/infrastructure/store/store';
+import { HttpStatusCode } from "axios";
+import AppNotification from "shared/components/notification/AppNotification";
+import ActionsDTO from "shared/DTOs/ActionsDTO";
+import ConditionsDTO from "shared/DTOs/ConditionsDTO";
+import ContactDTO from "shared/DTOs/ContactDTO";
+import GalleryDTO from "shared/DTOs/GalleryDTO";
+import HomeDTO from "shared/DTOs/HomeDTO";
+import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
+import Repository from "shared/infrastructure/repositiory/Repository";
+import { store } from "shared/infrastructure/store/store";
 
-import { mapToGdprDTO } from './gdpr/save/mapToGdprDTO';
-import { mapToTermsOfConditionsDTO } from './termsOfConditions/save/mapToTermsOfConditionsDTO';
+import { mapToActionsDTO } from "./actions/save/mapToActionsDTO";
+import { mapToContactDTO } from "./contact/save/mapToContactDTO";
+import { mapToGalleryDTO } from "./gallery/save/mapToGalleryDTO";
+import { mapToGdprDTO } from "./gdpr/save/mapToGdprDTO";
+import HomeModel from "./home/models/HomeModel";
+import { mapToTermsOfConditionsDTO } from "./termsOfConditions/save/mapToTermsOfConditionsDTO";
 
 export default class WebPartsService {
   private _repo = new Repository();
+
+  /**
+   * Home update
+   */
+  public async homeUpdate() {
+    const state = store.getState();
+    const conditions: HomeDTO = mapToHomeDTO(state.webParts.Home);
+
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
+      params: new URLSearchParams({
+        function: "homeUpdate",
+      }),
+      data: conditions,
+    });
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          AppNotification("Úspěch", "Úspěšně uloženo", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+    }
+  }
+
+  /**
+   * Actions update
+   */
+  public async actionsUpdate() {
+    const state = store.getState();
+    const actions: ActionsDTO = mapToActionsDTO(state.webParts.Actions);
+
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
+      params: new URLSearchParams({
+        function: "actionsUpdate",
+      }),
+      data: actions,
+    });
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          AppNotification("Úspěch", "Úspěšně uloženo", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+    }
+  }
+
+  /**
+   * Gallery update
+   */
+  public async galleryUpdate() {
+    const state = store.getState();
+    const gallery: GalleryDTO = mapToGalleryDTO(state.webParts.Gallery);
+
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
+      params: new URLSearchParams({
+        function: "galleryUpdate",
+      }),
+      data: gallery,
+    });
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          AppNotification("Úspěch", "Úspěšně uloženo", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+    }
+  }
+
+  /**
+   * Contact update
+   */
+  public async contactUpdate() {
+    const state = store.getState();
+    const contact: ContactDTO = mapToContactDTO(state.webParts.Contact);
+
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
+      params: new URLSearchParams({
+        function: "contactUpdate",
+      }),
+      data: contact,
+    });
+
+    if (response.status === HttpStatusCode.Ok) {
+      const dataType = typeof response.data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(response.data), "danger");
+      } else if (dataType === "object") {
+        if (response.data?.Success) {
+          AppNotification("Úspěch", "Úspěšně uloženo", "success");
+        } else {
+          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+        }
+      } else {
+        AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      }
+    } else {
+      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+    }
+  }
 
   /**
    * GDPR update
@@ -80,4 +224,7 @@ export default class WebPartsService {
       AppNotification("Chyba", "Chyba při ukládání dat", "danger");
     }
   }
+}
+function mapToHomeDTO(Home: HomeModel): HomeDTO {
+  throw new Error("Function not implemented.");
 }

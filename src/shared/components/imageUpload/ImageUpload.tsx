@@ -1,4 +1,4 @@
-import KromLandService from "features/KromLandService";
+import ImageService from "features/ImageService";
 import { ChangeEvent } from "react";
 import ImageModel from "shared/models/ImageModel";
 import { v4 as uuidv4 } from "uuid";
@@ -33,7 +33,7 @@ interface IProps {
 
 const ImageUpload = (props: IProps) => {
   // Constants
-  const _kromLandService = new KromLandService();
+  const _imageService = new ImageService();
   const guid = uuidv4();
 
   // Other
@@ -170,7 +170,7 @@ const ImageUpload = (props: IProps) => {
       formData.append("file", file);
       formData.append("fileName", fileName);
 
-      await _kromLandService.uploadImage(formData);
+      await _imageService.uploadImage(formData);
 
       props.onAfterFileUpload(
         fileName,
@@ -186,7 +186,7 @@ const ImageUpload = (props: IProps) => {
       ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
       : process.env.REACT_APP_IMAGES_PATH ?? "";
 
-    await _kromLandService.deleteImage(props.image.Name, dirPath);
+    await _imageService.deleteImage(props.image.Name, dirPath);
 
     props.onAfterFileDelete?.(props.name);
   };

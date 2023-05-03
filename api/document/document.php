@@ -1,89 +1,84 @@
 <?php
-require_once __DIR__ . "/../db/db.php";
+
+require_once __DIR__.'/../db/db.php';
 
 class Document
 {
     public static function uploadDocument()
     {
-        try
-        {
-            $newDocumentName = $_POST["fileName"];
-            $targetDir = __DIR__ . "/../../upload/" . $newDocumentName;
-    
-            move_uploaded_file($_FILES["file"]["tmp_name"], $targetDir);            
+        try {
+            $newDocumentName = $_POST['fileName'];
+            $targetDir = __DIR__.'/../../upload/'.$newDocumentName;
 
-            apiResponse(true, "");
-        } catch(Exception $ex)
-        {
-          apiResponse(false, $ex->getMessage());
-        }        
+            move_uploaded_file($_FILES['file']['tmp_name'], $targetDir);
+
+            apiResponse(true, '');
+        } catch (Exception $ex) {
+            apiResponse(false, $ex->getMessage());
+        }
     }
 
     public static function deleteDocument()
     {
-        try
-        {
+        try {
             $jsonData = file_get_contents('php://input');
             $data = json_decode($jsonData);
             $id = $data->id;
             $documentName = $data->documentName;
-            $directory = $data->directory;            
-            $filePath = __DIR__ . $directory . $documentName;
+            $directory = $data->directory;
+            $filePath = __DIR__.$directory.$documentName;
 
             if (isset($id)) {
-                dibi::query("DELETE FROM documentsToDownload as dtd WHERE dtd.Id = %i", $id);                
+                dibi::query('DELETE FROM documentsToDownload as dtd WHERE dtd.Id = %i', $id);
             }
 
-            if(file_exists($filePath)) {
+            if (file_exists($filePath)) {
                 unlink($filePath);
-            }            
+            }
 
-            apiResponse(true, "");
-        } catch(Exception $ex)
-        {
-          apiResponse(false, $ex->getMessage());
-        }        
+            apiResponse(true, '');
+        } catch (Exception $ex) {
+            apiResponse(false, $ex->getMessage());
+        }
     }
 
     public static function saveDocument()
     {
-        try
-        {
+        try {
             $jsonData = file_get_contents('php://input');
             $data = json_decode($jsonData);
             $id = $data->id;
-            $documentName = $data->document->Name;            
-            $sourceDocument = __DIR__ . "/../../upload/" . $documentName;
-            $targetDocument = __DIR__ . "/../../../publicDocuments/" . $documentName;
+            $documentName = $data->document->Name;
+            $sourceDocument = __DIR__.'/../../upload/'.$documentName;
+            $targetDocument = __DIR__.'/../../../publicDocuments/'.$documentName;
             $arr = [
-                "Document" => json_encode($data->document),
+                'Document' => json_encode($data->document),
             ];
 
             if (isset($id)) {
                 dibi::query(
-                    'UPDATE documentsToDownload as dtd SET', $arr,         
+                    'UPDATE documentsToDownload as dtd SET', $arr,
                     'WHERE dtd.Id = %i',
                     $id
                 );
             } else {
                 dibi::query(
-                    "INSERT INTO documentsToDownload", 
+                    'INSERT INTO documentsToDownload',
                     $arr
                 );
-                
-                $id = dibi::getInsertId();
-            }            
-            
-            copy($sourceDocument, $targetDocument);    
-            if(file_exists($sourceDocument)) {
-                unlink($sourceDocument);
-            }          
 
-            apiResponse(true, "", $id);
-        } catch(Exception $ex)
-        {
-          apiResponse(false, $ex->getMessage());
-        }    
-    } 
+                $id = dibi::getInsertId();
+            }
+
+            copy($sourceDocument, $targetDocument);
+
+            if (file_exists($sourceDocument)) {
+                unlink($sourceDocument);
+            }
+
+            apiResponse(true, '', $id);
+        } catch (Exception $ex) {
+            apiResponse(false, $ex->getMessage());
+        }
+    }
 }
-?>

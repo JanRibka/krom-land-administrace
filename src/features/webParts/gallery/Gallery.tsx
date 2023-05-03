@@ -1,24 +1,25 @@
-import FeatureStyled from 'features/styledComponents/FeatureStyled';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import Footer from 'shared/components/footer/Footer';
-import AppLoader from 'shared/components/loader/AppLoader';
-import AppNotification from 'shared/components/notification/AppNotification';
-import PageTitle from 'shared/components/pageTitle/PageTitle';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import GalleryDTO from 'shared/DTOs/GalleryDTO';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectGallery } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import FeatureStyled from "features/styledComponents/FeatureStyled";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import Footer from "shared/components/footer/Footer";
+import AppLoader from "shared/components/loader/AppLoader";
+import AppNotification from "shared/components/notification/AppNotification";
+import PageTitle from "shared/components/pageTitle/PageTitle";
+import { useRequest } from "shared/dataAccess/useRequest";
+import GalleryDTO from "shared/DTOs/GalleryDTO";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectGallery } from "shared/infrastructure/store/webParts/webPartsSlice";
 
-import { Stack } from '@mui/system';
+import { Stack } from "@mui/system";
 
-import ExternalGalleryLink from './externalGalleryLink/ExternalGalleryLink';
-import GalleryImages from './galleryImages/GalleryImages';
-import PageHeader from './pageHeader/PageHeader';
-import { mapFromGalleryDTO } from './save/mapFromGalleryDTO';
-import Seo from './seo/Seo';
+import WebPartsService from "../WebPartsService";
+import ExternalGalleryLink from "./externalGalleryLink/ExternalGalleryLink";
+import GalleryImages from "./galleryImages/GalleryImages";
+import PageHeader from "./pageHeader/PageHeader";
+import { mapFromGalleryDTO } from "./save/mapFromGalleryDTO";
+import Seo from "./seo/Seo";
 
 const Gallery = () => {
   // State
@@ -28,6 +29,7 @@ const Gallery = () => {
   const gallery = useSelector(selectGallery);
 
   // Constants
+  const _webPartsService = new WebPartsService();
   const { handleGalleryUpdate } = useWebPartsSlice();
 
   /**
@@ -65,8 +67,14 @@ const Gallery = () => {
     }
   );
 
-  const handleSaveOnClick = () => {
-    debugger;
+  const handleSaveOnClick = async () => {
+    if (saving) return;
+
+    setSaving(true);
+
+    await _webPartsService.galleryUpdate();
+
+    setSaving(false);
   };
 
   return (

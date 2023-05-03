@@ -3,6 +3,7 @@ import ImageModel from "shared/models/ImageModel";
 import TeamMemberModel from "./TeamMemberModel";
 
 export default class HomeModel {
+  Id: number = 0;
   Title: string = "";
   Description: string = "";
   PageHeaderTextMain: string = "";

@@ -1,13 +1,12 @@
-import HomeDTO from 'shared/DTOs/HomeDTO';
-import { initialState } from 'shared/infrastructure/store/webParts/webPartsSlice';
-import ImageModel from 'shared/models/ImageModel';
+import HomeDTO from "shared/DTOs/HomeDTO";
+import ImageModel from "shared/models/ImageModel";
 
-import HomeModel from '../models/HomeModel';
-import TeamMemberModel from '../models/TeamMemberModel';
+import HomeModel from "../models/HomeModel";
+import TeamMemberModel from "../models/TeamMemberModel";
 
 export const mapFromHomeDTO = (homeDTO?: HomeDTO | null) => {
   const result: HomeModel = {
-    ...initialState.Home,
+    Id: homeDTO?.Id ?? 0,
     Title: homeDTO?.Title ?? "",
     Description: homeDTO?.Description ?? "",
     PageHeaderTextMain: homeDTO?.PageHeaderTextMain ?? "",

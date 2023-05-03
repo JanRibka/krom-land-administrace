@@ -1,25 +1,26 @@
-import FeatureStyled from 'features/styledComponents/FeatureStyled';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import Footer from 'shared/components/footer/Footer';
-import AppLoader from 'shared/components/loader/AppLoader';
-import AppNotification from 'shared/components/notification/AppNotification';
-import PageTitle from 'shared/components/pageTitle/PageTitle';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import ActionsDTO from 'shared/DTOs/ActionsDTO';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectActions } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import FeatureStyled from "features/styledComponents/FeatureStyled";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import Footer from "shared/components/footer/Footer";
+import AppLoader from "shared/components/loader/AppLoader";
+import AppNotification from "shared/components/notification/AppNotification";
+import PageTitle from "shared/components/pageTitle/PageTitle";
+import { useRequest } from "shared/dataAccess/useRequest";
+import ActionsDTO from "shared/DTOs/ActionsDTO";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
 
-import { Stack } from '@mui/system';
+import { Stack } from "@mui/system";
 
-import ActionDetails from './actionDetails/ActionDetails';
-import DocumentsToDownload from './documentsToDownload/DocumentsToDownload';
-import Email from './email/Email';
-import PageHeader from './pageHeader/PageHeader';
-import { mapFromActionsDTO } from './save/mapFromActionsDTO';
-import Seo from './seo/Seo';
+import WebPartsService from "../WebPartsService";
+import ActionDetails from "./actionDetails/ActionDetails";
+import DocumentsToDownload from "./documentsToDownload/DocumentsToDownload";
+import Email from "./email/Email";
+import PageHeader from "./pageHeader/PageHeader";
+import { mapFromActionsDTO } from "./save/mapFromActionsDTO";
+import Seo from "./seo/Seo";
 
 const Actions = () => {
   // State
@@ -29,6 +30,7 @@ const Actions = () => {
   const actions = useSelector(selectActions);
 
   // Constants
+  const _webPartsService = new WebPartsService();
   const { handleActionsUpdate } = useWebPartsSlice();
 
   /**
@@ -66,8 +68,14 @@ const Actions = () => {
     }
   );
 
-  const handleSaveOnClick = () => {
-    debugger;
+  const handleSaveOnClick = async () => {
+    if (saving) return;
+
+    setSaving(true);
+
+    await _webPartsService.actionsUpdate();
+
+    setSaving(false);
   };
 
   return (

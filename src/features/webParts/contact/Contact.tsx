@@ -1,30 +1,32 @@
-import FeatureStyled from 'features/styledComponents/FeatureStyled';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import Footer from 'shared/components/footer/Footer';
-import AppLoader from 'shared/components/loader/AppLoader';
-import AppNotification from 'shared/components/notification/AppNotification';
-import PageTitle from 'shared/components/pageTitle/PageTitle';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import ContactDTO from 'shared/DTOs/ContactDTO';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectContact } from 'shared/infrastructure/store/webParts/webPartsSlice';
+import FeatureStyled from "features/styledComponents/FeatureStyled";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import Footer from "shared/components/footer/Footer";
+import AppLoader from "shared/components/loader/AppLoader";
+import AppNotification from "shared/components/notification/AppNotification";
+import PageTitle from "shared/components/pageTitle/PageTitle";
+import { useRequest } from "shared/dataAccess/useRequest";
+import ContactDTO from "shared/DTOs/ContactDTO";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectContact } from "shared/infrastructure/store/webParts/webPartsSlice";
 
-import Stack from '@mui/material/Stack';
+import Stack from "@mui/material/Stack";
 
-import Email from './email/Email';
-import GoogleMaps from './googleMaps/GoogleMaps';
-import PageHeader from './pageHeader/PageHeader';
-import { mapFromContactDTO } from './save/mapFromContactDTO';
-import Seo from './seo/Seo';
+import WebPartsService from "../WebPartsService";
+import Email from "./email/Email";
+import GoogleMaps from "./googleMaps/GoogleMaps";
+import PageHeader from "./pageHeader/PageHeader";
+import { mapFromContactDTO } from "./save/mapFromContactDTO";
+import Seo from "./seo/Seo";
 
 const Contact = () => {
   // State
   const [saving, setSaving] = useState<boolean>(false);
 
   // Store
+  const _webPartsService = new WebPartsService();
   const contact = useSelector(selectContact);
 
   // Constants
@@ -65,8 +67,14 @@ const Contact = () => {
     }
   );
 
-  const handleSaveOnClick = () => {
-    debugger;
+  const handleSaveOnClick = async () => {
+    if (saving) return;
+
+    setSaving(true);
+
+    await _webPartsService.contactUpdate();
+
+    setSaving(false);
   };
 
   return (

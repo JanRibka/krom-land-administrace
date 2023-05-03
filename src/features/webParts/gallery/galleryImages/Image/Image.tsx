@@ -1,4 +1,4 @@
-import KromLandService from "features/KromLandService";
+import ImageService from "features/ImageService";
 import { useSelector } from "react-redux";
 import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
@@ -20,7 +20,7 @@ const Image = (props: IProps) => {
   const gallery = useSelector(selectGallery);
 
   // Constnts
-  const _kromLandService = new KromLandService();
+  const _imageService = new ImageService();
   const { handleGalleryGalleryImageUpdate } = useWebPartsSlice();
   const galleryImage = { ...gallery.Images[props.index] };
 
@@ -42,7 +42,7 @@ const Image = (props: IProps) => {
 
   const handleOnAfterFileDelete = (name: string) => {
     handleGalleryGalleryImageUpdate({ Delete: true }, props.index);
-    _kromLandService.deleteGalleryImage(galleryImage.Id);
+    _imageService.deleteGalleryImage(galleryImage.Id);
   };
 
   const handleOnFileSave = async (name: string) => {
@@ -53,7 +53,7 @@ const Image = (props: IProps) => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _kromLandService.saveImageGalleryImage(
+    const result = await _imageService.saveImageGalleryImage(
       image,
       galleryImage.Id
     );

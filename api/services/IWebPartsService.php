@@ -12,19 +12,31 @@ interface IWebPartsService
 {
     public function getHome(int $id): HomeModel;
 
+    public function homeUpdate(HomeModel $home): void;
+
     public function getTeamMembers(): array;
+
+    public function teamMembersUpdate(array $teamMembers): void;
 
     public function getActions(int $id): ActionsModel;
 
+    public function actionsUpdate(ActionsModel $actions): void;
+
     public function getActionDetails(int $actionId): array;
+
+    public function actionDetailsUpdate(array $actionDetails): void;
 
     public function getDocumentsToDownload(): array;
 
     public function getGallery(int $id): GalleryModel;
 
+    public function galleryUpdate(GalleryModel $gallery): void;
+
     public function getGalleryImages(): array;
 
     public function getContact(int $id): ContactModel;
+
+    public function contactUpdate(ContactModel $contact): void;
 
     public function getGdpr(int $id): ConditionsModel;
 

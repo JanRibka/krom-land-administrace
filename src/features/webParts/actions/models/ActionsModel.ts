@@ -4,6 +4,7 @@ import ActionDetailModel from "./ActionDetailModel";
 import DocumentToDownloadModel from "./DocumentToDownloadModel";
 
 export default class ActionsModel {
+  Id: number = 0;
   Title: string = "";
   Description: string = "";
   PageHeaderTextMain: string = "";

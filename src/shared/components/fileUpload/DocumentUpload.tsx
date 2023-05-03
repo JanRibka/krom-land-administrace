@@ -1,17 +1,17 @@
-import KromLandService from 'features/KromLandService';
-import { ChangeEvent } from 'react';
-import DocumentModel from 'shared/models/DocumentModel';
-import { v4 as uuidv4 } from 'uuid';
+import DocumentService from "features/DocumentService";
+import { ChangeEvent } from "react";
+import DocumentModel from "shared/models/DocumentModel";
+import { v4 as uuidv4 } from "uuid";
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined';
-import { LoadingButton } from '@mui/lab';
-import Box from '@mui/material/Box';
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveAltOutlinedIcon from "@mui/icons-material/SaveAltOutlined";
+import { LoadingButton } from "@mui/lab";
+import Box from "@mui/material/Box";
 
-import AppNotification from '../notification/AppNotification';
-import ValidateFileSizeReturnModel from './models/ValidateFileSizeReturnModel ';
-import ValidateFileTypeReturnModel from './models/ValidateFileTypeReturnModel ';
-import DocumentUploadStyled from './styledComponents/DocumentUploadStyled';
+import AppNotification from "../notification/AppNotification";
+import ValidateFileSizeReturnModel from "./models/ValidateFileSizeReturnModel ";
+import ValidateFileTypeReturnModel from "./models/ValidateFileTypeReturnModel ";
+import DocumentUploadStyled from "./styledComponents/DocumentUploadStyled";
 
 interface IProps {
   document: DocumentModel;
@@ -32,7 +32,7 @@ interface IProps {
 
 const DocumentUpload = (props: IProps) => {
   // Constants
-  const _kromLandService = new KromLandService();
+  const _documentService = new DocumentService();
   const guid = uuidv4();
 
   // Other
@@ -166,7 +166,7 @@ const DocumentUpload = (props: IProps) => {
       formData.append("file", file);
       formData.append("fileName", fileName);
 
-      await _kromLandService.uploadDocument(formData);
+      await _documentService.uploadDocument(formData);
 
       props.onAfterFileUpload(fileName, props.name, "/upload/");
     }
@@ -177,7 +177,7 @@ const DocumentUpload = (props: IProps) => {
       ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
       : process.env.REACT_APP_DOCUMENTS_PATH ?? "";
 
-    await _kromLandService.deleteDocument(
+    await _documentService.deleteDocument(
       props.document.Name,
       dirPath,
       props.id

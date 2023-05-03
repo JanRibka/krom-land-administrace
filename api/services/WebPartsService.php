@@ -28,9 +28,20 @@ class WebPartsService implements IWebPartsService
         return $home;
     }
 
+    public function homeUpdate(HomeModel $home): void
+    {
+        $this->_webPartsRepository->homeUpdate($home);
+        $this->_webPartsRepository->teamMembersUpdate($home->TeamMembers);
+    }
+
     public function getTeamMembers(): array
     {
         return $this->_webPartsRepository->getTeamMembers();
+    }
+
+    public function teamMembersUpdate(array $teamMembers): void
+    {
+        $this->_webPartsRepository->teamMembersUpdate($teamMembers);
     }
 
     public function getActions(int $id): ActionsModel
@@ -42,9 +53,20 @@ class WebPartsService implements IWebPartsService
         return $actions;
     }
 
+    public function actionsUpdate(ActionsModel $actions): void
+    {
+        $this->_webPartsRepository->actionsUpdate($actions);
+        $this->_webPartsRepository->actionDetailsUpdate($actions->ActionDetails);
+    }
+
     public function getActionDetails(int $actionId): array
     {
         return $this->_webPartsRepository->getActionDetails($actionId);
+    }
+
+    public function actionDetailsUpdate(array $actionDetails): void
+    {
+        $this->_webPartsRepository->actionDetailsUpdate($actionDetails);
     }
 
     public function getDocumentsToDownload(): array
@@ -60,6 +82,11 @@ class WebPartsService implements IWebPartsService
         return $gallery;
     }
 
+    public function galleryUpdate(GalleryModel $gallery): void
+    {
+        $this->_webPartsRepository->galleryUpdate($gallery);
+    }
+
     public function getGalleryImages(): array
     {
         return $this->_webPartsRepository->getGalleryImages();
@@ -68,6 +95,11 @@ class WebPartsService implements IWebPartsService
     public function getContact(int $id): ContactModel
     {
         return $this->_webPartsRepository->getContact($id);
+    }
+
+    public function contactUpdate(ContactModel $contact): void
+    {
+        $this->_webPartsRepository->contactUpdate($contact);
     }
 
     public function getGdpr(int $id): ConditionsModel
