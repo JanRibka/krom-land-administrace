@@ -1,26 +1,26 @@
-import FeatureStyled from "features/styledComponents/FeatureStyled";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import Footer from "shared/components/footer/Footer";
-import AppLoader from "shared/components/loader/AppLoader";
-import AppNotification from "shared/components/notification/AppNotification";
-import PageTitle from "shared/components/pageTitle/PageTitle";
-import { useRequest } from "shared/dataAccess/useRequest";
-import HomeDTO from "shared/DTOs/HomeDTO";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
+import FeatureStyled from 'features/styledComponents/FeatureStyled';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import Footer from 'shared/components/footer/Footer';
+import AppLoader from 'shared/components/loader/AppLoader';
+import AppNotification from 'shared/components/notification/AppNotification';
+import PageTitle from 'shared/components/pageTitle/PageTitle';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import HomeDTO from 'shared/DTOs/HomeDTO';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { selectHome } from 'shared/infrastructure/store/webParts/webPartsSlice';
 
-import Stack from "@mui/material/Stack";
+import Stack from '@mui/material/Stack';
 
-import WebPartsService from "../WebPartsService";
-import AboutUs from "./aboutUs/AboutUs";
-import OurTeam from "./ourTeam/OurTeam";
-import PageHeader from "./pageHeader/PageHeader";
-import { mapFromHomeDTO } from "./save/mapFromHomeDTO";
-import Seo from "./seo/Seo";
-import WhatPeopleSay from "./whatPeopleSay/WhatPeopleSay";
+import WebPartsService from '../WebPartsService';
+import AboutUs from './aboutUs/AboutUs';
+import OurTeam from './ourTeam/OurTeam';
+import PageHeader from './pageHeader/PageHeader';
+import { mapFromHomeDTO } from './save/mapFromHomeDTO';
+import Seo from './seo/Seo';
+import WhatPeopleSay from './whatPeopleSay/WhatPeopleSay';
 
 const Home = () => {
   // State
@@ -55,7 +55,7 @@ const Home = () => {
     },
     (data) => {
       const dataType = typeof data;
-      console.log(data);
+
       if (dataType === "string") {
         AppNotification("Chyba", String(data), "danger");
       } else {

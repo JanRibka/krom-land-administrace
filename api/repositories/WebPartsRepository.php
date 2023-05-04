@@ -100,47 +100,39 @@ class WebPartsRepository implements IWebPartsRepository
         return $result;
     }
 
-    public function teamMembersUpdate(array $teamMembers): void
+    public function teamMemberImageDelete(int $id): void
     {
-        $teamMembersDb = $this->getTeamMembers();
+        \dibi::query('DELETE FROM teamMembers as tm WHERE tm.Id = %i', $id);
+    }
 
-        foreach ($teamMembers as $member) {
-            $id = $member->Id;
-            $item = array_filter($teamMembersDb, function ($f) use ($id) {
-                if ($f->Id == $id) {
-                    return $f;
-                }
-            });
+    public function teamMemberImageInsert(string $image, string $name, string $description): int
+    {
+        $arr = [
+            'Image' => $image,
+            'Name' => $name,
+            'Description' => $description,
+          ];
 
-            if ($member->Delete) {
-                \dibi::query('DELETE FROM teamMembers as tm WHERE tm.Id = %i', $id);
+        \dibi::query('INSERT INTO teamMembers', $arr);
 
-                $image = json_decode($member->Image);
-                $imageName = $image->Name;
-                $imagePath = __DIR__.'/../../publicImg/'.$imageName;
+        $id = \dibi::getInsertId();
 
-                if (file_exists($imagePath)) {
-                    unlink($imagePath);
-                }
-            } elseif (count($item) > 0) {
-                \dibi::query(
-                    'UPDATE teamMembers as tm SET', [
-                      'Name' => $member->Name,
-                      'Text' => $member->Text,
-                    ],
-                    'WHERE tm.Id = %i',
-                    $id
-                );
-            } else {
-                $arr = [
-                  'Name' => $member->Name,
-                  'Text' => $member->Text,
-                  'Image' => $member->Image,
-                ];
+        return $id;
+    }
 
-                \dibi::query('INSERT INTO teamMembers', $arr);
-            }
-        }
+    public function teamMemberImageUpdate(string $name, string $description, int $id): void
+    {
+        $arr = [
+            'Name' => $name,
+            'Description' => $description,
+          ];
+
+        \dibi::query(
+            'UPDATE teamMembers as tm SET',
+            $arr,
+            'WHERE tm.Id = %i',
+            $id
+        );
     }
 
     public function getActions(int $id): ActionsModel

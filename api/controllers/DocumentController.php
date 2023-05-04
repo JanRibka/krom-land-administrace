@@ -9,11 +9,13 @@ require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
 require_once __DIR__.'/../repositories/DocumentRepository.php';
 require_once __DIR__.'/../services/DocumentService.php';
+require_once __DIR__.'/../models/document/DocumentModel.php';
 
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
+use kromLand\api\models\document\DocumentModel;
 use kromLand\api\repositories\DocumentRepository;
 use kromLand\api\services\DocumentService;
 use kromLand\api\services\IDocumentService;
@@ -83,7 +85,12 @@ class DocumentController extends ControllerBase
             $documentName = $data->document->Name;
             $sourceDocument = __DIR__.'/../../upload/'.$documentName;
             $targetDocument = __DIR__.'/../../../publicDocuments/'.$documentName;
-            echo json_encode($document);
+
+            $document = new DocumentModel(
+                $document->Path,
+                $document->Name
+            );
+
             $savedDocumentId = $this->_documentService->documentSaveIntoDb($document, $id);
             $this->_documentService->fileCopy($sourceDocument, $targetDocument);
             $this->_documentService->fileDeleteFromServer($sourceDocument);

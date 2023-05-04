@@ -39,9 +39,9 @@ export default class Repository extends RepositoryBase {
    * @param postRequest
    * @returns
    */
-  public post<TRequest, TResult>(
+  public async post<TRequest, TResult>(
     postRequest: IPostRequest<TRequest>
   ): Promise<IPostResponse<TResult>> {
-    return this.postRequest<TResult>(postRequest, postRequest.data);
+    return await this.postRequest<TResult>(postRequest, postRequest.data);
   }
 }

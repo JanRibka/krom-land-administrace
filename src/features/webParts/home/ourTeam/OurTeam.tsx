@@ -1,16 +1,17 @@
-import SectionStyled from 'features/styledComponents/SectionStyled';
-import { useSelector } from 'react-redux';
-import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectHome } from 'shared/infrastructure/store/webParts/webPartsSlice';
-import { v4 as uuidv4 } from 'uuid';
+import SectionStyled from "features/styledComponents/SectionStyled";
+import { useSelector } from "react-redux";
+import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
+import { v4 as uuidv4 } from "uuid";
 
-import Button from '@mui/material/Button';
+import AddIcon from "@mui/icons-material/Add";
+import Button from "@mui/material/Button";
 
-import TeamMemberModel from '../models/TeamMemberModel';
-import Member from './member/Member';
-import ButtonWrapperStyled from './styledComponents/ButtonWrapperStyled';
+import TeamMemberModel from "../models/TeamMemberModel";
+import Member from "./member/Member";
+import ButtonWrapperStyled from "./styledComponents/ButtonWrapperStyled";
 
 const OurTeam = () => {
   // Store
@@ -61,6 +62,7 @@ const OurTeam = () => {
             onClick={handleAddMemberOnClick}
             color='secondary'
             variant='contained'
+            startIcon={<AddIcon />}
           >
             Přidat člena
           </Button>

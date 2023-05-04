@@ -16,7 +16,11 @@ interface IWebPartsRepository
 
     public function getTeamMembers(): array;
 
-    public function teamMembersUpdate(array $teamMembers): void;
+    public function teamMemberImageDelete(int $id): void;
+
+    public function teamMemberImageInsert(string $image, string $name, string $description): int;
+
+    public function teamMemberImageUpdate(string $name, string $description, int $id): void;
 
     public function getActions(int $id): ActionsModel;
 

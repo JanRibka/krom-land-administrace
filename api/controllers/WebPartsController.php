@@ -93,6 +93,21 @@ class WebPartsController extends ControllerBase
     }
 
     /**
+     * Get Team members.
+     */
+    public function getTeamMembers()
+    {
+        // TODO: Po uložení home natáhnout team members, aby se natáhly idcka
+        try {
+            $teamMembers = $this->_webPartstService->getTeamMembers();
+
+            $this->apiResponse(true, '', $teamMembers);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Get Actions data.
      */
     public function getActions()
@@ -302,6 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'POST
 
         switch ($functionName) {
             case 'getHome':
+            case 'getTeamMembers':
             case 'getActions':
             case 'getGallery':
             case 'getContact':

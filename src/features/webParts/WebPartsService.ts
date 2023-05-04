@@ -1,20 +1,19 @@
-import { HttpStatusCode } from "axios";
-import AppNotification from "shared/components/notification/AppNotification";
-import ActionsDTO from "shared/DTOs/ActionsDTO";
-import ConditionsDTO from "shared/DTOs/ConditionsDTO";
-import ContactDTO from "shared/DTOs/ContactDTO";
-import GalleryDTO from "shared/DTOs/GalleryDTO";
-import HomeDTO from "shared/DTOs/HomeDTO";
-import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
-import Repository from "shared/infrastructure/repositiory/Repository";
-import { store } from "shared/infrastructure/store/store";
+import AppNotification from 'shared/components/notification/AppNotification';
+import ActionsDTO from 'shared/DTOs/ActionsDTO';
+import ConditionsDTO from 'shared/DTOs/ConditionsDTO';
+import ContactDTO from 'shared/DTOs/ContactDTO';
+import GalleryDTO from 'shared/DTOs/GalleryDTO';
+import HomeDTO from 'shared/DTOs/HomeDTO';
+import JsonResulObjectDTO from 'shared/DTOs/JsonResulObjectDTO';
+import Repository from 'shared/infrastructure/repositiory/Repository';
+import { store } from 'shared/infrastructure/store/store';
 
-import { mapToActionsDTO } from "./actions/save/mapToActionsDTO";
-import { mapToContactDTO } from "./contact/save/mapToContactDTO";
-import { mapToGalleryDTO } from "./gallery/save/mapToGalleryDTO";
-import { mapToGdprDTO } from "./gdpr/save/mapToGdprDTO";
-import HomeModel from "./home/models/HomeModel";
-import { mapToTermsOfConditionsDTO } from "./termsOfConditions/save/mapToTermsOfConditionsDTO";
+import { mapToActionsDTO } from './actions/save/mapToActionsDTO';
+import { mapToContactDTO } from './contact/save/mapToContactDTO';
+import { mapToGalleryDTO } from './gallery/save/mapToGalleryDTO';
+import { mapToGdprDTO } from './gdpr/save/mapToGdprDTO';
+import { mapToHomeDTO } from './home/save/mapToHomeDTO';
+import { mapToTermsOfConditionsDTO } from './termsOfConditions/save/mapToTermsOfConditionsDTO';
 
 export default class WebPartsService {
   private _repo = new Repository();
@@ -33,23 +32,19 @@ export default class WebPartsService {
       }),
       data: conditions,
     });
+    console.log("update response", response);
+    const dataType = typeof response.data;
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
-
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Úspěšně uloženo", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+      AppNotification("Úspěch", "Úspěšně uloženo", "success");
     }
   }
 
@@ -68,22 +63,18 @@ export default class WebPartsService {
       data: actions,
     });
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Úspěšně uloženo", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+      AppNotification("Úspěch", "Úspěšně uloženo", "success");
     }
   }
 
@@ -102,22 +93,18 @@ export default class WebPartsService {
       data: gallery,
     });
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Úspěšně uloženo", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+      AppNotification("Úspěch", "Úspěšně uloženo", "success");
     }
   }
 
@@ -136,22 +123,18 @@ export default class WebPartsService {
       data: contact,
     });
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Úspěšně uloženo", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+      AppNotification("Úspěch", "Úspěšně uloženo", "success");
     }
   }
 
@@ -170,22 +153,18 @@ export default class WebPartsService {
       data: conditions,
     });
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Úspěšně uloženo", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+      AppNotification("Úspěch", "Úspěšně uloženo", "success");
     }
   }
 
@@ -206,25 +185,18 @@ export default class WebPartsService {
       data: conditions,
     });
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Úspěšně uloženo", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Úspěšně uloženo", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+      AppNotification("Úspěch", "Úspěšně uloženo", "success");
     }
   }
-}
-function mapToHomeDTO(Home: HomeModel): HomeDTO {
-  throw new Error("Function not implemented.");
 }

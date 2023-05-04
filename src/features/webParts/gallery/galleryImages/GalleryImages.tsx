@@ -6,6 +6,7 @@ import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPar
 import { selectGallery } from "shared/infrastructure/store/webParts/webPartsSlice";
 import { v4 as uuidv4 } from "uuid";
 
+import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 
 import Image from "./Image/Image";
@@ -57,6 +58,7 @@ const GalleryImages = () => {
             onClick={handleAddImageOnClick}
             color='secondary'
             variant='contained'
+            startIcon={<AddIcon />}
           >
             Přidat obrázek
           </Button>
