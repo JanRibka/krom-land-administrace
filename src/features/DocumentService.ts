@@ -1,8 +1,8 @@
-import AppNotification from 'shared/components/notification/AppNotification';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import JsonResulObjectDTO from 'shared/DTOs/JsonResulObjectDTO';
-import Repository from 'shared/infrastructure/repositiory/Repository';
-import DocumentModel from 'shared/models/DocumentModel';
+import AppNotification from "shared/components/notification/AppNotification";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
+import Repository from "shared/infrastructure/repositiory/Repository";
+import DocumentModel from "shared/models/DocumentModel";
 
 export default class DocumentService {
   private _repo = new Repository();

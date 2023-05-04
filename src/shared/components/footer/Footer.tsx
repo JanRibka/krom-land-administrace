@@ -1,7 +1,8 @@
-import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
+import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Box from "@mui/material/Box";
 
-import FooterStyled from './styledComponents/FooterStyled';
+import FooterStyled from "./styledComponents/FooterStyled";
 
 interface IProps {
   disabled: boolean;
@@ -20,6 +21,7 @@ const Footer = (props: IProps) => {
             disabled={props.disabled}
             onClick={props.handleSaveOnClick}
             loading={props.loading}
+            startIcon={<SaveIcon />}
           >
             Uložit
           </LoadingButton>

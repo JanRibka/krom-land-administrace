@@ -31,7 +31,7 @@ class WebPartsService implements IWebPartsService
     public function homeUpdate(HomeModel $home): void
     {
         $this->_webPartsRepository->homeUpdate($home);
-        $this->_webPartsRepository->teamMembersUpdate($home->TeamMembers);
+        $this->teamMembersUpdate($home->TeamMembers);
     }
 
     public function getTeamMembers(): array
@@ -41,7 +41,30 @@ class WebPartsService implements IWebPartsService
 
     public function teamMembersUpdate(array $teamMembers): void
     {
-        $this->_webPartsRepository->teamMembersUpdate($teamMembers);
+        $teamMembersDb = $this->getTeamMembers();
+
+        foreach ($teamMembers as $member) {
+            $id = $member->Id;
+            $item = array_filter($teamMembersDb, function ($f) use ($id) {
+                if ($f->Id == $id) {
+                    return $f;
+                }
+            });
+
+            if ($member->Delete) {
+                $this->_webPartsRepository->teamMemberImageDelete($id);
+
+                $image = json_decode($member->Image);
+                $imageName = $image->Name;
+                $imagePath = __DIR__.'/../../publicImg/'.$imageName;
+
+                $this->fileDelete($imagePath);
+            } elseif (count($item) > 0) {
+                $this->_webPartsRepository->teamMemberImageUpdate($member->Name, $member->Description, $id);
+            } else {
+                $this->_webPartsRepository->teamMemberImageInsert($member->Image, $member->Name, $member->Description);
+            }
+        }
     }
 
     public function getActions(int $id): ActionsModel
@@ -120,5 +143,12 @@ class WebPartsService implements IWebPartsService
     public function termsOfConditionsUpdate(ConditionsModel $conditions): void
     {
         $this->_webPartsRepository->termsOfConditionsUpdate($conditions);
+    }
+
+    private function fileDelete(string $path): void
+    {
+        if (file_exists($path)) {
+            unlink($path);
+        }
     }
 }

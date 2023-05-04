@@ -1,5 +1,4 @@
 import axios from 'axios';
-import AppNotification from 'shared/components/notification/AppNotification';
 
 import IPostResponse from './IPostResponse';
 import IRequest from './IRequest';
@@ -35,18 +34,14 @@ export default abstract class RepositoryBase {
     request: IRequest,
     data: any
   ): Promise<IPostResponse<TResult>> {
-    const response = axios.post(this.getUrl(request), data, {
-      cancelToken: request.cancelToken,
-      params: request.params,
-      headers: { ...request.headers },
-    });
-
-    response.catch((err) => {
-      const errMsg =
-        err?.response?.data?.ErrMsg ?? "Nastala chyb při vykonávání příkazu";
-      AppNotification("Chyba", errMsg, "danger");
-    });
-
-    return response;
+    try {
+      return await axios.post(this.getUrl(request), data, {
+        cancelToken: request.cancelToken,
+        params: request.params,
+        headers: { ...request.headers },
+      });
+    } catch (ex: any) {
+      return { status: ex?.response?.status, data: ex?.response?.data };
+    }
   }
 }

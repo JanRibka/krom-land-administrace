@@ -15,7 +15,7 @@ class DocumentRepository implements IDocumentRepository
     public function documentInsert(string $document): int
     {
         $arr = [
-            'Document' => json_encode($document),
+            'Document' => $document,
         ];
 
         \dibi::query(
@@ -31,7 +31,7 @@ class DocumentRepository implements IDocumentRepository
     public function documentUpdate(string $document, int $id): void
     {
         $arr = [
-            'Document' => json_encode($document),
+            'Document' => $document,
         ];
 
         \dibi::query(

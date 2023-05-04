@@ -1,9 +1,9 @@
-import HomeDTO from "shared/DTOs/HomeDTO";
-import TeamMemberDTO from "shared/DTOs/TeamMemberDTO";
+import HomeDTO from 'shared/DTOs/HomeDTO';
+import TeamMemberDTO from 'shared/DTOs/TeamMemberDTO';
 
-import HomeModel from "../models/HomeModel";
+import HomeModel from '../models/HomeModel';
 
-export const mapToWebPartsDTO = (home: HomeModel) => {
+export const mapToHomeDTO = (home: HomeModel) => {
   const result: HomeDTO = {
     Id: home.Id,
     Title: home.Title,

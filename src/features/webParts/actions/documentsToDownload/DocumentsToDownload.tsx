@@ -6,6 +6,7 @@ import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPar
 import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
 import { v4 as uuidv4 } from "uuid";
 
+import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 
 import Document from "./document/Document";
@@ -57,6 +58,7 @@ const DocumentsToDownload = () => {
             onClick={handleAddDocumentOnClick}
             color='secondary'
             variant='contained'
+            startIcon={<AddIcon />}
           >
             Přidat dokument
           </Button>
