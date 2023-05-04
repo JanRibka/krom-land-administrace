@@ -83,7 +83,7 @@ class DocumentController extends ControllerBase
             $documentName = $data->document->Name;
             $sourceDocument = __DIR__.'/../../upload/'.$documentName;
             $targetDocument = __DIR__.'/../../../publicDocuments/'.$documentName;
-            echo json_encode($document);
+
             $savedDocumentId = $this->_documentService->documentSaveIntoDb($document, $id);
             $this->_documentService->fileCopy($sourceDocument, $targetDocument);
             $this->_documentService->fileDeleteFromServer($sourceDocument);
