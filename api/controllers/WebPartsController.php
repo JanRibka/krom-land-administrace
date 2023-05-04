@@ -97,7 +97,6 @@ class WebPartsController extends ControllerBase
      */
     public function getTeamMembers()
     {
-        // TODO: Po uložení home natáhnout team members, aby se natáhly idcka
         try {
             $teamMembers = $this->_webPartstService->getTeamMembers();
 

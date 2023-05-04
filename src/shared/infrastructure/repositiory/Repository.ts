@@ -22,8 +22,16 @@ export default class Repository extends RepositoryBase {
         .then((response: AxiosResponse<T>) => {
           resolve(response.data);
         })
-        .catch((error) => {
-          AppNotification("Chyba", error, "danger");
+        .catch((error: any) => {
+          if (typeof error?.response?.data === "string") {
+            AppNotification("Chyba", String(error?.response?.data), "danger");
+          } else {
+            const errMsg =
+              error?.response?.data?.ErrMsg ??
+              "Nastala chyba při vykonávání příkazu";
+
+            AppNotification("Chyba", errMsg, "danger");
+          }
 
           if (request.returnError) {
             return resolve(error);

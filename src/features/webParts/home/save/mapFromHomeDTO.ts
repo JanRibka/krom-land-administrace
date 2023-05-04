@@ -1,8 +1,8 @@
-import HomeDTO from "shared/DTOs/HomeDTO";
-import ImageModel from "shared/models/ImageModel";
+import HomeDTO from 'shared/DTOs/HomeDTO';
+import ImageModel from 'shared/models/ImageModel';
 
-import HomeModel from "../models/HomeModel";
-import TeamMemberModel from "../models/TeamMemberModel";
+import HomeModel from '../models/HomeModel';
+import TeamMemberModel from '../models/TeamMemberModel';
 
 export const mapFromHomeDTO = (homeDTO?: HomeDTO | null) => {
   const result: HomeModel = {

@@ -4,14 +4,18 @@ import ConditionsDTO from 'shared/DTOs/ConditionsDTO';
 import ContactDTO from 'shared/DTOs/ContactDTO';
 import GalleryDTO from 'shared/DTOs/GalleryDTO';
 import HomeDTO from 'shared/DTOs/HomeDTO';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
 import JsonResulObjectDTO from 'shared/DTOs/JsonResulObjectDTO';
+import TeamMemberDTO from 'shared/DTOs/TeamMemberDTO';
 import Repository from 'shared/infrastructure/repositiory/Repository';
 import { store } from 'shared/infrastructure/store/store';
+import ImageModel from 'shared/models/ImageModel';
 
 import { mapToActionsDTO } from './actions/save/mapToActionsDTO';
 import { mapToContactDTO } from './contact/save/mapToContactDTO';
 import { mapToGalleryDTO } from './gallery/save/mapToGalleryDTO';
 import { mapToGdprDTO } from './gdpr/save/mapToGdprDTO';
+import TeamMemberModel from './home/models/TeamMemberModel';
 import { mapToHomeDTO } from './home/save/mapToHomeDTO';
 import { mapToTermsOfConditionsDTO } from './termsOfConditions/save/mapToTermsOfConditionsDTO';
 
@@ -32,7 +36,7 @@ export default class WebPartsService {
       }),
       data: conditions,
     });
-    console.log("update response", response);
+
     const dataType = typeof response.data;
 
     if (dataType === "string") {
@@ -46,6 +50,34 @@ export default class WebPartsService {
     } else {
       AppNotification("Úspěch", "Úspěšně uloženo", "success");
     }
+  }
+
+  public async getTeamMembers() {
+    let result: TeamMemberModel[] | null = null;
+
+    const response = await this._repo.get<
+      JsonResulObjectDataDTO<TeamMemberDTO[]>
+    >({
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
+      params: new URLSearchParams({
+        function: "getTeamMembers",
+      }),
+      returnError: true,
+    });
+
+    result =
+      response.Data?.map(
+        (member) =>
+          new TeamMemberModel({
+            Id: member.Id ?? 0,
+            Image: !!member.Image ? JSON.parse(member.Image) : new ImageModel(),
+            Name: member.Name ?? "",
+            Description: member.Description ?? "",
+            Delete: false,
+          })
+      ) ?? [];
+
+    return result;
   }
 
   /**

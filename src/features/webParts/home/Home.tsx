@@ -74,6 +74,11 @@ const Home = () => {
     setSaving(true);
 
     await _webPartsService.homeUpdate();
+    const teamMembers = await _webPartsService.getTeamMembers();
+
+    if (!!teamMembers) {
+      handleHomeUpdate({ TeamMembers: teamMembers });
+    }
 
     setSaving(false);
   };

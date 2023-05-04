@@ -41,7 +41,7 @@ export default abstract class RepositoryBase {
         headers: { ...request.headers },
       });
     } catch (ex: any) {
-      return { status: ex?.response?.status, data: ex?.response?.data };
+      return { status: ex?.response?.status ?? 500, data: ex?.response?.data };
     }
   }
 }
