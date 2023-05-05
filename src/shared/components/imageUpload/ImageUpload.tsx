@@ -186,7 +186,7 @@ const ImageUpload = (props: IProps) => {
       ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
       : process.env.REACT_APP_IMAGES_PATH ?? "";
 
-    await _imageService.deleteImage(props.image.Name, dirPath);
+    await _imageService.imageDelete(props.image.Name, dirPath);
 
     props.onAfterFileDelete?.(props.name);
   };

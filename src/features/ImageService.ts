@@ -2,6 +2,7 @@ import { HttpStatusCode } from "axios";
 import AppNotification from "shared/components/notification/AppNotification";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
+import { ImageLocationEnum } from "shared/enums/ImageLocationEnum";
 import Repository from "shared/infrastructure/repositiory/Repository";
 import ImageModel from "shared/models/ImageModel";
 
@@ -12,34 +13,29 @@ export default class ImageService {
    * Upload image on server
    * @param formData
    */
-  public async uploadImage(formData: FormData) {
+  public async imageUpload(formData: FormData) {
     const response = await this._repo.post<any, JsonResulObjectDataDTO<string>>(
       {
-        url: process.env.REACT_APP_API_URL ?? "",
+        url: (process.env.REACT_APP_API_URL ?? "") + "ImageController.php",
         params: new URLSearchParams({
-          action: "image",
-          type: "uploadimage",
+          function: "imageUpload",
         }),
         data: formData,
       }
     );
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Obrázek nahrán", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Obrázek nahrán", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při nahrávání obrázku", "danger");
+      AppNotification("Úspěch", "Obrázek nahrán", "success");
     }
   }
 
@@ -48,12 +44,11 @@ export default class ImageService {
    * @param imageName
    * @param directory
    */
-  public async deleteImage(imageName: string, directory: string) {
+  public async imageDelete(imageName: string, directory: string) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      url: process.env.REACT_APP_API_URL ?? "",
+      url: (process.env.REACT_APP_API_URL ?? "") + "ImageController.php",
       params: new URLSearchParams({
-        action: "image",
-        type: "deleteimage",
+        function: "imageDelete",
       }),
       data: {
         imageName: imageName,
@@ -61,22 +56,18 @@ export default class ImageService {
       },
     });
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          AppNotification("Úspěch", "Obrázek smazán", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         AppNotification("Úspěch", "Obrázek smazán", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při mazání obrázku", "danger");
+      AppNotification("Úspěch", "Obrázek smazán", "success");
     }
   }
 
@@ -85,48 +76,41 @@ export default class ImageService {
    * @param image
    * @param name
    */
-  public async saveImage(
+  public async imageSave(
     image: ImageModel,
     name: string,
-    method:
-      | "saveimagehome"
-      | "saveimageactions"
-      | "saveimagegallery"
-      | "saveimagecontact"
-      | "saveimageteammember"
+    location: ImageLocationEnum,
+    id?: number
   ) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      url: process.env.REACT_APP_API_URL ?? "",
+      url: (process.env.REACT_APP_API_URL ?? "") + "ImageController.php",
       params: new URLSearchParams({
-        action: "image",
-        type: method,
+        function: "imageSave",
       }),
       data: {
         image: image,
-        name: name,
+        itemName: name,
+        id: id,
+        location: location,
       },
     });
 
     let result = false;
 
-    if (response.status === HttpStatusCode.Ok) {
-      const dataType = typeof response.data;
+    const dataType = typeof response.data;
 
-      if (dataType === "string") {
-        AppNotification("Chyba", String(response.data), "danger");
-      } else if (dataType === "object") {
-        if (response.data?.Success) {
-          result = true;
-          AppNotification("Úspěch", "Obrázek uložen", "success");
-        } else {
-          AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
-        }
-      } else {
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
         result = true;
         AppNotification("Úspěch", "Obrázek uložen", "success");
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Chyba", "Chyba při ukládání obrázku", "danger");
+      result = true;
+      AppNotification("Úspěch", "Obrázek uložen", "success");
     }
 
     return result;
