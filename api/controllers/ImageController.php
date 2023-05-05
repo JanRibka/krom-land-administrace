@@ -7,45 +7,43 @@ require_once __DIR__.'/../middleware/verifyJWT.php';
 require_once __DIR__.'/../middleware/verifyRole.php';
 require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
-require_once __DIR__.'/../repositories/DocumentRepository.php';
-require_once __DIR__.'/../services/DocumentService.php';
-require_once __DIR__.'/../services/FileService.php';
-require_once __DIR__.'/../models/document/DocumentModel.php';
+require_once __DIR__.'/../repositories/ImageRepository.php';
+require_once __DIR__.'/../services/ImageService.php';
+require_once __DIR__.'/../models/image/ImageModel.php';
 
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
-use kromLand\api\models\document\DocumentModel;
-use kromLand\api\repositories\DocumentRepository;
-use kromLand\api\services\DocumentService;
+use kromLand\api\repositories\ImageRepository;
 use kromLand\api\services\FileService;
-use kromLand\api\services\IDocumentService;
 use kromLand\api\services\IFileService;
+use kromLand\api\services\IImageService;
+use kromLand\api\services\ImageService;
 
 use function kromLand\api\middleware\verifyJWT;
 use function kromLand\api\middleware\verifyRole;
 
-class DocumentController extends ControllerBase
+class ImageController extends ControllerBase
 {
-    private readonly IDocumentService $_documentService;
+    private readonly IImageService $_imageService;
     private readonly IFileService $_fileService;
 
-    public function __construct(IDocumentService $documentService, IFileService $fileService)
+    public function __construct(IImageService $imageService, IFileService $fileService)
     {
-        $this->_documentService = $documentService;
+        $this->_imageService = $imageService;
         $this->_fileService = $fileService;
     }
 
     /**
-     * Upload document on server.
+     * Upload image on server.
      */
-    public function documentUpload()
+    public function imageUpload()
     {
         try {
-            $newDocumentName = $_POST['fileName'];
+            $newImageName = $_POST['fileName'];
             $sourceDir = $_FILES['file']['tmp_name'];
-            $targetDir = __DIR__.'/../../upload/'.$newDocumentName;
+            $targetDir = __DIR__.'/../../upload/'.$newImageName;
 
             $this->_fileService->uploadedFileSave($sourceDir, $targetDir);
 
@@ -56,19 +54,17 @@ class DocumentController extends ControllerBase
     }
 
     /**
-     * Delete document.
+     * Delete image.
      */
-    public function documentDelete()
+    public function imageDelete()
     {
         try {
             $jsonData = file_get_contents('php://input');
             $data = json_decode($jsonData);
-            $id = $data->id;
-            $documentName = $data->documentName;
+            $imageName = $data->imageName;
             $directory = $data->directory;
-            $filePath = __DIR__.$directory.$documentName;
+            $filePath = __DIR__.$directory.$imageName;
 
-            $this->_documentService->documentDelete($id);
             $this->_fileService->fileDelete($filePath);
 
             $this->apiResponse(true, '');
@@ -78,27 +74,22 @@ class DocumentController extends ControllerBase
     }
 
     /**
-     * Insert document.
+     * Insert image.
      */
-    public function documentSave()
+    public function imageSave()
     {
         try {
             $jsonData = file_get_contents('php://input');
             $data = json_decode($jsonData);
             $id = $data->id;
-            $document = $data->document;
-            $documentName = $data->document->Name;
-            $sourceDocument = __DIR__.'/../../upload/'.$documentName;
-            $targetDocument = __DIR__.'/../../../publicDocuments/'.$documentName;
+            $imageName = $data->image->Name;
+            $imageName = $data->name;
+            $sourceImage = __DIR__.'/../../upload/'.$imageName;
+            $targetImage = __DIR__.'/../../../publicImg/'.$imageName;
 
-            $document = new DocumentModel(
-                $document->Path,
-                $document->Name
-            );
-
-            $savedDocumentId = $this->_documentService->documentSave($document, $id);
-            $this->_fileService->fileCopy($sourceDocument, $targetDocument);
-            $this->_fileService->fileDelete($sourceDocument);
+            $savedDocumentId = $this->_documentService->documentSaveIntoDb($document, $id);
+            $this->_fileService->fileCopy($sourceImage, $targetImage);
+            $this->_fileService->fileDelete($sourceImage);
 
             $this->apiResponse(true, '', $savedDocumentId);
         } catch (Exception $ex) {
@@ -112,10 +103,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $functionName = $_GET['function'];
         $userRoles = [UserRoleEnum::ADMIN];
 
-        $documentRepository = new DocumentRepository();
-        $documentService = new DocumentService($documentRepository);
+        $imageRepository = new ImageRepository();
+        $imageService = new ImageService($imageRepository);
         $fileService = new FileService();
-        $controller = new DocumentController($documentService, $fileService);
+        $controller = new ImageController($imageService, $fileService);
 
         if (method_exists($controller, $functionName)) {
             $request = new ServerRequest(

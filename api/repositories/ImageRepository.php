@@ -7,6 +7,19 @@ require_once __DIR__.'/./IImageRepository.php';
 
 class ImageRepository implements IImageRepository
 {
+    public function imageSaveHome(string $image, string $imageName, int $homeId): void
+    {
+        $arr = [
+            $imageName => $image,
+        ];
+
+        \dibi::query(
+            'UPDATE home as h SET', $arr,
+            'WHERE h.Id = %i',
+            $homeId
+        );
+    }
+
     // public function imageDelete(int $id): void
     // {
     //     \dibi::query('DELETE FROM teamMembers as tm WHERE tm.Id = %i', $id);
