@@ -231,7 +231,7 @@ class AuthenticationController extends ControllerBase
      */
     public function logout()
     {
-        // On client, also delete the access token
+        // On client logout, also delete the access token
         try {
             $jwtCookie = $_COOKIE['jwt'];
 
