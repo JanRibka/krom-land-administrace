@@ -1,6 +1,7 @@
 import ImageService from "features/ImageService";
 import { useSelector } from "react-redux";
 import ImageUpload from "shared/components/imageUpload/ImageUpload";
+import { ImageLocationEnum } from "shared/enums/ImageLocationEnum";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectGallery } from "shared/infrastructure/store/webParts/webPartsSlice";
 import ImageModel from "shared/models/ImageModel";
@@ -75,6 +76,8 @@ const Image = (props: IProps) => {
         supportedExtensions={["png", "jpg", "jpeg", "webp"]}
         newImageAlt={"Obrázek z akce KROM Land " + props.index}
         maxFileSize={1}
+        location={ImageLocationEnum.GALLERY_IMAGE}
+        id={galleryImage?.Id ?? null}
         onAfterFileUpload={handleOnAfterFileUpload}
         onAfterFileDelete={handleOnAfterFileDelete}
         onFileSave={handleOnFileSave}

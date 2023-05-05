@@ -130,8 +130,21 @@ class ImageRepository implements IImageRepository
         );
     }
 
+    public function imageDeleteHome(string $image, string $itemName, int $homeId): void
+    {
+        $arr = [
+            $itemName => $image,
+        ];
+
+        \dibi::query(
+            'UPDATE home as h SET', $arr,
+            'WHERE h.Id = %i',
+            $homeId
+        );
+    }
+
     public function imageDeleteGalleryImage(int $galleryImageId): void
     {
-        \dibi::query('DELETE FROM galleryImages as gi WHERE gi.Id = %i', $galleryImageId);
+        \dibi::query('DELETE FROM home as h WHERE gi.Id = %i', $galleryImageId);
     }
 }

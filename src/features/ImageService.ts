@@ -44,7 +44,13 @@ export default class ImageService {
    * @param imageName
    * @param directory
    */
-  public async imageDelete(imageName: string, directory: string) {
+  public async imageDelete(
+    imageName: string,
+    directory: string,
+    name: string,
+    location: ImageLocationEnum,
+    id: number | null
+  ) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
       url: (process.env.REACT_APP_API_URL ?? "") + "ImageController.php",
       params: new URLSearchParams({
@@ -53,6 +59,9 @@ export default class ImageService {
       data: {
         imageName: imageName,
         directory: directory,
+        itemName: name,
+        id: id,
+        location: location,
       },
     });
 
@@ -80,7 +89,7 @@ export default class ImageService {
     image: ImageModel,
     name: string,
     location: ImageLocationEnum,
-    id?: number
+    id: number | null
   ) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
       url: (process.env.REACT_APP_API_URL ?? "") + "ImageController.php",

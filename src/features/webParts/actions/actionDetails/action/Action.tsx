@@ -7,6 +7,7 @@ import AppSelect from "shared/components/select/AppSelect";
 import IAppSelectMenuItem from "shared/components/select/IAppSelectMenuItem";
 import AppTextEditor from "shared/components/textEditor/AppTextEditor";
 import AppTextField from "shared/components/textField/AppTextField";
+import { ImageLocationEnum } from "shared/enums/ImageLocationEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
@@ -235,6 +236,8 @@ const Action = (props: IProps) => {
           supportedExtensions={["png", "jpg", "jpeg", "webp"]}
           newImageAlt={"Obrázek akce KROM Land " + props.index}
           maxFileSize={1}
+          location={ImageLocationEnum.ACTION_DETAILS}
+          id={actionDetails[props.index]?.Id ?? null}
           onAfterFileUpload={handleOnAfterFileUpload}
           onAfterFileDelete={handleOnAfterFileDelete}
           onFileSave={handleOnFileSave}

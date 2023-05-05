@@ -7,6 +7,7 @@ require_once __DIR__.'/../middleware/verifyJWT.php';
 require_once __DIR__.'/../middleware/verifyRole.php';
 require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
+require_once __DIR__.'/../enums/ImageLocationEnum.php';
 require_once __DIR__.'/../repositories/ImageRepository.php';
 require_once __DIR__.'/../services/ImageService.php';
 require_once __DIR__.'/../services/FileService.php';
@@ -15,6 +16,7 @@ require_once __DIR__.'/../models/image/ImageModel.php';
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
+use kromLand\api\enums\ImageLocationEnum;
 use kromLand\api\enums\UserRoleEnum;
 use kromLand\api\models\image\ImageModel;
 use kromLand\api\repositories\ImageRepository;
@@ -63,11 +65,17 @@ class ImageController extends ControllerBase
         try {
             $jsonData = file_get_contents('php://input');
             $data = json_decode($jsonData);
+            $imageLocation = $data->location;
+            $id = $data->id;
+            $itemName = $data->itemName;
             $imageName = $data->imageName;
             $directory = $data->directory;
             $filePath = __DIR__.$directory.$imageName;
-
+            $enum = ImageLocationEnum::from($imageLocation);
+            $enumName = (new ReflectionEnum($enum))->getAttributes($imageLocation);
+            echo json_encode($enumName);
             $this->_fileService->fileDelete($filePath);
+            $this->_imageService->imageDelete($id, $imageLocation, $itemName);
 
             $this->apiResponse(true, '');
         } catch (Exception $ex) {
@@ -102,21 +110,6 @@ class ImageController extends ControllerBase
             $this->_fileService->fileDelete($sourceImage);
 
             $this->apiResponse(true, '', $savedDocumentId);
-        } catch (Exception $ex) {
-            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public function imageDeleteGalleryImage()
-    {
-        try {
-            $jsonData = file_get_contents('php://input');
-            $data = json_decode($jsonData);
-            $id = $data->id;
-
-            $this->_imageService->imageDeleteGalleryImage($id);
-
-            $this->apiResponse(true, '');
         } catch (Exception $ex) {
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }

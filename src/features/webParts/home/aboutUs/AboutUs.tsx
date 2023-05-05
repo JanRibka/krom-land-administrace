@@ -5,6 +5,7 @@ import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
 import AppTextEditor from "shared/components/textEditor/AppTextEditor";
+import { ImageLocationEnum } from "shared/enums/ImageLocationEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
@@ -56,7 +57,12 @@ const AboutUs = () => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _imageService.saveImage(image, name, "saveimagehome");
+    const result = await _imageService.imageSave(
+      image,
+      name,
+      ImageLocationEnum.HOME,
+      home.Id
+    );
 
     if (result) {
       handleHomeImageUpdate(name as HomeImageType, {
@@ -87,6 +93,8 @@ const AboutUs = () => {
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
             newImageAlt='Rodina je základ všeho | KROM Land'
             maxFileSize={1}
+            location={ImageLocationEnum.HOME}
+            id={home.Id}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

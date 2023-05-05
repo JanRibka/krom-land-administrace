@@ -5,6 +5,7 @@ import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import AppPageHeader from "shared/components/pageHeader/AppPageHeader";
 import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import { ImageLocationEnum } from "shared/enums/ImageLocationEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectContact } from "shared/infrastructure/store/webParts/webPartsSlice";
@@ -61,10 +62,11 @@ const PageHeader = () => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _imageService.saveImage(
+    const result = await _imageService.imageSave(
       image,
       name,
-      "saveimagecontact"
+      ImageLocationEnum.CONTACT,
+      contact.Id
     );
 
     if (result) {
@@ -95,6 +97,8 @@ const PageHeader = () => {
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
             newImageAlt='Úvodní obrázek stránky kontakt | KROM Land'
             maxFileSize={1}
+            location={ImageLocationEnum.CONTACT}
+            id={contact.Id}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

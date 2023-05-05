@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import AppTextField from "shared/components/textField/AppTextField";
+import { ImageLocationEnum } from "shared/enums/ImageLocationEnum";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
 import ImageModel from "shared/models/ImageModel";
@@ -95,6 +96,8 @@ const Member = (props: IProps) => {
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
             newImageAlt={"Fotka člena našeho týmu " + props.memberCount}
             maxFileSize={1}
+            location={ImageLocationEnum.TEAM_MEMBERS}
+            id={home.Id}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

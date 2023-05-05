@@ -57,10 +57,39 @@ class ImageService implements IImageService
         }
     }
 
-    public function imageDeleteGalleryImage(int|null $galleryImageId): void
+    public function imageDelete(int|null $id, ImageLocationEnum $location, string $itemName): void
     {
-        if (isset($galleryImageId)) {
-            $this->_imageRepository->imageDeleteGalleryImage($galleryImageId);
+        if (isset($id)) {
+            $image = new ImageModel(
+                '',
+                '',
+                ''
+            );
+            $image = json_encode($image);
+
+            switch ($location) {
+                case ImageLocationEnum::HOME:
+                    $this->_imageRepository->imageDeleteHome($image, $itemName, $id);
+                    break;
+                    // case ImageLocationEnum::TEAM_MEMBERS:
+                //     $this->_imageRepository->imageUpdateTeamMembers($imageEncoded, $id);
+                //     break;
+                    // case ImageLocationEnum::ACTIONS:
+                //     $this->_imageRepository->imageUpdateActions($imageEncoded, $itemName, $id);
+                //     break;
+                    // case ImageLocationEnum::ACTION_DETAILS:
+                //     $this->_imageRepository->imageUpdateActionDetails($imageEncoded, $id);
+                //     break;
+                    // case ImageLocationEnum::GALLERY:
+                //     $this->_imageRepository->imageUpdateGallery($imageEncoded, $itemName, $id);
+                //     break;
+                    // case ImageLocationEnum::GALLERY_IMAGE:
+                //     $this->_imageRepository->imageUpdateGalleryImage($imageEncoded, $id);
+                //     break;
+                    // case ImageLocationEnum::CONTACT:
+                //     $this->_imageRepository->imageUpdateContact($imageEncoded, $itemName, $id);
+                //     break;
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 import ImageService from "features/ImageService";
 import { ChangeEvent } from "react";
+import { ImageLocationEnum } from "shared/enums/ImageLocationEnum";
 import ImageModel from "shared/models/ImageModel";
 import { v4 as uuidv4 } from "uuid";
 
@@ -21,6 +22,8 @@ interface IProps {
   newImageAlt: string;
   supportedExtensions: Array<string>;
   maxFileSize: number;
+  location: ImageLocationEnum;
+  id: number | null;
   onAfterFileUpload: (
     fileName: string,
     name: string,
@@ -170,7 +173,7 @@ const ImageUpload = (props: IProps) => {
       formData.append("file", file);
       formData.append("fileName", fileName);
 
-      await _imageService.uploadImage(formData);
+      await _imageService.imageUpload(formData);
 
       props.onAfterFileUpload(
         fileName,
@@ -186,7 +189,13 @@ const ImageUpload = (props: IProps) => {
       ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
       : process.env.REACT_APP_IMAGES_PATH ?? "";
 
-    await _imageService.imageDelete(props.image.Name, dirPath);
+    await _imageService.imageDelete(
+      props.image.Name,
+      dirPath,
+      props.name,
+      props.location,
+      props.id
+    );
 
     props.onAfterFileDelete?.(props.name);
   };

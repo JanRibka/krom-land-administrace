@@ -5,6 +5,7 @@ import ImageUpload from "shared/components/imageUpload/ImageUpload";
 import AppPageHeader from "shared/components/pageHeader/AppPageHeader";
 import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import { ImageLocationEnum } from "shared/enums/ImageLocationEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
@@ -61,7 +62,12 @@ const PageHeader = () => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _imageService.saveImage(image, name, "saveimagehome");
+    const result = await _imageService.imageSave(
+      image,
+      name,
+      ImageLocationEnum.HOME,
+      home.Id
+    );
 
     if (result) {
       handleHomeImageUpdate(name as HomeImageType, {
@@ -101,6 +107,8 @@ const PageHeader = () => {
             supportedExtensions={["png", "jpg", "jpeg"]}
             newImageAlt='Úvodní obrázek stránky úvod | KROM Land'
             maxFileSize={1}
+            location={ImageLocationEnum.HOME}
+            id={home.Id}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

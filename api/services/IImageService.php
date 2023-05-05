@@ -9,5 +9,5 @@ interface IImageService
 {
     public function imageSave(ImageModel $image, int|null $id, ImageLocationEnum $location, string $itemName): int|null;
 
-    public function imageDeleteGalleryImage(int|null $galleryImageId): void;
+    public function imageDelete(int|null $id, ImageLocationEnum $location, string $itemName): void;
 }
