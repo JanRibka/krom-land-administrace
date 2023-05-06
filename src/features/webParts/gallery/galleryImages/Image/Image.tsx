@@ -41,9 +41,19 @@ const Image = (props: IProps) => {
     handleGalleryGalleryImageUpdate({ [name]: image }, props.index);
   };
 
-  const handleOnAfterFileDelete = (name: string) => {
+  const handleOnAfterFileDelete = async (name: string) => {
     handleGalleryGalleryImageUpdate({ Delete: true }, props.index);
-    _imageService.deleteGalleryImage(galleryImage.Id);
+    const dirPath = props.image.Path.includes("/admin")
+      ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
+      : process.env.REACT_APP_IMAGES_PATH ?? "";
+
+    await _imageService.imageDelete(
+      props.image.Name,
+      dirPath,
+      name,
+      ImageLocationEnum.GALLERY_IMAGE,
+      galleryImage.Id
+    );
   };
 
   const handleOnFileSave = async (name: string) => {
@@ -54,8 +64,10 @@ const Image = (props: IProps) => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _imageService.saveImageGalleryImage(
+    const result = await _imageService.imageSave(
       image,
+      name,
+      ImageLocationEnum.GALLERY_IMAGE,
       galleryImage.Id
     );
 

@@ -66,12 +66,12 @@ class ImageController extends ControllerBase
             $jsonData = file_get_contents('php://input');
             $data = json_decode($jsonData);
             $imageLocation = $data->location;
+            $imageLocation = getValueFromImageLocationEnumByNumber($imageLocation);
             $id = $data->id;
             $itemName = $data->itemName;
             $imageName = $data->imageName;
             $directory = $data->directory;
             $filePath = __DIR__.$directory.$imageName;
-            $imageLocation = getValueFromImageLocationEnumByNumber($imageLocation);
 
             $this->_fileService->fileDelete($filePath);
             $this->_imageService->imageDelete($id, $imageLocation, $itemName);
@@ -94,6 +94,7 @@ class ImageController extends ControllerBase
             $image = $data->image;
             $imageName = $data->image->Name;
             $imageLocation = $data->location;
+            $imageLocation = getValueFromImageLocationEnumByNumber($imageLocation);
             $itemName = $data->itemName;
             $sourceImage = __DIR__.'/../../upload/'.$imageName;
             $targetImage = __DIR__.'/../../../publicImg/'.$imageName;

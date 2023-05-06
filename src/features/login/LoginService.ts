@@ -32,8 +32,14 @@ export default class LoginService {
         }),
         data: data,
       });
-
+      console.log(response);
       if (!!response.data?.Data) result = response.data;
+      else if (!response.data?.Success) {
+        result = {
+          ...result,
+          ErrMsg: response?.data?.ErrMsg ?? "Chyba při přihlašování",
+        };
+      }
     } catch (err: any) {
       if (err.response?.data?.Success === false) {
         result = {

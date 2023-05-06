@@ -10,7 +10,7 @@ class ImageRepository implements IImageRepository
     public function imageInsertGalleryImage(string $image): int
     {
         $arr = [
-            'Image' => json_encode($image),
+            'Image' => $image,
         ];
 
         \dibi::query(
@@ -37,7 +37,7 @@ class ImageRepository implements IImageRepository
     public function imageUpdateHome(string $image, string $itemName, int $homeId): void
     {
         $arr = [
-            $itemName => json_encode($image),
+            $itemName => $image,
         ];
 
         \dibi::query(
@@ -51,7 +51,7 @@ class ImageRepository implements IImageRepository
     public function imageUpdateTeamMembers(string $image, int $teamMemberId): void
     {
         $arr = [
-            'Image' => json_encode($image),
+            'Image' => $image,
         ];
 
         \dibi::query(
@@ -65,7 +65,7 @@ class ImageRepository implements IImageRepository
     public function imageUpdateActions(string $image, string $itemName, int $actionsId): void
     {
         $arr = [
-            $itemName => json_encode($image),
+            $itemName => $image,
         ];
 
         \dibi::query(
@@ -79,7 +79,7 @@ class ImageRepository implements IImageRepository
     public function imageUpdateActionDetails(string $image, int $actionDetailId): void
     {
         $arr = [
-            'Image' => json_encode($image),
+            'Image' => $image,
         ];
 
         \dibi::query(
@@ -93,7 +93,7 @@ class ImageRepository implements IImageRepository
     public function imageUpdateGallery(string $image, string $itemName, int $galleryId): void
     {
         $arr = [
-            $itemName => json_encode($image),
+            $itemName => $image,
         ];
 
         \dibi::query(
@@ -107,7 +107,7 @@ class ImageRepository implements IImageRepository
     public function imageUpdateGalleryImage(string $image, int $galleryImageId): void
     {
         $arr = [
-            'Image' => json_encode($image),
+            'Image' => $image,
         ];
 
         \dibi::query(
@@ -120,26 +120,13 @@ class ImageRepository implements IImageRepository
     public function imageUpdateContact(string $image, string $itemName, int $contactId): void
     {
         $arr = [
-            $itemName => json_encode($image),
+            $itemName => $image,
         ];
 
         \dibi::query(
             'UPDATE contact as c SET', $arr,
             'WHERE c.Id = %i',
             $contactId
-        );
-    }
-
-    public function imageDeleteHome(string $image, string $itemName, int $homeId): void
-    {
-        $arr = [
-            $itemName => $image,
-        ];
-
-        \dibi::query(
-            'UPDATE home as h SET', $arr,
-            'WHERE h.Id = %i',
-            $homeId
         );
     }
 

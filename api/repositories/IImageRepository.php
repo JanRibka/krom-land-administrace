@@ -20,7 +20,5 @@ interface IImageRepository
 
     public function imageUpdateContact(string $image, string $itemName, int $contactId): void;
 
-    public function imageDeleteHome(string $image, string $itemName, int $homeId): void;
-
     public function imageDeleteGalleryImage(int $galleryImageId): void;
 }

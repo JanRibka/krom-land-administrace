@@ -65,30 +65,30 @@ class ImageService implements IImageService
                 '',
                 ''
             );
-            $image = json_encode($image);
+            $imageEncoded = json_encode($image);
 
             switch ($location) {
                 case ImageLocationEnum::HOME:
-                    $this->_imageRepository->imageDeleteHome($image, $itemName, $id);
+                    $this->_imageRepository->imageUpdateHome($imageEncoded, $itemName, $id);
                     break;
-                    // case ImageLocationEnum::TEAM_MEMBERS:
-                //     $this->_imageRepository->imageUpdateTeamMembers($imageEncoded, $id);
-                //     break;
-                    // case ImageLocationEnum::ACTIONS:
-                //     $this->_imageRepository->imageUpdateActions($imageEncoded, $itemName, $id);
-                //     break;
-                    // case ImageLocationEnum::ACTION_DETAILS:
-                //     $this->_imageRepository->imageUpdateActionDetails($imageEncoded, $id);
-                //     break;
-                    // case ImageLocationEnum::GALLERY:
-                //     $this->_imageRepository->imageUpdateGallery($imageEncoded, $itemName, $id);
-                //     break;
-                    // case ImageLocationEnum::GALLERY_IMAGE:
-                //     $this->_imageRepository->imageUpdateGalleryImage($imageEncoded, $id);
-                //     break;
-                    // case ImageLocationEnum::CONTACT:
-                //     $this->_imageRepository->imageUpdateContact($imageEncoded, $itemName, $id);
-                //     break;
+                case ImageLocationEnum::TEAM_MEMBERS:
+                    $this->_imageRepository->imageUpdateTeamMembers($imageEncoded, $id);
+                    break;
+                case ImageLocationEnum::ACTIONS:
+                    $this->_imageRepository->imageUpdateActions($imageEncoded, $itemName, $id);
+                    break;
+                case ImageLocationEnum::ACTION_DETAILS:
+                    $this->_imageRepository->imageUpdateActionDetails($imageEncoded, $id);
+                    break;
+                case ImageLocationEnum::GALLERY:
+                    $this->_imageRepository->imageUpdateGallery($imageEncoded, $itemName, $id);
+                    break;
+                case ImageLocationEnum::GALLERY_IMAGE:
+                    $this->_imageRepository->imageUpdateGalleryImage($imageEncoded, $id);
+                    break;
+                case ImageLocationEnum::CONTACT:
+                    $this->_imageRepository->imageUpdateContact($imageEncoded, $itemName, $id);
+                    break;
             }
         }
     }

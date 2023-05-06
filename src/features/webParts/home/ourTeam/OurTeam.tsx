@@ -42,6 +42,7 @@ const OurTeam = () => {
             name={member.Name}
             description={member.Description}
             image={member.Image}
+            id={member.Id}
           />
         );
       }

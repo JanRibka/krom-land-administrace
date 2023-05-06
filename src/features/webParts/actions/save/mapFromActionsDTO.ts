@@ -1,5 +1,4 @@
 import ActionsDTO from "shared/DTOs/ActionsDTO";
-import { initialState } from "shared/infrastructure/store/webParts/webPartsSlice";
 import DocumentModel from "shared/models/DocumentModel";
 import ImageModel from "shared/models/ImageModel";
 
@@ -9,7 +8,7 @@ import DocumentToDownloadModel from "../models/DocumentToDownloadModel";
 
 export const mapFromActionsDTO = (actionsDTO?: ActionsDTO | null) => {
   const result: ActionsModel = {
-    ...initialState.Actions,
+    Id: actionsDTO?.Id ?? 0,
     Title: actionsDTO?.Title ?? "",
     Description: actionsDTO?.Description ?? "",
     PageHeaderTextMain: actionsDTO?.PageHeaderTextMain ?? "",
@@ -22,7 +21,7 @@ export const mapFromActionsDTO = (actionsDTO?: ActionsDTO | null) => {
       actionsDTO?.ActionDetails.map(
         (item) =>
           new ActionDetailModel({
-            Id: item.Id ?? 0,
+            Id: item.Id ?? item.Id ?? 0,
             ActionOrder: item.ActionOrder ?? 0,
             MonthName: item.MonthName ?? "",
             Image: !!item?.Image ? JSON.parse(item.Image) : new ImageModel(),

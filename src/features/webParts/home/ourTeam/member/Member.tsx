@@ -22,6 +22,7 @@ interface IProps {
   name: string;
   description: string;
   image: ImageModel;
+  id: number | null;
 }
 // TODO: Pokud p5id8m 4lena a neulo69m a ulo69m mu obr8zek a pak to xel0 neulo69m, tak se mi v public img za4nou hromadit soubory. D8 ta ulo6en9 obr8zku n2jak7 enable a6 po ulo6eni to p;jde. Nebo tam bude hl83ka, 6e se to mus9 nejprve ulo6it. POkud pridam clena, nastavim přiznak v homeSlice na true a az po ulozeni se da do false. Pokud bude true, nepujde obrazek ulozit. Musim pak nejak poresit id, at se to spravne ulozi
 const Member = (props: IProps) => {
@@ -70,9 +71,11 @@ const Member = (props: IProps) => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _imageService.saveImageTeamMember(
+    const result = await _imageService.imageSave(
       image,
-      teamMember.Id
+      name,
+      ImageLocationEnum.TEAM_MEMBERS,
+      props.id
     );
 
     if (result) {
@@ -94,10 +97,12 @@ const Member = (props: IProps) => {
             name={nameof<TeamMemberModel>("Image")}
             label='Ideální rozlišení obrázku 500 x 300px. Max. velikost 1MB'
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
-            newImageAlt={"Fotka člena našeho týmu " + props.memberCount}
+            newImageAlt={
+              "Fotka člena našeho týmu " + props.memberCount + " | KROM Land"
+            }
             maxFileSize={1}
             location={ImageLocationEnum.TEAM_MEMBERS}
-            id={home.Id}
+            id={props.id}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}
