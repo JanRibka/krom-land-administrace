@@ -1,10 +1,10 @@
-import { HttpStatusCode } from "axios";
-import AppNotification from "shared/components/notification/AppNotification";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
-import { ImageLocationEnum } from "shared/enums/ImageLocationEnum";
-import Repository from "shared/infrastructure/repositiory/Repository";
-import ImageModel from "shared/models/ImageModel";
+import { HttpStatusCode } from 'axios';
+import AppNotification from 'shared/components/notification/AppNotification';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import JsonResulObjectDTO from 'shared/DTOs/JsonResulObjectDTO';
+import { ImageLocationEnum } from 'shared/enums/ImageLocationEnum';
+import Repository from 'shared/infrastructure/repositiory/Repository';
+import ImageModel from 'shared/models/ImageModel';
 
 export default class ImageService {
   private _repo = new Repository();
