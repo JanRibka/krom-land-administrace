@@ -120,16 +120,14 @@ const Action = (props: IProps) => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _imageService.imageSave(
+    await _imageService.imageSave(
       image,
       name,
       ImageLocationEnum.ACTION_DETAILS,
       actionDetails[props.index].Id
     );
 
-    if (result) {
-      handleActionUpdate({ [name as ActionImageType]: image }, props.index);
-    }
+    handleActionUpdate({ [name as ActionImageType]: image }, props.index);
   };
 
   return (
