@@ -13,6 +13,7 @@ use kromLand\api\models\webParts\contact\ContactModel;
 use kromLand\api\models\webParts\gallery\GalleryModel;
 use kromLand\api\models\webParts\home\HomeModel;
 use kromLand\api\repositories\WebPartsRepository;
+use kromLand\api\services\FileService;
 use kromLand\api\services\IWebPartsService;
 use kromLand\api\services\WebPartsService;
 
@@ -31,6 +32,7 @@ require_once __DIR__.'/../middleware/verifyJWT.php';
 require_once __DIR__.'/../middleware/verifyRole.php';
 require_once __DIR__.'/../repositories/WebPartsRepository.php';
 require_once __DIR__.'/../services/WebPartsService.php';
+require_once __DIR__.'/../services/FileService.php';
 
 class WebPartsController extends ControllerBase
 {
@@ -332,7 +334,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'POST
         }
 
         $webPartsRepository = new WebPartsRepository();
-        $webPartsService = new WebPartsService($webPartsRepository);
+        $fileService = new FileService();
+        $webPartsService = new WebPartsService($webPartsRepository, $fileService);
         $controller = new WebPartsController($webPartsService);
 
         if (method_exists($controller, $functionName)) {

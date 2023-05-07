@@ -14,10 +14,12 @@ use kromLand\api\repositories\IWebPartsRepository;
 class WebPartsService implements IWebPartsService
 {
     private readonly IWebPartsRepository $_webPartsRepository;
+    private readonly IFileService $_fileService;
 
-    public function __construct(IWebPartsRepository $pWebPartsRepository)
+    public function __construct(IWebPartsRepository $pWebPartsRepository, IFileService $pFileService)
     {
         $this->_webPartsRepository = $pWebPartsRepository;
+        $this->_fileService = $pFileService;
     }
 
     public function getHome(int $id): HomeModel
@@ -56,9 +58,9 @@ class WebPartsService implements IWebPartsService
 
                 $image = json_decode($member->Image);
                 $imageName = $image->Name;
-                $imagePath = __DIR__.'/../../publicImg/'.$imageName;
+                $imagePath = __DIR__.'/../../../publicImg/'.$imageName;
 
-                $this->fileDelete($imagePath);
+                $this->_fileService->fileDelete($imagePath);
             } elseif (count($item) > 0) {
                 $this->_webPartsRepository->teamMemberImageUpdate($member->Name, $member->Description, $id);
             } else {
@@ -143,12 +145,5 @@ class WebPartsService implements IWebPartsService
     public function termsOfConditionsUpdate(ConditionsModel $conditions): void
     {
         $this->_webPartsRepository->termsOfConditionsUpdate($conditions);
-    }
-
-    private function fileDelete(string $path): void
-    {
-        if (file_exists($path)) {
-            unlink($path);
-        }
     }
 }

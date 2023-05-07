@@ -49,6 +49,8 @@ class ImageService implements IImageService
             return null;
         } else {
             switch ($location) {
+                case ImageLocationEnum::TEAM_MEMBERS:
+                    return $this->_imageRepository->imageInsertGalleryImage($imageEncoded);
                 case ImageLocationEnum::GALLERY_IMAGE:
                     return $this->_imageRepository->imageInsertGalleryImage($imageEncoded);
                 default:

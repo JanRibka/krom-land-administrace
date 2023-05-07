@@ -71,16 +71,14 @@ const Member = (props: IProps) => {
       Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
     };
 
-    const result = await _imageService.imageSave(
+    await _imageService.imageSave(
       image,
       name,
       ImageLocationEnum.TEAM_MEMBERS,
       props.id
     );
 
-    if (result) {
-      handleHomeTeamMemberUpdate({ [name]: image }, props.index);
-    }
+    handleHomeTeamMemberUpdate({ [name]: image }, props.index);
   };
 
   const handleDeleteMemberOnClick = () => {
@@ -103,6 +101,7 @@ const Member = (props: IProps) => {
             maxFileSize={1}
             location={ImageLocationEnum.TEAM_MEMBERS}
             id={props.id}
+            enbUploadIfIdWxists
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

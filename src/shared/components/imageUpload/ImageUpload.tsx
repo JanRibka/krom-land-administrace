@@ -24,6 +24,7 @@ interface IProps {
   maxFileSize: number;
   location: ImageLocationEnum;
   id: number | null;
+  enbUploadIfIdWxists?: boolean;
   onAfterFileUpload: (
     fileName: string,
     name: string,
@@ -144,6 +145,17 @@ const ImageUpload = (props: IProps) => {
       fileName = Math.random().toString(36).substring(2, 12);
       fileName += "." + extension;
 
+      // Povolení nahrání obrázku na server
+      if (props.enbUploadIfIdWxists && !!!props.id) {
+        AppNotification(
+          "Info",
+          "Pro nahrání obrázku je nejprve potřeba sekci uložit",
+          "info"
+        );
+
+        return false;
+      }
+
       // Kontrola na typ souboru
       const validate = validateFileType(fileName);
 
@@ -203,7 +215,7 @@ const ImageUpload = (props: IProps) => {
   const onFileSave = () => {
     props.onFileSave(props.name);
   };
-  // TODO: Jde nahr8t soubor v2t39 nez 1MB
+
   return (
     <ImageUploadStyled>
       <Box
