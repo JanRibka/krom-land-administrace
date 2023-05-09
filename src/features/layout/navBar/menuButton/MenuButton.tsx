@@ -1,8 +1,8 @@
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import IconButton from '@mui/material/IconButton';
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import IconButton from "@mui/material/IconButton";
 
-import MenuButtonStyled from './styledComponents/MenuButtonStyled';
+import MenuButtonStyled from "./styledComponents/MenuButtonStyled";
 
 interface IProps {
   handleButtonOnClickOpen: () => void;
@@ -14,6 +14,7 @@ const MenuButton = (props: IProps) => {
     <MenuButtonStyled id='menu-button'>
       <IconButton
         className='button-close'
+        title='Zmenšit menu'
         onClick={props.handleButtonOnClickClose}
       >
         <KeyboardArrowLeftIcon />
@@ -21,6 +22,7 @@ const MenuButton = (props: IProps) => {
 
       <IconButton
         className='button-open'
+        title='Zvětšit menu'
         onClick={props.handleButtonOnClickOpen}
       >
         <KeyboardArrowRightIcon />

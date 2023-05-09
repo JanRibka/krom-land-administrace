@@ -1,10 +1,10 @@
-import Drawer from '@mui/material/Drawer';
-import { styled } from '@mui/material/styles';
+import Drawer from "@mui/material/Drawer";
+import { styled } from "@mui/material/styles";
 
 const SideBarStyled = styled(Drawer)(({ theme }) => ({
   flexShrink: 0,
   width: "90px",
-  transition: "300ms ease-in-out",
+  transition: "all 300ms ease-in-out",
 
   "&.opened": {
     width: "240px",
@@ -15,6 +15,12 @@ const SideBarStyled = styled(Drawer)(({ theme }) => ({
       fontSize: "12px",
       textAlign: "center",
       textAlignLast: "center",
+    },
+
+    a: {
+      svg: {
+        fontSize: "2rem",
+      },
     },
   },
 

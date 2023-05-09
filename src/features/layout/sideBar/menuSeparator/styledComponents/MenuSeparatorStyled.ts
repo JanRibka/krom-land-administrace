@@ -1,12 +1,12 @@
-import Typography from '@mui/material/Typography';
-import styled from '@mui/system/styled';
+import Typography from "@mui/material/Typography";
+import styled from "@mui/system/styled";
 
 const MenuSeparatorStyled = styled(Typography)(({ theme }) => ({
   color: theme.palette.secondary.main,
   fontSize: "20px",
   fontWeight: 400,
   marginTop: "35px",
-  transition: "300ms ease-in-out",
+  transition: "all 300ms ease-in-out",
 }));
 
 export default MenuSeparatorStyled;
