@@ -217,6 +217,13 @@ export const webPartsSlice = createSlice({
 
       state.Gallery.Images = newGalleryImages;
     },
+    galleryGalleryImageRemove: (state, action: PayloadAction<number>) => {
+      let newGalleryImages = [...state.Gallery.Images];
+
+      newGalleryImages.splice(action.payload, 1);
+
+      state.Gallery.Images = newGalleryImages;
+    },
     contactUpdate: (state, action: PayloadAction<Partial<ContactModel>>) => {
       const newContact = {
         ...state.Contact,

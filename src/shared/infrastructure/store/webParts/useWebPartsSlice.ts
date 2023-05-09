@@ -96,6 +96,10 @@ export const useWebPartsSlice = () => {
     dispatch(actions.galleryGalleryImageUpadate({ image, index }));
   };
 
+  const handleGalleryGalleryImageRemove = (index: number) => {
+    dispatch(actions.galleryGalleryImageRemove(index));
+  };
+
   const handleContactUpdate = (contact: Partial<ContactModel>) => {
     dispatch(actions.contactUpdate(contact));
   };
@@ -126,6 +130,7 @@ export const useWebPartsSlice = () => {
     handleGalleryMainImageUpdate,
     handleGalleryImageAdd,
     handleGalleryGalleryImageUpdate,
+    handleGalleryGalleryImageRemove,
     handleContactUpdate,
     handleContactImageUpdate,
     handleConditionsUpdate,

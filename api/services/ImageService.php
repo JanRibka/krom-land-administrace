@@ -46,11 +46,11 @@ class ImageService implements IImageService
                     break;
             }
 
-            return null;
+            return $id;
         } else {
             switch ($location) {
                 case ImageLocationEnum::TEAM_MEMBERS:
-                    return $this->_imageRepository->imageInsertGalleryImage($imageEncoded);
+                    return $this->_imageRepository->imageInsertTeamMembers($imageEncoded);
                 case ImageLocationEnum::GALLERY_IMAGE:
                     return $this->_imageRepository->imageInsertGalleryImage($imageEncoded);
                 default:
@@ -86,7 +86,7 @@ class ImageService implements IImageService
                     $this->_imageRepository->imageUpdateGallery($imageEncoded, $itemName, $id);
                     break;
                 case ImageLocationEnum::GALLERY_IMAGE:
-                    $this->_imageRepository->imageUpdateGalleryImage($imageEncoded, $id);
+                    $this->_imageRepository->imageDeleteGalleryImage($id);
                     break;
                 case ImageLocationEnum::CONTACT:
                     $this->_imageRepository->imageUpdateContact($imageEncoded, $itemName, $id);

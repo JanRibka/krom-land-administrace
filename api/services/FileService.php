@@ -13,7 +13,9 @@ class FileService implements IFileService
 
     public function fileCopy(string $sourceFile, string $targetFile): void
     {
-        copy($sourceFile, $targetFile);
+        if (file_exists($sourceFile)) {
+            copy($sourceFile, $targetFile);
+        }
     }
 
     public function fileDelete(string $sourceFile): void

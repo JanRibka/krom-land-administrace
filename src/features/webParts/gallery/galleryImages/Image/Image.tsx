@@ -22,7 +22,8 @@ const Image = (props: IProps) => {
 
   // Constnts
   const _imageService = new ImageService();
-  const { handleGalleryGalleryImageUpdate } = useWebPartsSlice();
+  const { handleGalleryGalleryImageUpdate, handleGalleryGalleryImageRemove } =
+    useWebPartsSlice();
   const galleryImage = { ...gallery.Images[props.index] };
 
   // Other
@@ -42,18 +43,7 @@ const Image = (props: IProps) => {
   };
 
   const handleOnAfterFileDelete = async (name: string) => {
-    handleGalleryGalleryImageUpdate({ Delete: true }, props.index);
-    const dirPath = props.image.Path.includes("/admin")
-      ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
-      : process.env.REACT_APP_IMAGES_PATH ?? "";
-
-    await _imageService.imageDelete(
-      props.image.Name,
-      dirPath,
-      name,
-      ImageLocationEnum.GALLERY_IMAGE,
-      galleryImage.Id
-    );
+    handleGalleryGalleryImageRemove(props.index);
   };
 
   const handleOnFileSave = async (name: string) => {

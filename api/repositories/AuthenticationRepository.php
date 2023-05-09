@@ -1,23 +1,21 @@
 <?php
+
 namespace kromLand\api\repositories;
 
-require_once __DIR__ . "/../config/db.php";
-require_once __DIR__ . "/./IAuthenticationRepository.php";
-require_once __DIR__ . "/../../vendor/autoload.php";
-require_once __DIR__ . "/../../vendor/dibi/dibi/src/Dibi/dibi.php";
+require_once __DIR__.'/../config/db.php';
+require_once __DIR__.'/./IAuthenticationRepository.php';
+require_once __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__.'/../../vendor/dibi/dibi/src/Dibi/dibi.php';
 
-use DateTime;
-use Dibi;
 use kromLand\api\models\authentication\UserModel;
-use kromLand\api\repositories\IAuthenticationRepository;
 
 class AuthenticationRepository implements IAuthenticationRepository
 {
     public function getUserByUserName(string $userName): UserModel
     {
-        $user = dibi::query("SELECT * FROM `login` WHERE UserName = %s", $userName)->fetch();
+        $user = \dibi::query('SELECT * FROM `login` WHERE UserName = %s', $userName)->fetch();
 
-        if (!!!$user) {
+        if (!(bool) $user) {
             return new UserModel();
         }
 
@@ -26,9 +24,9 @@ class AuthenticationRepository implements IAuthenticationRepository
         $userModel->IdParent = $user->IdParent;
         $userModel->UserName = $user->UserName;
         $userModel->Password = $user->Password;
-        $userModel->DateCreated = $user->DateCreated ? new DateTime($user->DateCreated) : null;
-        $userModel->LastLogin = $user->LastLogin ? new DateTime($user->LastLogin) : null;
-        $userModel->LastLoginAttempt = $user->LastLogin ? new DateTime($user->LastLogin) : null;
+        $userModel->DateCreated = $user->DateCreated ? new \DateTime($user->DateCreated) : null;
+        $userModel->LastLogin = $user->LastLogin ? new \DateTime($user->LastLogin) : null;
+        $userModel->LastLoginAttempt = $user->LastLogin ? new \DateTime($user->LastLogin) : null;
         $userModel->LoginCount = $user->LoginCount;
         $userModel->LoginAttemptCount = $user->LoginAttemptCount;
         $userModel->RefreshToken = $user->RefreshToken;
@@ -39,9 +37,9 @@ class AuthenticationRepository implements IAuthenticationRepository
 
     public function getUserByRefreshToken(string $refreshToken): UserModel
     {
-        $user = dibi::query("SELECT * FROM `login` WHERE RefreshToken = %s", $refreshToken)->fetch();
+        $user = \dibi::query('SELECT * FROM `login` WHERE RefreshToken = %s', $refreshToken)->fetch();
 
-        if (!!!$user) {
+        if (!(bool) $user) {
             return new UserModel();
         }
 
@@ -50,9 +48,9 @@ class AuthenticationRepository implements IAuthenticationRepository
         $userModel->IdParent = $user->IdParent;
         $userModel->UserName = $user->UserName;
         $userModel->Password = $user->Password;
-        $userModel->DateCreated = $user->DateCreated ? new DateTime($user->DateCreated) : null;
-        $userModel->LastLogin = $user->LastLogin ? new DateTime($user->LastLogin) : null;
-        $userModel->LastLoginAttempt = $user->LastLogin ? new DateTime($user->LastLogin) : null;
+        $userModel->DateCreated = $user->DateCreated ? new \DateTime($user->DateCreated) : null;
+        $userModel->LastLogin = $user->LastLogin ? new \DateTime($user->LastLogin) : null;
+        $userModel->LastLoginAttempt = $user->LastLogin ? new \DateTime($user->LastLogin) : null;
         $userModel->LoginCount = $user->LoginCount;
         $userModel->LoginAttemptCount = $user->LoginAttemptCount;
         $userModel->RefreshToken = $user->RefreshToken;
@@ -64,13 +62,11 @@ class AuthenticationRepository implements IAuthenticationRepository
     public function insertUser(UserModel $user): int
     {
         $insertData = $user->GetDataForUpdate($user);
-        $insertData["DateCreated"] = date("Y-m-d H:i:s");
-        $insertData["LoginCount"] = 0;
-        $insertData["LoginAttemptCount"] = 0;
+        $insertData['DateCreated'] = date('Y-m-d H:i:s');
 
-        dibi::query("INSERT INTO `login`", $insertData);
+        \dibi::query('INSERT INTO `login`', $insertData);
 
-        return dibi::getInsertId();
+        return \dibi::getInsertId();
     }
 
     public function updateUser(UserModel $user): void
@@ -78,12 +74,11 @@ class AuthenticationRepository implements IAuthenticationRepository
         $updateData = $user->GetDataForUpdate($user);
         $id = $user->Id;
 
-        dibi::query(
-            "UPDATE `login` as l SET", 
-                $updateData, 
-            "WHERE l.Id = %i", 
+        \dibi::query(
+            'UPDATE `login` as l SET',
+            $updateData,
+            'WHERE l.Id = %i',
             $id
         );
     }
 }
-?>

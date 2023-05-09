@@ -78,7 +78,9 @@ class AuthenticationController extends ControllerBase
             $user->UserName = $userName;
             $user->Password = $hashedPassword;
             $user->UserRoleValue = $userRole;
-            $user->IdParent = $idParent;
+            $user->IdParent = $idParent === 'null' ? null : $idParent;
+            $user->LoginCount = 0;
+            $user->LoginAttemptCount = 0;
 
             $userId = $this->_authenticationService->insertUser($user);
 
@@ -215,7 +217,7 @@ class AuthenticationController extends ControllerBase
                 ];
 
                 $accessToken = JWT::encode($payload, $accessTokenSecret[APP_ENV], 'HS256');
-                $responseData = new RefreshTokenResponseModel($dbUser->UserRoleValue, $accessToken);
+                $responseData = new RefreshTokenResponseModel($dbUser->UserRoleValue, $accessToken, $dbUser->UserName);
 
                 $this->apiResponse(true, '', $responseData);
             } catch (\Exception $ex) {

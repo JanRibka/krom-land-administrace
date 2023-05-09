@@ -12,5 +12,5 @@ const rootReducer = combineReducers<AppState>({
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-  devTools: process.env.REACT_APP_ENABLE_DEVTOOLS as unknown as boolean,
+  devTools: process.env.REACT_APP_ENABLE_DEVTOOLS === String(true),
 });

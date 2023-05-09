@@ -1,11 +1,9 @@
-import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import RefreshTokenDTO from 'shared/DTOs/RefreshTokenDTO';
-import { AppRoute } from 'shared/infrastructure/router/appRoutes';
-import {
-    useAuthenticationSlice
-} from 'shared/infrastructure/store/authentication/useAuthenticationSlice';
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import RefreshTokenDTO from "shared/DTOs/RefreshTokenDTO";
+import { AppRoute } from "shared/infrastructure/router/appRoutes";
+import { useAuthenticationSlice } from "shared/infrastructure/store/authentication/useAuthenticationSlice";
 
 export const useRefreshToken = () => {
   // Constants
@@ -36,6 +34,7 @@ export const useRefreshToken = () => {
       handleAuthenticationUpdate({
         AccessToken: response.data.Data?.AccessToken ?? "",
         UserRole: response.data.Data?.UserRole,
+        UserName: response.data.Data?.UserName,
       });
 
       return response.data.Data?.AccessToken;

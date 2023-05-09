@@ -4,22 +4,9 @@ import Toolbar from '@mui/material/Toolbar';
 import MainMenu from './mainMenu/MainMenu';
 import SideBarStyled from './styledComponents/SideBarStyled';
 
-interface IProps {
-  width: number;
-}
-
-const SideBar = (props: IProps) => {
+const SideBar = () => {
   return (
-    <SideBarStyled
-      variant='permanent'
-      anchor='left'
-      sx={{
-        width: props.width,
-        ".MuiDrawer-paper": {
-          width: props.width,
-        },
-      }}
-    >
+    <SideBarStyled id='side-bar' variant='permanent' anchor='left'>
       <Toolbar>
         <Box className='menu-wrapper'>
           <MainMenu />

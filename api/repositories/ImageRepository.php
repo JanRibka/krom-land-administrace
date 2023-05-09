@@ -7,20 +7,6 @@ require_once __DIR__.'/./IImageRepository.php';
 
 class ImageRepository implements IImageRepository
 {
-    public function imageInsertGalleryImage(string $image): int
-    {
-        $arr = [
-            'Image' => $image,
-        ];
-
-        \dibi::query(
-            'INSERT INTO galleryImages',
-            $arr
-        );
-
-        return \dibi::getInsertId();
-    }
-
     public function imageSaveHome(string $image, string $itemName, int $homeId): void
     {
         $arr = [
@@ -46,6 +32,20 @@ class ImageRepository implements IImageRepository
             'WHERE h.Id = %i',
             $homeId
         );
+    }
+
+    public function imageInsertTeamMembers(string $image): int
+    {
+        $arr = [
+            'Image' => $image,
+        ];
+
+        \dibi::query(
+            'INSERT INTO teamMembers',
+            $arr
+        );
+
+        return \dibi::getInsertId();
     }
 
     public function imageUpdateTeamMembers(string $image, int $teamMemberId): void
@@ -90,6 +90,20 @@ class ImageRepository implements IImageRepository
         );
     }
 
+    public function imageInsertGalleryImage(string $image): int
+    {
+        $arr = [
+            'Image' => $image,
+        ];
+
+        \dibi::query(
+            'INSERT INTO galleryImages',
+            $arr
+        );
+
+        return \dibi::getInsertId();
+    }
+
     public function imageUpdateGallery(string $image, string $itemName, int $galleryId): void
     {
         $arr = [
@@ -132,6 +146,6 @@ class ImageRepository implements IImageRepository
 
     public function imageDeleteGalleryImage(int $galleryImageId): void
     {
-        \dibi::query('DELETE FROM home as h WHERE gi.Id = %i', $galleryImageId);
+        \dibi::query('DELETE FROM galleryImages as gi WHERE gi.Id = %i', $galleryImageId);
     }
 }

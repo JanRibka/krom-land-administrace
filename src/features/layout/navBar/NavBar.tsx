@@ -1,11 +1,23 @@
-import SignOut from './signOut/SignOut';
-import NavBarStyled from './styledComponets/NavBarStyled';
-import ToolBarStyled from './styledComponets/ToolBarStyled';
+import MenuButton from "./menuButton/MenuButton";
+import SignOut from "./signOut/SignOut";
+import NavBarStyled from "./styledComponets/NavBarStyled";
+import ToolBarStyled from "./styledComponets/ToolBarStyled";
+import User from "./user/User";
 
-const NavBar = () => {
+interface IProps {
+  handleButtonOnClickOpen: () => void;
+  handleButtonOnClickClose: () => void;
+}
+
+const NavBar = (props: IProps) => {
   return (
     <NavBarStyled>
       <ToolBarStyled>
+        <MenuButton
+          handleButtonOnClickOpen={props.handleButtonOnClickOpen}
+          handleButtonOnClickClose={props.handleButtonOnClickClose}
+        />
+        <User />
         <SignOut />
       </ToolBarStyled>
     </NavBarStyled>

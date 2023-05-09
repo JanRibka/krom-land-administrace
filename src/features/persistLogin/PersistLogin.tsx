@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
-import useRefreshToken from 'shared/customHooks/useRefreshToken';
-import {
-    selectAuthentication
-} from 'shared/infrastructure/store/authentication/authenticationSlice';
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+import useRefreshToken from "shared/customHooks/useRefreshToken";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 
 const PersistLogin = () => {
   // State
@@ -36,7 +34,7 @@ const PersistLogin = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  // TODO: Přidat loading obrazovku
   return (
     <>
       {!authentication.Persist ? (

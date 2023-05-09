@@ -1,21 +1,21 @@
-import Layout from 'features/layout/Layout';
-import LayoutLogin from 'features/layoutLogin/LayoutLogin';
-import DashboardPage from 'features/pages/DashboardPage';
-import LoginPage from 'features/pages/LoginPage';
-import PersistLoginPage from 'features/pages/PersistLoginPage';
-import ActionsPage from 'features/pages/webParts/ActionsPage';
-import ContactPage from 'features/pages/webParts/ContactPage';
-import GalleryPage from 'features/pages/webParts/GalleryPage';
-import GdprPage from 'features/pages/webParts/GdprPage';
-import HomePage from 'features/pages/webParts/HomePage';
-import TermsOfConditionsPage from 'features/pages/webParts/TermsOfConditionsPage';
-import { useEffect } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import RequireAuth from 'shared/components/requireAuth/RequireAuth';
-import usePrevious from 'shared/customHooks/usePrevious';
-import { UserRoleEnum } from 'shared/enums/UserRoleEnum';
+import Layout from "features/layout/Layout";
+import LayoutLogin from "features/layoutLogin/LayoutLogin";
+import DashboardPage from "features/pages/DashboardPage";
+import LoginPage from "features/pages/LoginPage";
+import PersistLoginPage from "features/pages/PersistLoginPage";
+import ActionsPage from "features/pages/webParts/ActionsPage";
+import ContactPage from "features/pages/webParts/ContactPage";
+import GalleryPage from "features/pages/webParts/GalleryPage";
+import GdprPage from "features/pages/webParts/GdprPage";
+import HomePage from "features/pages/webParts/HomePage";
+import TermsOfConditionsPage from "features/pages/webParts/TermsOfConditionsPage";
+import { useEffect } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import RequireAuth from "shared/components/requireAuth/RequireAuth";
+import usePrevious from "shared/customHooks/usePrevious";
+import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 
-import { AppRoute } from './appRoutes';
+import { AppRoute } from "./appRoutes";
 
 const AppRouter = () => {
   // Constants
@@ -63,7 +63,11 @@ const AppRouter = () => {
       <Route
         path={AppRoute.Base}
         element={
-          <Navigate to={AppRoute.Login} state={{ from: location }} replace />
+          <Navigate
+            to={AppRoute.Dashboard}
+            state={{ from: location }}
+            replace
+          />
         }
       />
       <Route path={AppRoute.Login} element={<LayoutLogin />}>
