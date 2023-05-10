@@ -6,7 +6,7 @@ const MenuSeparatorStyled = styled(Typography)(({ theme }) => ({
   fontSize: "20px",
   fontWeight: 400,
   marginTop: "35px",
-  transition: "all 300ms ease-in-out",
+  transition: "all 300ms linear",
 }));
 
 export default MenuSeparatorStyled;
