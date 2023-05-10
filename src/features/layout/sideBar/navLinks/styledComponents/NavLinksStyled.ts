@@ -18,7 +18,7 @@ const NavLinksStyled = styled(Box)(({ theme }) => ({
 
         svg: {
           marginRight: "15px",
-          transition: "all 300ms ease-in-out",
+          transition: "all 200ms linear",
         },
       },
     },

@@ -73,7 +73,6 @@ const AppRouter = () => {
       <Route path={AppRoute.Login} element={<LayoutLogin />}>
         <Route path={AppRoute.Login} element={<LoginPage />} />
       </Route>
-
       {/* Protected routes */}
       <Route element={<PersistLoginPage />}>
         <Route path={AppRoute.Base} element={<Layout />}>
@@ -103,8 +102,8 @@ const AppRouter = () => {
           </Route>
         </Route>
       </Route>
-
       {/* Not found page */}
+      {/* TODO: Přidat 404 stránku */}
       <Route path='*' element={<div>NotFound</div>}></Route>
     </Routes>
   );

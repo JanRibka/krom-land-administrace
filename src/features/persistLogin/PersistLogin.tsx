@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom";
 import useRefreshToken from "shared/customHooks/useRefreshToken";
 import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 
+import Loading from "./loading/Loading";
+
 const PersistLogin = () => {
   // State
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -34,13 +36,13 @@ const PersistLogin = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // TODO: Přidat loading obrazovku
+
   return (
     <>
       {!authentication.Persist ? (
         <Outlet />
       ) : isLoading ? (
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <Outlet />
       )}

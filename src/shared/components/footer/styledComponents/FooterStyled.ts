@@ -1,13 +1,19 @@
-import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
 
 const FooterStyled = styled(Box)(({ theme }) => ({
   position: "fixed",
   bottom: 0,
-  left: "272px",
-  width: "calc(100% - 272px)",
   height: "60px",
   zIndex: 2,
+  left: "122px",
+  width: "calc(100% - 122px)",
+  transition: "all 200ms linear",
+
+  [theme.breakpoints.down("md")]: {
+    left: "0px",
+    width: "100%",
+  },
 
   ".footer-inner-wrapper": {
     display: "flex",

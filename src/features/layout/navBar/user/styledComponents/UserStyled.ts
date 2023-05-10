@@ -11,6 +11,10 @@ const UserStyled = styled(Box)(({ theme }) => ({
     fontSize: "1.2rem",
     fontWeight: "bold",
     color: "rgba(0,0,0,0.87)",
+
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
 }));
 

@@ -11,7 +11,7 @@ interface IProps {
 
 const NavBar = (props: IProps) => {
   return (
-    <NavBarStyled>
+    <NavBarStyled id='nav-bar'>
       <ToolBarStyled>
         <MenuButton
           handleButtonOnClickOpen={props.handleButtonOnClickOpen}
