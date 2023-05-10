@@ -9,6 +9,7 @@ import {
   GridColDef,
   GridRowId,
   GridRowParams,
+  GridToolbar,
 } from "@mui/x-data-grid";
 
 import ReservationsTableStyled from "./styledComponents/ReservationsTableStyled";
@@ -76,6 +77,7 @@ const ReservationsTable = (props: IProps) => {
         rows={dashboard.Reservations}
         loading={props.loading}
         localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
+        slots={{ toolbar: GridToolbar }}
       />
     </ReservationsTableStyled>
   );
