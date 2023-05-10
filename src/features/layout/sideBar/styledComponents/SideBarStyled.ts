@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 const SideBarStyled = styled(Drawer)(({ theme }) => ({
   flexShrink: 0,
   width: "90px",
-  transition: "all 300ms ease-in-out",
+  transition: "all 300ms linear",
 
   "&.opened": {
     width: "240px",
