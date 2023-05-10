@@ -1,5 +1,8 @@
+import SectionStyled from "features/styledComponents/SectionStyled";
 import { useState } from "react";
+import SectionTitle from "shared/components/sectionTitle/SectionTitle";
 import AnoNeDialog from "shared/dialogs/AnoNeDialog";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import CardContent from "@mui/material/CardContent";
@@ -7,6 +10,7 @@ import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
 
 import CardStyled from "../styledComponents/CardStyled";
+import ReservationsTable from "./table/ReservationsTable";
 
 const Reservations = () => {
   // State
@@ -18,8 +22,13 @@ const Reservations = () => {
   };
 
   return (
-    <>
-      <CardStyled>
+    <ErrorBoundary>
+      <SectionStyled>
+        <SectionTitle title='Rezervace' />
+        <ReservationsTable loading={false} />
+      </SectionStyled>
+
+      {/* <CardStyled>
         <CardHeader
           title='Rezervace'
           action={
@@ -29,7 +38,7 @@ const Reservations = () => {
           }
         />
         <CardContent>sdfghhhsdg</CardContent>
-      </CardStyled>
+      </CardStyled> */}
 
       <AnoNeDialog
         isOpen={open}
@@ -40,7 +49,7 @@ const Reservations = () => {
         title='Filtr'
         content={<></>}
       />
-    </>
+    </ErrorBoundary>
   );
 };
 
