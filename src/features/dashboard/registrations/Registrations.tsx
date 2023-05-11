@@ -10,9 +10,13 @@ import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
 
 import CardStyled from "../styledComponents/CardStyled";
-import ReservationsTable from "./table/ReservationsTable";
+import RegistrationsTable from "./table/RegistrationsTable";
 
-const Reservations = () => {
+interface IProps {
+  loading: boolean;
+}
+
+const Registrations = (props: IProps) => {
   // State
   const [open, setOpen] = useState<boolean>(false);
 
@@ -23,9 +27,9 @@ const Reservations = () => {
 
   return (
     <ErrorBoundary>
-      <SectionStyled>
+      <SectionStyled component='section'>
         <SectionTitle title='Rezervace' />
-        <ReservationsTable loading={false} />
+        <RegistrationsTable loading={props.loading} />
       </SectionStyled>
 
       {/* <CardStyled>
@@ -53,4 +57,4 @@ const Reservations = () => {
   );
 };
 
-export default Reservations;
+export default Registrations;

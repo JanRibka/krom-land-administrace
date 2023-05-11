@@ -1,3 +1,5 @@
+import RegistrationModel from "features/dashboard/models/RegistrationModel";
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import AppState from "../AppState";
@@ -5,13 +7,15 @@ import AppState from "../AppState";
 export interface DashboardState {
   FilterDateFrom: Date | null;
   FilterDateTo: Date | null;
-  Reservations: number[];
+  Registrations: RegistrationModel[];
+  _dataLoaded: boolean;
 }
 
 export const initialState: DashboardState = {
   FilterDateFrom: null,
   FilterDateTo: null,
-  Reservations: [],
+  Registrations: [],
+  _dataLoaded: false,
 };
 
 export const dashboardSlice = createSlice({

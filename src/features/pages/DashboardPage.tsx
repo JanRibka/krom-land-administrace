@@ -1,4 +1,4 @@
-import Dashboard from "features/webParts/dashboard/Dashboard";
+import Dashboard from "features/dashboard/Dashboard";
 
 import PageStyled from "./styledComponents/PageStyled";
 

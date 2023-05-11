@@ -7,53 +7,56 @@ require_once __DIR__.'/../middleware/verifyJWT.php';
 require_once __DIR__.'/../middleware/verifyRole.php';
 require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
-require_once __DIR__.'/../repositories/DocumentRepository.php';
-require_once __DIR__.'/../services/DocumentService.php';
-require_once __DIR__.'/../services/FileService.php';
-require_once __DIR__.'/../models/document/DocumentModel.php';
+require_once __DIR__.'/../repositories/DashboardRepository.php';
+require_once __DIR__.'/../services/DashboardService.php';
 
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
-use kromLand\api\models\document\DocumentModel;
-use kromLand\api\repositories\DocumentRepository;
-use kromLand\api\services\DocumentService;
-use kromLand\api\services\FileService;
-use kromLand\api\services\IDocumentService;
-use kromLand\api\services\IFileService;
+use kromLand\api\repositories\DashboardRepository;
+use kromLand\api\repositories\IDashboardService;
+use kromLand\api\services\DashboardService;
 
 use function kromLand\api\middleware\verifyJWT;
 use function kromLand\api\middleware\verifyRole;
 
 class DashboardController extends ControllerBase
 {
-    // private readonly IDocumentService $_documentService;
-    // private readonly IFileService $_fileService;
+    private readonly IDashboardService $_dashboardService;
 
-    // public function __construct(IDocumentService $documentService, IFileService $fileService)
-    // {
-    //     $this->_documentService = $documentService;
-    //     $this->_fileService = $fileService;
-    // }
+    public function __construct(IDashboardService $pDashboardService)
+    {
+        $this->_dashboardService = $pDashboardService;
+    }
 
-    // /**
-    //  * Upload document on server.
-    //  */
-    // public function documentUpload()
-    // {
-    //     try {
-    //         $newDocumentName = $_POST['fileName'];
-    //         $sourceDir = $_FILES['file']['tmp_name'];
-    //         $targetDir = __DIR__.'/../../upload/'.$newDocumentName;
+    /**
+     * Get dashboard.
+     */
+    public function getDashboard()
+    {
+        try {
+            $dashboard = $this->_dashboardService->getDashboard();
 
-    //         $this->_fileService->uploadedFileSave($sourceDir, $targetDir);
+            $this->apiResponse(true, '', $dashboard);
+        } catch (Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 
-    //         $this->apiResponse(true, '');
-    //     } catch (Exception $ex) {
-    //         $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
-    //     }
-    // }
+    /**
+     * Get registrations.
+     */
+    public function getRegistrations()
+    {
+        try {
+            $registrations = $this->_dashboardService->getRegistrations();
+
+            $this->apiResponse(true, '', $registrations);
+        } catch (Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 
     // /**
     //  * Delete document.
@@ -107,16 +110,14 @@ class DashboardController extends ControllerBase
     // }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['function'])) {
         $functionName = $_GET['function'];
         $userRoles = [UserRoleEnum::ADMIN];
 
-        // $documentRepository = new DocumentRepository();
-        // $documentService = new DocumentService($documentRepository);
-        // $fileService = new FileService();
-        // $controller = new DocumentController($documentService, $fileService);
-        $controller = new DashboardController();
+        $dashboardRepository = new DashboardRepository();
+        $dashboardService = new DashboardService($dashboardRepository);
+        $controller = new DashboardController($dashboardService);
 
         if (method_exists($controller, $functionName)) {
             $request = new ServerRequest(
