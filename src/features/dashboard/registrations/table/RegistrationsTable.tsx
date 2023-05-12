@@ -333,6 +333,9 @@ const RegistrationsTable = (props: IProps) => {
         }
         pageSizeOptions={[25, 50, 75, 100]}
         onStateChange={handleOnStateChange}
+        getRowClassName={(params) =>
+          params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
+        }
       />
     </RegistrationsTableStyled>
   );
