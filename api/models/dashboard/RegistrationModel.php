@@ -4,6 +4,7 @@ namespace kromLand\api\models\document;
 
 class RegistrationModel
 {
+    public int $id;
     public int $id_action;
     public string $action_name;
     public string $user_email;

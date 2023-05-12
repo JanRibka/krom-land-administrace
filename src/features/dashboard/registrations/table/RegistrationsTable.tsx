@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { registrationsGrindName } from "shared/constants/gridNames";
 import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -8,13 +8,12 @@ import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
-  gridFilterableColumnLookupSelector,
-  gridPaginationModelSelector,
   GridRowId,
   GridRowParams,
   GridToolbar,
   useGridApiRef,
 } from "@mui/x-data-grid";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
 import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
 
@@ -26,6 +25,12 @@ const RegistrationsTable = (props: IProps) => {
   // References
   const refApi = useGridApiRef();
 
+  // Constants
+  const gridSettingsName = "_grid-settings-" + registrationsGrindName;
+  const gridInitialState = JSON.parse(
+    localStorage.getItem(gridSettingsName) ?? "{}"
+  );
+  console.log(gridInitialState);
   // Store
   const dashboard = useSelector(selectDashboard);
 
@@ -67,7 +72,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Název akce",
       field: "action_name",
-      width: 150,
+      width: 250,
       type: "string",
       editable: false,
       sortable: true,
@@ -76,7 +81,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Email",
       field: "user_email",
-      width: 150,
+      width: 200,
       type: "string",
       editable: false,
       sortable: true,
@@ -103,7 +108,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Datum narození dítěte",
       field: "child_birthday",
-      width: 150,
+      width: 170,
       type: "string",
       editable: false,
       sortable: true,
@@ -112,7 +117,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Jméno ZZ",
       field: "first_representative_name",
-      width: 100,
+      width: 150,
       type: "string",
       editable: false,
       sortable: true,
@@ -182,7 +187,7 @@ const RegistrationsTable = (props: IProps) => {
       resizable: true,
     },
     {
-      headerName: "Adresa - ČP",
+      headerName: "Adresa - Ulice, čp",
       field: "address_street_cp",
       width: 150,
       type: "string",
@@ -191,9 +196,9 @@ const RegistrationsTable = (props: IProps) => {
       resizable: true,
     },
     {
-      headerName: "Adresa - jméno",
+      headerName: "Adresa - Obec",
       field: "address_city",
-      width: 150,
+      width: 200,
       type: "string",
       editable: false,
       sortable: true,
@@ -202,7 +207,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Adresa - PSČ",
       field: "address_psc",
-      width: 150,
+      width: 100,
       type: "string",
       editable: false,
       sortable: true,
@@ -211,7 +216,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Zdravotní omezení",
       field: "other_hendicap",
-      width: 150,
+      width: 250,
       type: "string",
       editable: false,
       sortable: true,
@@ -238,7 +243,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Osoby pro vyzvednutí",
       field: "other_pickup_person",
-      width: 100,
+      width: 250,
       type: "string",
       editable: false,
       sortable: true,
@@ -247,7 +252,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Platební metoda",
       field: "other_pay_method",
-      width: 100,
+      width: 120,
       type: "string",
       editable: false,
       sortable: true,
@@ -256,7 +261,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Další informace",
       field: "other_other_info",
-      width: 100,
+      width: 250,
       type: "string",
       editable: false,
       sortable: true,
@@ -265,7 +270,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Datum registrace",
       field: "registration_date",
-      width: 100,
+      width: 150,
       type: "string",
       editable: false,
       sortable: true,
@@ -295,7 +300,9 @@ const RegistrationsTable = (props: IProps) => {
       width: 50,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
-          icon={<EditIcon color='secondary' />}
+          icon={
+            <EditIcon color='secondary' titleAccess='Editovat registraci' />
+          }
           label='Editovat registraci'
           onClick={() => handleOnClickEditRegistration(params.id)}
         />,
@@ -304,7 +311,9 @@ const RegistrationsTable = (props: IProps) => {
   ];
 
   const handleOnStateChange = () => {
-    console.log("state", refApi.current.exportState());
+    const newState: GridInitialStateCommunity = refApi.current.exportState();
+
+    localStorage.setItem(gridSettingsName, JSON.stringify(newState));
   };
 
   return (
@@ -313,13 +322,15 @@ const RegistrationsTable = (props: IProps) => {
         apiRef={refApi}
         columns={columns}
         rows={dashboard.Registrations}
-        getRowId={(row) => row.id_action}
+        getRowId={(row) => row.id}
         loading={props.loading}
         localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
         slots={{ toolbar: GridToolbar }}
-        initialState={{
-          pagination: { paginationModel: { page: 0, pageSize: 25 } },
-        }}
+        initialState={
+          Object.keys(gridInitialState).length > 0
+            ? gridInitialState
+            : undefined
+        }
         pageSizeOptions={[25, 50, 75, 100]}
         onStateChange={handleOnStateChange}
       />

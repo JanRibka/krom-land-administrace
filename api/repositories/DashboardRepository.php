@@ -22,6 +22,7 @@ class DashboardRepository implements IDashboardRepository
 
         foreach ($registrations as $registraion) {
             $newRegistration = new RegistrationModel();
+            $newRegistration->id = $registraion->id;
             $newRegistration->id_action = $registraion->id_action;
             $newRegistration->action_name = $registraion->action_name;
             $newRegistration->user_email = $registraion->user_email;

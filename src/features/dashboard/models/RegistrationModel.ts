@@ -1,5 +1,6 @@
 interface RegistrationModel {
-  action_id: number;
+  id: number;
+  id_action: number;
   action_name: string;
   user_email: string;
   child_name: string;
