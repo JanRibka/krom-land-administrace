@@ -15,6 +15,7 @@ import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
+  GridColumnGroupingModel,
   GridRowId,
   GridRowParams,
   GridToolbar,
@@ -346,6 +347,8 @@ const RegistrationsTable = () => {
     },
   ];
 
+  const columnGroupingModel: GridColumnGroupingModel = [{}];
+
   const handleOnStateChange = () => {
     const newState: GridInitialStateCommunity = refApi.current.exportState();
 
@@ -372,6 +375,7 @@ const RegistrationsTable = () => {
         getRowClassName={(params) =>
           params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
         }
+        columnGroupingModel={columnGroupingModel}
       />
     </RegistrationsTableStyled>
   );
