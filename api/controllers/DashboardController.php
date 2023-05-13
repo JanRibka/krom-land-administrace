@@ -9,11 +9,13 @@ require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
 require_once __DIR__.'/../repositories/DashboardRepository.php';
 require_once __DIR__.'/../services/DashboardService.php';
+require_once __DIR__.'/../repositories/CommonRepository.php';
 
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
+use kromLand\api\repositories\CommonRepository;
 use kromLand\api\repositories\DashboardRepository;
 use kromLand\api\repositories\IDashboardService;
 use kromLand\api\services\DashboardService;
@@ -116,7 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $userRoles = [UserRoleEnum::ADMIN];
 
         $dashboardRepository = new DashboardRepository();
-        $dashboardService = new DashboardService($dashboardRepository);
+        $commonRepository = new CommonRepository();
+        $dashboardService = new DashboardService($dashboardRepository, $commonRepository);
         $controller = new DashboardController($dashboardService);
 
         if (method_exists($controller, $functionName)) {

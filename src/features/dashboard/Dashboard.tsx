@@ -1,5 +1,6 @@
 import FeatureStyled from "features/styledComponents/FeatureStyled";
 import { useSelector } from "react-redux";
+import AppLoader from "shared/components/loader/AppLoader";
 import AppNotification from "shared/components/notification/AppNotification";
 import PageTitle from "shared/components/pageTitle/PageTitle";
 import { useRequest } from "shared/dataAccess/useRequest";
@@ -39,7 +40,7 @@ const Dashboard = () => {
     [],
     {
       apply: true,
-      condition: () => dashboard._dataLoaded === false,
+      condition: () => dashboard._dashboardLoaded === false,
     },
     (data) => {
       const dataType = typeof data;
@@ -55,14 +56,16 @@ const Dashboard = () => {
       }
     }
   );
-  // TODO: Data pro tabulku se budou tahat zvl83+t
+
   return (
     <ErrorBoundary>
       <FeatureStyled>
         <Stack spacing={4}>
           <PageTitle title='Dashboard' />
-          <Registrations loading={isLoading} />
+          <Registrations />
         </Stack>
+
+        {isLoading && <AppLoader />}
       </FeatureStyled>
     </ErrorBoundary>
   );

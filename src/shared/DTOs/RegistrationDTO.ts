@@ -1,4 +1,6 @@
-interface RegistrationModel {
+import DateTimeDTO from "./DateTimeDTO";
+
+interface RegistrationDTO {
   id: number;
   id_action: number;
   action_name: string;
@@ -25,7 +27,7 @@ interface RegistrationModel {
   other_pay_method: number;
   other_pay_method_name: string;
   other_other_info: string;
-  registration_date: Date;
+  registration_date: DateTimeDTO;
   payed: boolean;
   state: number;
   state_name: string;
@@ -33,4 +35,4 @@ interface RegistrationModel {
   action_price: number;
 }
 
-export default RegistrationModel;
+export default RegistrationDTO;

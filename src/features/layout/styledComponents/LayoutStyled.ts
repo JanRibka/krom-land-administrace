@@ -5,7 +5,7 @@ const LayoutStyled = styled(Box)(({ theme }) => ({
   display: "flex",
 
   "&.opened": {
-    footer: {
+    "footer, main": {
       left: "272px",
       width: "calc(100% - 272px)",
     },

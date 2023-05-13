@@ -12,11 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import CardStyled from "../styledComponents/CardStyled";
 import RegistrationsTable from "./table/RegistrationsTable";
 
-interface IProps {
-  loading: boolean;
-}
-
-const Registrations = (props: IProps) => {
+const Registrations = () => {
   // State
   const [open, setOpen] = useState<boolean>(false);
 
@@ -29,7 +25,7 @@ const Registrations = (props: IProps) => {
     <ErrorBoundary>
       <SectionStyled component='section'>
         <SectionTitle title='Rezervace' />
-        <RegistrationsTable loading={props.loading} />
+        <RegistrationsTable />
       </SectionStyled>
 
       {/* <CardStyled>

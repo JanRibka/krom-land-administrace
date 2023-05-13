@@ -1,6 +1,13 @@
+import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
 import { useSelector } from "react-redux";
+import AppNotification from "shared/components/notification/AppNotification";
 import { registrationsGrindName } from "shared/constants/gridNames";
+import { useRequest } from "shared/dataAccess/useRequest";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import RegistrationDTO from "shared/DTOs/RegistrationDTO";
+import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
 import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
+import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
 
 import EditIcon from "@mui/icons-material/Edit";
 import {
@@ -17,11 +24,7 @@ import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateComm
 
 import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
 
-interface IProps {
-  loading: boolean;
-}
-
-const RegistrationsTable = (props: IProps) => {
+const RegistrationsTable = () => {
   // References
   const refApi = useGridApiRef();
 
@@ -33,6 +36,9 @@ const RegistrationsTable = (props: IProps) => {
   console.log(gridInitialState);
   // Store
   const dashboard = useSelector(selectDashboard);
+
+  // Constants
+  const { handleDashboardUpdate } = useDashboardSlice();
 
   // Other
   // useEffect(() => {
@@ -67,6 +73,41 @@ const RegistrationsTable = (props: IProps) => {
     // handlePrehledSmluvUpdate({ _ZdaStitekEdit: true });
   };
 
+  /**
+   * Get data
+   */
+  const { isLoading } = useRequest<JsonResulObjectDataDTO<RegistrationDTO[]>>(
+    {
+      url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
+      params: new URLSearchParams({
+        function: "getRegistrations",
+      }),
+    },
+    {
+      Success: false,
+      ErrMsg: "",
+      Data: [],
+    },
+    [],
+    {
+      apply: true,
+      condition: () => dashboard._registrationsLoaded === false,
+    },
+    (data) => {
+      const dataType = typeof data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(data), "danger");
+      } else {
+        if (data.Success) {
+          handleDashboardUpdate(mapFromRegistrationsDTO(data?.Data));
+        } else {
+          AppNotification("Chyba", data.ErrMsg ?? "", "danger");
+        }
+      }
+    }
+  );
+
   // ColumnDefinition
   const columns: GridColDef<any>[] = [
     {
@@ -81,7 +122,7 @@ const RegistrationsTable = (props: IProps) => {
     {
       headerName: "Email",
       field: "user_email",
-      width: 200,
+      width: 250,
       type: "string",
       editable: false,
       sortable: true,
@@ -231,15 +272,15 @@ const RegistrationsTable = (props: IProps) => {
       sortable: true,
       resizable: true,
     },
-    // {
-    //   headerName: "Jměno ZZ",
-    //   field: "other_how_children_arrives",
-    //   width: 100,
-    //   type: "string",
-    //   editable: false,
-    //   sortable: true,
-    //   resizable: true,
-    // },
+    {
+      headerName: "Jak bude dítě docházet",
+      field: "other_how_children_arrives_name",
+      width: 270,
+      type: "string",
+      editable: false,
+      sortable: true,
+      resizable: true,
+    },
     {
       headerName: "Osoby pro vyzvednutí",
       field: "other_pickup_person",
@@ -251,8 +292,8 @@ const RegistrationsTable = (props: IProps) => {
     },
     {
       headerName: "Platební metoda",
-      field: "other_pay_method",
-      width: 120,
+      field: "other_pay_method_name",
+      width: 180,
       type: "string",
       editable: false,
       sortable: true,
@@ -275,25 +316,20 @@ const RegistrationsTable = (props: IProps) => {
       editable: false,
       sortable: true,
       resizable: true,
+      valueGetter: (params) => {
+        return toAppDateFormat(params.value);
+      },
     },
-    // {
-    //   headerName: "Stav registrace",
-    //   field: "state",
-    //   width: 100,
-    //   type: "string",
-    //   editable: false,
-    //   sortable: true,
-    //   resizable: true,
-    // },
-    // {
-    //   headerName: "Jměno ZZ",
-    //   field: "user_email",
-    //   width: 100,
-    //   type: "string",
-    //   editable: false,
-    //   sortable: true,
-    //   resizable: true,
-    // },
+    {
+      headerName: "Stav registrace",
+      field: "state_name",
+      width: 150,
+      type: "string",
+      editable: false,
+      sortable: true,
+      resizable: true,
+    },
+
     {
       field: "actions",
       type: "actions",
@@ -323,7 +359,7 @@ const RegistrationsTable = (props: IProps) => {
         columns={columns}
         rows={dashboard.Registrations}
         getRowId={(row) => row.id}
-        loading={props.loading}
+        loading={isLoading}
         localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
         slots={{ toolbar: GridToolbar }}
         initialState={

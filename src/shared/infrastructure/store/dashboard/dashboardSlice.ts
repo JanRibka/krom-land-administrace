@@ -8,14 +8,16 @@ export interface DashboardState {
   FilterDateFrom: Date | null;
   FilterDateTo: Date | null;
   Registrations: RegistrationModel[];
-  _dataLoaded: boolean;
+  _dashboardLoaded: boolean;
+  _registrationsLoaded: boolean;
 }
 
 export const initialState: DashboardState = {
   FilterDateFrom: null,
   FilterDateTo: null,
   Registrations: [],
-  _dataLoaded: false,
+  _dashboardLoaded: false,
+  _registrationsLoaded: false,
 };
 
 export const dashboardSlice = createSlice({
