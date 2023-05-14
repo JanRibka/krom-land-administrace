@@ -64,9 +64,12 @@ public function getDashboard(): DashboardModel
                 return $result;
             }, '');
 
+            $variableSymbol = $this->_commonRepository->getVariableSymbolById($item->id_variable_symbol);
+
             $item->other_how_children_arrives_name = $childArrivesName;
             $item->other_pay_method_name = $paymentMethodName;
             $item->state_name = $registrationStateName;
+            $item->variable_symbol_name = $variableSymbol;
 
             return $item;
         }, $registrations);

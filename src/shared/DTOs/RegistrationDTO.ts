@@ -1,4 +1,4 @@
-import DateTimeDTO from "./DateTimeDTO";
+import DateTimeDTO from './DateTimeDTO';
 
 interface RegistrationDTO {
   id: number;
@@ -32,6 +32,7 @@ interface RegistrationDTO {
   state: number;
   state_name: string;
   id_variable_symbol: number;
+  variable_symbol_name: string;
   action_price: number;
 }
 

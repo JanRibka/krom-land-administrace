@@ -1,7 +1,7 @@
-import RegistrationDTO from "shared/DTOs/RegistrationDTO";
-import { DashboardState } from "shared/infrastructure/store/dashboard/dashboardSlice";
+import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
+import { DashboardState } from 'shared/infrastructure/store/dashboard/dashboardSlice';
 
-import RegistrationModel from "../models/RegistrationModel";
+import RegistrationModel from '../models/RegistrationModel';
 
 export const mapFromRegistrationsDTO = (
   registrationsDTO?: RegistrationDTO[] | null
@@ -43,6 +43,7 @@ export const mapFromRegistrationsDTO = (
           state: item.state,
           state_name: item.state_name,
           id_variable_symbol: item.id_variable_symbol,
+          variable_symbol_name: item.variable_symbol_name,
           action_price: item.action_price,
         } as RegistrationModel;
       }) ?? [],

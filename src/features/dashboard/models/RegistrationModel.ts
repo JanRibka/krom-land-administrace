@@ -30,6 +30,7 @@ interface RegistrationModel {
   state: number;
   state_name: string;
   id_variable_symbol: number;
+  variable_symbol_name: string;
   action_price: number;
 }
 

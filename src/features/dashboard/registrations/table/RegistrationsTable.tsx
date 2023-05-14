@@ -1,29 +1,23 @@
-import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import { registrationsGrindName } from "shared/constants/gridNames";
-import { useRequest } from "shared/dataAccess/useRequest";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import RegistrationDTO from "shared/DTOs/RegistrationDTO";
-import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
-import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
-import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
+import { mapFromRegistrationsDTO } from 'features/dashboard/save/mapFromRegistrationsDTO';
+import { useSelector } from 'react-redux';
+import AppNotification from 'shared/components/notification/AppNotification';
+import { registrationsGrindName } from 'shared/constants/gridNames';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
+import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
+import { selectDashboard } from 'shared/infrastructure/store/dashboard/dashboardSlice';
+import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
 
-import EditIcon from "@mui/icons-material/Edit";
+import EditIcon from '@mui/icons-material/Edit';
 import {
-  csCZ,
-  DataGrid,
-  GridActionsCellItem,
-  GridColDef,
-  GridColumnGroupingModel,
-  GridRowId,
-  GridRowParams,
-  GridToolbar,
-  useGridApiRef,
-} from "@mui/x-data-grid";
-import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+    csCZ, DataGrid, GridActionsCellItem, GridColDef, GridColumnGroupingModel, GridRowId,
+    GridRowParams, GridToolbar, useGridApiRef
+} from '@mui/x-data-grid';
+import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
 
-import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
+import RegistrationsTableStyled from './styledComponents/RegistrationsTableStyled';
+import TableFilterDate from './tableFilterDate/TableFilterDate';
 
 const RegistrationsTable = () => {
   // References
@@ -330,6 +324,24 @@ const RegistrationsTable = () => {
       sortable: true,
       resizable: true,
     },
+    {
+      headerName: "Číslo objednávky",
+      field: "variable_symbol_name",
+      width: 150,
+      type: "string",
+      editable: false,
+      sortable: true,
+      resizable: true,
+    },
+    {
+      headerName: "Cena [Kč]",
+      field: "action_price",
+      width: 100,
+      type: "string",
+      editable: false,
+      sortable: true,
+      resizable: true,
+    },
 
     {
       field: "actions",
@@ -347,8 +359,6 @@ const RegistrationsTable = () => {
     },
   ];
 
-  const columnGroupingModel: GridColumnGroupingModel = [{}];
-
   const handleOnStateChange = () => {
     const newState: GridInitialStateCommunity = refApi.current.exportState();
 
@@ -357,6 +367,7 @@ const RegistrationsTable = () => {
 
   return (
     <RegistrationsTableStyled>
+      <TableFilterDate />
       <DataGrid
         apiRef={refApi}
         columns={columns}
@@ -375,7 +386,6 @@ const RegistrationsTable = () => {
         getRowClassName={(params) =>
           params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
         }
-        columnGroupingModel={columnGroupingModel}
       />
     </RegistrationsTableStyled>
   );

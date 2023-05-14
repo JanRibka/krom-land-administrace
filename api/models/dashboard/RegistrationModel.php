@@ -35,5 +35,6 @@ class RegistrationModel
     public int $state;
     public string $state_name;
     public int $id_variable_symbol;
+    public string $variable_symbol_name;
     public int $action_price;
 }

@@ -35,4 +35,14 @@ class CommonRepository implements ICommonRepository
 
         return $tablesOfKeysModel;
     }
+
+    public function getVariableSymbolById(int $variableSymbolId): string
+    {
+        $variableSymbol = \dibi::query(
+            'SELECT VariableSymbol FROM variableSymbols as vs WHERE vs.Id = %i',
+            $variableSymbolId
+        )->fetch();
+
+        return $variableSymbol['VariableSymbol'];
+    }
 }
