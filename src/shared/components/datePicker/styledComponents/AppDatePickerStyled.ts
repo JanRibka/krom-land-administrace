@@ -1,13 +1,11 @@
-import { grey } from "@mui/material/colors";
-import { styled } from "@mui/material/styles";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { grey } from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-const AppDatePickerStyled = styled(DesktopDatePicker)(({ theme }) => ({
+const AppDatePickerStyled = styled(DatePicker)(({ theme }) => ({
   ".MuiFormLabel-root": {
-    top: "-6px",
-
     "&.Mui-focused, &.MuiFormLabel-filled": {
-      top: "3px",
+      color: theme.palette.secondary.main,
     },
 
     "&:not(.Mui-focused):not(.Mui-error)": {
@@ -16,13 +14,19 @@ const AppDatePickerStyled = styled(DesktopDatePicker)(({ theme }) => ({
   },
 
   ".MuiInputBase-root": {
-    height: "36px",
+    backgroundColor: theme.palette.primary.light,
 
     "&.Mui-disabled": {
       backgroundColor: "rgba(0, 0, 0, 0.05)",
 
       ".MuiInputBase-input": {
         WebkitTextFillColor: theme.palette.text.primary,
+      },
+    },
+
+    "&.Mui-focused": {
+      fieldset: {
+        borderColor: theme.palette.secondary.main,
       },
     },
   },

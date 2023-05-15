@@ -1,16 +1,19 @@
-import dayjs, { Dayjs } from "dayjs";
-import React, { useEffect } from "react";
-import { addTimeZoneOffset } from "shared/helpers/dateTimeHelpers";
+import 'dayjs/locale/cs';
 
-import TextField from "@mui/material/TextField";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs, { Dayjs } from 'dayjs';
+import React, { useEffect } from 'react';
+import { addTimeZoneOffset } from 'shared/helpers/dateTimeHelpers';
 
-import AppDatePickerStyled from "./styledComponents/AppDatePickerStyled";
+import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+import AppDatePickerStyled from './styledComponents/AppDatePickerStyled';
 
 interface IProps {
   label: string;
-  value: any;
+  value: Date | null;
   name: string;
   error?: boolean;
   helperText?: React.ReactNode;
@@ -34,13 +37,14 @@ const AppDatePicker = (props: IProps) => {
   const handleOnBlur = (
     e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement, Element>
   ) => {
+    console.log(value);
     if (!value) return;
     props.onChange(props.name, value?.toDate());
   };
 
   const handleOnAccept = (val: unknown) => {
     const newValue = val as Dayjs;
-
+    console.log(newValue);
     if (!newValue) return;
 
     props.onChange(props.name, newValue?.toDate());
@@ -49,16 +53,18 @@ const AppDatePicker = (props: IProps) => {
   const handleOnChange = (val: unknown) => {
     const newValue = val as Dayjs;
     let date = newValue?.toDate();
-
-    date = addTimeZoneOffset(date);
+    console.log(date);
+    // date = addTimeZoneOffset(date);
     setValue(dayjs(date));
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='cs'>
+      {/* <DemoContainer components={["DatePicker"]}> */}
       <AppDatePickerStyled
         label={props.label}
-        minDate={new Date("0001-01-01")}
+        minDate={dayjs("1901-01-01")}
+        maxDate={dayjs("2099-12-31")}
         value={value}
         disabled={props.disabled}
         onChange={handleOnChange}
@@ -66,6 +72,8 @@ const AppDatePicker = (props: IProps) => {
         slotProps={{
           textField: {
             helperText: props.helperText,
+            onBlur: handleOnBlur,
+            autoComplete: props.autoComplete,
           },
         }}
         // renderInput={(params: any) => {
@@ -87,6 +95,7 @@ const AppDatePicker = (props: IProps) => {
         //   );
         // }}
       />
+      {/* </DemoContainer> */}
     </LocalizationProvider>
   );
 };
