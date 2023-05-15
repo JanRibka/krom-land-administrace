@@ -1,23 +1,31 @@
-import { mapFromRegistrationsDTO } from 'features/dashboard/save/mapFromRegistrationsDTO';
-import { useSelector } from 'react-redux';
-import AppNotification from 'shared/components/notification/AppNotification';
-import { registrationsGrindName } from 'shared/constants/gridNames';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
-import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
-import { selectDashboard } from 'shared/infrastructure/store/dashboard/dashboardSlice';
-import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
+import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
+import { useSelector } from "react-redux";
+import AppNotification from "shared/components/notification/AppNotification";
+import { registrationsGrindName } from "shared/constants/gridNames";
+import { useRequest } from "shared/dataAccess/useRequest";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import RegistrationDTO from "shared/DTOs/RegistrationDTO";
+import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
+import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
+import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
 
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
+import Box from "@mui/system/Box";
 import {
-    csCZ, DataGrid, GridActionsCellItem, GridColDef, GridColumnGroupingModel, GridRowId,
-    GridRowParams, GridToolbar, useGridApiRef
-} from '@mui/x-data-grid';
-import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
+  csCZ,
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridColumnGroupingModel,
+  GridRowId,
+  GridRowParams,
+  GridToolbar,
+  useGridApiRef,
+} from "@mui/x-data-grid";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
-import RegistrationsTableStyled from './styledComponents/RegistrationsTableStyled';
-import TableFilterDate from './tableFilterDate/TableFilterDate';
+import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
+import TableFilterDate from "./tableFilterDate/TableFilterDate";
 
 const RegistrationsTable = () => {
   // References
@@ -368,25 +376,27 @@ const RegistrationsTable = () => {
   return (
     <RegistrationsTableStyled>
       <TableFilterDate />
-      <DataGrid
-        apiRef={refApi}
-        columns={columns}
-        rows={dashboard.Registrations}
-        getRowId={(row) => row.id}
-        loading={isLoading}
-        localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
-        slots={{ toolbar: GridToolbar }}
-        initialState={
-          Object.keys(gridInitialState).length > 0
-            ? gridInitialState
-            : undefined
-        }
-        pageSizeOptions={[25, 50, 75, 100]}
-        onStateChange={handleOnStateChange}
-        getRowClassName={(params) =>
-          params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
-        }
-      />
+      <Box className='grid-wrapper'>
+        <DataGrid
+          apiRef={refApi}
+          columns={columns}
+          rows={dashboard.Registrations}
+          getRowId={(row) => row.id}
+          loading={isLoading}
+          localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
+          slots={{ toolbar: GridToolbar }}
+          initialState={
+            Object.keys(gridInitialState).length > 0
+              ? gridInitialState
+              : undefined
+          }
+          pageSizeOptions={[25, 50, 75, 100]}
+          onStateChange={handleOnStateChange}
+          getRowClassName={(params) =>
+            params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
+          }
+        />
+      </Box>
     </RegistrationsTableStyled>
   );
 };

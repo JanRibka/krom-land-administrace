@@ -63,24 +63,29 @@ const AppDatePicker = (props: IProps) => {
         disabled={props.disabled}
         onChange={handleOnChange}
         onAccept={handleOnAccept}
-        renderInput={(params: any) => {
-          const newParams = {
-            ...params,
-            error: props.error,
-          };
-
-          return (
-            <TextField
-              fullWidth
-              helperText={props.helperText}
-              required={props.required}
-              disabled={props.disabled}
-              onBlur={handleOnBlur}
-              autoComplete={props.autoComplete}
-              {...newParams}
-            />
-          );
+        slotProps={{
+          textField: {
+            helperText: props.helperText,
+          },
         }}
+        // renderInput={(params: any) => {
+        //   const newParams = {
+        //     ...params,
+        //     error: props.error,
+        //   };
+
+        //   return (
+        //     <TextField
+        //       fullWidth
+        //       helperText={props.helperText}
+        //       required={props.required}
+        //       disabled={props.disabled}
+        //       onBlur={handleOnBlur}
+        //       autoComplete={props.autoComplete}
+        //       {...newParams}
+        //     />
+        //   );
+        // }}
       />
     </LocalizationProvider>
   );
