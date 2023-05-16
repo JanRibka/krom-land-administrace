@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import AppDatePicker from "shared/components/datePicker/AppDatePicker";
-import { registrationsGrindName } from "shared/constants/gridNames";
-import { addTimeZoneOffset } from "shared/helpers/dateTimeHelpers";
-import { nameof } from "shared/nameof";
+import React, { useState } from 'react';
+import AppDatePicker from 'shared/components/datePicker/AppDatePicker';
+import { registrationsGrindName } from 'shared/constants/gridNames';
+import { addTimeZoneOffsetSetZeroHours } from 'shared/helpers/dateTimeHelpers';
+import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
+import { nameof } from 'shared/nameof';
 
-import CachedIcon from "@mui/icons-material/Cached";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/system/Stack";
+import CachedIcon from '@mui/icons-material/Cached';
+import { useMediaQuery } from '@mui/material';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
+import Stack from '@mui/system/Stack';
 
-import TableFilterDateStyled from "./styledComponents/TableFilterDateStyled";
+import TableFilterDateStyled from './styledComponents/TableFilterDateStyled';
 
 export interface IGridSettingsDateFilter {
   from: Date | null;
@@ -17,6 +21,9 @@ export interface IGridSettingsDateFilter {
 
 const TableFilterDate = () => {
   // Constants
+  const { handleDashboardUpdate } = useDashboardSlice();
+  const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const gridSettingsDateFilterName =
     "_grid-settings-date-filter-" + registrationsGrindName;
   const gridSettingsDateFilter = JSON.parse(
@@ -39,30 +46,41 @@ const TableFilterDate = () => {
   ) => {
     let newDateFilter: IGridSettingsDateFilter = {
       ...dateFilter,
-      [name]: val,
+      [name]: val === null ? null : addTimeZoneOffsetSetZeroHours(val),
     };
 
-    setDateFiler(newDateFilter);
-
+    console.log(newDateFilter);
     newDateFilter = {
       ...newDateFilter,
       from:
         newDateFilter.from === null
           ? null
-          : addTimeZoneOffset(newDateFilter.from),
+          : typeof newDateFilter.from === "string"
+          ? new Date(newDateFilter.from)
+          : newDateFilter.from,
       to:
-        newDateFilter.to === null ? null : addTimeZoneOffset(newDateFilter.to),
+        newDateFilter.to === null
+          ? null
+          : typeof newDateFilter.to === "string"
+          ? new Date(newDateFilter.to)
+          : newDateFilter.to,
     };
 
+    setDateFiler(newDateFilter);
+    console.log(newDateFilter);
     localStorage.setItem(
       gridSettingsDateFilterName,
       JSON.stringify(newDateFilter)
     );
   };
 
+  const handleDataReloadOnClick = () => {
+    handleDashboardUpdate({ _registrationsLoaded: false });
+  };
+
   return (
     <TableFilterDateStyled>
-      <Stack direction='row' spacing={2}>
+      <Stack direction={mdDown ? "column" : "row"} spacing={2}>
         <AppDatePicker
           name={nameof<IGridSettingsDateFilter>("from")}
           label='Datum od'
@@ -79,9 +97,11 @@ const TableFilterDate = () => {
           error={false}
         />
 
-        <IconButton>
-          <CachedIcon />
-        </IconButton>
+        <Box className='reload-button-wrapper'>
+          <IconButton title='Přenačíst data' onClick={handleDataReloadOnClick}>
+            <CachedIcon />
+          </IconButton>
+        </Box>
       </Stack>
     </TableFilterDateStyled>
   );

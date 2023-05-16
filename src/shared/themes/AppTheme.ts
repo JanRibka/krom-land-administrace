@@ -1,5 +1,5 @@
-import { csCZ } from "@mui/material/locale";
-import { createTheme } from "@mui/material/styles";
+import { csCZ } from '@mui/material/locale';
+import { createTheme } from '@mui/material/styles';
 
 // Colors definition
 const palettePrimaryLight = "rgb(252, 252, 252)";

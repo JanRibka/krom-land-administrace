@@ -1,5 +1,5 @@
-import { addMilliseconds, format, isValid } from "date-fns";
-import { getTimezoneOffset } from "date-fns-tz";
+import { addMilliseconds, format, isValid } from 'date-fns';
+import { getTimezoneOffset } from 'date-fns-tz';
 
 export const parseDateTime = (
   date: string | Date | undefined | null
@@ -37,4 +37,13 @@ export const removeTimeZoneOffset = (date: Date) => {
   );
 
   return addMilliseconds(date, -timeZoneOffset);
+};
+
+export const addTimeZoneOffsetSetZeroHours = (date: Date) => {
+  const timeZoneOffset = getTimezoneOffset(
+    process.env.REACT_APP_TIMEZONE ?? "",
+    date.setHours(0, 0, 0, 0)
+  );
+
+  return addMilliseconds(date, timeZoneOffset);
 };

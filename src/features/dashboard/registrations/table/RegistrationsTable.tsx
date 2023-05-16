@@ -1,33 +1,24 @@
-import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import { registrationsGrindName } from "shared/constants/gridNames";
-import { useRequest } from "shared/dataAccess/useRequest";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import RegistrationDTO from "shared/DTOs/RegistrationDTO";
-import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
-import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
-import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
+import { mapFromRegistrationsDTO } from 'features/dashboard/save/mapFromRegistrationsDTO';
+import { useSelector } from 'react-redux';
+import AppNotification from 'shared/components/notification/AppNotification';
+import { registrationsGrindName } from 'shared/constants/gridNames';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
+import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
+import { selectDashboard } from 'shared/infrastructure/store/dashboard/dashboardSlice';
+import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
 
-import EditIcon from "@mui/icons-material/Edit";
-import Box from "@mui/system/Box";
+import EditIcon from '@mui/icons-material/Edit';
+import Box from '@mui/system/Box';
 import {
-  csCZ,
-  DataGrid,
-  GridActionsCellItem,
-  GridColDef,
-  GridColumnGroupingModel,
-  GridRowId,
-  GridRowParams,
-  GridToolbar,
-  useGridApiRef,
-} from "@mui/x-data-grid";
-import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+    csCZ, DataGrid, GridActionsCellItem, GridColDef, GridColumnGroupingModel, GridRowId,
+    GridRowParams, GridToolbar, useGridApiRef
+} from '@mui/x-data-grid';
+import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
 
-import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
-import TableFilterDate, {
-  IGridSettingsDateFilter,
-} from "./tableFilterDate/TableFilterDate";
+import RegistrationsTableStyled from './styledComponents/RegistrationsTableStyled';
+import TableFilterDate, { IGridSettingsDateFilter } from './tableFilterDate/TableFilterDate';
 
 const RegistrationsTable = () => {
   // References
@@ -105,7 +96,7 @@ const RegistrationsTable = () => {
       ErrMsg: "",
       Data: [],
     },
-    [],
+    [dashboard._registrationsLoaded],
     {
       apply: true,
       condition: () => dashboard._registrationsLoaded === false,
