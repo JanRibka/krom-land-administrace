@@ -32,12 +32,15 @@ public function getDashboard(): DashboardModel
     return $dashboard;
 }
 
-    public function getRegistrations(): array
+    public function getRegistrations(string $dateFrom, string $dateTo): array
     {
+        $newDateFrom = $dateFrom === 'null' ? null : new \DateTime($dateFrom);
+        $newDateTo = $dateTo === 'null' ? null : new \DateTime($dateTo);
+
         $childArrivesKeys = $this->_commonRepository->getTableOfKeyByGroupKey('CHILD_ARRIVES');
         $paymentMethodKeys = $this->_commonRepository->getTableOfKeyByGroupKey('PAYMENT_METHOD');
         $registrationStateKeys = $this->_commonRepository->getTableOfKeyByGroupKey('REGISTRATION_STATE');
-        $registrations = $this->_dashboardRepository->getRegistrations();
+        $registrations = $this->_dashboardRepository->getRegistrations($newDateFrom, $newDateTo);
 
         $result = array_map(function ($item) use ($childArrivesKeys, $paymentMethodKeys, $registrationStateKeys) {
             $childArrivesName = array_reduce($childArrivesKeys, function ($result, $keyItem) use ($item) {

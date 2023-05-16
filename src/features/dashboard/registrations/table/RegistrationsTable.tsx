@@ -25,7 +25,9 @@ import {
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
 import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
-import TableFilterDate from "./tableFilterDate/TableFilterDate";
+import TableFilterDate, {
+  IGridSettingsDateFilter,
+} from "./tableFilterDate/TableFilterDate";
 
 const RegistrationsTable = () => {
   // References
@@ -36,7 +38,17 @@ const RegistrationsTable = () => {
   const gridInitialState = JSON.parse(
     localStorage.getItem(gridSettingsName) ?? "{}"
   );
-  console.log(gridInitialState);
+  // Constants
+  const gridSettingsDateFilterName =
+    "_grid-settings-date-filter-" + registrationsGrindName;
+  const gridSettingsDateFilter = JSON.parse(
+    localStorage.getItem(gridSettingsDateFilterName) ?? "{}"
+  );
+  const gridDateFilter: IGridSettingsDateFilter =
+    Object.keys(gridSettingsDateFilter).length > 0
+      ? (gridSettingsDateFilter as IGridSettingsDateFilter)
+      : ({ from: null, to: null } as IGridSettingsDateFilter);
+
   // Store
   const dashboard = useSelector(selectDashboard);
 
@@ -84,6 +96,8 @@ const RegistrationsTable = () => {
       url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
       params: new URLSearchParams({
         function: "getRegistrations",
+        dateFrom: gridDateFilter.from?.toString() ?? "null",
+        dateTo: gridDateFilter.to?.toString() ?? "null",
       }),
     },
     {

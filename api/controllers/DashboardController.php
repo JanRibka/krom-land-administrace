@@ -51,8 +51,11 @@ class DashboardController extends ControllerBase
      */
     public function getRegistrations()
     {
+        $dateFrom = $_GET['dateFrom'];
+        $dateTo = $_GET['dateTo'];
+
         try {
-            $registrations = $this->_dashboardService->getRegistrations();
+            $registrations = $this->_dashboardService->getRegistrations($dateFrom, $dateTo);
 
             $this->apiResponse(true, '', $registrations);
         } catch (Exception $ex) {

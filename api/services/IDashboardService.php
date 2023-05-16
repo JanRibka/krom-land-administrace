@@ -8,5 +8,5 @@ interface IDashboardService
 {
     public function getDashboard(): DashboardModel;
 
-    public function getRegistrations(): array;
+    public function getRegistrations(string $dateFrom, string $dateTo): array;
 }

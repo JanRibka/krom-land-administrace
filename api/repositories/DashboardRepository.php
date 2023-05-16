@@ -12,11 +12,34 @@ use kromLand\api\models\document\RegistrationModel;
 
 class DashboardRepository implements IDashboardRepository
 {
-    public function getRegistrations(): array
+    public function getRegistrations(\DateTime|null $dateFrom, \DateTime|null $dateTo): array
     {
-        $registrations = \dibi::query(
-            'SELECT * FROM registrations'
-        )->fetchAll();
+        $registrations = [];
+
+        if ($dateFrom !== null && $dateTo !== null) {
+            $dateFromFormatted = $dateFrom->format('Y-m-d');
+            $dateToFormatted = $dateTo->format('Y-m-d');
+
+            $registrations = \dibi::query(
+                'SELECT * FROM registrations as r WHERE r.registration_date >= ?', $dateFromFormatted, ' AND r.registration_date <= ?', $dateToFormatted
+            )->fetchAll();
+        } elseif ($dateFrom !== null && $dateTo === null) {
+            $dateFromFormatted = $dateFrom->format('Y-m-d');
+
+            $registrations = \dibi::query(
+                'SELECT * FROM registrations as r WHERE r.registration_date >= ?', $dateFromFormatted
+            )->fetchAll();
+        } elseif ($dateFrom === null && $dateTo !== null) {
+            $dateToFormatted = $dateTo->format('Y-m-d');
+
+            $registrations = \dibi::query(
+                'SELECT * FROM registrations as r WHERE r.registration_date <= ?', $dateToFormatted
+            )->fetchAll();
+        } else {
+            $registrations = \dibi::query(
+                'SELECT * FROM registrations'
+            )->fetchAll();
+        }
 
         $registrationsModel = [];
 

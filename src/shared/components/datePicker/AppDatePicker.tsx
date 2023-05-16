@@ -1,12 +1,12 @@
-import 'dayjs/locale/cs';
+import "dayjs/locale/cs";
 
-import dayjs, { Dayjs } from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import dayjs, { Dayjs } from "dayjs";
+import React, { useEffect, useState } from "react";
 
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-import AppDatePickerStyled from './styledComponents/AppDatePickerStyled';
+import AppDatePickerStyled from "./styledComponents/AppDatePickerStyled";
 
 interface IProps {
   label: string;
@@ -35,14 +35,13 @@ const AppDatePicker = (props: IProps) => {
   const handleOnBlur = (
     e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement, Element>
   ) => {
-    console.log(value);
-    if (!value) return;
-    props.onChange(props.name, value?.toDate());
+    // if (!value) return;
+
+    props.onChange(props.name, value?.toDate() ?? null);
   };
 
   const handleOnAccept = (val: unknown) => {
     const newValue = val as Dayjs;
-    console.log(newValue);
     if (!newValue) return;
 
     props.onChange(props.name, newValue?.toDate());
@@ -50,10 +49,7 @@ const AppDatePicker = (props: IProps) => {
 
   const handleOnChange = (val: unknown) => {
     const newValue = val as Dayjs;
-    // let date = newValue?.toDate();
-    console.log(newValue);
-    // date = addTimeZoneOffset(date);
-    // setValue(dayjs(date));
+
     setValue(newValue);
   };
 
