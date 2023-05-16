@@ -17,6 +17,7 @@ interface IProps {
   required?: boolean;
   disabled?: boolean;
   autoComplete?: "off";
+  fullWidth?: boolean;
   onChange: (
     name: string,
     date: Date | null,
@@ -68,7 +69,7 @@ const AppDatePicker = (props: IProps) => {
         onAccept={handleOnAccept}
         slotProps={{
           textField: {
-            fullWidth: true,
+            fullWidth: props.fullWidth,
             error: props.error,
             helperText: props.helperText,
             onBlur: handleOnBlur,

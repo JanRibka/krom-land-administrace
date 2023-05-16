@@ -13,7 +13,7 @@ const TableFilterDate = () => {
       <Stack direction='row' spacing={2}>
         <AppDatePicker
           name=''
-          label='Datu od'
+          label='Datum od'
           value={value}
           onChange={(name, val) => setValue(val)}
         />
