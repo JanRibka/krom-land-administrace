@@ -10,18 +10,6 @@ const LayoutStyled = styled(Box)(({ theme }) => ({
       width: "calc(100% - 272px)",
     },
   },
-
-  ".MuiPickersPopper-root": {
-    ".MuiPickersDay-root": {
-      "&.Mui-selected": {
-        backgroundColor: theme.palette.secondary.main,
-      },
-
-      "&.MuiPickersDay-today": {
-        backgroundColor: theme.palette.primary.dark,
-      },
-    },
-  },
 }));
 
 export default LayoutStyled;

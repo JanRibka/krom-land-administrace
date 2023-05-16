@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import NavBar from "./navBar/NavBar";
-import SideBar from "./sideBar/SideBar";
-import LayoutStyled from "./styledComponents/LayoutStyled";
+import NavBar from './navBar/NavBar';
+import SideBar from './sideBar/SideBar';
+import LayoutStyled from './styledComponents/LayoutStyled';
 
 const Layout = () => {
   // Constants
