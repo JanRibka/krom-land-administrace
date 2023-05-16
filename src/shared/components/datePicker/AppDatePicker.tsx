@@ -1,12 +1,9 @@
 import 'dayjs/locale/cs';
 
 import dayjs, { Dayjs } from 'dayjs';
-import React, { useEffect } from 'react';
-import { addTimeZoneOffset } from 'shared/helpers/dateTimeHelpers';
+import React, { useEffect, useState } from 'react';
 
-import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import AppDatePickerStyled from './styledComponents/AppDatePickerStyled';
@@ -28,7 +25,7 @@ interface IProps {
 }
 
 const AppDatePicker = (props: IProps) => {
-  const [value, setValue] = React.useState<Dayjs | null>(null);
+  const [value, setValue] = useState<Dayjs | null>(null);
 
   useEffect(() => {
     setValue(dayjs(props.value));
@@ -52,50 +49,35 @@ const AppDatePicker = (props: IProps) => {
 
   const handleOnChange = (val: unknown) => {
     const newValue = val as Dayjs;
-    let date = newValue?.toDate();
-    console.log(date);
+    // let date = newValue?.toDate();
+    console.log(newValue);
     // date = addTimeZoneOffset(date);
-    setValue(dayjs(date));
+    // setValue(dayjs(date));
+    setValue(newValue);
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='cs'>
-      {/* <DemoContainer components={["DatePicker"]}> */}
       <AppDatePickerStyled
         label={props.label}
-        minDate={dayjs("1901-01-01")}
-        maxDate={dayjs("2099-12-31")}
+        minDate={dayjs("0001-01-01")}
+        // maxDate={dayjs("2099-12-31")}
         value={value}
         disabled={props.disabled}
         onChange={handleOnChange}
         onAccept={handleOnAccept}
         slotProps={{
           textField: {
+            fullWidth: true,
+            error: props.error,
             helperText: props.helperText,
             onBlur: handleOnBlur,
             autoComplete: props.autoComplete,
+            disabled: props.disabled,
+            required: props.required,
           },
         }}
-        // renderInput={(params: any) => {
-        //   const newParams = {
-        //     ...params,
-        //     error: props.error,
-        //   };
-
-        //   return (
-        //     <TextField
-        //       fullWidth
-        //       helperText={props.helperText}
-        //       required={props.required}
-        //       disabled={props.disabled}
-        //       onBlur={handleOnBlur}
-        //       autoComplete={props.autoComplete}
-        //       {...newParams}
-        //     />
-        //   );
-        // }}
       />
-      {/* </DemoContainer> */}
     </LocalizationProvider>
   );
 };
