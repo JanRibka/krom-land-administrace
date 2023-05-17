@@ -14,7 +14,13 @@ class DashboardRepository implements IDashboardRepository
 {
     public function getRegistrations(\DateTime|null $dateFrom, \DateTime|null $dateTo): array
     {
-        $registrations = [];
+        $dateFromFormatted = $dateFrom?->format('Y-m-d');
+        $dateToFormatted = $dateTo?->format('Y-m-d');
+
+$result = dibi::select('*')
+  ->from('Subjekt.Osoba')
+  ->where('DatumNarozeni BETWEEN IFNULL(%s, "1900-01-01") AND IFNULL(%s, "2999-12-31")', $od, $do)
+  ->fetchAll();
 
         if ($dateFrom !== null && $dateTo !== null) {
             $dateFromFormatted = $dateFrom->format('Y-m-d');
