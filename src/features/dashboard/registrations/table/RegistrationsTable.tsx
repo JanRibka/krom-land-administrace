@@ -1,24 +1,49 @@
-import { mapFromRegistrationsDTO } from 'features/dashboard/save/mapFromRegistrationsDTO';
-import { useSelector } from 'react-redux';
-import AppNotification from 'shared/components/notification/AppNotification';
-import { registrationsGrindName } from 'shared/constants/gridNames';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
-import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
-import { selectDashboard } from 'shared/infrastructure/store/dashboard/dashboardSlice';
-import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
+import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
+import { useSelector } from "react-redux";
+import AppNotification from "shared/components/notification/AppNotification";
+import { registrationsGrindName } from "shared/constants/gridNames";
+import { useRequest } from "shared/dataAccess/useRequest";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import RegistrationDTO from "shared/DTOs/RegistrationDTO";
+import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
+import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
+import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
 
-import EditIcon from '@mui/icons-material/Edit';
-import Box from '@mui/system/Box';
+import EditIcon from "@mui/icons-material/Edit";
+import { ButtonProps } from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/system/Box";
 import {
-    csCZ, DataGrid, GridActionsCellItem, GridColDef, GridColumnGroupingModel, GridRowId,
-    GridRowParams, GridToolbar, useGridApiRef
-} from '@mui/x-data-grid';
-import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
+  csCZ,
+  DataGrid,
+  GridActionsCellItem,
+  GridApi,
+  GridColDef,
+  GridColumnGroupingModel,
+  GridCsvExportMenuItem,
+  GridCsvExportOptions,
+  GridExportMenuItemProps,
+  gridFilteredSortedRowIdsSelector,
+  GridPrintExportMenuItem,
+  GridRowId,
+  GridRowParams,
+  GridToolbar,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarContainerProps,
+  GridToolbarDensitySelector,
+  GridToolbarExportContainer,
+  GridToolbarFilterButton,
+  gridVisibleColumnFieldsSelector,
+  useGridApiContext,
+  useGridApiRef,
+} from "@mui/x-data-grid";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
-import RegistrationsTableStyled from './styledComponents/RegistrationsTableStyled';
-import TableFilterDate, { IGridSettingsDateFilter } from './tableFilterDate/TableFilterDate';
+import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
+import TableFilterDate, {
+  IGridSettingsDateFilter,
+} from "./tableFilterDate/TableFilterDate";
 
 const RegistrationsTable = () => {
   // References
@@ -30,6 +55,7 @@ const RegistrationsTable = () => {
     localStorage.getItem(gridSettingsName) ?? "{}"
   );
   // Constants
+  const csvOptions: GridCsvExportOptions = { delimiter: ";" };
   const gridSettingsDateFilterName =
     "_grid-settings-date-filter-" + registrationsGrindName;
   const gridSettingsDateFilter = JSON.parse(
@@ -378,6 +404,83 @@ const RegistrationsTable = () => {
     localStorage.setItem(gridSettingsName, JSON.stringify(newState));
   };
 
+  const getJson = (apiRef: React.MutableRefObject<GridApi>) => {
+    // Select rows and columns
+    const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
+    const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
+
+    // Format the data. Here we only keep the value
+    const data = filteredSortedRowIds.map((id) => {
+      const row: Record<string, any> = {};
+      visibleColumnsField.forEach((field) => {
+        row[field] = apiRef.current.getCellParams(id, field).value;
+      });
+      return row;
+    });
+
+    // Stringify with some indentation
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#parameters
+    return JSON.stringify(data, null, 2);
+  };
+
+  const exportBlob = (blob: Blob, filename: string) => {
+    // Save the blob in a json file
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    });
+  };
+
+  const JsonExportMenuItem = (props: GridExportMenuItemProps<{}>) => {
+    const apiRef = useGridApiContext();
+
+    const { hideMenu } = props;
+
+    return (
+      <MenuItem
+        onClick={() => {
+          const jsonString = getJson(apiRef);
+          const blob = new Blob([jsonString], {
+            type: "text/json",
+          });
+          exportBlob(blob, "DataGrid_demo.json");
+
+          // Hide the export menu after the export
+          hideMenu?.();
+        }}
+      >
+        Export JSON
+      </MenuItem>
+    );
+  };
+
+  const CustomExportButton = (props: ButtonProps) => {
+    return (
+      <GridToolbarExportContainer {...props}>
+        <GridCsvExportMenuItem options={csvOptions} />
+        <JsonExportMenuItem />
+        <GridPrintExportMenuItem />
+      </GridToolbarExportContainer>
+    );
+  };
+
+  const CustomToolbar = (props: GridToolbarContainerProps) => {
+    return (
+      <GridToolbarContainer {...props}>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector />
+        <CustomExportButton />
+      </GridToolbarContainer>
+    );
+  };
+
   return (
     <RegistrationsTableStyled>
       <TableFilterDate />
@@ -389,7 +492,7 @@ const RegistrationsTable = () => {
           getRowId={(row) => row.id}
           loading={isLoading}
           localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
-          slots={{ toolbar: GridToolbar }}
+          slots={{ toolbar: CustomToolbar }}
           initialState={
             Object.keys(gridInitialState).length > 0
               ? gridInitialState

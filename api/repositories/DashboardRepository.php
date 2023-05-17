@@ -17,35 +17,11 @@ class DashboardRepository implements IDashboardRepository
         $dateFromFormatted = $dateFrom?->format('Y-m-d');
         $dateToFormatted = $dateTo?->format('Y-m-d');
 
-$result = dibi::select('*')
-  ->from('Subjekt.Osoba')
-  ->where('DatumNarozeni BETWEEN IFNULL(%s, "1900-01-01") AND IFNULL(%s, "2999-12-31")', $od, $do)
-  ->fetchAll();
-
-        if ($dateFrom !== null && $dateTo !== null) {
-            $dateFromFormatted = $dateFrom->format('Y-m-d');
-            $dateToFormatted = $dateTo->format('Y-m-d');
-
-            $registrations = \dibi::query(
-                'SELECT * FROM registrations as r WHERE r.registration_date >= ?', $dateFromFormatted, ' AND r.registration_date <= ?', $dateToFormatted
-            )->fetchAll();
-        } elseif ($dateFrom !== null && $dateTo === null) {
-            $dateFromFormatted = $dateFrom->format('Y-m-d');
-
-            $registrations = \dibi::query(
-                'SELECT * FROM registrations as r WHERE r.registration_date >= ?', $dateFromFormatted
-            )->fetchAll();
-        } elseif ($dateFrom === null && $dateTo !== null) {
-            $dateToFormatted = $dateTo->format('Y-m-d');
-
-            $registrations = \dibi::query(
-                'SELECT * FROM registrations as r WHERE r.registration_date <= ?', $dateToFormatted
-            )->fetchAll();
-        } else {
-            $registrations = \dibi::query(
-                'SELECT * FROM registrations'
-            )->fetchAll();
-        }
+        $registrations = \dibi::select('*')
+          ->from('registrations')
+          ->as('r')
+          ->where('r.registration_date BETWEEN IFNULL(%s, "1900-01-01") AND IFNULL(%s, "2999-12-31")', $dateFromFormatted, $dateToFormatted)
+          ->fetchAll();
 
         $registrationsModel = [];
 
