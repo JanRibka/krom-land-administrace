@@ -19,13 +19,17 @@ import {
   GridActionsCellItem,
   GridApi,
   GridColDef,
+  gridColumnDefinitionsSelector,
   GridColumnGroupingModel,
   GridCsvExportMenuItem,
   GridCsvExportOptions,
   GridExportMenuItemProps,
+  gridFilteredRowsLookupSelector,
+  gridFilteredSortedRowEntriesSelector,
   gridFilteredSortedRowIdsSelector,
+  gridFilteredSortedTopLevelRowEntriesSelector,
+  gridFilteredTopLevelRowCountSelector,
   GridPrintExportMenuItem,
-  gridRowGroupingNameSelector,
   GridRowId,
   GridRowParams,
   GridToolbar,
@@ -409,10 +413,11 @@ const RegistrationsTable = () => {
     // Select rows and columns
     const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
     const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
-    const c = gridRowGroupingNameSelector(apiRef);
     console.log(filteredSortedRowIds);
     console.log(visibleColumnsField);
-    console.log(c);
+
+    console.log(gridFilteredSortedRowEntriesSelector(apiRef));
+    console.log(gridColumnDefinitionsSelector(apiRef));
 
     // Format the data. Here we only keep the value
     const data = filteredSortedRowIds.map((id) => {
