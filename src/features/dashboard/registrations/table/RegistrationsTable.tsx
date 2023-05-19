@@ -1,54 +1,30 @@
-import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import { registrationsGrindName } from "shared/constants/gridNames";
-import { useRequest } from "shared/dataAccess/useRequest";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import RegistrationDTO from "shared/DTOs/RegistrationDTO";
-import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
-import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
-import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
+import { mapFromRegistrationsDTO } from 'features/dashboard/save/mapFromRegistrationsDTO';
+import { useSelector } from 'react-redux';
+import AppNotification from 'shared/components/notification/AppNotification';
+import { registrationsGrindName } from 'shared/constants/gridNames';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
+import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
+import { selectDashboard } from 'shared/infrastructure/store/dashboard/dashboardSlice';
+import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
+import * as XLSX from 'xlsx';
 
-import EditIcon from "@mui/icons-material/Edit";
-import { ButtonProps } from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Box from "@mui/system/Box";
+import EditIcon from '@mui/icons-material/Edit';
+import { ButtonProps } from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/system/Box';
 import {
-  csCZ,
-  DataGrid,
-  GridActionsCellItem,
-  GridApi,
-  GridColDef,
-  gridColumnDefinitionsSelector,
-  GridColumnGroupingModel,
-  GridCsvExportMenuItem,
-  GridCsvExportOptions,
-  GridExportMenuItemProps,
-  gridFilteredRowsLookupSelector,
-  gridFilteredSortedRowEntriesSelector,
-  gridFilteredSortedRowIdsSelector,
-  gridFilteredSortedTopLevelRowEntriesSelector,
-  gridFilteredTopLevelRowCountSelector,
-  GridPrintExportMenuItem,
-  GridRowId,
-  GridRowParams,
-  GridToolbar,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarContainerProps,
-  GridToolbarDensitySelector,
-  GridToolbarExportContainer,
-  GridToolbarFilterButton,
-  gridVisibleColumnFieldsSelector,
-  useGridApiContext,
-  useGridApiRef,
-} from "@mui/x-data-grid";
-import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+    csCZ, DataGrid, GridActionsCellItem, GridColDef, GridExportMenuItemProps,
+    gridFilteredSortedRowIdsSelector, GridPrintExportMenuItem, GridRowId, GridRowParams,
+    GridToolbarColumnsButton, GridToolbarContainer, GridToolbarContainerProps,
+    GridToolbarDensitySelector, GridToolbarExportContainer, GridToolbarFilterButton,
+    gridVisibleColumnFieldsSelector, useGridApiRef
+} from '@mui/x-data-grid';
+import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
 
-import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
-import TableFilterDate, {
-  IGridSettingsDateFilter,
-} from "./tableFilterDate/TableFilterDate";
+import RegistrationsTableStyled from './styledComponents/RegistrationsTableStyled';
+import TableFilterDate, { IGridSettingsDateFilter } from './tableFilterDate/TableFilterDate';
 
 const RegistrationsTable = () => {
   // References
@@ -59,8 +35,8 @@ const RegistrationsTable = () => {
   const gridInitialState = JSON.parse(
     localStorage.getItem(gridSettingsName) ?? "{}"
   );
+
   // Constants
-  const csvOptions: GridCsvExportOptions = { delimiter: ";" };
   const gridSettingsDateFilterName =
     "_grid-settings-date-filter-" + registrationsGrindName;
   const gridSettingsDateFilter = JSON.parse(
@@ -78,37 +54,6 @@ const RegistrationsTable = () => {
   const { handleDashboardUpdate } = useDashboardSlice();
 
   // Other
-  // useEffect(() => {
-  //   console.log(refApi.current.state);
-  //   console.log(
-  //     gridPaginationModelSelector(
-  //       refApi.current.state,
-  //       refApi.current.instanceId
-  //     )
-  //   );
-  //   console.log(
-  //     gridFilterableColumnLookupSelector(
-  //       refApi.current.state,
-  //       refApi.current.instanceId
-  //     )
-  //   );
-  //   console.log(refApi.current.exportState());
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [refApi.current]);
-
-  const handleOnClickEditRegistration = (id: GridRowId) => {
-    // const stitekEmlpty: StitekModel = {
-    //   IdStitek: null,
-    //   TypKod: "",
-    //   Poznamka: "",
-    //   ZdaVerejny: false,
-    //   ZdaDeleted: false,
-    //   _Id: uuidv4(),
-    // };
-    // const newStitek = prehledSmluv.Stitky.find((f) => f._Id === id);
-    // handleStitekEditUpdate(!!newStitek ? newStitek : stitekEmlpty);
-    // handlePrehledSmluvUpdate({ _ZdaStitekEdit: true });
-  };
 
   /**
    * Get data
@@ -403,34 +348,57 @@ const RegistrationsTable = () => {
     },
   ];
 
+  const handleOnClickEditRegistration = (id: GridRowId) => {
+    // const stitekEmlpty: StitekModel = {
+    //   IdStitek: null,
+    //   TypKod: "",
+    //   Poznamka: "",
+    //   ZdaVerejny: false,
+    //   ZdaDeleted: false,
+    //   _Id: uuidv4(),
+    // };
+    // const newStitek = prehledSmluv.Stitky.find((f) => f._Id === id);
+    // handleStitekEditUpdate(!!newStitek ? newStitek : stitekEmlpty);
+    // handlePrehledSmluvUpdate({ _ZdaStitekEdit: true });
+  };
+
   const handleOnStateChange = () => {
     const newState: GridInitialStateCommunity = refApi.current.exportState();
 
     localStorage.setItem(gridSettingsName, JSON.stringify(newState));
   };
 
-  const getJson = (apiRef: React.MutableRefObject<GridApi>) => {
-    // Select rows and columns
-    const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
-    const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
-    console.log(filteredSortedRowIds);
-    console.log(visibleColumnsField);
+  const getDataForXlsx = () => {
+    const visibleColumnFields = gridVisibleColumnFieldsSelector(refApi);
+    const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(refApi);
+    let data: string[][] = [];
 
-    console.log(gridFilteredSortedRowEntriesSelector(apiRef));
-    console.log(gridColumnDefinitionsSelector(apiRef));
-
-    // Format the data. Here we only keep the value
-    const data = filteredSortedRowIds.map((id) => {
-      const row: Record<string, any> = {};
-      visibleColumnsField.forEach((field) => {
-        row[field] = apiRef.current.getCellParams(id, field).value;
-      });
-      return row;
+    const columnHeaders = visibleColumnFields.map((column) => {
+      return (
+        refApi.current.getColumnHeaderParams(column).colDef.headerName ?? ""
+      );
     });
 
-    // Stringify with some indentation
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#parameters
-    return JSON.stringify(data, null, 2);
+    data.push(columnHeaders);
+
+    filteredSortedRowIds.forEach((id) => {
+      const column = visibleColumnFields.map((field) => {
+        return refApi.current.getCellParams(id, field).value as string;
+      });
+
+      data.push(column);
+    });
+
+    return data;
+  };
+
+  const createXlsxFile = (data: string[][]) => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Rezervace");
+
+    return workbook;
   };
 
   const exportBlob = (blob: Blob, filename: string) => {
@@ -447,25 +415,27 @@ const RegistrationsTable = () => {
     });
   };
 
-  const JsonExportMenuItem = (props: GridExportMenuItemProps<{}>) => {
-    const apiRef = useGridApiContext();
-
+  const XlsxExportMenuItem = (props: GridExportMenuItemProps<{}>) => {
     const { hideMenu } = props;
 
     return (
       <MenuItem
         onClick={() => {
-          const jsonString = getJson(apiRef);
-          const blob = new Blob([jsonString], {
-            type: "text/json",
-          });
-          exportBlob(blob, "DataGrid_demo.json");
+          const dataForXlsx = getDataForXlsx();
+          const workbook = createXlsxFile(dataForXlsx);
+          const blob = new Blob(
+            [XLSX.write(workbook, { bookType: "xlsx", type: "array" })],
+            {
+              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            }
+          );
+          exportBlob(blob, "Rezervace.xlsx");
 
           // Hide the export menu after the export
           hideMenu?.();
         }}
       >
-        Export JSON
+        Stáhnout jako XLSX
       </MenuItem>
     );
   };
@@ -473,8 +443,7 @@ const RegistrationsTable = () => {
   const CustomExportButton = (props: ButtonProps) => {
     return (
       <GridToolbarExportContainer {...props}>
-        <GridCsvExportMenuItem options={csvOptions} />
-        <JsonExportMenuItem />
+        <XlsxExportMenuItem />
         <GridPrintExportMenuItem />
       </GridToolbarExportContainer>
     );
