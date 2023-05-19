@@ -63,56 +63,21 @@ class DashboardController extends ControllerBase
         }
     }
 
-    // /**
-    //  * Delete document.
-    //  */
-    // public function documentDelete()
-    // {
-    //     try {
-    //         $jsonData = file_get_contents('php://input');
-    //         $data = json_decode($jsonData);
-    //         $id = $data->id;
-    //         $documentName = $data->documentName;
-    //         $directory = $data->directory;
-    //         $filePath = __DIR__.$directory.$documentName;
+    /**
+     * Get registration for edit.
+     */
+    public function getRegistrationForEdit()
+    {
+        $id = $_GET['id'];
 
-    //         $this->_documentService->documentDelete($id);
-    //         $this->_fileService->fileDelete($filePath);
+        try {
+            $registrations = $this->_dashboardService->getRegistrationForEdit($id);
 
-    //         $this->apiResponse(true, '');
-    //     } catch (Exception $ex) {
-    //         $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
-    //     }
-    // }
-
-    // /**
-    //  * Insert document.
-    //  */
-    // public function documentSave()
-    // {
-    //     try {
-    //         $jsonData = file_get_contents('php://input');
-    //         $data = json_decode($jsonData);
-    //         $id = $data->id;
-    //         $document = $data->document;
-    //         $documentName = $data->document->Name;
-    //         $sourceDocument = __DIR__.'/../../upload/'.$documentName;
-    //         $targetDocument = __DIR__.'/../../../publicDocuments/'.$documentName;
-
-    //         $document = new DocumentModel(
-    //             $document->Path,
-    //             $document->Name
-    //         );
-
-    //         $savedDocumentId = $this->_documentService->documentSave($document, $id);
-    //         $this->_fileService->fileCopy($sourceDocument, $targetDocument);
-    //         $this->_fileService->fileDelete($sourceDocument);
-
-    //         $this->apiResponse(true, '', $savedDocumentId);
-    //     } catch (Exception $ex) {
-    //         $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
-    //     }
-    // }
+            $this->apiResponse(true, '', $registrations);
+        } catch (Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {

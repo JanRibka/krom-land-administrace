@@ -62,4 +62,46 @@ class DashboardRepository implements IDashboardRepository
 
         return $registrationsModel;
     }
+
+    public function getRegistration(int $id): RegistrationModel
+    {
+        $registration = \dibi::select('*')
+            ->from('registrations')
+            ->as('r')
+            ->where('r.Id = $i', $id)
+            ->fetch();
+
+        $registrationModel = new RegistrationModel();
+        $registrationModel->id = $registration->id;
+        $registrationModel->id_action = $registration->id_action;
+        $registrationModel->action_name = $registration->action_name;
+        $registrationModel->user_email = $registration->user_email;
+        $registrationModel->child_name = $registration->child_name;
+        $registrationModel->child_last_name = $registration->child_last_name;
+        $registrationModel->child_birthday = $registration->child_birthday;
+        $registrationModel->first_representative_name = $registration->first_representative_name;
+        $registrationModel->first_representative_last_name = $registration->first_representative_last_name;
+        $registrationModel->first_representative_phone_number = $registration->first_representative_phone_number;
+        $registrationModel->second_representative_name = $registration->second_representative_name;
+        $registrationModel->second_representative_last_name = $registration->second_representative_last_name;
+        $registrationModel->second_representative_phone_number = $registration->second_representative_phone_number;
+        $registrationModel->address_name = $registration->address_name;
+        $registrationModel->address_last_name = $registration->address_last_name;
+        $registrationModel->address_street_cp = $registration->address_street_cp;
+        $registrationModel->address_city = $registration->address_city;
+        $registrationModel->address_psc = $registration->address_psc;
+        $registrationModel->other_hendicap = $registration->other_hendicap;
+        $registrationModel->other_photos = $registration->other_photos;
+        $registrationModel->other_how_children_arrives = $registration->other_how_children_arrives;
+        $registrationModel->other_pickup_person = $registration->other_pickup_person;
+        $registrationModel->other_pay_method = $registration->other_pay_method;
+        $registrationModel->other_other_info = $registration->other_other_info;
+        $registrationModel->registration_date = $registration->registration_date ? new \DateTime($registration->registration_date) : null;
+        $registrationModel->payed = $registration->payed;
+        $registrationModel->state = $registration->state;
+        $registrationModel->id_variable_symbol = $registration->id_variable_symbol;
+        $registrationModel->action_price = $registration->action_price;
+
+        return $registrationModel;
+    }
 }

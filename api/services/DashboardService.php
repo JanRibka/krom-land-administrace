@@ -3,6 +3,7 @@
 namespace kromLand\api\services;
 
 use kromLand\api\models\document\DashboardModel;
+use kromLand\api\models\document\RegistrationEditModel;
 use kromLand\api\repositories\ICommonRepository;
 use kromLand\api\repositories\IDashboardRepository;
 use kromLand\api\repositories\IDashboardService;
@@ -76,6 +77,24 @@ public function getDashboard(): DashboardModel
 
             return $item;
         }, $registrations);
+
+        return $result;
+    }
+
+    public function getRegistrationForEdit(string $id): RegistrationEditModel
+    {
+        $newId = (int) $id;
+        $result = new RegistrationEditModel();
+
+        $registration = $this->_dashboardRepository->getRegistration($newId);
+        $childArrivesKeys = $this->_commonRepository->getTableOfKeyByGroupKey('CHILD_ARRIVES');
+        $paymentMethodKeys = $this->_commonRepository->getTableOfKeyByGroupKey('PAYMENT_METHOD');
+        $registrationStateKeys = $this->_commonRepository->getTableOfKeyByGroupKey('REGISTRATION_STATE');
+
+        $result->Registration = $registration;
+        $result->SelectsData->ChildArrivesData = $childArrivesKeys;
+        $result->SelectsData->PaymentMethosData = $paymentMethodKeys;
+        $result->SelectsData->RegistrationStateData = $registrationStateKeys;
 
         return $result;
     }
