@@ -1,49 +1,32 @@
-import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import { registrationsGrindName } from "shared/constants/gridNames";
-import { useRequest } from "shared/dataAccess/useRequest";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import RegistrationDTO from "shared/DTOs/RegistrationDTO";
-import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
-import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
-import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
+import { mapFromRegistrationsDTO } from 'features/dashboard/save/mapFromRegistrationsDTO';
+import { useSelector } from 'react-redux';
+import AppNotification from 'shared/components/notification/AppNotification';
+import { registrationsGrindName } from 'shared/constants/gridNames';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
+import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
+import { selectDashboard } from 'shared/infrastructure/store/dashboard/dashboardSlice';
+import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
 
-import EditIcon from "@mui/icons-material/Edit";
-import { ButtonProps } from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Box from "@mui/system/Box";
+import EditIcon from '@mui/icons-material/Edit';
+import { ButtonProps } from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/system/Box';
 import {
-  csCZ,
-  DataGrid,
-  GridActionsCellItem,
-  GridApi,
-  GridColDef,
-  GridColumnGroupingModel,
-  GridCsvExportMenuItem,
-  GridCsvExportOptions,
-  GridExportMenuItemProps,
-  gridFilteredSortedRowIdsSelector,
-  GridPrintExportMenuItem,
-  GridRowId,
-  GridRowParams,
-  GridToolbar,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarContainerProps,
-  GridToolbarDensitySelector,
-  GridToolbarExportContainer,
-  GridToolbarFilterButton,
-  gridVisibleColumnFieldsSelector,
-  useGridApiContext,
-  useGridApiRef,
-} from "@mui/x-data-grid";
-import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+    csCZ, DataGrid, GridActionsCellItem, GridApi, GridColDef, gridColumnDefinitionsSelector,
+    GridColumnGroupingModel, GridCsvExportMenuItem, GridCsvExportOptions, GridExportMenuItemProps,
+    gridFilteredRowsLookupSelector, gridFilteredSortedRowEntriesSelector,
+    gridFilteredSortedRowIdsSelector, gridFilteredSortedTopLevelRowEntriesSelector,
+    gridFilteredTopLevelRowCountSelector, GridPrintExportMenuItem, GridRowId, GridRowParams,
+    GridToolbar, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarContainerProps,
+    GridToolbarDensitySelector, GridToolbarExportContainer, GridToolbarFilterButton,
+    gridVisibleColumnFieldsSelector, useGridApiContext, useGridApiRef
+} from '@mui/x-data-grid';
+import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
 
-import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
-import TableFilterDate, {
-  IGridSettingsDateFilter,
-} from "./tableFilterDate/TableFilterDate";
+import RegistrationsTableStyled from './styledComponents/RegistrationsTableStyled';
+import TableFilterDate, { IGridSettingsDateFilter } from './tableFilterDate/TableFilterDate';
 
 const RegistrationsTable = () => {
   // References
@@ -408,6 +391,11 @@ const RegistrationsTable = () => {
     // Select rows and columns
     const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);
     const visibleColumnsField = gridVisibleColumnFieldsSelector(apiRef);
+    console.log(filteredSortedRowIds);
+    console.log(visibleColumnsField);
+
+    console.log(gridFilteredSortedRowEntriesSelector(apiRef));
+    console.log(gridColumnDefinitionsSelector(apiRef));
 
     // Format the data. Here we only keep the value
     const data = filteredSortedRowIds.map((id) => {

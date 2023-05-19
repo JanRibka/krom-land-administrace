@@ -49,7 +49,6 @@ const TableFilterDate = () => {
       [name]: val === null ? null : addTimeZoneOffsetSetZeroHours(val),
     };
 
-    console.log(newDateFilter);
     newDateFilter = {
       ...newDateFilter,
       from:
@@ -67,7 +66,7 @@ const TableFilterDate = () => {
     };
 
     setDateFiler(newDateFilter);
-    console.log(newDateFilter);
+
     localStorage.setItem(
       gridSettingsDateFilterName,
       JSON.stringify(newDateFilter)
