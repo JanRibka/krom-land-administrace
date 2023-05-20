@@ -38,7 +38,7 @@ export const mapFromRegistrationsDTO = (
           other_pay_method: item.other_pay_method,
           other_pay_method_name: item.other_pay_method_name,
           other_other_info: item.other_other_info,
-          registration_date: new Date(item.registration_date.date ?? ""),
+          registration_date: new Date(item.registration_date?.date ?? ""),
           payed: item.payed,
           state: item.state,
           state_name: item.state_name,

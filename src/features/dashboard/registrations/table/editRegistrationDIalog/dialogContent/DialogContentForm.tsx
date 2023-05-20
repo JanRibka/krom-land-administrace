@@ -1,27 +1,26 @@
-import { Dayjs } from 'dayjs';
-import { MuiTelInputInfo } from 'mui-tel-input/dist/index.types';
-import { ChangeEvent, FormEvent, forwardRef, Ref } from 'react';
-import { useSelector } from 'react-redux';
-import { selectCommon } from 'shared/infrastructure/store/common/commonSlice';
-import { nameof } from 'shared/nameof';
+import { Dayjs } from "dayjs";
+import RegistrationEditModel from "features/dashboard/models/RegistrationEditModel";
+import RegistrationModel from "features/dashboard/models/RegistrationModel";
+import { MuiTelInputInfo } from "mui-tel-input/dist/index.types";
+import { ChangeEvent, FormEvent, forwardRef, Ref } from "react";
+import { nameof } from "shared/nameof";
 
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Stack from "@mui/material/Stack";
+import { useTheme } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import DialogContentFormModel from '../models/DialogContentFormModel';
-import DialogContentStyled from './styledComponents/DilogContentFormStyled';
+import DialogContentStyled from "./styledComponents/DilogContentFormStyled";
 
 interface IProps {
-  formData: DialogContentFormModel;
+  registrationEdit: RegistrationEditModel;
   handleTextFieldOnChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
@@ -41,21 +40,35 @@ interface IProps {
 
 const DialogContentForm = forwardRef(
   (props: IProps, ref: Ref<HTMLFormElement>) => {
-    // Store
-    const common = useSelector(selectCommon);
-
     // Constants
     const theme = useTheme();
     const smDwn = useMediaQuery(theme.breakpoints.down("sm"));
     const rowDirection = smDwn ? "column" : "row";
-    const childArrivesMyselveId = common.TablesOfKeys.ChildArrives.find(
-      (f) => f.Key === "MYSELVE"
-    )?.Id;
+    const childArrivesMyselveId =
+      props.registrationEdit.SelectsData.ChildArrivesData.find(
+        (f) => f.Key === "MYSELVE"
+      )?.Id;
 
     return (
       <DialogContentStyled>
         <form ref={ref} onSubmit={props.handleFormOnSubmit}>
           <Stack spacing={2} direction='column'>
+            <>
+              <TextField
+                label='Název akce'
+                required
+                fullWidth
+                variant='outlined'
+                type='string'
+                autoComplete='off'
+                name={nameof<RegistrationModel>("action_name")}
+                value={props.registrationEdit.Registration.action_name}
+                onChange={props.handleTextFieldOnChange}
+                inputProps={{
+                  maxLength: 50,
+                }}
+              />
+            </>
             <>
               <TextField
                 label='E-mail'
@@ -64,8 +77,8 @@ const DialogContentForm = forwardRef(
                 variant='outlined'
                 type='email'
                 autoComplete='off'
-                name={nameof<DialogContentFormModel>("user_email")}
-                value={props.formData.user_email}
+                name={nameof<RegistrationModel>("user_email")}
+                value={props.registrationEdit.Registration.user_email}
                 onChange={props.handleTextFieldOnChange}
                 inputProps={{
                   maxLength: 50,
@@ -84,8 +97,8 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>("child_name")}
-                  value={props.formData.child_name}
+                  name={nameof<RegistrationModel>("child_name")}
+                  value={props.registrationEdit.Registration.child_name}
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,
@@ -98,8 +111,8 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>("child_last_name")}
-                  value={props.formData.child_last_name}
+                  name={nameof<RegistrationModel>("child_last_name")}
+                  value={props.registrationEdit.Registration.child_last_name}
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,
@@ -116,8 +129,8 @@ const DialogContentForm = forwardRef(
                 variant='outlined'
                 type='text'
                 autoComplete='off'
-                name={nameof<DialogContentFormModel>("child_birthday")}
-                value={props.formData.child_birthday}
+                name={nameof<RegistrationModel>("child_birthday")}
+                value={props.registrationEdit.Registration.child_birthday}
                 onChange={props.handleTextFieldOnChange}
                 inputProps={{
                   maxLength: 10,
@@ -136,10 +149,11 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>(
-                    "first_representative_name"
-                  )}
-                  value={props.formData.first_representative_name}
+                  name={nameof<RegistrationModel>("first_representative_name")}
+                  value={
+                    props.registrationEdit.Registration
+                      .first_representative_name
+                  }
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,
@@ -152,10 +166,13 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>(
+                  name={nameof<RegistrationModel>(
                     "first_representative_last_name"
                   )}
-                  value={props.formData.first_representative_last_name}
+                  value={
+                    props.registrationEdit.Registration
+                      .first_representative_last_name
+                  }
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,
@@ -170,10 +187,13 @@ const DialogContentForm = forwardRef(
                 type='tel'
                 autoComplete='off'
                 placeholder='xxx xxx xxx'
-                name={nameof<DialogContentFormModel>(
+                name={nameof<RegistrationModel>(
                   "first_representative_phone_number"
                 )}
-                value={props.formData.first_representative_phone_number}
+                value={
+                  props.registrationEdit.Registration
+                    .first_representative_phone_number
+                }
                 onChange={props.handleTextFieldOnChange}
                 inputProps={{
                   maxLength: 25,
@@ -191,10 +211,11 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>(
-                    "second_representative_name"
-                  )}
-                  value={props.formData.second_representative_name}
+                  name={nameof<RegistrationModel>("second_representative_name")}
+                  value={
+                    props.registrationEdit.Registration
+                      .second_representative_name
+                  }
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,
@@ -206,10 +227,13 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>(
+                  name={nameof<RegistrationModel>(
                     "second_representative_last_name"
                   )}
-                  value={props.formData.second_representative_last_name}
+                  value={
+                    props.registrationEdit.Registration
+                      .second_representative_last_name
+                  }
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,
@@ -223,10 +247,13 @@ const DialogContentForm = forwardRef(
                 type='tel'
                 autoComplete='off'
                 // placeholder='xxx xxx xxx'
-                name={nameof<DialogContentFormModel>(
+                name={nameof<RegistrationModel>(
                   "second_representative_phone_number"
                 )}
-                value={props.formData.second_representative_phone_number}
+                value={
+                  props.registrationEdit.Registration
+                    .second_representative_phone_number
+                }
                 onChange={props.handleTextFieldOnChange}
                 inputProps={{
                   maxLength: 25,
@@ -245,8 +272,8 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>("address_name")}
-                  value={props.formData.address_name}
+                  name={nameof<RegistrationModel>("address_name")}
+                  value={props.registrationEdit.Registration.address_name}
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,
@@ -259,8 +286,8 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>("address_last_name")}
-                  value={props.formData.address_last_name}
+                  name={nameof<RegistrationModel>("address_last_name")}
+                  value={props.registrationEdit.Registration.address_last_name}
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,
@@ -274,8 +301,8 @@ const DialogContentForm = forwardRef(
                 variant='outlined'
                 type='text'
                 autoComplete='off'
-                name={nameof<DialogContentFormModel>("address_street_cp")}
-                value={props.formData.address_street_cp}
+                name={nameof<RegistrationModel>("address_street_cp")}
+                value={props.registrationEdit.Registration.address_street_cp}
                 onChange={props.handleTextFieldOnChange}
                 inputProps={{
                   maxLength: 50,
@@ -289,8 +316,8 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>("address_city")}
-                  value={props.formData.address_city}
+                  name={nameof<RegistrationModel>("address_city")}
+                  value={props.registrationEdit.Registration.address_city}
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,
@@ -303,8 +330,8 @@ const DialogContentForm = forwardRef(
                   variant='outlined'
                   type='text'
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>("address_psc")}
-                  value={props.formData.address_psc}
+                  name={nameof<RegistrationModel>("address_psc")}
+                  value={props.registrationEdit.Registration.address_psc}
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 10,
@@ -325,8 +352,8 @@ const DialogContentForm = forwardRef(
                 multiline
                 rows={4}
                 autoComplete='off'
-                name={nameof<DialogContentFormModel>("other_hendicap")}
-                value={props.formData.other_hendicap}
+                name={nameof<RegistrationModel>("other_hendicap")}
+                value={props.registrationEdit.Registration.other_hendicap}
                 onChange={props.handleTextFieldOnChange}
                 inputProps={{
                   maxLength: 500,
@@ -339,8 +366,10 @@ const DialogContentForm = forwardRef(
                 </FormLabel>
                 <RadioGroup
                   row
-                  name={nameof<DialogContentFormModel>("other_photos")}
-                  value={String(props.formData.other_photos)}
+                  name={nameof<RegistrationModel>("other_photos")}
+                  value={String(
+                    props.registrationEdit.Registration.other_photos
+                  )}
                   onChange={props.handleOnChangeRadio}
                 >
                   <FormControlLabel
@@ -361,25 +390,28 @@ const DialogContentForm = forwardRef(
                 <RadioGroup
                   row
                   aria-required
-                  name={nameof<DialogContentFormModel>(
-                    "other_how_children_arrives"
-                  )}
-                  value={props.formData.other_how_children_arrives}
+                  name={nameof<RegistrationModel>("other_how_children_arrives")}
+                  value={
+                    props.registrationEdit.Registration
+                      .other_how_children_arrives
+                  }
                   onChange={props.handleOnChangeRadio}
                 >
-                  {common.TablesOfKeys.ChildArrives.map((item, index) => (
-                    <FormControlLabel
-                      key={"achildArrives_" + index}
-                      value={item.Id}
-                      control={<Radio required disabled={!item.Enabled} />}
-                      label={item.Name}
-                    />
-                  ))}
+                  {props.registrationEdit.SelectsData.ChildArrivesData.map(
+                    (item, index) => (
+                      <FormControlLabel
+                        key={"achildArrives_" + index}
+                        value={item.Id}
+                        control={<Radio required disabled={!item.Enabled} />}
+                        label={item.Name}
+                      />
+                    )
+                  )}
                 </RadioGroup>
               </FormControl>
 
-              {props.formData.other_how_children_arrives ===
-                childArrivesMyselveId && (
+              {props.registrationEdit.Registration
+                .other_how_children_arrives === childArrivesMyselveId && (
                 <TextField
                   label='Osoby, které si můžou díte vyzvednout'
                   placeholder='Pokud jste zvolili vyzvednutí dítěte, prosím napište osoby, které si můžou dítě vyzvednout a k nim i vztah k dítěti. '
@@ -390,8 +422,10 @@ const DialogContentForm = forwardRef(
                   multiline
                   rows={4}
                   autoComplete='off'
-                  name={nameof<DialogContentFormModel>("other_pickup_person")}
-                  value={props.formData.other_pickup_person}
+                  name={nameof<RegistrationModel>("other_pickup_person")}
+                  value={
+                    props.registrationEdit.Registration.other_pickup_person
+                  }
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 500,
@@ -404,18 +438,20 @@ const DialogContentForm = forwardRef(
                 <RadioGroup
                   row
                   aria-required
-                  name={nameof<DialogContentFormModel>("other_pay_method")}
-                  value={props.formData.other_pay_method}
+                  name={nameof<RegistrationModel>("other_pay_method")}
+                  value={props.registrationEdit.Registration.other_pay_method}
                   onChange={props.handleOnChangeRadio}
                 >
-                  {common.TablesOfKeys.PaymentMethodts.map((item, index) => (
-                    <FormControlLabel
-                      key={"paymentMethod_" + index}
-                      value={item.Id}
-                      control={<Radio required disabled={!item.Enabled} />}
-                      label={item.Name}
-                    />
-                  ))}
+                  {props.registrationEdit.SelectsData.PaymentMethodsData.map(
+                    (item, index) => (
+                      <FormControlLabel
+                        key={"paymentMethod_" + index}
+                        value={item.Id}
+                        control={<Radio required disabled={!item.Enabled} />}
+                        label={item.Name}
+                      />
+                    )
+                  )}
                 </RadioGroup>
               </FormControl>
 
@@ -428,8 +464,8 @@ const DialogContentForm = forwardRef(
                 multiline
                 rows={4}
                 autoComplete='off'
-                name={nameof<DialogContentFormModel>("other_other_info")}
-                value={props.formData.other_other_info}
+                name={nameof<RegistrationModel>("other_other_info")}
+                value={props.registrationEdit.Registration.other_other_info}
                 onChange={props.handleTextFieldOnChange}
                 inputProps={{
                   maxLength: 500,
@@ -447,29 +483,29 @@ const DialogContentForm = forwardRef(
           {/* Hiddens */}
           <input
             type='hidden'
-            name={nameof<DialogContentFormModel>("action_name")}
-            value={props.formData.action_name}
+            name={nameof<RegistrationModel>("action_name")}
+            value={props.registrationEdit.Registration.action_name}
           />
           <input
             type='hidden'
-            name={nameof<DialogContentFormModel>("action_id")}
-            value={props.formData.action_id}
+            name={nameof<RegistrationModel>("id_action")}
+            value={props.registrationEdit.Registration.id_action}
           />
           <input
             type='hidden'
-            name={nameof<DialogContentFormModel>("action_price")}
-            value={props.formData.action_price}
+            name={nameof<RegistrationModel>("action_price")}
+            value={props.registrationEdit.Registration.action_price}
+          />
+          {/* <input
+            type='hidden'
+            name={nameof<RegistrationModel>("action_date")}
+            value={props.registrationEdit.Registration.action_date}
           />
           <input
             type='hidden'
-            name={nameof<DialogContentFormModel>("action_date")}
-            value={props.formData.action_date}
-          />
-          <input
-            type='hidden'
-            name={nameof<DialogContentFormModel>("action_place")}
-            value={props.formData.action_place}
-          />
+            name={nameof<RegistrationModel>("action_place")}
+            value={props.registrationEdit.Registration.action_place}
+          /> */}
         </form>
       </DialogContentStyled>
     );

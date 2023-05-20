@@ -68,7 +68,7 @@ class DashboardRepository implements IDashboardRepository
         $registration = \dibi::select('*')
             ->from('registrations')
             ->as('r')
-            ->where('r.Id = $i', $id)
+            ->where('r.Id = %i', $id)
             ->fetch();
 
         $registrationModel = new RegistrationModel();

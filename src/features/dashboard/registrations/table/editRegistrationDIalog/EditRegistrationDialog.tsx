@@ -1,26 +1,38 @@
-import { Dayjs } from 'dayjs';
-import { MuiTelInputInfo } from 'mui-tel-input';
+import { Dayjs } from "dayjs";
+import RegistrationEditModel from "features/dashboard/models/RegistrationEditModel";
+import RegistrationModel from "features/dashboard/models/RegistrationModel";
+import { mapFromRegistrationEditDTO } from "features/dashboard/save/mapFromRegistrationEditDTO";
+import { MuiTelInputInfo } from "mui-tel-input";
 import {
-    ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useRef, useState
-} from 'react';
-import { useSelector } from 'react-redux';
-import AppLoader from 'shared/components/loader/AppLoader';
-import { nameof } from 'shared/nameof';
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useSelector } from "react-redux";
+import AppLoader from "shared/components/loader/AppLoader";
+import AppNotification from "shared/components/notification/AppNotification";
+import { useRequest } from "shared/dataAccess/useRequest";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import RegistrationDTO from "shared/DTOs/RegistrationDTO";
+import RegistrationEditDTO from "shared/DTOs/RegistrationEditDTO";
+import { nameof } from "shared/nameof";
 
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
-import ActionsService from '../ActionsService';
-import DialogContentForm from './dialogContent/DialogContentForm';
-import DialogContentFormModel from './models/DialogContentFormModel';
-import ActionRegistrationDialogStyled from './styledComponents/ActionRegistrationDialogStyled';
-import DialogActionsStyled from './styledComponents/DialogActionsStyled';
+import DialogContentForm from "./dialogContent/DialogContentForm";
+import ActionRegistrationDialogStyled from "./styledComponents/ActionRegistrationDialogStyled";
+import DialogActionsStyled from "./styledComponents/DialogActionsStyled";
 
 interface IProps {
   open: boolean;
@@ -28,38 +40,60 @@ interface IProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const ActionRegistrationDialog = (props: IProps) => {
+const EditRegistrationDialog = (props: IProps) => {
   // State
-  const [registering, setRegistering] = useState<boolean>(false);
-  const [formData, setFormData] = useState<DialogContentFormModel>(
-    new DialogContentFormModel()
-  );
+  const [registrationLoaded, setRegistrationLoaded] = useState<boolean>(false);
+
+  const [registrationEdit, setRegistrationEdit] =
+    useState<RegistrationEditModel>(new RegistrationEditModel());
 
   // References
   const refForm = useRef<HTMLFormElement>(null);
 
   // Constants
-  const _actionsService = new ActionsService();
-  const childArrivesMyselveId = common.TablesOfKeys.ChildArrives.find(
-    (f) => f.Key === "MYSELVE"
-  )?.Id;
+  const childArrivesMyselveId =
+    registrationEdit.SelectsData.ChildArrivesData.find(
+      (f) => f.Key === "MYSELVE"
+    )?.Id;
 
   // Other
-  useEffect(() => {
-    setHiddens();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.actionName, props.id]);
 
-  const setHiddens = () => {
-    setFormData({
-      ...formData,
-      action_id: props.id,
-      action_name: props.actionName,
-      action_price: props.actionPrice,
-      action_date: props.actionDate,
-      action_place: props.actionPlace,
-    });
-  };
+  /**
+   * Get data
+   */
+  const { isLoading } = useRequest<JsonResulObjectDataDTO<RegistrationEditDTO>>(
+    {
+      url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
+      params: new URLSearchParams({
+        function: "getRegistrationForEdit",
+        id: props.id.toString(),
+      }),
+    },
+    {
+      Success: false,
+      ErrMsg: "",
+      Data: new RegistrationEditDTO(),
+    },
+    [props.open],
+    {
+      apply: true,
+      condition: () => registrationLoaded === false && props.open,
+    },
+    (data) => {
+      const dataType = typeof data;
+
+      if (dataType === "string") {
+        AppNotification("Chyba", String(data), "danger");
+      } else {
+        if (data.Success) {
+          setRegistrationEdit(mapFromRegistrationEditDTO(data?.Data));
+          setRegistrationLoaded(true);
+        } else {
+          AppNotification("Chyba", data.ErrMsg ?? "", "danger");
+        }
+      }
+    }
+  );
 
   const handleTextFieldOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -67,7 +101,7 @@ const ActionRegistrationDialog = (props: IProps) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
 
-    setFormData({ ...formData, [name]: value });
+    // setFormData({ ...formData, [name]: value });
   };
 
   const handleOnChangeDatePicker = (
@@ -89,15 +123,15 @@ const ActionRegistrationDialog = (props: IProps) => {
       }
     }
 
-    if (newDate !== null && !!newDate?.getDate()) {
-      const resultDate = `${newDate.getDate()}.${
-        newDate.getMonth() + 1
-      }.${newDate.getUTCFullYear()}`;
+    // if (newDate !== null && !!newDate?.getDate()) {
+    //   const resultDate = `${newDate.getDate()}.${
+    //     newDate.getMonth() + 1
+    //   }.${newDate.getUTCFullYear()}`;
 
-      setFormData({ ...formData, [name]: resultDate });
-    } else if (!!!newDate) {
-      setFormData({ ...formData, [name]: "" });
-    }
+    //   setFormData({ ...formData, [name]: resultDate });
+    // } else if (!!!newDate) {
+    //   setFormData({ ...formData, [name]: "" });
+    // }
   };
 
   const handleOnChangeTelInput = (
@@ -105,7 +139,7 @@ const ActionRegistrationDialog = (props: IProps) => {
     info: MuiTelInputInfo,
     name: string
   ) => {
-    setFormData({ ...formData, [name]: value });
+    // setFormData({ ...formData, [name]: value });
   };
 
   const handleOnClickSave = () => {
@@ -122,68 +156,74 @@ const ActionRegistrationDialog = (props: IProps) => {
   const handleOnChangeRadio = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     let value: string = e.target.value;
-    let data: Partial<DialogContentFormModel> = {};
+    // let data: Partial<DialogContentFormModel> = {};
 
-    if (
-      name === nameof<DialogContentFormModel>("other_how_children_arrives") &&
-      JSON.parse(value) === childArrivesMyselveId
-    ) {
-      data = {
-        [name]: JSON.parse(value),
-        other_pickup_person: "",
-      };
-    } else {
-      data = {
-        [name]: JSON.parse(value),
-      };
-    }
+    // if (
+    //   name === nameof<DialogContentFormModel>("other_how_children_arrives") &&
+    //   JSON.parse(value) === childArrivesMyselveId
+    // ) {
+    //   data = {
+    //     [name]: JSON.parse(value),
+    //     other_pickup_person: "",
+    //   };
+    // } else {
+    //   data = {
+    //     [name]: JSON.parse(value),
+    //   };
+    // }
 
-    setFormData({ ...formData, ...data });
+    // setFormData({ ...formData, ...data });
   };
 
   const handleFormOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.reset();
-    handleOnAfterFormSubmit(formData);
+    // handleOnAfterFormSubmit(formData);
   };
 
-  const handleOnAfterFormSubmit = async (formData: DialogContentFormModel) => {
-    if (registering) return;
+  // const handleOnAfterFormSubmit = async (formData: DialogContentFormModel) => {
+  //   // if (registering) return;
+  //   // setRegistering(true);
+  //   // const result = await _actionsService.create(formData);
+  //   // if (result) {
+  //   //   setTimeout(() => {
+  //   //     const newFormDat: DialogContentFormModel = {
+  //   //       ...new DialogContentFormModel(),
+  //   //       action_id: props.id,
+  //   //       action_name: props.actionName,
+  //   //       action_price: props.actionPrice,
+  //   //       action_date: props.actionDate,
+  //   //       action_place: props.actionPlace,
+  //   //     };
+  //   //     setFormData(newFormDat);
+  //   //     props.setOpen(false);
+  //   //     setRegistering(false);
+  //   //   }, 2000);
+  //   // } else {
+  //   //   setRegistering(false);
+  //   // }
+  // };
 
-    setRegistering(true);
-
-    const result = await _actionsService.create(formData);
-
-    if (result) {
-      setTimeout(() => {
-        const newFormDat: DialogContentFormModel = {
-          ...new DialogContentFormModel(),
-          action_id: props.id,
-          action_name: props.actionName,
-          action_price: props.actionPrice,
-          action_date: props.actionDate,
-          action_place: props.actionPlace,
-        };
-        setFormData(newFormDat);
-        props.setOpen(false);
-        setRegistering(false);
-      }, 2000);
-    } else {
-      setRegistering(false);
-    }
+  const handleCloseDialogOnClick = () => {
+    props.setOpen(false);
+    setRegistrationLoaded(false);
   };
 
   return (
     <ActionRegistrationDialogStyled
       open={props.open}
-      onClose={() => props.setOpen(false)}
+      onClose={() => {
+        handleCloseDialogOnClick();
+      }}
     >
       <Box className='title-wrapper'>
         <DialogTitle>
           Editace registrace
           <IconButton
             aria-label='close'
-            onClick={() => props.setOpen(false)}
+            onClick={() => {
+              handleCloseDialogOnClick();
+            }}
             sx={{
               position: "absolute",
               right: 8,
@@ -198,7 +238,7 @@ const ActionRegistrationDialog = (props: IProps) => {
       <DialogContent>
         <DialogContentForm
           ref={refForm}
-          formData={formData}
+          registrationEdit={registrationEdit}
           handleTextFieldOnChange={handleTextFieldOnChange}
           handleOnChangeDatePipcker={handleOnChangeDatePicker}
           handleOnChangeTelInput={handleOnChangeTelInput}
@@ -207,7 +247,7 @@ const ActionRegistrationDialog = (props: IProps) => {
         />
 
         {/* Loader */}
-        {registering && (
+        {isLoading && (
           <Box className='loader-wrapper'>
             <Box>
               <AppLoader />
@@ -218,15 +258,12 @@ const ActionRegistrationDialog = (props: IProps) => {
       <DialogActionsStyled>
         <Typography>
           Potvrzením registrace souhlasíte s{" "}
-          <Box component='a' onClick={props.handleOnClickTermsOfConditions}>
-            obchodními podmínkami
-          </Box>
-          .
+          <Box component='a'>obchodními podmínkami</Box>.
         </Typography>
         <Box className='buttons-wrapper'>
           <Button
             onClick={() => {
-              props.setOpen(false);
+              handleCloseDialogOnClick();
             }}
           >
             Zvařít
@@ -244,4 +281,4 @@ const ActionRegistrationDialog = (props: IProps) => {
   );
 };
 
-export default ActionRegistrationDialog;
+export default EditRegistrationDialog;

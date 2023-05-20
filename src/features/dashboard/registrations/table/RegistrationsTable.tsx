@@ -1,34 +1,56 @@
-import { mapFromRegistrationsDTO } from 'features/dashboard/save/mapFromRegistrationsDTO';
-import { useSelector } from 'react-redux';
-import AppNotification from 'shared/components/notification/AppNotification';
-import { registrationsGrindName } from 'shared/constants/gridNames';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
-import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
-import { selectDashboard } from 'shared/infrastructure/store/dashboard/dashboardSlice';
-import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
-import * as XLSX from 'xlsx';
+import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import AppNotification from "shared/components/notification/AppNotification";
+import { registrationsGrindName } from "shared/constants/gridNames";
+import { useRequest } from "shared/dataAccess/useRequest";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import RegistrationDTO from "shared/DTOs/RegistrationDTO";
+import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
+import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
+import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
+import * as XLSX from "xlsx";
 
-import EditIcon from '@mui/icons-material/Edit';
-import { ButtonProps } from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/system/Box';
+import EditIcon from "@mui/icons-material/Edit";
+import { ButtonProps } from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/system/Box";
 import {
-    csCZ, DataGrid, GridActionsCellItem, GridColDef, GridExportMenuItemProps,
-    gridFilteredSortedRowIdsSelector, GridPrintExportMenuItem, GridRowId, GridRowParams,
-    GridToolbarColumnsButton, GridToolbarContainer, GridToolbarContainerProps,
-    GridToolbarDensitySelector, GridToolbarExportContainer, GridToolbarFilterButton,
-    gridVisibleColumnFieldsSelector, useGridApiRef
-} from '@mui/x-data-grid';
-import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
+  csCZ,
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridExportMenuItemProps,
+  gridFilteredSortedRowIdsSelector,
+  GridPrintExportMenuItem,
+  GridRowId,
+  GridRowParams,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarContainerProps,
+  GridToolbarDensitySelector,
+  GridToolbarExportContainer,
+  GridToolbarFilterButton,
+  gridVisibleColumnFieldsSelector,
+  useGridApiRef,
+} from "@mui/x-data-grid";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
-import RegistrationsTableStyled from './styledComponents/RegistrationsTableStyled';
-import TableFilterDate, { IGridSettingsDateFilter } from './tableFilterDate/TableFilterDate';
+import EditRegistrationDialog from "./editRegistrationDIalog/EditRegistrationDialog";
+import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
+import TableFilterDate, {
+  IGridSettingsDateFilter,
+} from "./tableFilterDate/TableFilterDate";
 
 const RegistrationsTable = () => {
   // References
   const refApi = useGridApiRef();
+
+  // State
+  const [dialogOpenData, setDialogOpenData] = useState<{
+    id: number;
+    open: boolean;
+  }>({ id: 0, open: false });
 
   // Constants
   const gridSettingsName = "_grid-settings-" + registrationsGrindName;
@@ -348,18 +370,8 @@ const RegistrationsTable = () => {
     },
   ];
 
-  const handleOnClickEditRegistration = (id: GridRowId) => {
-    // const stitekEmlpty: StitekModel = {
-    //   IdStitek: null,
-    //   TypKod: "",
-    //   Poznamka: "",
-    //   ZdaVerejny: false,
-    //   ZdaDeleted: false,
-    //   _Id: uuidv4(),
-    // };
-    // const newStitek = prehledSmluv.Stitky.find((f) => f._Id === id);
-    // handleStitekEditUpdate(!!newStitek ? newStitek : stitekEmlpty);
-    // handlePrehledSmluvUpdate({ _ZdaStitekEdit: true });
+  const handleOnClickEditRegistration = (rowId: GridRowId) => {
+    setDialogOpenData({ id: rowId as number, open: true });
   };
 
   const handleOnStateChange = () => {
@@ -461,30 +473,39 @@ const RegistrationsTable = () => {
   };
 
   return (
-    <RegistrationsTableStyled>
-      <TableFilterDate />
-      <Box className='grid-wrapper'>
-        <DataGrid
-          apiRef={refApi}
-          columns={columns}
-          rows={dashboard.Registrations}
-          getRowId={(row) => row.id}
-          loading={isLoading}
-          localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
-          slots={{ toolbar: CustomToolbar }}
-          initialState={
-            Object.keys(gridInitialState).length > 0
-              ? gridInitialState
-              : undefined
-          }
-          pageSizeOptions={[25, 50, 75, 100]}
-          onStateChange={handleOnStateChange}
-          getRowClassName={(params) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
-          }
-        />
-      </Box>
-    </RegistrationsTableStyled>
+    <>
+      <RegistrationsTableStyled>
+        <TableFilterDate />
+        <Box className='grid-wrapper'>
+          <DataGrid
+            apiRef={refApi}
+            columns={columns}
+            rows={dashboard.Registrations}
+            getRowId={(row) => row.id}
+            loading={isLoading}
+            localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
+            slots={{ toolbar: CustomToolbar }}
+            initialState={
+              Object.keys(gridInitialState).length > 0
+                ? gridInitialState
+                : undefined
+            }
+            pageSizeOptions={[25, 50, 75, 100]}
+            onStateChange={handleOnStateChange}
+            getRowClassName={(params) =>
+              params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
+            }
+          />
+        </Box>
+      </RegistrationsTableStyled>
+      <EditRegistrationDialog
+        open={dialogOpenData.open}
+        setOpen={() => {
+          setDialogOpenData({ id: 0, open: false });
+        }}
+        id={dialogOpenData.id}
+      />
+    </>
   );
 };
 

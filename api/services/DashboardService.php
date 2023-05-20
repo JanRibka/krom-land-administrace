@@ -2,14 +2,17 @@
 
 namespace kromLand\api\services;
 
+use kromLand\api\models\dashboard\RegistrationEditModel;
+use kromLand\api\models\dashboard\SelectsDataModel;
 use kromLand\api\models\document\DashboardModel;
-use kromLand\api\models\document\RegistrationEditModel;
 use kromLand\api\repositories\ICommonRepository;
 use kromLand\api\repositories\IDashboardRepository;
 use kromLand\api\repositories\IDashboardService;
 
 require_once __DIR__.'/./IDashboardService.php';
 require_once __DIR__.'/../models/dashboard/DashboardModel.php';
+require_once __DIR__.'/../models/dashboard/RegistrationEditModel.php';
+require_once __DIR__.'/../models/dashboard/SelectsDataModel.php';
 
 class DashboardService implements IDashboardService
 {
@@ -92,9 +95,11 @@ public function getDashboard(): DashboardModel
         $registrationStateKeys = $this->_commonRepository->getTableOfKeyByGroupKey('REGISTRATION_STATE');
 
         $result->Registration = $registration;
-        $result->SelectsData->ChildArrivesData = $childArrivesKeys;
-        $result->SelectsData->PaymentMethosData = $paymentMethodKeys;
-        $result->SelectsData->RegistrationStateData = $registrationStateKeys;
+        $result->SelectsData = new SelectsDataModel(
+            $childArrivesKeys,
+            $paymentMethodKeys,
+            $registrationStateKeys
+        );
 
         return $result;
     }

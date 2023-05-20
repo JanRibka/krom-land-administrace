@@ -1,39 +1,43 @@
-import DateTimeDTO from './DateTimeDTO';
+import DateTimeDTO from "./DateTimeDTO";
 
-interface RegistrationDTO {
-  id: number;
-  id_action: number;
-  action_name: string;
-  user_email: string;
-  child_name: string;
-  child_last_name: string;
-  child_birthday: string;
-  first_representative_name: string;
-  first_representative_last_name: string;
-  first_representative_phone_number: string;
-  second_representative_name: string;
-  second_representative_last_name: string;
-  second_representative_phone_number: string;
-  address_name: string;
-  address_last_name: string;
-  address_street_cp: string;
-  address_city: string;
-  address_psc: string;
-  other_hendicap: string;
-  other_photos: boolean | null;
-  other_how_children_arrives: number;
-  other_how_children_arrives_name: string;
-  other_pickup_person: string;
-  other_pay_method: number;
-  other_pay_method_name: string;
-  other_other_info: string;
-  registration_date: DateTimeDTO;
-  payed: boolean;
-  state: number;
-  state_name: string;
-  id_variable_symbol: number;
-  variable_symbol_name: string;
-  action_price: number;
+class RegistrationDTO {
+  id: number | null = null;
+  id_action: number | null = null;
+  action_name: string | null = null;
+  user_email: string | null = null;
+  child_name: string | null = null;
+  child_last_name: string | null = null;
+  child_birthday: string | null = null;
+  first_representative_name: string | null = null;
+  first_representative_last_name: string | null = null;
+  first_representative_phone_number: string | null = null;
+  second_representative_name: string | null = null;
+  second_representative_last_name: string | null = null;
+  second_representative_phone_number: string | null = null;
+  address_name: string | null = null;
+  address_last_name: string | null = null;
+  address_street_cp: string | null = null;
+  address_city: string | null = null;
+  address_psc: string | null = null;
+  other_hendicap: string | null = null;
+  other_photos: boolean | null = null;
+  other_how_children_arrives: number | null = null;
+  other_how_children_arrives_name: string | null = null;
+  other_pickup_person: string | null = null;
+  other_pay_method: number | null = null;
+  other_pay_method_name: string | null = null;
+  other_other_info: string | null = null;
+  registration_date: DateTimeDTO | null = null;
+  payed: boolean | null = null;
+  state: number | null = null;
+  state_name: string | null = null;
+  id_variable_symbol: number | null = null;
+  variable_symbol_name: string | null = null;
+  action_price: number | null = null;
+
+  public constructor(init?: Partial<RegistrationDTO>) {
+    Object.assign(this, init);
+  }
 }
 
 export default RegistrationDTO;
