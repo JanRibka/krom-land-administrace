@@ -1,38 +1,32 @@
-import { Dayjs } from "dayjs";
-import RegistrationEditModel from "features/dashboard/models/RegistrationEditModel";
-import RegistrationModel from "features/dashboard/models/RegistrationModel";
-import { mapFromRegistrationEditDTO } from "features/dashboard/save/mapFromRegistrationEditDTO";
-import { MuiTelInputInfo } from "mui-tel-input";
+import { Dayjs } from 'dayjs';
+import RegistrationEditModel from 'features/dashboard/models/RegistrationEditModel';
+import RegistrationModel from 'features/dashboard/models/RegistrationModel';
+import { mapFromRegistrationEditDTO } from 'features/dashboard/save/mapFromRegistrationEditDTO';
+import { MuiTelInputInfo } from 'mui-tel-input';
 import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { useSelector } from "react-redux";
-import AppLoader from "shared/components/loader/AppLoader";
-import AppNotification from "shared/components/notification/AppNotification";
-import { useRequest } from "shared/dataAccess/useRequest";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import RegistrationDTO from "shared/DTOs/RegistrationDTO";
-import RegistrationEditDTO from "shared/DTOs/RegistrationEditDTO";
-import { nameof } from "shared/nameof";
+    ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useRef, useState
+} from 'react';
+import { useSelector } from 'react-redux';
+import AppLoader from 'shared/components/loader/AppLoader';
+import AppNotification from 'shared/components/notification/AppNotification';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
+import RegistrationEditDTO from 'shared/DTOs/RegistrationEditDTO';
+import { nameof } from 'shared/nameof';
 
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
-import DialogContentForm from "./dialogContent/DialogContentForm";
-import ActionRegistrationDialogStyled from "./styledComponents/ActionRegistrationDialogStyled";
-import DialogActionsStyled from "./styledComponents/DialogActionsStyled";
+import DialogContentForm from './dialogContent/DialogContentForm';
+import ActionRegistrationDialogStyled from './styledComponents/ActionRegistrationDialogStyled';
+import DialogActionsStyled from './styledComponents/DialogActionsStyled';
 
 interface IProps {
   open: boolean;
@@ -101,7 +95,15 @@ const EditRegistrationDialog = (props: IProps) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
 
-    // setFormData({ ...formData, [name]: value });
+    const data: RegistrationEditModel = {
+      ...registrationEdit,
+      Registration: {
+        ...registrationEdit.Registration,
+        [name]: value,
+      },
+    };
+
+    setRegistrationEdit(data);
   };
 
   const handleOnChangeDatePicker = (
@@ -123,15 +125,15 @@ const EditRegistrationDialog = (props: IProps) => {
       }
     }
 
-    // if (newDate !== null && !!newDate?.getDate()) {
-    //   const resultDate = `${newDate.getDate()}.${
-    //     newDate.getMonth() + 1
-    //   }.${newDate.getUTCFullYear()}`;
+    if (newDate !== null && !!newDate?.getDate()) {
+      const resultDate = `${newDate.getDate()}.${
+        newDate.getMonth() + 1
+      }.${newDate.getUTCFullYear()}`;
 
-    //   setFormData({ ...formData, [name]: resultDate });
-    // } else if (!!!newDate) {
-    //   setFormData({ ...formData, [name]: "" });
-    // }
+      setRegistrationEdit({ ...registrationEdit, [name]: resultDate });
+    } else if (!!!newDate) {
+      setRegistrationEdit({ ...registrationEdit, [name]: "" });
+    }
   };
 
   const handleOnChangeTelInput = (
@@ -139,7 +141,7 @@ const EditRegistrationDialog = (props: IProps) => {
     info: MuiTelInputInfo,
     name: string
   ) => {
-    // setFormData({ ...formData, [name]: value });
+    setRegistrationEdit({ ...registrationEdit, [name]: value });
   };
 
   const handleOnClickSave = () => {
@@ -156,23 +158,23 @@ const EditRegistrationDialog = (props: IProps) => {
   const handleOnChangeRadio = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     let value: string = e.target.value;
-    // let data: Partial<DialogContentFormModel> = {};
+    let data: Partial<RegistrationModel> = {};
 
-    // if (
-    //   name === nameof<DialogContentFormModel>("other_how_children_arrives") &&
-    //   JSON.parse(value) === childArrivesMyselveId
-    // ) {
-    //   data = {
-    //     [name]: JSON.parse(value),
-    //     other_pickup_person: "",
-    //   };
-    // } else {
-    //   data = {
-    //     [name]: JSON.parse(value),
-    //   };
-    // }
+    if (
+      name === nameof<RegistrationModel>("other_how_children_arrives") &&
+      JSON.parse(value) === childArrivesMyselveId
+    ) {
+      data = {
+        [name]: JSON.parse(value),
+        other_pickup_person: "",
+      };
+    } else {
+      data = {
+        [name]: JSON.parse(value),
+      };
+    }
 
-    // setFormData({ ...formData, ...data });
+    setRegistrationEdit({ ...registrationEdit, ...data });
   };
 
   const handleFormOnSubmit = (e: FormEvent<HTMLFormElement>) => {

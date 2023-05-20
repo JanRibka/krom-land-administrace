@@ -1,23 +1,23 @@
-import { Dayjs } from "dayjs";
-import RegistrationEditModel from "features/dashboard/models/RegistrationEditModel";
-import RegistrationModel from "features/dashboard/models/RegistrationModel";
-import { MuiTelInputInfo } from "mui-tel-input/dist/index.types";
-import { ChangeEvent, FormEvent, forwardRef, Ref } from "react";
-import { nameof } from "shared/nameof";
+import { Dayjs } from 'dayjs';
+import RegistrationEditModel from 'features/dashboard/models/RegistrationEditModel';
+import RegistrationModel from 'features/dashboard/models/RegistrationModel';
+import { MuiTelInputInfo } from 'mui-tel-input/dist/index.types';
+import { ChangeEvent, FormEvent, forwardRef, Ref } from 'react';
+import { nameof } from 'shared/nameof';
 
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import Stack from "@mui/material/Stack";
-import { useTheme } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import DialogContentStyled from "./styledComponents/DilogContentFormStyled";
+import DialogContentStyled from './styledComponents/DilogContentFormStyled';
 
 interface IProps {
   registrationEdit: RegistrationEditModel;
@@ -65,7 +65,7 @@ const DialogContentForm = forwardRef(
                 value={props.registrationEdit.Registration.action_name}
                 onChange={props.handleTextFieldOnChange}
                 inputProps={{
-                  maxLength: 50,
+                  maxLength: 100,
                 }}
               />
             </>
