@@ -11,26 +11,21 @@ const DialogActionsStyled = styled(DialogActions)(({ theme }) => ({
     flexDirection: "column-reverse",
     justifyContent: "center",
 
-    p: {
-      textAlign: "center",
-      textAlignLast: "center",
-    },
-
     ".buttons-wrapper": {
       marginBottom: "10px",
     },
   },
 
-  a: {
-    textDecoration: "underline",
-    cursor: "pointer",
-    color: theme.palette.primary.main,
-  },
-
   ".buttons-wrapper": {
-    button: {
-      "&:last-of-type": {
-        marginLeft: "5px",
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+
+    ".right-buttons": {
+      button: {
+        "&:last-of-type": {
+          marginLeft: "5px",
+        },
       },
     },
   },

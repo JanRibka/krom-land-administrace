@@ -1,27 +1,30 @@
-import { Dayjs } from 'dayjs';
-import RegistrationEditModel from 'features/dashboard/models/RegistrationEditModel';
-import RegistrationModel from 'features/dashboard/models/RegistrationModel';
-import { MuiTelInputInfo } from 'mui-tel-input/dist/index.types';
-import { ChangeEvent, FormEvent, forwardRef, Ref } from 'react';
-import { nameof } from 'shared/nameof';
+import { Dayjs } from "dayjs";
+import RegistrationEditModel from "features/dashboard/models/RegistrationEditModel";
+import RegistrationModel from "features/dashboard/models/RegistrationModel";
+import { MuiTelInputInfo } from "mui-tel-input/dist/index.types";
+import { ChangeEvent, FormEvent, forwardRef, Ref } from "react";
+import { nameof } from "shared/nameof";
 
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Stack from "@mui/material/Stack";
+import { useTheme } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import DialogContentStyled from './styledComponents/DilogContentFormStyled';
+import DialogContentStyled from "./styledComponents/DilogContentFormStyled";
 
 interface IProps {
   registrationEdit: RegistrationEditModel;
   handleTextFieldOnChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  handleNumericFieldOnChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   handleOnChangeDatePipcker: (
@@ -472,6 +475,79 @@ const DialogContentForm = forwardRef(
                 }}
               />
             </>
+            <>
+              <Stack spacing={2} direction={rowDirection}>
+                <TextField
+                  label='Datum registrace'
+                  fullWidth
+                  required
+                  variant='outlined'
+                  type='text'
+                  autoComplete='off'
+                  disabled
+                  name={nameof<RegistrationModel>("registration_date")}
+                  value={props.registrationEdit.Registration.registration_date?.toLocaleDateString()}
+                  onChange={props.handleTextFieldOnChange}
+                  inputProps={{
+                    maxLength: 50,
+                  }}
+                />
+                <TextField
+                  label='Cena'
+                  fullWidth
+                  required
+                  variant='outlined'
+                  type='number'
+                  autoComplete='off'
+                  name={nameof<RegistrationModel>("action_price")}
+                  value={props.registrationEdit.Registration.action_price}
+                  onChange={props.handleNumericFieldOnChange}
+                  inputProps={{
+                    maxLength: 10,
+                  }}
+                />
+              </Stack>
+            </>
+            <>
+              <TextField
+                label='Číslo objednávky'
+                fullWidth
+                required
+                variant='outlined'
+                type='text'
+                autoComplete='off'
+                disabled
+                name={nameof<RegistrationModel>("variable_symbol_name")}
+                value={props.registrationEdit.Registration.variable_symbol_name}
+                onChange={props.handleTextFieldOnChange}
+                inputProps={{
+                  maxLength: 50,
+                }}
+              />
+            </>
+            <>
+              <FormControl required>
+                <FormLabel>Stav registrace</FormLabel>
+                <RadioGroup
+                  row
+                  aria-required
+                  name={nameof<RegistrationModel>("state")}
+                  value={props.registrationEdit.Registration.state}
+                  onChange={props.handleOnChangeRadio}
+                >
+                  {props.registrationEdit.SelectsData.RegistrationStateData.map(
+                    (item, index) => (
+                      <FormControlLabel
+                        key={"paymentMethod_" + index}
+                        value={item.Id}
+                        control={<Radio required disabled={!item.Enabled} />}
+                        label={item.Name}
+                      />
+                    )
+                  )}
+                </RadioGroup>
+              </FormControl>
+            </>
           </Stack>
           <Button
             type='submit'
@@ -480,32 +556,6 @@ const DialogContentForm = forwardRef(
           >
             submit
           </Button>
-          {/* Hiddens */}
-          <input
-            type='hidden'
-            name={nameof<RegistrationModel>("action_name")}
-            value={props.registrationEdit.Registration.action_name}
-          />
-          <input
-            type='hidden'
-            name={nameof<RegistrationModel>("id_action")}
-            value={props.registrationEdit.Registration.id_action}
-          />
-          <input
-            type='hidden'
-            name={nameof<RegistrationModel>("action_price")}
-            value={props.registrationEdit.Registration.action_price}
-          />
-          {/* <input
-            type='hidden'
-            name={nameof<RegistrationModel>("action_date")}
-            value={props.registrationEdit.Registration.action_date}
-          />
-          <input
-            type='hidden'
-            name={nameof<RegistrationModel>("action_place")}
-            value={props.registrationEdit.Registration.action_place}
-          /> */}
         </form>
       </DialogContentStyled>
     );

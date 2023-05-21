@@ -56,7 +56,7 @@ export const mapFromRegistrationEditDTO = (
         registrationEditDTO?.Registration.variable_symbol_name,
       action_price: registrationEditDTO?.Registration.action_price,
     } as RegistrationModel,
-    SelectsData: registrationEditDTO?.SelectData ?? new SelectDataModel(),
+    SelectsData: registrationEditDTO?.SelectsData ?? new SelectDataModel(),
   };
   return result;
 };

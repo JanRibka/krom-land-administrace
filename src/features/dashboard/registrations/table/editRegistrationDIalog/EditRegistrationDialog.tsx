@@ -1,32 +1,38 @@
-import { Dayjs } from 'dayjs';
-import RegistrationEditModel from 'features/dashboard/models/RegistrationEditModel';
-import RegistrationModel from 'features/dashboard/models/RegistrationModel';
-import { mapFromRegistrationEditDTO } from 'features/dashboard/save/mapFromRegistrationEditDTO';
-import { MuiTelInputInfo } from 'mui-tel-input';
+import { Dayjs } from "dayjs";
+import RegistrationEditModel from "features/dashboard/models/RegistrationEditModel";
+import RegistrationModel from "features/dashboard/models/RegistrationModel";
+import { mapFromRegistrationEditDTO } from "features/dashboard/save/mapFromRegistrationEditDTO";
+import { MuiTelInputInfo } from "mui-tel-input";
 import {
-    ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useRef, useState
-} from 'react';
-import { useSelector } from 'react-redux';
-import AppLoader from 'shared/components/loader/AppLoader';
-import AppNotification from 'shared/components/notification/AppNotification';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
-import RegistrationEditDTO from 'shared/DTOs/RegistrationEditDTO';
-import { nameof } from 'shared/nameof';
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useSelector } from "react-redux";
+import AppLoader from "shared/components/loader/AppLoader";
+import AppNotification from "shared/components/notification/AppNotification";
+import { useRequest } from "shared/dataAccess/useRequest";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import RegistrationDTO from "shared/DTOs/RegistrationDTO";
+import RegistrationEditDTO from "shared/DTOs/RegistrationEditDTO";
+import { nameof } from "shared/nameof";
 
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
-import DialogContentForm from './dialogContent/DialogContentForm';
-import ActionRegistrationDialogStyled from './styledComponents/ActionRegistrationDialogStyled';
-import DialogActionsStyled from './styledComponents/DialogActionsStyled';
+import DialogContentForm from "./dialogContent/DialogContentForm";
+import ActionRegistrationDialogStyled from "./styledComponents/ActionRegistrationDialogStyled";
+import DialogActionsStyled from "./styledComponents/DialogActionsStyled";
 
 interface IProps {
   open: boolean;
@@ -106,6 +112,23 @@ const EditRegistrationDialog = (props: IProps) => {
     setRegistrationEdit(data);
   };
 
+  const handleNumericFieldOnChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const name: string = e.target.name;
+    const value: number = parseInt(e.target.value);
+
+    const data: RegistrationEditModel = {
+      ...registrationEdit,
+      Registration: {
+        ...registrationEdit.Registration,
+        [name]: value,
+      },
+    };
+
+    setRegistrationEdit(data);
+  };
+
   const handleOnChangeDatePicker = (
     date: Dayjs | null,
     keyboardInputValue: string | undefined,
@@ -130,9 +153,15 @@ const EditRegistrationDialog = (props: IProps) => {
         newDate.getMonth() + 1
       }.${newDate.getUTCFullYear()}`;
 
-      setRegistrationEdit({ ...registrationEdit, [name]: resultDate });
+      setRegistrationEdit({
+        ...registrationEdit,
+        Registration: { ...registrationEdit.Registration, [name]: resultDate },
+      });
     } else if (!!!newDate) {
-      setRegistrationEdit({ ...registrationEdit, [name]: "" });
+      setRegistrationEdit({
+        ...registrationEdit,
+        Registration: { ...registrationEdit.Registration, [name]: "" },
+      });
     }
   };
 
@@ -141,7 +170,15 @@ const EditRegistrationDialog = (props: IProps) => {
     info: MuiTelInputInfo,
     name: string
   ) => {
-    setRegistrationEdit({ ...registrationEdit, [name]: value });
+    const data: RegistrationEditModel = {
+      ...registrationEdit,
+      Registration: {
+        ...registrationEdit.Registration,
+        [name]: value,
+      },
+    };
+
+    setRegistrationEdit(data);
   };
 
   const handleOnClickSave = () => {
@@ -174,7 +211,10 @@ const EditRegistrationDialog = (props: IProps) => {
       };
     }
 
-    setRegistrationEdit({ ...registrationEdit, ...data });
+    setRegistrationEdit({
+      ...registrationEdit,
+      Registration: { ...registrationEdit.Registration, ...data },
+    });
   };
 
   const handleFormOnSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -242,6 +282,7 @@ const EditRegistrationDialog = (props: IProps) => {
           ref={refForm}
           registrationEdit={registrationEdit}
           handleTextFieldOnChange={handleTextFieldOnChange}
+          handleNumericFieldOnChange={handleNumericFieldOnChange}
           handleOnChangeDatePipcker={handleOnChangeDatePicker}
           handleOnChangeTelInput={handleOnChangeTelInput}
           handleFormOnSubmit={handleFormOnSubmit}
@@ -258,25 +299,34 @@ const EditRegistrationDialog = (props: IProps) => {
         )}
       </DialogContent>
       <DialogActionsStyled>
-        <Typography>
-          Potvrzením registrace souhlasíte s{" "}
-          <Box component='a'>obchodními podmínkami</Box>.
-        </Typography>
         <Box className='buttons-wrapper'>
-          <Button
-            onClick={() => {
-              handleCloseDialogOnClick();
-            }}
-          >
-            Zvařít
-          </Button>
-          <Button
-            variant='contained'
-            onClick={handleOnClickSave}
-            startIcon={<CheckIcon />}
-          >
-            Uložit
-          </Button>
+          <Box className='left-buttons'>
+            <Button
+              variant='contained'
+              color='secondary'
+              onClick={handleOnClickSave}
+            >
+              Smazat
+            </Button>
+          </Box>
+          <Box className='right-buttons'>
+            <Button
+              variant='outlined'
+              color='secondary'
+              onClick={() => {
+                handleCloseDialogOnClick();
+              }}
+            >
+              Zvařít
+            </Button>
+            <Button
+              variant='contained'
+              color='secondary'
+              onClick={handleOnClickSave}
+            >
+              Uložit
+            </Button>
+          </Box>
         </Box>
       </DialogActionsStyled>
     </ActionRegistrationDialogStyled>

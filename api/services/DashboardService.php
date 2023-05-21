@@ -90,11 +90,13 @@ public function getDashboard(): DashboardModel
         $result = new RegistrationEditModel();
 
         $registration = $this->_dashboardRepository->getRegistration($newId);
+        $variableSymbol = $this->_commonRepository->getVariableSymbolById($registration->id_variable_symbol);
         $childArrivesKeys = $this->_commonRepository->getTableOfKeyByGroupKey('CHILD_ARRIVES');
         $paymentMethodKeys = $this->_commonRepository->getTableOfKeyByGroupKey('PAYMENT_METHOD');
         $registrationStateKeys = $this->_commonRepository->getTableOfKeyByGroupKey('REGISTRATION_STATE');
 
         $result->Registration = $registration;
+        $result->Registration->variable_symbol_name = $variableSymbol;
         $result->SelectsData = new SelectsDataModel(
             $childArrivesKeys,
             $paymentMethodKeys,
