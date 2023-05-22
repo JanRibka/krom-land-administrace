@@ -117,6 +117,20 @@ const RegistrationsTable = () => {
   // ColumnDefinition
   const columns: GridColDef<any>[] = [
     {
+      field: "actions",
+      type: "actions",
+      width: 50,
+      getActions: (params: GridRowParams) => [
+        <GridActionsCellItem
+          icon={
+            <EditIcon color='secondary' titleAccess='Editovat registraci' />
+          }
+          label='Editovat registraci'
+          onClick={() => handleOnClickEditRegistration(params.id)}
+        />,
+      ],
+    },
+    {
       headerName: "Název akce",
       field: "action_name",
       width: 250,
@@ -352,21 +366,6 @@ const RegistrationsTable = () => {
       editable: false,
       sortable: true,
       resizable: true,
-    },
-
-    {
-      field: "actions",
-      type: "actions",
-      width: 50,
-      getActions: (params: GridRowParams) => [
-        <GridActionsCellItem
-          icon={
-            <EditIcon color='secondary' titleAccess='Editovat registraci' />
-          }
-          label='Editovat registraci'
-          onClick={() => handleOnClickEditRegistration(params.id)}
-        />,
-      ],
     },
   ];
 

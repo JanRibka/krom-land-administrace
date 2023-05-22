@@ -4,7 +4,6 @@ namespace kromLand\api\repositories;
 
 use kromLand\api\models\dashboard\RegistrationEditModel;
 use kromLand\api\models\document\DashboardModel;
-use kromLand\api\models\document\RegistrationModel;
 
 interface IDashboardService
 {
@@ -14,7 +13,7 @@ interface IDashboardService
 
     public function getRegistrationForEdit(string $id): RegistrationEditModel;
 
-    public function registrationUpdate(RegistrationModel $registration): void;
+    public function registrationUpdate(string $registrationEncoded): void;
 
     public function registrationDelete(string $id): void;
 }

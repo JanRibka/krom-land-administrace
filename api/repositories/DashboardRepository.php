@@ -107,13 +107,44 @@ class DashboardRepository implements IDashboardRepository
 
     public function registrationUpdate(RegistrationModel $registration): void
     {
+        $id = $registration->id;
+        $arr = [
+            'id_action' => $registration->id_action,
+            'action_name' => $registration->action_name,
+            'user_email' => $registration->user_email,
+            'child_name' => $registration->child_name,
+            'child_last_name' => $registration->child_last_name,
+            'child_birthday' => $registration->child_birthday,
+            'first_representative_name' => $registration->first_representative_name,
+            'first_representative_last_name' => $registration->first_representative_last_name,
+            'first_representative_phone_number' => $registration->first_representative_phone_number,
+            'second_representative_name' => $registration->second_representative_name,
+            'second_representative_last_name' => $registration->second_representative_last_name,
+            'second_representative_phone_number' => $registration->second_representative_phone_number,
+            'address_name' => $registration->address_name,
+            'address_last_name' => $registration->address_last_name,
+            'address_street_cp' => $registration->address_street_cp,
+            'address_city' => $registration->address_city,
+            'address_psc' => $registration->address_psc,
+            'other_hendicap' => $registration->other_hendicap,
+            'other_photos' => $registration->other_photos,
+            'other_how_children_arrives' => $registration->other_how_children_arrives,
+            'other_pickup_person' => $registration->other_pickup_person,
+            'other_pay_method' => $registration->other_pay_method,
+            'other_other_info' => $registration->other_other_info,
+            'payed' => $registration->payed,
+            'state' => $registration->state,
+            'action_price' => $registration->action_price,
+        ];
 
+        \dibi::update('registrations', $arr)
+            ->where('id = %i', $id)
+            ->execute();
     }
 
     public function registrationDelete(int $id): void
     {
-        \dibi::delete()
-            ->from('registrations')
+        \dibi::delete('registrations')
             ->as('r')
             ->where('r.Id = %i', $id)
             ->fetch();

@@ -107,12 +107,43 @@ public function getDashboard(): DashboardModel
         return $result;
     }
 
-    public function registrationUpdate(RegistrationModel $registration): void
+    public function registrationUpdate(string $registrationEncoded): void
     {
+        $registrationDecoded = json_decode($registrationEncoded);
+        $registration = new RegistrationModel();
+
+        $registration->id = $registrationDecoded->id;
+        $registration->id_action = $registrationDecoded->id_action;
+        $registration->action_name = $registrationDecoded->action_name;
+        $registration->user_email = $registrationDecoded->user_email;
+        $registration->child_name = $registrationDecoded->child_name;
+        $registration->child_last_name = $registrationDecoded->child_last_name;
+        $registration->child_birthday = $registrationDecoded->child_birthday;
+        $registration->first_representative_name = $registrationDecoded->first_representative_name;
+        $registration->first_representative_last_name = $registrationDecoded->first_representative_last_name;
+        $registration->first_representative_phone_number = $registrationDecoded->first_representative_phone_number;
+        $registration->second_representative_name = $registrationDecoded->second_representative_name;
+        $registration->second_representative_last_name = $registrationDecoded->second_representative_last_name;
+        $registration->second_representative_phone_number = $registrationDecoded->second_representative_phone_number;
+        $registration->address_name = $registrationDecoded->address_name;
+        $registration->address_last_name = $registrationDecoded->address_last_name;
+        $registration->address_street_cp = $registrationDecoded->address_street_cp;
+        $registration->address_city = $registrationDecoded->address_city;
+        $registration->address_psc = $registrationDecoded->address_psc;
+        $registration->other_hendicap = $registrationDecoded->other_hendicap;
+        $registration->other_photos = $registrationDecoded->other_photos;
+        $registration->other_how_children_arrives = $registrationDecoded->other_how_children_arrives;
+        $registration->other_pickup_person = $registrationDecoded->other_pickup_person;
+        $registration->other_pay_method = $registrationDecoded->other_pay_method;
+        $registration->other_other_info = $registrationDecoded->other_other_info;
+        $registration->payed = $registrationDecoded->payed;
+        $registration->state = $registrationDecoded->state;
+        $registration->action_price = $registrationDecoded->action_price;
+
         $this->_dashboardRepository->registrationUpdate($registration);
     }
 
-    public function registrationDelete(string $id ): void
+    public function registrationDelete(string $id): void
     {
         $newId = (int) $id;
 

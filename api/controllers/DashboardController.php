@@ -79,11 +79,25 @@ class DashboardController extends ControllerBase
         }
     }
 
+    /**
+     * Update registration.
+     */
     public function registrationUpdate()
     {
+        $registration = $_POST['registration'];
 
+        try {
+            $this->_dashboardService->registrationUpdate($registration);
+
+            $this->apiResponse(true, '');
+        } catch (Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
     }
 
+    /**
+     * Delete registration.
+     */
     public function registrationDelete()
     {
         $id = $_GET['id'];

@@ -1,4 +1,5 @@
 import { Dayjs } from "dayjs";
+import DashboardService from "features/dashboard/DashboardService";
 import RegistrationEditModel from "features/dashboard/models/RegistrationEditModel";
 import RegistrationModel from "features/dashboard/models/RegistrationModel";
 import { mapFromRegistrationEditDTO } from "features/dashboard/save/mapFromRegistrationEditDTO";
@@ -8,21 +9,20 @@ import {
   Dispatch,
   FormEvent,
   SetStateAction,
-  useEffect,
   useRef,
   useState,
 } from "react";
-import { useSelector } from "react-redux";
 import AppLoader from "shared/components/loader/AppLoader";
 import AppNotification from "shared/components/notification/AppNotification";
 import { useRequest } from "shared/dataAccess/useRequest";
+import AnoNeDialog from "shared/dialogs/AnoNeDialog";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import RegistrationDTO from "shared/DTOs/RegistrationDTO";
 import RegistrationEditDTO from "shared/DTOs/RegistrationEditDTO";
+import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
 import { nameof } from "shared/nameof";
 
-import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
@@ -41,16 +41,21 @@ interface IProps {
 }
 
 const EditRegistrationDialog = (props: IProps) => {
-  // State
-  const [registrationLoaded, setRegistrationLoaded] = useState<boolean>(false);
-
-  const [registrationEdit, setRegistrationEdit] =
-    useState<RegistrationEditModel>(new RegistrationEditModel());
-
   // References
   const refForm = useRef<HTMLFormElement>(null);
 
+  // State
+  const [deleting, setDeleting] = useState<boolean>(false);
+  const [updating, setUpdating] = useState<boolean>(false);
+  const [delConfirmDialogOpn, setDelConfirmDialogOpn] =
+    useState<boolean>(false);
+  const [registrationLoaded, setRegistrationLoaded] = useState<boolean>(false);
+  const [registrationEdit, setRegistrationEdit] =
+    useState<RegistrationEditModel>(new RegistrationEditModel());
+
   // Constants
+  const _dashboardService = new DashboardService();
+  const { handleDashboardUpdate } = useDashboardSlice();
   const childArrivesMyselveId =
     registrationEdit.SelectsData.ChildArrivesData.find(
       (f) => f.Key === "MYSELVE"
@@ -181,17 +186,6 @@ const EditRegistrationDialog = (props: IProps) => {
     setRegistrationEdit(data);
   };
 
-  const handleOnClickSave = () => {
-    const submitButton = document.getElementsByClassName(
-      "registration-submit-button"
-    );
-
-    if (submitButton.length > 0) {
-      const button = submitButton[0] as HTMLButtonElement;
-      button.click();
-    }
-  };
-
   const handleOnChangeRadio = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     let value: string = e.target.value;
@@ -217,119 +211,164 @@ const EditRegistrationDialog = (props: IProps) => {
     });
   };
 
+  const handleOnClickDelete = () => {
+    setDelConfirmDialogOpn(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deleting) return;
+
+    setDelConfirmDialogOpn(false);
+    setDeleting(true);
+
+    const response = await _dashboardService.registrationDelete(props.id);
+
+    if (response) {
+      setRegistrationLoaded(false);
+      setDeleting(false);
+      handleDashboardUpdate({ _registrationsLoaded: false });
+      props.setOpen(false);
+    } else {
+      setDeleting(false);
+    }
+  };
+
+  const handleOnClickSave = () => {
+    const submitButton = document.getElementsByClassName(
+      "registration-submit-button"
+    );
+
+    if (submitButton.length > 0) {
+      const button = submitButton[0] as HTMLButtonElement;
+      button.click();
+    }
+  };
+
   const handleFormOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.reset();
-    // handleOnAfterFormSubmit(formData);
+    handleOnAfterFormSubmit();
   };
 
-  // const handleOnAfterFormSubmit = async (formData: DialogContentFormModel) => {
-  //   // if (registering) return;
-  //   // setRegistering(true);
-  //   // const result = await _actionsService.create(formData);
-  //   // if (result) {
-  //   //   setTimeout(() => {
-  //   //     const newFormDat: DialogContentFormModel = {
-  //   //       ...new DialogContentFormModel(),
-  //   //       action_id: props.id,
-  //   //       action_name: props.actionName,
-  //   //       action_price: props.actionPrice,
-  //   //       action_date: props.actionDate,
-  //   //       action_place: props.actionPlace,
-  //   //     };
-  //   //     setFormData(newFormDat);
-  //   //     props.setOpen(false);
-  //   //     setRegistering(false);
-  //   //   }, 2000);
-  //   // } else {
-  //   //   setRegistering(false);
-  //   // }
-  // };
+  const handleOnAfterFormSubmit = async () => {
+    if (updating) return;
+
+    setUpdating(true);
+
+    const result = await _dashboardService.registrationUpdate(
+      registrationEdit.Registration
+    );
+    if (result) {
+      setRegistrationEdit(new RegistrationEditModel());
+      setUpdating(false);
+      setRegistrationLoaded(false);
+      handleDashboardUpdate({ _registrationsLoaded: false });
+      props.setOpen(false);
+    } else {
+      setUpdating(false);
+    }
+  };
 
   const handleCloseDialogOnClick = () => {
-    props.setOpen(false);
     setRegistrationLoaded(false);
+    props.setOpen(false);
   };
 
   return (
-    <ActionRegistrationDialogStyled
-      open={props.open}
-      onClose={() => {
-        handleCloseDialogOnClick();
-      }}
-    >
-      <Box className='title-wrapper'>
-        <DialogTitle>
-          Editace registrace
-          <IconButton
-            aria-label='close'
-            onClick={() => {
-              handleCloseDialogOnClick();
-            }}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[900],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-      </Box>
-      <DialogContent>
-        <DialogContentForm
-          ref={refForm}
-          registrationEdit={registrationEdit}
-          handleTextFieldOnChange={handleTextFieldOnChange}
-          handleNumericFieldOnChange={handleNumericFieldOnChange}
-          handleOnChangeDatePipcker={handleOnChangeDatePicker}
-          handleOnChangeTelInput={handleOnChangeTelInput}
-          handleFormOnSubmit={handleFormOnSubmit}
-          handleOnChangeRadio={handleOnChangeRadio}
-        />
-
-        {/* Loader */}
-        {isLoading && (
-          <Box className='loader-wrapper'>
-            <Box>
-              <AppLoader />
-            </Box>
-          </Box>
-        )}
-      </DialogContent>
-      <DialogActionsStyled>
-        <Box className='buttons-wrapper'>
-          <Box className='left-buttons'>
-            <Button
-              variant='contained'
-              color='secondary'
-              onClick={handleOnClickSave}
-            >
-              Smazat
-            </Button>
-          </Box>
-          <Box className='right-buttons'>
-            <Button
-              variant='outlined'
-              color='secondary'
+    <>
+      <ActionRegistrationDialogStyled
+        open={props.open}
+        onClose={() => {
+          handleCloseDialogOnClick();
+        }}
+      >
+        <Box className='title-wrapper'>
+          <DialogTitle>
+            Editace registrace
+            <IconButton
+              aria-label='close'
               onClick={() => {
                 handleCloseDialogOnClick();
               }}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[900],
+              }}
             >
-              Zvařít
-            </Button>
-            <Button
-              variant='contained'
-              color='secondary'
-              onClick={handleOnClickSave}
-            >
-              Uložit
-            </Button>
-          </Box>
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
         </Box>
-      </DialogActionsStyled>
-    </ActionRegistrationDialogStyled>
+        <DialogContent>
+          <DialogContentForm
+            ref={refForm}
+            registrationEdit={registrationEdit}
+            handleTextFieldOnChange={handleTextFieldOnChange}
+            handleNumericFieldOnChange={handleNumericFieldOnChange}
+            handleOnChangeDatePipcker={handleOnChangeDatePicker}
+            handleOnChangeTelInput={handleOnChangeTelInput}
+            handleFormOnSubmit={handleFormOnSubmit}
+            handleOnChangeRadio={handleOnChangeRadio}
+          />
+
+          {/* Loader */}
+          {(isLoading || deleting || updating) && (
+            <Box className='loader-wrapper'>
+              <Box>
+                <AppLoader />
+              </Box>
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActionsStyled>
+          <Box className='buttons-wrapper'>
+            <Box className='left-buttons'>
+              <LoadingButton
+                variant='contained'
+                color='secondary'
+                loading={deleting}
+                onClick={handleOnClickDelete}
+              >
+                Smazat
+              </LoadingButton>
+            </Box>
+            <Box className='right-buttons'>
+              <Button
+                variant='outlined'
+                color='secondary'
+                onClick={() => {
+                  handleCloseDialogOnClick();
+                }}
+              >
+                Zvařít
+              </Button>
+              <LoadingButton
+                variant='contained'
+                color='secondary'
+                loading={updating}
+                onClick={handleOnClickSave}
+              >
+                Uložit
+              </LoadingButton>
+            </Box>
+          </Box>
+        </DialogActionsStyled>
+      </ActionRegistrationDialogStyled>
+
+      <AnoNeDialog
+        title='Upozornění'
+        isOpen={delConfirmDialogOpn}
+        setIsOpen={setDelConfirmDialogOpn}
+        onClickAnoButton={handleDeleteConfirm}
+        anoButtonTitle='Smazat'
+        neButtonTitle='Zavřít'
+        content={
+          <Typography>Přejete si smazat vybranou registraci?</Typography>
+        }
+      />
+    </>
   );
 };
 
