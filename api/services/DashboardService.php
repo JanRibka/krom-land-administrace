@@ -5,6 +5,7 @@ namespace kromLand\api\services;
 use kromLand\api\models\dashboard\RegistrationEditModel;
 use kromLand\api\models\dashboard\SelectsDataModel;
 use kromLand\api\models\document\DashboardModel;
+use kromLand\api\models\document\RegistrationModel;
 use kromLand\api\repositories\ICommonRepository;
 use kromLand\api\repositories\IDashboardRepository;
 use kromLand\api\repositories\IDashboardService;
@@ -104,5 +105,17 @@ public function getDashboard(): DashboardModel
         );
 
         return $result;
+    }
+
+    public function registrationUpdate(RegistrationModel $registration): void
+    {
+        $this->_dashboardRepository->registrationUpdate($registration);
+    }
+
+    public function registrationDelete(string $id ): void
+    {
+        $newId = (int) $id;
+
+        $this->_dashboardRepository->registrationDelete($newId);
     }
 }

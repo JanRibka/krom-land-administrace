@@ -104,4 +104,18 @@ class DashboardRepository implements IDashboardRepository
 
         return $registrationModel;
     }
+
+    public function registrationUpdate(RegistrationModel $registration): void
+    {
+
+    }
+
+    public function registrationDelete(int $id): void
+    {
+        \dibi::delete()
+            ->from('registrations')
+            ->as('r')
+            ->where('r.Id = %i', $id)
+            ->fetch();
+    }
 }

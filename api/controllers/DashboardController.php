@@ -78,6 +78,24 @@ class DashboardController extends ControllerBase
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function registrationUpdate()
+    {
+
+    }
+
+    public function registrationDelete()
+    {
+        $id = $_GET['id'];
+
+        try {
+            $this->_dashboardService->registrationDelete($id);
+
+            $this->apiResponse(true, '');
+        } catch (Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {
