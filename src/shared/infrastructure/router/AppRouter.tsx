@@ -9,6 +9,8 @@ import GalleryPage from "features/pages/webParts/GalleryPage";
 import GdprPage from "features/pages/webParts/GdprPage";
 import HomePage from "features/pages/webParts/HomePage";
 import TermsOfConditionsPage from "features/pages/webParts/TermsOfConditionsPage";
+import WebLogosPage from "features/pages/webSettings/WebLogosPage";
+import WebSettingsPage from "features/pages/webSettings/WebSettingsPage";
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import RequireAuth from "shared/components/requireAuth/RequireAuth";
@@ -76,9 +78,12 @@ const AppRouter = () => {
       {/* Protected routes */}
       <Route element={<PersistLoginPage />}>
         <Route path={AppRoute.Base} element={<Layout />}>
+          {/* Dashboard */}
           <Route element={<RequireAuth allowedRoles={[UserRoleEnum.ADMIN]} />}>
             <Route path={AppRoute.Dashboard} element={<DashboardPage />} />
           </Route>
+
+          {/* Ostatní */}
           <Route
             element={
               <RequireAuth
@@ -99,6 +104,8 @@ const AppRouter = () => {
               path={AppRoute.TermsOfConditions}
               element={<TermsOfConditionsPage />}
             />
+            <Route path={AppRoute.WebSettings} element={<WebSettingsPage />} />
+            <Route path={AppRoute.Logos} element={<WebLogosPage />} />
           </Route>
         </Route>
       </Route>

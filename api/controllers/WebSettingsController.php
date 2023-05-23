@@ -43,6 +43,36 @@ class WebSettingsController extends ControllerBase
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Web settings update.
+     */
+    public function webSettingsUpdate()
+    {
+        try {
+            $webSettingsJson = file_get_contents('php://input');
+
+            $this->_webSettingsService->webSettingsUpdate($webSettingsJson);
+
+            $this->apiResponse(true, '');
+        } catch (Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Get web logos.
+     */
+    public function getWebLogos()
+    {
+        try {
+            $webLogos = $this->_webSettingsService->getWebLogos(1);
+
+            $this->apiResponse(true, '', $webLogos);
+        } catch (Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {

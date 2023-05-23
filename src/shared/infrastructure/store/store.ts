@@ -4,11 +4,13 @@ import AppState from "./AppState";
 import authenticationReduce from "./authentication/authenticationSlice";
 import dashboardReduce from "./dashboard/dashboardSlice";
 import webPartsReduce from "./webParts/webPartsSlice";
+import webSettingsReduce from "./webSettings/webSettingsSlice";
 
 const rootReducer = combineReducers<AppState>({
-  webParts: webPartsReduce,
   authentication: authenticationReduce,
   dashboard: dashboardReduce,
+  webParts: webPartsReduce,
+  webSettings: webSettingsReduce,
 });
 
 export const store = configureStore({
