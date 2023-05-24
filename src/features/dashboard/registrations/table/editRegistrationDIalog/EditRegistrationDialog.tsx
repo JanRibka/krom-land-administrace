@@ -342,7 +342,7 @@ const EditRegistrationDialog = (props: IProps) => {
                   handleCloseDialogOnClick();
                 }}
               >
-                Zvařít
+                Zavřít
               </Button>
               <LoadingButton
                 variant='contained'
