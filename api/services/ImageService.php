@@ -44,6 +44,8 @@ class ImageService implements IImageService
                 case ImageLocationEnum::CONTACT:
                     $this->_imageRepository->imageUpdateContact($imageEncoded, $itemName, $id);
                     break;
+                case ImageLocationEnum::WEB_LOGOS:
+                    $this->_imageRepository->imageUpdateWebLogos($imageEncoded, $itemName, $id);
             }
 
             return $id;
@@ -90,6 +92,9 @@ class ImageService implements IImageService
                     break;
                 case ImageLocationEnum::CONTACT:
                     $this->_imageRepository->imageUpdateContact($imageEncoded, $itemName, $id);
+                    break;
+                case ImageLocationEnum::WEB_LOGOS:
+                    $this->_imageRepository->imageUpdateWebLogos($imageEncoded, $itemName, $id);
                     break;
             }
         }

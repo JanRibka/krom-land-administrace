@@ -65,14 +65,14 @@ const HeaderLogo = () => {
   return (
     <ErrorBoundary>
       <SectionStyled component='section'>
-        <SectionTitle title='Logo hlavičky stránky' />
+        <SectionTitle title='Hlavička stránky' />
 
         <ImageUpload
           image={webLogos.HeaderLogo ?? new ImageModel()}
           name={nameof<WebLogosModel>("HeaderLogo")}
           label='Ideální rozlišení loga 252 x 100px. Max. velikost 1MB'
           supportedExtensions={["png", "svg"]}
-          newImageAlt='Logo | KROM Land'
+          newImageAlt='Logo hlavičky | KROM Land'
           maxFileSize={1}
           location={ImageLocationEnum.WEB_LOGOS}
           id={webLogos.Id}

@@ -148,4 +148,15 @@ class ImageRepository implements IImageRepository
     {
         \dibi::query('DELETE FROM galleryImages as gi WHERE gi.Id = %i', $galleryImageId);
     }
+
+    public function imageUpdateWebLogos(string $image, string $itemName, int $webLogosId): void
+    {
+        $arr = [
+            $itemName => $image,
+        ];
+
+        \dibi::update('webLogos', $arr)
+            ->where('Id = %i', $webLogosId)
+            ->execute();
+    }
 }

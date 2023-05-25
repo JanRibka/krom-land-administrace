@@ -19,6 +19,8 @@ function getValueFromImageLocationEnumByNumber(int $value): ImageLocationEnum
             return ImageLocationEnum::GALLERY_IMAGE;
         case 7:
             return ImageLocationEnum::CONTACT;
+        case 8:
+            return ImageLocationEnum::WEB_LOGOS;
         default:
             return ImageLocationEnum::UNDEFINED;
     }
