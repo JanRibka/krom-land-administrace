@@ -33,6 +33,7 @@ function verifyJWT(ServerRequest $request, Response $response, callable $next, b
         $decoded = JWT::decode($token, $key);
         $request = $request->withAttribute('username', $decoded->userinfo->username);
         $request = $request->withAttribute('userrole', $decoded->userinfo->userrole);
+        $request = $request->withAttribute('iduser', $decoded->userinfo->iduser);
 
         return $next($request, $response);
     } catch (\Exception $e) {

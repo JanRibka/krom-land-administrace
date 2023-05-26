@@ -4,7 +4,7 @@ import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 
 import RegistrationsTable from "./table/RegistrationsTable";
 
-const Registrations = () => {
+const Users = () => {
   return (
     <ErrorBoundary>
       <SectionStyled component='section'>
@@ -15,4 +15,4 @@ const Registrations = () => {
   );
 };
 
-export default Registrations;
+export default Users;

@@ -121,6 +121,7 @@ class AuthenticationController extends ControllerBase
                     'userinfo' => [
                         'username' => $dbUser->UserName,
                         'userrole' => $dbUser->UserRoleValue,
+                        'iduser' => $dbUser->Id,
                     ],
                     'exp' => time() + 30,
                 ];
@@ -212,6 +213,7 @@ class AuthenticationController extends ControllerBase
                     'userinfo' => [
                         'username' => $dbUser->UserName,
                         'userrole' => $dbUser->UserRoleValue,
+                        'idUser' => $dbUser->Id,
                     ],
                     'exp' => time() + 30,
                 ];

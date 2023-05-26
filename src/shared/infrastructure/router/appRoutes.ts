@@ -10,6 +10,7 @@ export type AppRoute =
   | "/admin/termsOfConditions"
   | "/admin/webSettings"
   | "/admin/logos"
+  | "/admin/users"
   | "/admin/unauthorized"
   | "/admin/notfound";
 
@@ -24,7 +25,8 @@ export const AppRoute = {
   Gdpr: "/admin/gdpr" as AppRoute,
   TermsOfConditions: "/admin/termsOfConditions" as AppRoute,
   WebSettings: "/admin/webSettings" as AppRoute,
-  Logos: "/admin/Logos" as AppRoute,
+  Logos: "/admin/logos" as AppRoute,
+  Users: "/admin/users" as AppRoute,
   Unauthorized: "/admin/unauthorized" as AppRoute,
   Notfound: "/admin/notfound" as AppRoute,
 };

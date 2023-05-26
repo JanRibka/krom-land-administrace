@@ -1,5 +1,6 @@
 import MenuSepataror from "../menuSeparator/MenuSeparator";
 import NavLinksDashboard from "../navLinks/NavLinksDashboard";
+import NavLinksUsers from "../navLinks/NavLinksUsers";
 import NavLinksWebParts from "../navLinks/NavLinksWebParts";
 import NavLinksWebSettings from "../navLinks/NavLinksWebSettings";
 import MainMenuStyled from "./styledComponents/MainMenuStyled";
@@ -18,6 +19,9 @@ const MainMenu = () => {
 
       <MenuSepataror text='Nastavení webu' />
       <NavLinksWebSettings />
+
+      <MenuSepataror text='Nastavení administrace' />
+      <NavLinksUsers />
     </MainMenuStyled>
   );
 };

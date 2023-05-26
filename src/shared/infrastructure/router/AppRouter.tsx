@@ -1,5 +1,6 @@
 import Layout from "features/layout/Layout";
 import LayoutLogin from "features/layoutLogin/LayoutLogin";
+import UsersPage from "features/pages/admSettings/UsersPage";
 import DashboardPage from "features/pages/DashboardPage";
 import LoginPage from "features/pages/LoginPage";
 import PersistLoginPage from "features/pages/PersistLoginPage";
@@ -83,7 +84,7 @@ const AppRouter = () => {
             <Route path={AppRoute.Dashboard} element={<DashboardPage />} />
           </Route>
 
-          {/* Ostatní */}
+          {/* Web parts */}
           <Route
             element={
               <RequireAuth
@@ -104,8 +105,37 @@ const AppRouter = () => {
               path={AppRoute.TermsOfConditions}
               element={<TermsOfConditionsPage />}
             />
+          </Route>
+
+          {/* Web settings */}
+          <Route
+            element={
+              <RequireAuth
+                allowedRoles={[
+                  UserRoleEnum.ADMIN,
+                  UserRoleEnum.EDITOR,
+                  UserRoleEnum.USER,
+                ]}
+              />
+            }
+          >
             <Route path={AppRoute.WebSettings} element={<WebSettingsPage />} />
             <Route path={AppRoute.Logos} element={<WebLogosPage />} />
+          </Route>
+
+          {/* Administrations settings */}
+          <Route
+            element={
+              <RequireAuth
+                allowedRoles={[
+                  UserRoleEnum.ADMIN,
+                  UserRoleEnum.EDITOR,
+                  UserRoleEnum.USER,
+                ]}
+              />
+            }
+          >
+            <Route path={AppRoute.Users} element={<UsersPage />} />
           </Route>
         </Route>
       </Route>
