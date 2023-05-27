@@ -213,7 +213,7 @@ class AuthenticationController extends ControllerBase
                     'userinfo' => [
                         'username' => $dbUser->UserName,
                         'userrole' => $dbUser->UserRoleValue,
-                        'idUser' => $dbUser->Id,
+                        'iduser' => $dbUser->Id,
                     ],
                     'exp' => time() + 30,
                 ];
