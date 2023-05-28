@@ -1,5 +1,5 @@
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
 const SectionStyled = styled(Box)(({ theme }) => ({
   height: "100vh",
@@ -25,7 +25,7 @@ const SectionStyled = styled(Box)(({ theme }) => ({
     fontSize: "1.2rem",
   },
 
-  ".offcreen": {
+  ".offscreen": {
     display: "none",
   },
 

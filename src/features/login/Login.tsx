@@ -1,31 +1,32 @@
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
-import { AppRoute } from "shared/infrastructure/router/appRoutes";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { AppRoute } from 'shared/infrastructure/router/appRoutes';
 import {
-  AuthenticationState,
-  selectAuthentication,
-} from "shared/infrastructure/store/authentication/authenticationSlice";
-import { useAuthenticationSlice } from "shared/infrastructure/store/authentication/useAuthenticationSlice";
-import { nameof } from "shared/nameof";
+    AuthenticationState, selectAuthentication
+} from 'shared/infrastructure/store/authentication/authenticationSlice';
+import {
+    useAuthenticationSlice
+} from 'shared/infrastructure/store/authentication/useAuthenticationSlice';
+import { nameof } from 'shared/nameof';
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
-import LoginService from "./LoginService";
-import SectionStyled from "./styledComponents/SectionStyled";
+import LoginService from './LoginService';
+import SectionStyled from './styledComponents/SectionStyled';
 
 const Login = () => {
   // References
@@ -109,7 +110,7 @@ const Login = () => {
           <Typography variant='h1'>Přihlášení</Typography>
           <Typography
             ref={refErr}
-            className={errMsg ? "err-msg" : "offcreen"}
+            className={errMsg ? "err-msg" : "offscreen"}
             aria-live='assertive'
           >
             {errMsg}
