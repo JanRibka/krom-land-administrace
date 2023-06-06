@@ -4,6 +4,7 @@ namespace komLand\api\controllers;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use kromLand\api\controllers\ControllerBase;
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
@@ -16,11 +17,14 @@ require_once __DIR__.'/../constants/global.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
 require_once __DIR__.'/../middleware/verifyJWT.php';
 require_once __DIR__.'/../middleware/verifyRole.php';
+require_once __DIR__.'/../repositories/AdmSettingsRepository.php';
+require_once __DIR__.'/../services/AdmSettingsService.php';
+require_once __DIR__.'/../repositories/CommonRepository.php';
 
-use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
 use kromLand\api\repositories\AdmSettingsRepository;
+use kromLand\api\repositories\CommonRepository;
 use kromLand\api\services\AdmSettingsService;
 use kromLand\api\services\IAdmSettingsService;
 
@@ -39,7 +43,7 @@ class AdmSettingsController extends ControllerBase
     public function getUsers()
     {
         try {
-            $idLoggedUser = $_POST['idLoggedUser'];
+            $idLoggedUser = $_GET['idLoggedUser'];
 
             $users = $this->_admSettingsService->getUsersByLoggedUseId($idLoggedUser);
 
@@ -73,7 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         }
 
         $admSettingsRepository = new AdmSettingsRepository();
-        $admSettingsService = new AdmSettingsService($admSettingsRepository);
+        $commonRepository = new CommonRepository();
+        $admSettingsService = new AdmSettingsService($admSettingsRepository, $commonRepository);
         $controller = new AdmSettingsController($admSettingsService);
 
         if (method_exists($controller, $functionName)) {
@@ -84,14 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
             );
             $response = new Response();
             $response = verifyJWT($request, $response,
-                function ($request, $response) use ($controller, $functionName, $userRoles, $disableVerification, $disableAuth) {
+                function ($request, $response) use ($controller, $functionName, $userRoles, $disableVerification) {
                     return verifyRole($userRoles)($request, $response,
                         function ($request, $response) use ($controller, $functionName) {
                             call_user_func([$controller, $functionName]);
 
                             return $response;
-                        }, $disableVerification || $disableAuth);
-                }, $disableVerification || $disableAuth);
+                        }, $disableVerification);
+                }, $disableVerification);
 
             $statusCode = $response->getStatusCode();
 

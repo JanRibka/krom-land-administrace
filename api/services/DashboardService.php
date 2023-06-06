@@ -45,6 +45,7 @@ public function getDashboard(): DashboardModel
         $childArrivesKeys = $this->_commonRepository->getTableOfKeyByGroupKey('CHILD_ARRIVES');
         $paymentMethodKeys = $this->_commonRepository->getTableOfKeyByGroupKey('PAYMENT_METHOD');
         $registrationStateKeys = $this->_commonRepository->getTableOfKeyByGroupKey('REGISTRATION_STATE');
+
         $registrations = $this->_dashboardRepository->getRegistrations($newDateFrom, $newDateTo);
 
         $result = array_map(function ($item) use ($childArrivesKeys, $paymentMethodKeys, $registrationStateKeys) {

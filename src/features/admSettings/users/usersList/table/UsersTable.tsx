@@ -1,14 +1,17 @@
-import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
+import UserModel from "features/admSettings/models/UserModel";
+import { mapFromUsersDTO } from "features/admSettings/save/mapFromUsersDTO";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import AppNotification from "shared/components/notification/AppNotification";
-import { registrationsGrindName } from "shared/constants/gridNames";
+import { usersGridName } from "shared/constants/gridNames";
 import { useRequest } from "shared/dataAccess/useRequest";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import RegistrationDTO from "shared/DTOs/RegistrationDTO";
+import UserDTO from "shared/DTOs/UserDTO";
 import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
-import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
-import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
+import { selectAdmSettings } from "shared/infrastructure/store/admSettings/admSettingsSlice";
+import { useAdmSettingsSlice } from "shared/infrastructure/store/admSettings/useAdmSettingsSlice";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
+import { nameof } from "shared/nameof";
 import * as XLSX from "xlsx";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -38,9 +41,6 @@ import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateComm
 
 import EditRegistrationDialog from "./editRegistrationDIalog/EditRegistrationDialog";
 import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
-import TableFilterDate, {
-  IGridSettingsDateFilter,
-} from "./tableFilterDate/TableFilterDate";
 
 const UsersTable = () => {
   // References
@@ -53,40 +53,29 @@ const UsersTable = () => {
   }>({ id: 0, open: false });
 
   // Constants
-  const gridSettingsName = "_grid-settings-" + registrationsGrindName;
+  const gridSettingsName = usersGridName;
   const gridInitialState = JSON.parse(
     localStorage.getItem(gridSettingsName) ?? "{}"
   );
 
-  // Constants
-  const gridSettingsDateFilterName =
-    "_grid-settings-date-filter-" + registrationsGrindName;
-  const gridSettingsDateFilter = JSON.parse(
-    localStorage.getItem(gridSettingsDateFilterName) ?? "{}"
-  );
-  const gridDateFilter: IGridSettingsDateFilter =
-    Object.keys(gridSettingsDateFilter).length > 0
-      ? (gridSettingsDateFilter as IGridSettingsDateFilter)
-      : ({ from: null, to: null } as IGridSettingsDateFilter);
-
   // Store
-  const dashboard = useSelector(selectDashboard);
+  const authSettings = useSelector(selectAdmSettings);
+  const authentication = useSelector(selectAuthentication);
 
   // Constants
-  const { handleDashboardUpdate } = useDashboardSlice();
+  const { handleAdmSettingsUpdate } = useAdmSettingsSlice();
 
   // Other
 
   /**
    * Get data
    */
-  const { isLoading } = useRequest<JsonResulObjectDataDTO<RegistrationDTO[]>>(
+  const { isLoading } = useRequest<JsonResulObjectDataDTO<UserDTO[]>>(
     {
-      url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
+      url: (process.env.REACT_APP_API_URL ?? "") + "AdmSettingsController.php",
       params: new URLSearchParams({
-        function: "getRegistrations",
-        dateFrom: gridDateFilter.from?.toString() ?? "null",
-        dateTo: gridDateFilter.to?.toString() ?? "null",
+        function: "getUsers",
+        idLoggedUser: authentication.UserId.toString(),
       }),
     },
     {
@@ -94,10 +83,10 @@ const UsersTable = () => {
       ErrMsg: "",
       Data: [],
     },
-    [dashboard._registrationsLoaded],
+    [authSettings._usersLoaded],
     {
       apply: true,
-      condition: () => dashboard._registrationsLoaded === false,
+      condition: () => authSettings._usersLoaded === false,
     },
     (data) => {
       const dataType = typeof data;
@@ -106,7 +95,7 @@ const UsersTable = () => {
         AppNotification("Chyba", String(data), "danger");
       } else {
         if (data.Success) {
-          handleDashboardUpdate(mapFromRegistrationsDTO(data?.Data));
+          handleAdmSettingsUpdate(mapFromUsersDTO(data?.Data));
         } else {
           AppNotification("Chyba", data.ErrMsg ?? "", "danger");
         }
@@ -131,8 +120,8 @@ const UsersTable = () => {
       ],
     },
     {
-      headerName: "Název akce",
-      field: "action_name",
+      headerName: "Uživatelské jméno",
+      field: nameof<UserModel>("UserName"),
       width: 250,
       type: "string",
       editable: false,
@@ -140,198 +129,9 @@ const UsersTable = () => {
       resizable: true,
     },
     {
-      headerName: "Email",
-      field: "user_email",
-      width: 250,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Jméno dítěte",
-      field: "child_name",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Příjmení dítěte",
-      field: "child_last_name",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Datum narození dítěte",
-      field: "child_birthday",
-      width: 170,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Jméno ZZ",
-      field: "first_representative_name",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Příjmení ZZ",
-      field: "first_representative_last_name",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Telefon ZZ",
-      field: "first_representative_phone_number",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Jméno druhého ZZ",
-      field: "second_representative_name",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Příjmení druhého ZZ",
-      field: "second_representative_last_name",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Telefon druhého ZZ",
-      field: "second_representative_phone_number",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Adresa - Jméno",
-      field: "address_name",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Adresa - Příjmení",
-      field: "address_last_name",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Adresa - Ulice, čp",
-      field: "address_street_cp",
-      width: 150,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Adresa - Obec",
-      field: "address_city",
-      width: 200,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Adresa - PSČ",
-      field: "address_psc",
-      width: 100,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Zdravotní omezení",
-      field: "other_hendicap",
-      width: 250,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Souhlasí s focením",
-      field: "other_photos",
-      width: 150,
-      type: "boolean",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Jak bude dítě docházet",
-      field: "other_how_children_arrives_name",
-      width: 270,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Osoby pro vyzvednutí",
-      field: "other_pickup_person",
-      width: 250,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Platební metoda",
-      field: "other_pay_method_name",
-      width: 180,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Další informace",
-      field: "other_other_info",
-      width: 250,
-      type: "string",
-      editable: false,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      headerName: "Datum registrace",
-      field: "registration_date",
-      width: 150,
+      headerName: "Datum vytvoření",
+      field: nameof<UserModel>("DateCreated"),
+      width: 160,
       type: "string",
       editable: false,
       sortable: true,
@@ -341,27 +141,53 @@ const UsersTable = () => {
       },
     },
     {
-      headerName: "Stav registrace",
-      field: "state_name",
-      width: 150,
+      headerName: "Poslední přihlášení",
+      field: nameof<UserModel>("LastLogin"),
+      width: 160,
       type: "string",
+      editable: false,
+      sortable: true,
+      resizable: true,
+      valueGetter: (params) => {
+        return toAppDateFormat(params.value);
+      },
+    },
+    {
+      headerName: "Poslední pokus o přihlášení",
+      field: nameof<UserModel>("LastLoginAttempt"),
+      width: 200,
+      type: "string",
+      editable: false,
+      sortable: true,
+      resizable: true,
+      valueGetter: (params) => {
+        return toAppDateFormat(params.value);
+      },
+    },
+    {
+      headerName: "Počet přihlášení",
+      field: nameof<UserModel>("LoginCount"),
+      width: 150,
+      type: "number",
       editable: false,
       sortable: true,
       resizable: true,
     },
     {
-      headerName: "Číslo objednávky",
-      field: "variable_symbol_name",
-      width: 150,
-      type: "string",
+      headerName: "Počet pokusů o přihlášení",
+      field: nameof<UserModel>("LoginAttemptCount"),
+      width: 200,
+      type: "number",
       editable: false,
       sortable: true,
       resizable: true,
     },
     {
-      headerName: "Cena [Kč]",
-      field: "action_price",
-      width: 100,
+      headerName: "Role",
+      field: nameof<UserModel>("UserRoleName"),
+      width: 170,
+      minWidth: 170,
+      flex: 1,
       type: "string",
       editable: false,
       sortable: true,
@@ -407,7 +233,7 @@ const UsersTable = () => {
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.aoa_to_sheet(data);
 
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Rezervace");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Uživatelé");
 
     return workbook;
   };
@@ -440,7 +266,7 @@ const UsersTable = () => {
               type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             }
           );
-          exportBlob(blob, "Rezervace.xlsx");
+          exportBlob(blob, "Uživatelé.xlsx");
 
           // Hide the export menu after the export
           hideMenu?.();
@@ -474,13 +300,12 @@ const UsersTable = () => {
   return (
     <>
       <RegistrationsTableStyled>
-        <TableFilterDate />
         <Box className='grid-wrapper'>
           <DataGrid
             apiRef={refApi}
             columns={columns}
-            rows={dashboard.Registrations}
-            getRowId={(row) => row.id}
+            rows={authSettings.Users}
+            getRowId={(row) => row.Id}
             loading={isLoading}
             localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
             slots={{ toolbar: CustomToolbar }}
@@ -489,7 +314,7 @@ const UsersTable = () => {
                 ? gridInitialState
                 : undefined
             }
-            pageSizeOptions={[25, 50, 75, 100]}
+            pageSizeOptions={[5, 10, 15, 20]}
             onStateChange={handleOnStateChange}
             getRowClassName={(params) =>
               params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"

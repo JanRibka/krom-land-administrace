@@ -1,11 +1,12 @@
-import { Action, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import AppState from '../AppState';
+import AppState from "../AppState";
 
 export interface AuthenticationState {
   UserName: string;
   Password: string;
   UserRole: number;
+  UserId: number;
   AccessToken: string;
   Persist: boolean;
 }
@@ -14,6 +15,7 @@ export const initialState: AuthenticationState = {
   UserName: "",
   Password: "",
   UserRole: 0,
+  UserId: 0,
   AccessToken: "",
   Persist: JSON.parse(localStorage.getItem("persist") ?? "false"),
 };

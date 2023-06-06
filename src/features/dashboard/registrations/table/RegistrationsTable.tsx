@@ -2,7 +2,7 @@ import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistra
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import AppNotification from "shared/components/notification/AppNotification";
-import { registrationsGrindName } from "shared/constants/gridNames";
+import { registrationsGridName } from "shared/constants/gridNames";
 import { useRequest } from "shared/dataAccess/useRequest";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import RegistrationDTO from "shared/DTOs/RegistrationDTO";
@@ -53,14 +53,13 @@ const RegistrationsTable = () => {
   }>({ id: 0, open: false });
 
   // Constants
-  const gridSettingsName = "_grid-settings-" + registrationsGrindName;
+  const gridSettingsName = registrationsGridName;
   const gridInitialState = JSON.parse(
     localStorage.getItem(gridSettingsName) ?? "{}"
   );
 
   // Constants
-  const gridSettingsDateFilterName =
-    "_grid-settings-date-filter-" + registrationsGrindName;
+  const gridSettingsDateFilterName = registrationsGridName + "-settings";
   const gridSettingsDateFilter = JSON.parse(
     localStorage.getItem(gridSettingsDateFilterName) ?? "{}"
   );

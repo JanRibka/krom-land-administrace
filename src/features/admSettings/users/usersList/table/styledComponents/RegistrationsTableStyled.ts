@@ -6,7 +6,7 @@ const ODD_OPACITY = 0.5;
 
 const RegistrationsTableStyled = styled(Box)(({ theme }) => ({
   ".grid-wrapper": {
-    height: "800px",
+    height: "423px",
 
     ".MuiDataGrid-toolbarContainer": {
       button: {

@@ -35,6 +35,7 @@ export const useRefreshToken = () => {
         AccessToken: response.data.Data?.AccessToken ?? "",
         UserRole: response.data.Data?.UserRole,
         UserName: response.data.Data?.UserName,
+        UserId: response.data.Data?.UserId,
       });
 
       return response.data.Data?.AccessToken;

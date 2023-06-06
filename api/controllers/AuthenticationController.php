@@ -156,9 +156,14 @@ class AuthenticationController extends ControllerBase
                 $user->Id = $dbUser->Id;
                 $user->LastLogin = new \DateTime();
                 $user->LoginCount = $dbUser->LoginCount + 1;
+
                 $this->_authenticationService->updatetUser($user);
 
-                $responseData = new LoginResponseModel($dbUser->UserRoleValue, $accessToken);
+                $responseData = new LoginResponseModel(
+                    $dbUser->UserRoleValue,
+                    $accessToken,
+                    $dbUser->Id
+                );
 
                 $this->apiResponse(true, '', $responseData);
             } else {
@@ -219,7 +224,12 @@ class AuthenticationController extends ControllerBase
                 ];
 
                 $accessToken = JWT::encode($payload, $accessTokenSecret[APP_ENV], 'HS256');
-                $responseData = new RefreshTokenResponseModel($dbUser->UserRoleValue, $accessToken, $dbUser->UserName);
+                $responseData = new RefreshTokenResponseModel(
+                    $dbUser->UserRoleValue,
+                    $accessToken,
+                    $dbUser->UserName,
+                    $dbUser->Id
+                );
 
                 $this->apiResponse(true, '', $responseData);
             } catch (\Exception $ex) {

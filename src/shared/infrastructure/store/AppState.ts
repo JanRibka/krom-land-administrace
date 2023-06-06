@@ -1,3 +1,4 @@
+import { AdmSettingsState } from "./admSettings/admSettingsSlice";
 import { AuthenticationState } from "./authentication/authenticationSlice";
 import { DashboardState } from "./dashboard/dashboardSlice";
 import { WebPartsState } from "./webParts/webPartsSlice";
@@ -8,4 +9,5 @@ export default interface AppState {
   dashboard: DashboardState;
   webParts: WebPartsState;
   webSettings: WebSettingsState;
+  admSettings: AdmSettingsState;
 }

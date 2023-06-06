@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
+import admSettingsReduce from "./admSettings/admSettingsSlice";
 import AppState from "./AppState";
 import authenticationReduce from "./authentication/authenticationSlice";
 import dashboardReduce from "./dashboard/dashboardSlice";
@@ -11,6 +12,7 @@ const rootReducer = combineReducers<AppState>({
   dashboard: dashboardReduce,
   webParts: webPartsReduce,
   webSettings: webSettingsReduce,
+  admSettings: admSettingsReduce,
 });
 
 export const store = configureStore({

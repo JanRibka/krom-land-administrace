@@ -1,11 +1,11 @@
-import WebLogos from "features/webSettings/webLogos/WebLogos";
+import Users from "features/admSettings/users/usersList/Users";
 
 import PageStyled from "../styledComponents/PageStyled";
 
 const UsersPage = () => {
   return (
     <PageStyled component='main'>
-      <WebLogos />
+      <Users />
     </PageStyled>
   );
 };

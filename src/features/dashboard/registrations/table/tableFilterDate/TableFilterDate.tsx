@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import AppDatePicker from 'shared/components/datePicker/AppDatePicker';
-import { registrationsGrindName } from 'shared/constants/gridNames';
-import { addTimeZoneOffsetSetZeroHours } from 'shared/helpers/dateTimeHelpers';
-import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
-import { nameof } from 'shared/nameof';
+import React, { useState } from "react";
+import AppDatePicker from "shared/components/datePicker/AppDatePicker";
+import { registrationsGridName } from "shared/constants/gridNames";
+import { addTimeZoneOffsetSetZeroHours } from "shared/helpers/dateTimeHelpers";
+import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
+import { nameof } from "shared/nameof";
 
-import CachedIcon from '@mui/icons-material/Cached';
-import { useMediaQuery } from '@mui/material';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import { useTheme } from '@mui/material/styles';
-import Stack from '@mui/system/Stack';
+import CachedIcon from "@mui/icons-material/Cached";
+import { useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import { useTheme } from "@mui/material/styles";
+import Stack from "@mui/system/Stack";
 
-import TableFilterDateStyled from './styledComponents/TableFilterDateStyled';
+import TableFilterDateStyled from "./styledComponents/TableFilterDateStyled";
 
 export interface IGridSettingsDateFilter {
   from: Date | null;
@@ -24,8 +24,7 @@ const TableFilterDate = () => {
   const { handleDashboardUpdate } = useDashboardSlice();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
-  const gridSettingsDateFilterName =
-    "_grid-settings-date-filter-" + registrationsGrindName;
+  const gridSettingsDateFilterName = registrationsGridName + "-settings";
   const gridSettingsDateFilter = JSON.parse(
     localStorage.getItem(gridSettingsDateFilterName) ?? "{}"
   );

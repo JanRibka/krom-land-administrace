@@ -26,6 +26,7 @@ class CommonRepository implements ICommonRepository
                 $key->Id,
                 $key->GroupKey,
                 $key->Key,
+                $key->Value,
                 $key->Name,
                 $key->Enabled
             );
