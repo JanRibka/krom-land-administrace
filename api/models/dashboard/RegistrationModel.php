@@ -1,6 +1,6 @@
 <?php
 
-namespace kromLand\api\models\document;
+namespace kromLand\api\models\dashboard;
 
 class RegistrationModel
 {

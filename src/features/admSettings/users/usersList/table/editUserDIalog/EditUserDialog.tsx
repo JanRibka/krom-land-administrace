@@ -40,7 +40,7 @@ interface IProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const EditRegistrationDialog = (props: IProps) => {
+const EditUserDialog = (props: IProps) => {
   // References
   const refForm = useRef<HTMLFormElement>(null);
 
@@ -372,4 +372,4 @@ const EditRegistrationDialog = (props: IProps) => {
   );
 };
 
-export default EditRegistrationDialog;
+export default EditUserDialog;

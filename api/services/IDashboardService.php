@@ -2,8 +2,8 @@
 
 namespace kromLand\api\repositories;
 
+use kromLand\api\models\dashboard\DashboardModel;
 use kromLand\api\models\dashboard\RegistrationEditModel;
-use kromLand\api\models\document\DashboardModel;
 
 interface IDashboardService
 {

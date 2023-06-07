@@ -52,6 +52,19 @@ class AdmSettingsController extends ControllerBase
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function getUserForEdit()
+    {
+        try {
+            $idUser = $_GET['id'];
+
+            $users = $this->_admSettingsService->getUsersForEdit($idUser);
+
+            $this->apiResponse(true, '', $users);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -62,11 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $userRoles = [UserRoleEnum::ADMIN];
 
         switch ($functionName) {
-            case 'login':
-            case 'refreshToken':
-                $disableVerification = true;
-                // no break
-            case 'logout':
+            case 'getUsers':
                 $userRoles = [
                     UserRoleEnum::ADMIN,
                     UserRoleEnum::EDITOR,

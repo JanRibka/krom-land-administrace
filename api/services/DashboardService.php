@@ -2,10 +2,10 @@
 
 namespace kromLand\api\services;
 
+use kromLand\api\models\dashboard\DashboardModel;
 use kromLand\api\models\dashboard\RegistrationEditModel;
+use kromLand\api\models\dashboard\RegistrationModel;
 use kromLand\api\models\dashboard\SelectsDataModel;
-use kromLand\api\models\document\DashboardModel;
-use kromLand\api\models\document\RegistrationModel;
 use kromLand\api\repositories\ICommonRepository;
 use kromLand\api\repositories\IDashboardRepository;
 use kromLand\api\repositories\IDashboardService;

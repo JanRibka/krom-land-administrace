@@ -4,7 +4,7 @@ import { gridClasses } from "@mui/x-data-grid";
 
 const ODD_OPACITY = 0.5;
 
-const RegistrationsTableStyled = styled(Box)(({ theme }) => ({
+const UsersTableStyled = styled(Box)(({ theme }) => ({
   ".grid-wrapper": {
     height: "423px",
 
@@ -52,4 +52,4 @@ const RegistrationsTableStyled = styled(Box)(({ theme }) => ({
   },
 }));
 
-export default RegistrationsTableStyled;
+export default UsersTableStyled;

@@ -2,6 +2,8 @@
 
 namespace kromLand\api\services;
 
+use kromLand\api\models\admSettings\DropDownsDataModel;
+use kromLand\api\models\admSettings\UserEditModel;
 use kromLand\api\repositories\IAdmSettingsRepository;
 use kromLand\api\repositories\ICommonRepository;
 
@@ -42,5 +44,22 @@ class AdmSettingsService implements IAdmSettingsService
         }, $users);
 
         return $result;
+    }
+
+    public function getUsersForEdit(string $id): UserEditModel
+    {
+        $id = (int) $id;
+
+        $user = $this->_admSettingsRepository->getUserByUserId($id);
+
+        $roleList = $this->_commonRepository->getTableOfKeyByGroupKey('ROLE_LIST');
+
+        $userEdit = new UserEditModel();
+        $userEdit->User = $user;
+        $userEdit->DropDownsData = new DropDownsDataModel(
+            $roleList
+        );
+
+        return $userEdit;
     }
 }

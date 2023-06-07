@@ -2,7 +2,7 @@
 
 namespace kromLand\api\repositories;
 
-use kromLand\api\models\document\RegistrationModel;
+use kromLand\api\models\dashboard\RegistrationModel;
 
 interface IDashboardRepository
 {

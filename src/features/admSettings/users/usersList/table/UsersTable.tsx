@@ -39,8 +39,8 @@ import {
 } from "@mui/x-data-grid";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
-import EditRegistrationDialog from "./editRegistrationDIalog/EditRegistrationDialog";
-import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
+import EditUserDialog from "./editUserDIalog/EditUserDialog";
+import UsersTableStyled from "./styledComponents/UsersTableStyled";
 
 const UsersTable = () => {
   // References
@@ -111,11 +111,9 @@ const UsersTable = () => {
       width: 50,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
-          icon={
-            <EditIcon color='secondary' titleAccess='Editovat registraci' />
-          }
-          label='Editovat registraci'
-          onClick={() => handleOnClickEditRegistration(params.id)}
+          icon={<EditIcon color='secondary' titleAccess='Editovat uživatele' />}
+          label='Editovat uživatele'
+          onClick={() => handleOnClickEditUser(params.id)}
         />,
       ],
     },
@@ -195,7 +193,7 @@ const UsersTable = () => {
     },
   ];
 
-  const handleOnClickEditRegistration = (rowId: GridRowId) => {
+  const handleOnClickEditUser = (rowId: GridRowId) => {
     setDialogOpenData({ id: rowId as number, open: true });
   };
 
@@ -299,7 +297,7 @@ const UsersTable = () => {
 
   return (
     <>
-      <RegistrationsTableStyled>
+      <UsersTableStyled>
         <Box className='grid-wrapper'>
           <DataGrid
             apiRef={refApi}
@@ -321,8 +319,8 @@ const UsersTable = () => {
             }
           />
         </Box>
-      </RegistrationsTableStyled>
-      <EditRegistrationDialog
+      </UsersTableStyled>
+      <EditUserDialog
         open={dialogOpenData.open}
         setOpen={() => {
           setDialogOpenData({ id: 0, open: false });

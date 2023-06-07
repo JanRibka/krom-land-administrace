@@ -8,7 +8,7 @@ require_once __DIR__.'/../../vendor/dibi/dibi/src/Dibi/dibi.php';
 require_once __DIR__.'/./IDashboardRepository.php';
 require_once __DIR__.'/../models/dashboard/RegistrationModel.php';
 
-use kromLand\api\models\document\RegistrationModel;
+use kromLand\api\models\dashboard\RegistrationModel;
 
 class DashboardRepository implements IDashboardRepository
 {
