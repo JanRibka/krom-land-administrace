@@ -1,4 +1,6 @@
 import { Dayjs } from "dayjs";
+import UserEditModel from "features/admSettings/models/UserEditModel";
+import { mapFromUserEditDTO } from "features/admSettings/save/mapFromUserEditDTO";
 import DashboardService from "features/dashboard/DashboardService";
 import RegistrationEditModel from "features/dashboard/models/RegistrationEditModel";
 import RegistrationModel from "features/dashboard/models/RegistrationModel";
@@ -18,6 +20,7 @@ import { useRequest } from "shared/dataAccess/useRequest";
 import AnoNeDialog from "shared/dialogs/AnoNeDialog";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import RegistrationEditDTO from "shared/DTOs/RegistrationEditDTO";
+import UserEditDTO from "shared/DTOs/UserEditDTO";
 import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
 import { nameof } from "shared/nameof";
 
@@ -49,40 +52,35 @@ const EditUserDialog = (props: IProps) => {
   const [updating, setUpdating] = useState<boolean>(false);
   const [delConfirmDialogOpn, setDelConfirmDialogOpn] =
     useState<boolean>(false);
-  const [registrationLoaded, setRegistrationLoaded] = useState<boolean>(false);
-  const [registrationEdit, setRegistrationEdit] =
-    useState<RegistrationEditModel>(new RegistrationEditModel());
+  const [userLoaded, setUserLoaded] = useState<boolean>(false);
+  const [userEdit, setUserEdit] = useState<UserEditModel>(new UserEditModel());
 
   // Constants
   const _dashboardService = new DashboardService();
   const { handleDashboardUpdate } = useDashboardSlice();
-  const childArrivesMyselveId =
-    registrationEdit.SelectsData.ChildArrivesData.find(
-      (f) => f.Key === "MYSELVE"
-    )?.Id;
 
   // Other
 
   /**
    * Get data
    */
-  const { isLoading } = useRequest<JsonResulObjectDataDTO<RegistrationEditDTO>>(
+  const { isLoading } = useRequest<JsonResulObjectDataDTO<UserEditDTO>>(
     {
-      url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
+      url: (process.env.REACT_APP_API_URL ?? "") + "AdmSettingsController.php",
       params: new URLSearchParams({
-        function: "getRegistrationForEdit",
+        function: "getUserForEdit",
         id: props.id.toString(),
       }),
     },
     {
       Success: false,
       ErrMsg: "",
-      Data: new RegistrationEditDTO(),
+      Data: new UserEditDTO(),
     },
     [props.open],
     {
       apply: true,
-      condition: () => registrationLoaded === false && props.open,
+      condition: () => userLoaded === false && props.open,
     },
     (data) => {
       const dataType = typeof data;
@@ -91,30 +89,30 @@ const EditUserDialog = (props: IProps) => {
         AppNotification("Chyba", String(data), "danger");
       } else {
         if (data.Success) {
-          setRegistrationEdit(mapFromRegistrationEditDTO(data?.Data));
-          setRegistrationLoaded(true);
+          setUserEdit(mapFromUserEditDTO(data?.Data));
+          setUserLoaded(true);
         } else {
           AppNotification("Chyba", data.ErrMsg ?? "", "danger");
         }
       }
     }
   );
-
+  console.log(userEdit);
   const handleTextFieldOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
 
-    const data: RegistrationEditModel = {
-      ...registrationEdit,
-      Registration: {
-        ...registrationEdit.Registration,
-        [name]: value,
-      },
-    };
+    // const data: RegistrationEditModel = {
+    //   ...registrationEdit,
+    //   Registration: {
+    //     ...registrationEdit.Registration,
+    //     [name]: value,
+    //   },
+    // };
 
-    setRegistrationEdit(data);
+    // setRegistrationEdit(data);
   };
 
   const handleNumericFieldOnChange = (
@@ -123,15 +121,15 @@ const EditUserDialog = (props: IProps) => {
     const name: string = e.target.name;
     const value: number = parseInt(e.target.value);
 
-    const data: RegistrationEditModel = {
-      ...registrationEdit,
-      Registration: {
-        ...registrationEdit.Registration,
-        [name]: value,
-      },
-    };
+    // const data: RegistrationEditModel = {
+    //   ...registrationEdit,
+    //   Registration: {
+    //     ...registrationEdit.Registration,
+    //     [name]: value,
+    //   },
+    // };
 
-    setRegistrationEdit(data);
+    // setRegistrationEdit(data);
   };
 
   const handleOnChangeDatePicker = (
@@ -158,15 +156,15 @@ const EditUserDialog = (props: IProps) => {
         newDate.getMonth() + 1
       }.${newDate.getUTCFullYear()}`;
 
-      setRegistrationEdit({
-        ...registrationEdit,
-        Registration: { ...registrationEdit.Registration, [name]: resultDate },
-      });
-    } else if (!!!newDate) {
-      setRegistrationEdit({
-        ...registrationEdit,
-        Registration: { ...registrationEdit.Registration, [name]: "" },
-      });
+      //   setRegistrationEdit({
+      //     ...registrationEdit,
+      //     Registration: { ...registrationEdit.Registration, [name]: resultDate },
+      //   });
+      // } else if (!!!newDate) {
+      //   setRegistrationEdit({
+      //     ...registrationEdit,
+      //     Registration: { ...registrationEdit.Registration, [name]: "" },
+      //   });
     }
   };
 
@@ -175,15 +173,14 @@ const EditUserDialog = (props: IProps) => {
     info: MuiTelInputInfo,
     name: string
   ) => {
-    const data: RegistrationEditModel = {
-      ...registrationEdit,
-      Registration: {
-        ...registrationEdit.Registration,
-        [name]: value,
-      },
-    };
-
-    setRegistrationEdit(data);
+    // const data: RegistrationEditModel = {
+    //   ...registrationEdit,
+    //   Registration: {
+    //     ...registrationEdit.Registration,
+    //     [name]: value,
+    //   },
+    // };
+    // setRegistrationEdit(data);
   };
 
   const handleOnChangeRadio = (e: ChangeEvent<HTMLInputElement>) => {
@@ -191,24 +188,24 @@ const EditUserDialog = (props: IProps) => {
     let value: string = e.target.value;
     let data: Partial<RegistrationModel> = {};
 
-    if (
-      name === nameof<RegistrationModel>("other_how_children_arrives") &&
-      JSON.parse(value) === childArrivesMyselveId
-    ) {
-      data = {
-        [name]: JSON.parse(value),
-        other_pickup_person: "",
-      };
-    } else {
-      data = {
-        [name]: JSON.parse(value),
-      };
-    }
+    // if (
+    //   name === nameof<RegistrationModel>("other_how_children_arrives") &&
+    //   JSON.parse(value) === childArrivesMyselveId
+    // ) {
+    //   data = {
+    //     [name]: JSON.parse(value),
+    //     other_pickup_person: "",
+    //   };
+    // } else {
+    //   data = {
+    //     [name]: JSON.parse(value),
+    //   };
+    // }
 
-    setRegistrationEdit({
-      ...registrationEdit,
-      Registration: { ...registrationEdit.Registration, ...data },
-    });
+    // setRegistrationEdit({
+    //   ...registrationEdit,
+    //   Registration: { ...registrationEdit.Registration, ...data },
+    // });
   };
 
   const handleOnClickDelete = () => {
@@ -223,14 +220,14 @@ const EditUserDialog = (props: IProps) => {
 
     const response = await _dashboardService.registrationDelete(props.id);
 
-    if (response) {
-      setRegistrationLoaded(false);
-      setDeleting(false);
-      handleDashboardUpdate({ _registrationsLoaded: false });
-      props.setOpen(false);
-    } else {
-      setDeleting(false);
-    }
+    // if (response) {
+    //   setRegistrationLoaded(false);
+    //   setDeleting(false);
+    //   handleDashboardUpdate({ _registrationsLoaded: false });
+    //   props.setOpen(false);
+    // } else {
+    //   setDeleting(false);
+    // }
   };
 
   const handleOnClickSave = () => {
@@ -255,22 +252,22 @@ const EditUserDialog = (props: IProps) => {
 
     setUpdating(true);
 
-    const result = await _dashboardService.registrationUpdate(
-      registrationEdit.Registration
-    );
-    if (result) {
-      setRegistrationEdit(new RegistrationEditModel());
-      setUpdating(false);
-      setRegistrationLoaded(false);
-      handleDashboardUpdate({ _registrationsLoaded: false });
-      props.setOpen(false);
-    } else {
-      setUpdating(false);
-    }
+    // const result = await _dashboardService.registrationUpdate(
+    //   registrationEdit.Registration
+    // );
+    // if (result) {
+    //   setRegistrationEdit(new RegistrationEditModel());
+    //   setUpdating(false);
+    //   setRegistrationLoaded(false);
+    //   handleDashboardUpdate({ _registrationsLoaded: false });
+    //   props.setOpen(false);
+    // } else {
+    //   setUpdating(false);
+    // }
   };
 
   const handleCloseDialogOnClick = () => {
-    setRegistrationLoaded(false);
+    setUserLoaded(false);
     props.setOpen(false);
   };
 
@@ -284,7 +281,7 @@ const EditUserDialog = (props: IProps) => {
       >
         <Box className='title-wrapper'>
           <DialogTitle>
-            Editace registrace
+            Editace uživatele
             <IconButton
               aria-label='close'
               onClick={() => {
@@ -304,7 +301,7 @@ const EditUserDialog = (props: IProps) => {
         <DialogContent>
           <DialogContentForm
             ref={refForm}
-            registrationEdit={registrationEdit}
+            userEdit={userEdit}
             handleTextFieldOnChange={handleTextFieldOnChange}
             handleNumericFieldOnChange={handleNumericFieldOnChange}
             handleOnChangeDatePipcker={handleOnChangeDatePicker}
@@ -364,9 +361,7 @@ const EditUserDialog = (props: IProps) => {
         onClickAnoButton={handleDeleteConfirm}
         anoButtonTitle='Smazat'
         neButtonTitle='Zavřít'
-        content={
-          <Typography>Přejete si smazat vybranou registraci?</Typography>
-        }
+        content={<Typography>Přejete si uživatele smazat?</Typography>}
       />
     </>
   );

@@ -53,9 +53,9 @@ class AdmSettingsRepository implements IAdmSettingsRepository
                 $user->IdParent = $childUser->IdParent;
                 $user->UserName = $childUser->UserName;
                 $user->Password = $childUser->Password;
-                $user->DateCreated = $childUser->DateCreated ? new \DateTime($childUser->DateCreated) : null;
-                $user->LastLogin = $childUser->LastLogin ? new \DateTime($childUser->LastLogin) : null;
-                $user->LastLoginAttempt = $childUser->LastLoginAttempt ? new \DateTime($childUser->LastLoginAttempt) : null;
+                $user->DateCreated = (bool) $childUser->DateCreated ? new \DateTime($childUser->DateCreated) : null;
+                $user->LastLogin = (bool) $childUser->LastLogin ? new \DateTime($childUser->LastLogin) : null;
+                $user->LastLoginAttempt = (bool) $childUser->LastLoginAttempt ? new \DateTime($childUser->LastLoginAttempt) : null;
                 $user->LoginCount = $childUser->LoginCount;
                 $user->LoginAttemptCount = $childUser->LoginAttemptCount;
                 $user->UserRoleValue = $loggedUser->UserRoleValue;
@@ -83,9 +83,9 @@ class AdmSettingsRepository implements IAdmSettingsRepository
         $user->Id = $selectedUser->Id;
         $user->IdParent = $selectedUser->IdParent;
         $user->UserName = $selectedUser->UserName;
-        $user->DateCreated = $user->DateCreated ? new \DateTime($selectedUser->DateCreated) : null;
-        $user->LastLogin = $selectedUser->LastLogin ? new \DateTime($selectedUser->LastLogin) : null;
-        $user->LastLoginAttempt = $selectedUser->LastLoginAttempt ? new \DateTime($selectedUser->LastLoginAttempt) : null;
+        $user->DateCreated = (bool) $selectedUser->DateCreated ? new \DateTime($selectedUser->DateCreated) : null;
+        $user->LastLogin = (bool) $selectedUser->LastLogin ? new \DateTime($selectedUser->LastLogin) : null;
+        $user->LastLoginAttempt = (bool) $selectedUser->LastLoginAttempt ? new \DateTime($selectedUser->LastLoginAttempt) : null;
         $user->LoginCount = $selectedUser->LoginCount;
         $user->LoginAttemptCount = $selectedUser->LoginAttemptCount;
         $user->UserRoleValue = $selectedUser->UserRoleValue;

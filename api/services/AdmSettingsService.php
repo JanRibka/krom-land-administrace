@@ -9,6 +9,8 @@ use kromLand\api\repositories\ICommonRepository;
 
 require_once __DIR__.'/./IAdmSettingsService.php';
 require_once __DIR__.'/../repositories/IAdmSettingsRepository.php';
+require_once __DIR__.'/../models/admSettings/UserEditModel.php';
+require_once __DIR__.'/../models/admSettings/DropDownsDataModel.php';
 
 class AdmSettingsService implements IAdmSettingsService
 {
