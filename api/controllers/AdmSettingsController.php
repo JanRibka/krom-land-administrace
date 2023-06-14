@@ -5,6 +5,7 @@ namespace komLand\api\controllers;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
+use kromLand\api\enums\HttpStatusCode;
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
@@ -21,9 +22,9 @@ require_once __DIR__.'/../repositories/AdmSettingsRepository.php';
 require_once __DIR__.'/../services/AdmSettingsService.php';
 require_once __DIR__.'/../repositories/CommonRepository.php';
 
-use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
 use kromLand\api\repositories\AdmSettingsRepository;
+use kromLand\api\repositories\AuthenticationRepository;
 use kromLand\api\repositories\CommonRepository;
 use kromLand\api\services\AdmSettingsService;
 use kromLand\api\services\IAdmSettingsService;
@@ -40,6 +41,9 @@ class AdmSettingsController extends ControllerBase
         $this->_admSettingsService = $pAdmSettingsService;
     }
 
+    /**
+     * Get user.
+     */
     public function getUsers()
     {
         try {
@@ -53,6 +57,9 @@ class AdmSettingsController extends ControllerBase
         }
     }
 
+    /**
+     * Get user for edit.
+     */
     public function getUserForEdit()
     {
         try {
@@ -61,6 +68,23 @@ class AdmSettingsController extends ControllerBase
             $users = $this->_admSettingsService->getUsersForEdit($idUser);
 
             $this->apiResponse(true, '', $users);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Update user.
+     */
+    public function userUpdate()
+    {
+        $user = $_POST['user'];
+        $idLoggedUser = $_GET['idLoggedUser'];
+
+        try {
+            $this->_admSettingsService->userUpdate($user, $idLoggedUser);
+
+            $this->apiResponse(true, '');
         } catch (\Exception $ex) {
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
@@ -87,7 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
 
         $admSettingsRepository = new AdmSettingsRepository();
         $commonRepository = new CommonRepository();
-        $admSettingsService = new AdmSettingsService($admSettingsRepository, $commonRepository);
+        $authenticationRepository = new AuthenticationRepository();
+        $admSettingsService = new AdmSettingsService($admSettingsRepository, $commonRepository, $authenticationRepository);
         $controller = new AdmSettingsController($admSettingsService);
 
         if (method_exists($controller, $functionName)) {

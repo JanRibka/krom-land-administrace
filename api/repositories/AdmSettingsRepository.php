@@ -66,30 +66,4 @@ class AdmSettingsRepository implements IAdmSettingsRepository
 
         return $result;
     }
-
-    public function getUserByUserId(int $idUser): UserModel
-    {
-        $selectedUser = \dibi::select('*')
-        ->from('login')
-        ->as('l')
-        ->where('l.Id = %i', $idUser)
-        ->fetch();
-
-        if (!(bool) $selectedUser) {
-            return new UserModel();
-        }
-
-        $user = new UserModel();
-        $user->Id = $selectedUser->Id;
-        $user->IdParent = $selectedUser->IdParent;
-        $user->UserName = $selectedUser->UserName;
-        $user->DateCreated = (bool) $selectedUser->DateCreated ? new \DateTime($selectedUser->DateCreated) : null;
-        $user->LastLogin = (bool) $selectedUser->LastLogin ? new \DateTime($selectedUser->LastLogin) : null;
-        $user->LastLoginAttempt = (bool) $selectedUser->LastLoginAttempt ? new \DateTime($selectedUser->LastLoginAttempt) : null;
-        $user->LoginCount = $selectedUser->LoginCount;
-        $user->LoginAttemptCount = $selectedUser->LoginAttemptCount;
-        $user->UserRoleValue = $selectedUser->UserRoleValue;
-
-        return $user;
-    }
 }

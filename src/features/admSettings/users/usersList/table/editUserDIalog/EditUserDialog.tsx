@@ -1,11 +1,6 @@
-import { Dayjs } from "dayjs";
 import UserEditModel from "features/admSettings/models/UserEditModel";
 import { mapFromUserEditDTO } from "features/admSettings/save/mapFromUserEditDTO";
 import DashboardService from "features/dashboard/DashboardService";
-import RegistrationEditModel from "features/dashboard/models/RegistrationEditModel";
-import RegistrationModel from "features/dashboard/models/RegistrationModel";
-import { mapFromRegistrationEditDTO } from "features/dashboard/save/mapFromRegistrationEditDTO";
-import { MuiTelInputInfo } from "mui-tel-input";
 import {
   ChangeEvent,
   Dispatch,
@@ -19,10 +14,8 @@ import AppNotification from "shared/components/notification/AppNotification";
 import { useRequest } from "shared/dataAccess/useRequest";
 import AnoNeDialog from "shared/dialogs/AnoNeDialog";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import RegistrationEditDTO from "shared/DTOs/RegistrationEditDTO";
 import UserEditDTO from "shared/DTOs/UserEditDTO";
 import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
-import { nameof } from "shared/nameof";
 
 import CloseIcon from "@mui/icons-material/Close";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -31,6 +24,7 @@ import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
+import { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 
 import DialogContentForm from "./dialogContent/DialogContentForm";
@@ -104,108 +98,30 @@ const EditUserDialog = (props: IProps) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
 
-    // const data: RegistrationEditModel = {
-    //   ...registrationEdit,
-    //   Registration: {
-    //     ...registrationEdit.Registration,
-    //     [name]: value,
-    //   },
-    // };
+    const data: UserEditModel = {
+      ...userEdit,
+      User: {
+        ...userEdit.User,
+        [name]: value,
+      },
+    };
 
-    // setRegistrationEdit(data);
+    setUserEdit(data);
   };
 
-  const handleNumericFieldOnChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleOnChangeSelect = (e: SelectChangeEvent<number>) => {
     const name: string = e.target.name;
-    const value: number = parseInt(e.target.value);
+    let value: number = e.target.value as number;
 
-    // const data: RegistrationEditModel = {
-    //   ...registrationEdit,
-    //   Registration: {
-    //     ...registrationEdit.Registration,
-    //     [name]: value,
-    //   },
-    // };
+    const data: UserEditModel = {
+      ...userEdit,
+      User: {
+        ...userEdit.User,
+        [name]: value,
+      },
+    };
 
-    // setRegistrationEdit(data);
-  };
-
-  const handleOnChangeDatePicker = (
-    date: Dayjs | null,
-    keyboardInputValue: string | undefined,
-    name: string
-  ) => {
-    let newDate = date?.toDate();
-    // Aby se nevytvarel rok po zadani prvniho cisla napr 0002
-    if (keyboardInputValue !== undefined) {
-      const splitKeyboardInputValue = keyboardInputValue?.split(".");
-
-      if (
-        splitKeyboardInputValue?.length === 3 &&
-        splitKeyboardInputValue[2] !== undefined &&
-        splitKeyboardInputValue[2]?.length < 4
-      ) {
-        return;
-      }
-    }
-
-    if (newDate !== null && !!newDate?.getDate()) {
-      const resultDate = `${newDate.getDate()}.${
-        newDate.getMonth() + 1
-      }.${newDate.getUTCFullYear()}`;
-
-      //   setRegistrationEdit({
-      //     ...registrationEdit,
-      //     Registration: { ...registrationEdit.Registration, [name]: resultDate },
-      //   });
-      // } else if (!!!newDate) {
-      //   setRegistrationEdit({
-      //     ...registrationEdit,
-      //     Registration: { ...registrationEdit.Registration, [name]: "" },
-      //   });
-    }
-  };
-
-  const handleOnChangeTelInput = (
-    value: string,
-    info: MuiTelInputInfo,
-    name: string
-  ) => {
-    // const data: RegistrationEditModel = {
-    //   ...registrationEdit,
-    //   Registration: {
-    //     ...registrationEdit.Registration,
-    //     [name]: value,
-    //   },
-    // };
-    // setRegistrationEdit(data);
-  };
-
-  const handleOnChangeRadio = (e: ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name;
-    let value: string = e.target.value;
-    let data: Partial<RegistrationModel> = {};
-
-    // if (
-    //   name === nameof<RegistrationModel>("other_how_children_arrives") &&
-    //   JSON.parse(value) === childArrivesMyselveId
-    // ) {
-    //   data = {
-    //     [name]: JSON.parse(value),
-    //     other_pickup_person: "",
-    //   };
-    // } else {
-    //   data = {
-    //     [name]: JSON.parse(value),
-    //   };
-    // }
-
-    // setRegistrationEdit({
-    //   ...registrationEdit,
-    //   Registration: { ...registrationEdit.Registration, ...data },
-    // });
+    setUserEdit(data);
   };
 
   const handleOnClickDelete = () => {
@@ -218,7 +134,7 @@ const EditUserDialog = (props: IProps) => {
     setDelConfirmDialogOpn(false);
     setDeleting(true);
 
-    const response = await _dashboardService.registrationDelete(props.id);
+    // const response = await _dashboardService.registrationDelete(props.id);
 
     // if (response) {
     //   setRegistrationLoaded(false);
@@ -303,11 +219,8 @@ const EditUserDialog = (props: IProps) => {
             ref={refForm}
             userEdit={userEdit}
             handleTextFieldOnChange={handleTextFieldOnChange}
-            handleNumericFieldOnChange={handleNumericFieldOnChange}
-            handleOnChangeDatePipcker={handleOnChangeDatePicker}
-            handleOnChangeTelInput={handleOnChangeTelInput}
+            handleOnChangeSelect={handleOnChangeSelect}
             handleFormOnSubmit={handleFormOnSubmit}
-            handleOnChangeRadio={handleOnChangeRadio}
           />
 
           {/* Loader */}
