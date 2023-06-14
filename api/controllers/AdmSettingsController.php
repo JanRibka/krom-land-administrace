@@ -21,6 +21,8 @@ require_once __DIR__.'/../middleware/verifyRole.php';
 require_once __DIR__.'/../repositories/AdmSettingsRepository.php';
 require_once __DIR__.'/../services/AdmSettingsService.php';
 require_once __DIR__.'/../repositories/CommonRepository.php';
+require_once __DIR__.'/../repositories/AuthenticationRepository.php';
+require_once __DIR__.'/../repositories/AdmSettingsRepository.php';
 
 use kromLand\api\enums\UserRoleEnum;
 use kromLand\api\repositories\AdmSettingsRepository;

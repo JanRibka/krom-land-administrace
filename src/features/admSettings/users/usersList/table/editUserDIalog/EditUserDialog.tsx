@@ -1,35 +1,28 @@
-import UserEditModel from "features/admSettings/models/UserEditModel";
-import { mapFromUserEditDTO } from "features/admSettings/save/mapFromUserEditDTO";
-import DashboardService from "features/dashboard/DashboardService";
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useRef,
-  useState,
-} from "react";
-import AppLoader from "shared/components/loader/AppLoader";
-import AppNotification from "shared/components/notification/AppNotification";
-import { useRequest } from "shared/dataAccess/useRequest";
-import AnoNeDialog from "shared/dialogs/AnoNeDialog";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import UserEditDTO from "shared/DTOs/UserEditDTO";
-import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
+import UserEditModel from 'features/admSettings/models/UserEditModel';
+import { mapFromUserEditDTO } from 'features/admSettings/save/mapFromUserEditDTO';
+import DashboardService from 'features/dashboard/DashboardService';
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useRef, useState } from 'react';
+import AppLoader from 'shared/components/loader/AppLoader';
+import AppNotification from 'shared/components/notification/AppNotification';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import AnoNeDialog from 'shared/dialogs/AnoNeDialog';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import UserEditDTO from 'shared/DTOs/UserEditDTO';
+import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
 
-import CloseIcon from "@mui/icons-material/Close";
-import LoadingButton from "@mui/lab/LoadingButton";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import IconButton from "@mui/material/IconButton";
-import { SelectChangeEvent } from "@mui/material/Select";
-import Typography from "@mui/material/Typography";
+import CloseIcon from '@mui/icons-material/Close';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import { SelectChangeEvent } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 
-import DialogContentForm from "./dialogContent/DialogContentForm";
-import ActionRegistrationDialogStyled from "./styledComponents/ActionRegistrationDialogStyled";
-import DialogActionsStyled from "./styledComponents/DialogActionsStyled";
+import DialogContentForm from './dialogContent/DialogContentForm';
+import ActionUserDialogStyled from './styledComponents/ActionUserDialogStyled';
+import DialogActionsStyled from './styledComponents/DialogActionsStyled';
 
 interface IProps {
   open: boolean;
@@ -189,7 +182,7 @@ const EditUserDialog = (props: IProps) => {
 
   return (
     <>
-      <ActionRegistrationDialogStyled
+      <ActionUserDialogStyled
         open={props.open}
         onClose={() => {
           handleCloseDialogOnClick();
@@ -265,7 +258,7 @@ const EditUserDialog = (props: IProps) => {
             </Box>
           </Box>
         </DialogActionsStyled>
-      </ActionRegistrationDialogStyled>
+      </ActionUserDialogStyled>
 
       <AnoNeDialog
         title='Upozornění'

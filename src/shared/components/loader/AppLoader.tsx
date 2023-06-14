@@ -5,7 +5,7 @@ import AppLoaderStyled from './styledComponents/AppLoaderStyled';
 const AppLoader = () => {
   return (
     <AppLoaderStyled>
-      <CircularProgress size="100px" />
+      <CircularProgress size='100px' />
     </AppLoaderStyled>
   );
 };

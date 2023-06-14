@@ -1,7 +1,7 @@
 import Dialog from '@mui/material/Dialog';
 import { styled } from '@mui/material/styles';
 
-const ActionRegistrationDialogStyled = styled(Dialog)(({ theme }) => ({
+const ActionUserDialogStyled = styled(Dialog)(({ theme }) => ({
   ".MuiPaper-root": {
     maxWidth: "850px",
     position: "relative",
@@ -39,4 +39,4 @@ const ActionRegistrationDialogStyled = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default ActionRegistrationDialogStyled;
+export default ActionUserDialogStyled;
