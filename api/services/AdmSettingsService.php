@@ -87,4 +87,13 @@ class AdmSettingsService implements IAdmSettingsService
 
         $this->_authenticationRepository->updateUser($user);
     }
+
+    public function userDelete(string $id, string $idLoggedUser): void
+    {
+        $newId = (int) $id;
+        $newIdLoggedUser = (int) $idLoggedUser;
+
+        if ($newId !== $newIdLoggedUser) {
+        }
+    }
 }

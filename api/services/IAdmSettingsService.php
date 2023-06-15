@@ -11,4 +11,6 @@ interface IAdmSettingsService
     public function getUsersForEdit(string $id): UserEditModel;
 
     public function userUpdate(string $userEncoded, string $idLoggedUser): void;
+
+    public function userDelete(string $id, string $idLoggedUser): void;
 }

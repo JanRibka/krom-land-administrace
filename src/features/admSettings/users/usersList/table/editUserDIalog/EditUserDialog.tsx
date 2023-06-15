@@ -1,14 +1,18 @@
+import AdmSettingsService from 'features/admSettings/AdmSettingsService';
 import UserEditModel from 'features/admSettings/models/UserEditModel';
 import { mapFromUserEditDTO } from 'features/admSettings/save/mapFromUserEditDTO';
-import DashboardService from 'features/dashboard/DashboardService';
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import AppLoader from 'shared/components/loader/AppLoader';
 import AppNotification from 'shared/components/notification/AppNotification';
 import { useRequest } from 'shared/dataAccess/useRequest';
 import AnoNeDialog from 'shared/dialogs/AnoNeDialog';
 import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
 import UserEditDTO from 'shared/DTOs/UserEditDTO';
-import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
+import { useAdmSettingsSlice } from 'shared/infrastructure/store/admSettings/useAdmSettingsSlice';
+import {
+    selectAuthentication
+} from 'shared/infrastructure/store/authentication/authenticationSlice';
 
 import CloseIcon from '@mui/icons-material/Close';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -34,6 +38,9 @@ const EditUserDialog = (props: IProps) => {
   // References
   const refForm = useRef<HTMLFormElement>(null);
 
+  // Store
+  const authentication = useSelector(selectAuthentication);
+
   // State
   const [deleting, setDeleting] = useState<boolean>(false);
   const [updating, setUpdating] = useState<boolean>(false);
@@ -43,8 +50,8 @@ const EditUserDialog = (props: IProps) => {
   const [userEdit, setUserEdit] = useState<UserEditModel>(new UserEditModel());
 
   // Constants
-  const _dashboardService = new DashboardService();
-  const { handleDashboardUpdate } = useDashboardSlice();
+  const _admSettingsService = new AdmSettingsService();
+  const { handleAdmSettingsUpdate } = useAdmSettingsSlice();
 
   // Other
 
@@ -84,12 +91,29 @@ const EditUserDialog = (props: IProps) => {
       }
     }
   );
-  console.log(userEdit);
+
   const handleTextFieldOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
+
+    const data: UserEditModel = {
+      ...userEdit,
+      User: {
+        ...userEdit.User,
+        [name]: value,
+      },
+    };
+
+    setUserEdit(data);
+  };
+
+  const handleNumericFieldOnChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const name: string = e.target.name;
+    const value: number = Number(e.target.value);
 
     const data: UserEditModel = {
       ...userEdit,
@@ -127,22 +151,20 @@ const EditUserDialog = (props: IProps) => {
     setDelConfirmDialogOpn(false);
     setDeleting(true);
 
-    // const response = await _dashboardService.registrationDelete(props.id);
+    const response = await _admSettingsService.userDelete(props.id);
 
-    // if (response) {
-    //   setRegistrationLoaded(false);
-    //   setDeleting(false);
-    //   handleDashboardUpdate({ _registrationsLoaded: false });
-    //   props.setOpen(false);
-    // } else {
-    //   setDeleting(false);
-    // }
+    if (response) {
+      setUserLoaded(false);
+      setDeleting(false);
+      handleAdmSettingsUpdate({ _usersLoaded: false });
+      props.setOpen(false);
+    } else {
+      setDeleting(false);
+    }
   };
 
   const handleOnClickSave = () => {
-    const submitButton = document.getElementsByClassName(
-      "registration-submit-button"
-    );
+    const submitButton = document.getElementsByClassName("user-submit-button");
 
     if (submitButton.length > 0) {
       const button = submitButton[0] as HTMLButtonElement;
@@ -161,18 +183,17 @@ const EditUserDialog = (props: IProps) => {
 
     setUpdating(true);
 
-    // const result = await _dashboardService.registrationUpdate(
-    //   registrationEdit.Registration
-    // );
-    // if (result) {
-    //   setRegistrationEdit(new RegistrationEditModel());
-    //   setUpdating(false);
-    //   setRegistrationLoaded(false);
-    //   handleDashboardUpdate({ _registrationsLoaded: false });
-    //   props.setOpen(false);
-    // } else {
-    //   setUpdating(false);
-    // }
+    const result = await _admSettingsService.userUpdate(userEdit.User);
+    if (result) {
+      setUserEdit(new UserEditModel());
+      setUpdating(false);
+      setUserLoaded(false);
+      handleAdmSettingsUpdate({ _usersLoaded: false });
+      props.setOpen(false);
+      window.location.reload();
+    } else {
+      setUpdating(false);
+    }
   };
 
   const handleCloseDialogOnClick = () => {
@@ -212,6 +233,7 @@ const EditUserDialog = (props: IProps) => {
             ref={refForm}
             userEdit={userEdit}
             handleTextFieldOnChange={handleTextFieldOnChange}
+            handleNumericFieldOnChange={handleNumericFieldOnChange}
             handleOnChangeSelect={handleOnChangeSelect}
             handleFormOnSubmit={handleFormOnSubmit}
           />
@@ -232,6 +254,7 @@ const EditUserDialog = (props: IProps) => {
                 variant='contained'
                 color='secondary'
                 loading={deleting}
+                disabled={userEdit.User.Id === authentication.UserId}
                 onClick={handleOnClickDelete}
               >
                 Smazat

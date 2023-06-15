@@ -91,6 +91,23 @@ class AdmSettingsController extends ControllerBase
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Delete user.
+     */
+    public function userDelete()
+    {
+        $id = $_GET['id'];
+        $idLoggedUser = $_GET['idLoggedUser'];
+
+        try {
+            $this->_admSettingsService->userDelete($id, $idLoggedUser);
+
+            $this->apiResponse(true, '');
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {

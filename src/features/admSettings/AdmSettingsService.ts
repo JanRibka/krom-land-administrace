@@ -1,22 +1,27 @@
 import AppNotification from 'shared/components/notification/AppNotification';
 import JsonResulObjectDTO from 'shared/DTOs/JsonResulObjectDTO';
 import Repository from 'shared/infrastructure/repositiory/Repository';
+import { store } from 'shared/infrastructure/store/store';
 
-import RegistrationModel from './models/RegistrationModel';
+import UserModel from './models/UserModel';
 
-export default class DashBoardService {
+export default class AdmSettingsService {
   private _repo = new Repository();
 
   /**
-   * Delete registration
+   * Delete user
+   * @param userId
+   * @returns
    */
-  public async registrationDelete(registrationId: number) {
+  public async userDelete(userId: number) {
     let result = false;
+    const _store = store.getState();
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
+      url: (process.env.REACT_APP_API_URL ?? "") + "AdmSettingsController.php",
       params: new URLSearchParams({
-        function: "registrationDelete",
-        id: registrationId.toString(),
+        function: "userDelete",
+        id: userId.toString(),
+        idLoggedUser: _store.authentication.UserId.toString(),
       }),
     });
 
@@ -26,30 +31,37 @@ export default class DashBoardService {
       AppNotification("Chyba", String(response.data), "danger");
     } else if (dataType === "object") {
       if (response.data?.Success) {
-        AppNotification("Úspěch", "Registrace smazána", "success");
+        AppNotification("Úspěch", "Uživatel smazán", "success");
         result = true;
       } else {
         AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Úspěch", "Registrace smazána", "success");
+      AppNotification("Úspěch", "Uživatel smazán", "success");
       result = true;
     }
 
     return result;
   }
 
-  public async registrationUpdate(registration: RegistrationModel) {
+  /**
+   * Edit user
+   * @param user
+   * @returns
+   */
+  public async userUpdate(user: UserModel) {
     let result = false;
+    const _store = store.getState();
     const formData: FormData = new FormData();
-    const registrationEncoded = JSON.stringify(registration);
+    const userEncoded = JSON.stringify(user);
 
-    formData.append("registration", registrationEncoded);
+    formData.append("user", userEncoded);
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
+      url: (process.env.REACT_APP_API_URL ?? "") + "AdmSettingsController.php",
       params: new URLSearchParams({
-        function: "registrationUpdate",
+        function: "userUpdate",
+        idLoggedUser: _store.authentication.UserId.toString(),
       }),
       data: formData,
     });
@@ -60,13 +72,13 @@ export default class DashBoardService {
       AppNotification("Chyba", String(response.data), "danger");
     } else if (dataType === "object") {
       if (response.data?.Success) {
-        AppNotification("Úspěch", "Registrace uložena", "success");
+        AppNotification("Úspěch", "Uživatel uložen", "success");
         result = true;
       } else {
         AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Úspěch", "Registrace uložena", "success");
+      AppNotification("Úspěch", "Uživatel uložena", "success");
       result = true;
     }
 

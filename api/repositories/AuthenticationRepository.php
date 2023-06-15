@@ -107,4 +107,12 @@ class AuthenticationRepository implements IAuthenticationRepository
             $id
         );
     }
+
+    public function deleteUser(int $id): void
+    {
+        \dibi::delete('login')
+        ->as('l')
+        ->where('l.Id = %i', $id)
+        ->fetch();
+    }
 }

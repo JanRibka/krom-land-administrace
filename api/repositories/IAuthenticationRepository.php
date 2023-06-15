@@ -15,4 +15,6 @@ interface IAuthenticationRepository
     public function insertUser(UserModel $userName): int;
 
     public function updateUser(UserModel $userName): void;
+
+    public function deleteUser(int $id): void;
 }

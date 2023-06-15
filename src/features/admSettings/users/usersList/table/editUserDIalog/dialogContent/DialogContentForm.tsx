@@ -1,26 +1,31 @@
-import UserEditModel from "features/admSettings/models/UserEditModel";
-import UserModel from "features/admSettings/models/UserModel";
-import { ChangeEvent, FormEvent, forwardRef, Ref } from "react";
-import { useSelector } from "react-redux";
-import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
-import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
-import { nameof } from "shared/nameof";
+import UserEditModel from 'features/admSettings/models/UserEditModel';
+import UserModel from 'features/admSettings/models/UserModel';
+import { ChangeEvent, FormEvent, forwardRef, Ref } from 'react';
+import { useSelector } from 'react-redux';
+import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
+import {
+    selectAuthentication
+} from 'shared/infrastructure/store/authentication/authenticationSlice';
+import { nameof } from 'shared/nameof';
 
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Stack from "@mui/material/Stack";
-import { useTheme } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import DialogContentStyled from "./styledComponents/DilogContentFormStyled";
+import DialogContentStyled from './styledComponents/DilogContentFormStyled';
 
 interface IProps {
   userEdit: UserEditModel;
   handleTextFieldOnChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  handleNumericFieldOnChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   handleOnChangeSelect: (e: SelectChangeEvent<number>) => void;
@@ -106,6 +111,38 @@ const DialogContentForm = forwardRef(
               </Stack>
             </>
             <>
+              <Stack spacing={2} direction={rowDirection}>
+                <TextField
+                  label='Počet přihlášení'
+                  fullWidth
+                  variant='outlined'
+                  type='number'
+                  autoComplete='off'
+                  disabled
+                  name={nameof<UserModel>("LoginCount")}
+                  value={props.userEdit.User.LoginCount}
+                  onChange={props.handleNumericFieldOnChange}
+                  inputProps={{
+                    maxLength: 50,
+                  }}
+                />
+                <TextField
+                  label='Počet pokusů o přihlášení'
+                  fullWidth
+                  variant='outlined'
+                  type='number'
+                  autoComplete='off'
+                  disabled
+                  name={nameof<UserModel>("LoginAttemptCount")}
+                  value={props.userEdit.User.LoginAttemptCount}
+                  onChange={props.handleNumericFieldOnChange}
+                  inputProps={{
+                    maxLength: 50,
+                  }}
+                />
+              </Stack>
+            </>
+            <>
               <FormControl required>
                 <InputLabel id='user-role-label'>Role</InputLabel>
                 <Select
@@ -133,7 +170,7 @@ const DialogContentForm = forwardRef(
           </Stack>
           <Button
             type='submit'
-            className='registration-submit-button'
+            className='user-submit-button'
             sx={{ display: "none" }}
           >
             submit
