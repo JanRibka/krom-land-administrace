@@ -1,13 +1,17 @@
-import { ChangeEvent, useState } from 'react';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
+import { ChangeEvent, useEffect, useState } from "react";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import FormControl from '@mui/material/FormControl';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { FormHelperText } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+
+import { passwordStrenghtEvaluation } from "./passwordStrenght/passwordStrenghtEvaluation";
+import PasswordStrenghtIndicator from "./passwordStrenght/PasswordStrenghtIndicator";
 
 interface IProps {
   name: string;
@@ -20,15 +24,71 @@ interface IProps {
   handlePasswordConfirmOnChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  handleErrorOnChange: (isError: boolean) => void;
 }
 
 const AppPassword = (props: IProps) => {
   // State
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [passwordErrorText, setPasswordErrorText] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [passwordStrenghtLevel, setPasswordStrenghtLevel] = useState<number>(0);
+  const [passwordConfirmError, setPasswordConfirmError] =
+    useState<boolean>(false);
+  const [passwordConfirmErrorText, setPasswordConfirmErrorText] =
+    useState<string>("");
   const [showPasswordConfirm, setShowPasswordConfirm] =
     useState<boolean>(false);
 
   // Other
+  useEffect(() => {
+    handleSetPasswordError();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.password]);
+
+  const handleSetPasswordError = () => {
+    const passStrenghtLvl = passwordStrenghtEvaluation(props.password);
+
+    setPasswordStrenghtLevel(passStrenghtLvl);
+
+    if (!!!props.password) {
+      setPasswordError(false);
+      setPasswordErrorText("");
+    } else if (props.password.length < props.minLength) {
+      setPasswordError(true);
+      setPasswordErrorText("Heslo je příliš krátké");
+    } else if (passStrenghtLvl === 1) {
+      setPasswordError(true);
+      setPasswordErrorText("Heslo je příliš slabé");
+    } else {
+      setPasswordError(false);
+      setPasswordErrorText("");
+    }
+  };
+
+  useEffect(() => {
+    handleSetPasswordConfirmError();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.password, props.passwordConfirm]);
+
+  const handleSetPasswordConfirmError = () => {
+    if (props.passwordConfirm.length === 0) {
+      setPasswordConfirmError(false);
+      setPasswordConfirmErrorText("");
+    } else if (props.password !== props.passwordConfirm) {
+      setPasswordConfirmError(true);
+      setPasswordConfirmErrorText("Hesla se neshodují");
+    } else {
+      setPasswordConfirmError(false);
+      setPasswordConfirmErrorText("");
+    }
+  };
+
+  useEffect(() => {
+    props.handleErrorOnChange(passwordError || passwordConfirmError);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [passwordError, passwordConfirmError]);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -46,7 +106,7 @@ const AppPassword = (props: IProps) => {
   return (
     <ErrorBoundary>
       {/* Password */}
-      <FormControl variant='outlined'>
+      <FormControl variant='outlined' error={passwordError}>
         <InputLabel htmlFor={props.name + "-password"} required>
           Heslo
         </InputLabel>
@@ -57,6 +117,7 @@ const AppPassword = (props: IProps) => {
           onChange={props.handlePasswordOnChange}
           value={props.password}
           required
+          // error={passwordError}
           autoComplete='new-password'
           endAdornment={
             <InputAdornment position='end'>
@@ -71,10 +132,12 @@ const AppPassword = (props: IProps) => {
             </InputAdornment>
           }
         />
+        {passwordError && <FormHelperText>{passwordErrorText}</FormHelperText>}
+        <PasswordStrenghtIndicator level={passwordStrenghtLevel} />
       </FormControl>
 
       {/* Confirm password */}
-      <FormControl variant='outlined'>
+      <FormControl variant='outlined' error={passwordConfirmError}>
         <InputLabel htmlFor={props.name + "-password-confirm"} required>
           Potvrdit heslo
         </InputLabel>
@@ -103,6 +166,9 @@ const AppPassword = (props: IProps) => {
             </InputAdornment>
           }
         />
+        {passwordConfirmError && (
+          <FormHelperText>{passwordConfirmErrorText}</FormHelperText>
+        )}
       </FormControl>
     </ErrorBoundary>
   );

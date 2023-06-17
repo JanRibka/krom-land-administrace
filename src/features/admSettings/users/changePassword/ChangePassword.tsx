@@ -8,6 +8,7 @@ const ChangePassword = () => {
   // State
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<boolean>(false);
 
   // Other
   const handlePasswordOnChange = (
@@ -26,6 +27,10 @@ const ChangePassword = () => {
     setPasswordConfirm(value);
   };
 
+  const handleErrorOnChange = (isError: boolean) => {
+    setPasswordError(isError);
+  };
+
   return (
     <ErrorBoundary>
       <SectionStyled component='section'>
@@ -37,6 +42,7 @@ const ChangePassword = () => {
           handlePasswordOnChange={handlePasswordOnChange}
           passwordConfirm={passwordConfirm}
           handlePasswordConfirmOnChange={handlePasswordConfirmOnChange}
+          handleErrorOnChange={handleErrorOnChange}
         />
       </SectionStyled>
     </ErrorBoundary>
