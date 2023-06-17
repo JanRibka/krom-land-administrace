@@ -57,7 +57,7 @@ const AppPassword = (props: IProps) => {
           onChange={props.handlePasswordOnChange}
           value={props.password}
           required
-          autoComplete='neww-password'
+          autoComplete='new-password'
           endAdornment={
             <InputAdornment position='end'>
               <IconButton
@@ -85,7 +85,7 @@ const AppPassword = (props: IProps) => {
           onChange={props.handlePasswordConfirmOnChange}
           value={props.passwordConfirm}
           required
-          autoComplete='neww-password'
+          autoComplete='new-password'
           endAdornment={
             <InputAdornment position='end'>
               <IconButton
