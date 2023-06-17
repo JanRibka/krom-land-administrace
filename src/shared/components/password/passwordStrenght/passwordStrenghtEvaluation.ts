@@ -4,7 +4,7 @@ export const passwordStrenghtEvaluation = (password: string): number => {
   regex.push("[A-Z]"); //Uppercase Alphabet.
   regex.push("[a-z]"); //Lowercase Alphabet.
   regex.push("[0-9]"); //Digit.
-  regex.push("[$@$!%*#?&]"); //Special Character.
+  regex.push("[$@$!%*#?&(){}/+-><:|]"); //Special Character.
 
   let passwordStrenghtLevel = 0;
 
