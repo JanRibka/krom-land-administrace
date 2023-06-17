@@ -1,6 +1,6 @@
-import Users from "features/admSettings/users/usersList/Users";
+import Users from 'features/admSettings/users/Users';
 
-import PageStyled from "../styledComponents/PageStyled";
+import PageStyled from '../styledComponents/PageStyled';
 
 const UsersPage = () => {
   return (
