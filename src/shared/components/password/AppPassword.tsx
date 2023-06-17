@@ -43,12 +43,6 @@ const AppPassword = (props: IProps) => {
     event.preventDefault();
   };
 
-  const handleOnFocusPassword = (
-    event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
-  ) => {
-    event.preventDefault();
-  };
-
   return (
     <ErrorBoundary>
       {/* Password */}
@@ -61,7 +55,6 @@ const AppPassword = (props: IProps) => {
           label='Heslo'
           type={showPassword ? "text" : "password"}
           onChange={props.handlePasswordOnChange}
-          onFocus={handleOnFocusPassword}
           value={props.password}
           required
           autoComplete='off'
@@ -90,7 +83,6 @@ const AppPassword = (props: IProps) => {
           label='Potvrdit heslo'
           type={showPasswordConfirm ? "text" : "password"}
           onChange={props.handlePasswordConfirmOnChange}
-          onFocus={handleOnFocusPassword}
           value={props.passwordConfirm}
           required
           autoComplete='off'
