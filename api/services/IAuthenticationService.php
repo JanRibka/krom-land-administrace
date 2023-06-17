@@ -12,6 +12,8 @@ interface IAuthenticationService
 
     public function getUserByRefreshToken(string $refreshToken): UserModel;
 
+    public function getUserByUserId(string $idUser): UserModel;
+
     public function insertUser(UserModel $user): int;
 
     public function updatetUser(UserModel $user): void;

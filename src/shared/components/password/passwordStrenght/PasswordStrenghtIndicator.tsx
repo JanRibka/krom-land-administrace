@@ -42,7 +42,7 @@ const PasswordStrenghtIndicator = (props: IProps) => {
         marginTop: "5px",
 
         [`&.${linearProgressClasses.colorPrimary}`]: {
-          backgroundColor: theme.palette.grey[200],
+          backgroundColor: theme.palette.primary.light,
         },
 
         [`& .${linearProgressClasses.bar}`]: {

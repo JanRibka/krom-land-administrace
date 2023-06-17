@@ -293,6 +293,34 @@ class AuthenticationController extends ControllerBase
             $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Password change.
+     */
+    public function passwordChange()
+    {
+        try {
+            $password = $_POST['password'];
+            $idLoggedUser = $_GET['idLoggedUser'];
+
+            if (!(bool) $password) {
+                $this->apiResponse(false, 'Heslo jsou povinné', null, HttpStatusCode::BAD_REQUEST);
+                exit;
+            }
+
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $user = new UserModel();
+
+            $user->Id = $idLoggedUser;
+            $user->Password = $hashedPassword;
+
+            $this->_authenticationService->updatetUser($user);
+
+            $this->apiResponse(true, '');
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {

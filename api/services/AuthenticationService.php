@@ -1,8 +1,9 @@
-<?php 
+<?php
+
 namespace kromLand\api\services;
 
-require_once __DIR__ . "/./IAuthenticationService.php";
-require_once __DIR__ . "/../repositories/IAuthenticationRepository.php";
+require_once __DIR__.'/./IAuthenticationService.php';
+require_once __DIR__.'/../repositories/IAuthenticationRepository.php';
 
 use kromLand\api\models\authentication\UserModel;
 use kromLand\api\repositories\IAuthenticationRepository;
@@ -16,9 +17,10 @@ class AuthenticationService implements IAuthenticationService
         $this->_authenticationRepository = $pAuthenticationRepository;
     }
 
-    public function getDuplicateUser(string $userName): bool 
+    public function getDuplicateUser(string $userName): bool
     {
         $user = $this->_authenticationRepository->getUserByUserName($userName);
+
         return $user->Id !== null;
     }
 
@@ -32,6 +34,13 @@ class AuthenticationService implements IAuthenticationService
         return $this->_authenticationRepository->getUserByRefreshToken($refreshToken);
     }
 
+    public function getUserByUserId(string $idUser): UserModel
+    {
+        $id = (int) $idUser;
+
+        return $this->getUserByUserId($id);
+    }
+
     public function insertUser(UserModel $user): int
     {
         return $this->_authenticationRepository->insertUser($user);
@@ -42,4 +51,3 @@ class AuthenticationService implements IAuthenticationService
         $this->_authenticationRepository->updateUser($user);
     }
 }
-?>
