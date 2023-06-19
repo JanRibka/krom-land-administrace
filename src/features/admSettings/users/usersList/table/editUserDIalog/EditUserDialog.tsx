@@ -1,32 +1,37 @@
-import AdmSettingsService from 'features/admSettings/AdmSettingsService';
-import UserEditModel from 'features/admSettings/models/UserEditModel';
-import { mapFromUserEditDTO } from 'features/admSettings/save/mapFromUserEditDTO';
-import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import AppLoader from 'shared/components/loader/AppLoader';
-import AppNotification from 'shared/components/notification/AppNotification';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import AnoNeDialog from 'shared/dialogs/AnoNeDialog';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import UserEditDTO from 'shared/DTOs/UserEditDTO';
-import { useAdmSettingsSlice } from 'shared/infrastructure/store/admSettings/useAdmSettingsSlice';
+import AdmSettingsService from "features/admSettings/AdmSettingsService";
+import UserEditModel from "features/admSettings/models/UserEditModel";
+import { mapFromUserEditDTO } from "features/admSettings/save/mapFromUserEditDTO";
 import {
-    selectAuthentication
-} from 'shared/infrastructure/store/authentication/authenticationSlice';
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
+import { useSelector } from "react-redux";
+import AppLoader from "shared/components/loader/AppLoader";
+import AppNotification from "shared/components/notification/AppNotification";
+import { useRequest } from "shared/dataAccess/useRequest";
+import AnoNeDialog from "shared/dialogs/AnoNeDialog";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import UserEditDTO from "shared/DTOs/UserEditDTO";
+import { useAdmSettingsSlice } from "shared/infrastructure/store/admSettings/useAdmSettingsSlice";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 
-import CloseIcon from '@mui/icons-material/Close';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import { SelectChangeEvent } from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
+import CloseIcon from "@mui/icons-material/Close";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import { SelectChangeEvent } from "@mui/material/Select";
+import Typography from "@mui/material/Typography";
 
-import DialogContentForm from './dialogContent/DialogContentForm';
-import ActionUserDialogStyled from './styledComponents/ActionUserDialogStyled';
-import DialogActionsStyled from './styledComponents/DialogActionsStyled';
+import DialogContentForm from "./dialogContent/DialogContentForm";
+import ActionUserDialogStyled from "./styledComponents/ActionUserDialogStyled";
+import DialogActionsStyled from "./styledComponents/DialogActionsStyled";
 
 interface IProps {
   open: boolean;
@@ -190,7 +195,10 @@ const EditUserDialog = (props: IProps) => {
       setUserLoaded(false);
       handleAdmSettingsUpdate({ _usersLoaded: false });
       props.setOpen(false);
-      window.location.reload();
+
+      if (userEdit.User.Id === authentication.UserId) {
+        window.location.reload();
+      }
     } else {
       setUpdating(false);
     }

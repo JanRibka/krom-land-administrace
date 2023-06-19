@@ -1,3 +1,4 @@
+import DropDownsDataModel from "features/admSettings/models/DropDownsDataModel";
 import UserModel from "features/admSettings/models/UserModel";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -6,11 +7,15 @@ import AppState from "../AppState";
 
 export interface AdmSettingsState {
   Users: UserModel[];
+  DropDownsData: DropDownsDataModel;
+  _admSettingsLoaded: boolean;
   _usersLoaded: boolean;
 }
 
 export const initialState: AdmSettingsState = {
   Users: [],
+  DropDownsData: new DropDownsDataModel(),
+  _admSettingsLoaded: false,
   _usersLoaded: false,
 };
 

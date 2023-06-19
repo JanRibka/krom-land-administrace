@@ -120,6 +120,7 @@ const AppPassword = (props: IProps) => {
             value={props.password}
             required
             autoComplete='new-password'
+            aria-invalid={passwordError ? "true" : "false"}
             endAdornment={
               <InputAdornment position='end'>
                 <IconButton
@@ -152,6 +153,7 @@ const AppPassword = (props: IProps) => {
             value={props.passwordConfirm}
             required
             autoComplete='new-password'
+            aria-invalid={passwordConfirmError ? "true" : "false"}
             endAdornment={
               <InputAdornment position='end'>
                 <IconButton

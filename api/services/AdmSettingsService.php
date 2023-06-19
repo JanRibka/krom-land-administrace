@@ -2,6 +2,7 @@
 
 namespace kromLand\api\services;
 
+use kromLand\api\models\admSettings\AdmSettingsModel;
 use kromLand\api\models\admSettings\DropDownsDataModel;
 use kromLand\api\models\admSettings\UserEditModel;
 use kromLand\api\models\authentication\UserModel;
@@ -11,6 +12,7 @@ use kromLand\api\repositories\ICommonRepository;
 
 require_once __DIR__.'/./IAdmSettingsService.php';
 require_once __DIR__.'/../repositories/IAdmSettingsRepository.php';
+require_once __DIR__.'/../models/admSettings/AdmSettingsModel.php';
 require_once __DIR__.'/../models/admSettings/UserEditModel.php';
 require_once __DIR__.'/../models/admSettings/DropDownsDataModel.php';
 
@@ -28,6 +30,18 @@ class AdmSettingsService implements IAdmSettingsService
         $this->_admSettingsRepository = $pAdmSettingsRepository;
         $this->_commonRepository = $pCommonRepository;
         $this->_authenticationRepository = $pAuthenticationRepository;
+    }
+
+    public function getAdmSettings(): AdmSettingsModel
+    {
+        $roleList = $this->_commonRepository->getTableOfKeyByGroupKey('ROLE_LIST');
+
+        $admSettings = new AdmSettingsModel();
+        $admSettings->DropDownsData = new DropDownsDataModel(
+            $roleList
+        );
+
+        return $admSettings;
     }
 
     public function getUsersByLoggedUseId(string $idLoggedUser): array
@@ -61,13 +75,8 @@ class AdmSettingsService implements IAdmSettingsService
 
         $user = $this->_authenticationRepository->getUserByUserId($id);
 
-        $roleList = $this->_commonRepository->getTableOfKeyByGroupKey('ROLE_LIST');
-
         $userEdit = new UserEditModel();
         $userEdit->User = $user;
-        $userEdit->DropDownsData = new DropDownsDataModel(
-            $roleList
-        );
 
         return $userEdit;
     }
@@ -82,7 +91,7 @@ class AdmSettingsService implements IAdmSettingsService
         $user->UserName = $userDecoded->UserName;
 
         if ($user->Id !== $idLoggedUser) {
-            $user->UserRoleName = $userDecoded->UserRoleName;
+            $user->UserRoleValue = $userDecoded->UserRoleValue;
         }
 
         $this->_authenticationRepository->updateUser($user);

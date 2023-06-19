@@ -1,6 +1,5 @@
 import UserEditDTO from "shared/DTOs/UserEditDTO";
 
-import DropDownsDataModel from "../models/DropDownsDataModel";
 import UserEditModel from "../models/UserEditModel";
 import UserModel from "../models/UserModel";
 
@@ -22,7 +21,6 @@ export const mapFromUserEditDTO = (userEditDTO?: UserEditDTO | null) => {
       UserRoleValue: userEditDTO?.User.UserRoleValue,
       UserRoleName: userEditDTO?.User.UserRoleName,
     } as UserModel,
-    DropDownsData: userEditDTO?.DropDownsData ?? new DropDownsDataModel(),
   };
   return result;
 };

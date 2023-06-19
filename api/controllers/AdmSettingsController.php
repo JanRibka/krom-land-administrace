@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use kromLand\api\controllers\ControllerBase;
 use kromLand\api\enums\HttpStatusCode;
+use kromLand\api\enums\UserRoleEnum;
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
@@ -23,13 +24,16 @@ require_once __DIR__.'/../services/AdmSettingsService.php';
 require_once __DIR__.'/../repositories/CommonRepository.php';
 require_once __DIR__.'/../repositories/AuthenticationRepository.php';
 require_once __DIR__.'/../repositories/AdmSettingsRepository.php';
+require_once __DIR__.'/../services/AuthenticationService.php';
+require_once __DIR__.'/../repositories/AuthenticationRepository.php';
 
-use kromLand\api\enums\UserRoleEnum;
 use kromLand\api\repositories\AdmSettingsRepository;
 use kromLand\api\repositories\AuthenticationRepository;
 use kromLand\api\repositories\CommonRepository;
 use kromLand\api\services\AdmSettingsService;
+use kromLand\api\services\AuthenticationService;
 use kromLand\api\services\IAdmSettingsService;
+use kromLand\api\services\IAuthenticationService;
 
 use function kromLand\api\middleware\verifyJWT;
 use function kromLand\api\middleware\verifyRole;
@@ -37,10 +41,26 @@ use function kromLand\api\middleware\verifyRole;
 class AdmSettingsController extends ControllerBase
 {
     private readonly IAdmSettingsService $_admSettingsService;
+    private readonly IAuthenticationService $_authenticationService;
 
-    public function __construct(IAdmSettingsService $pAdmSettingsService)
+    public function __construct(IAdmSettingsService $pAdmSettingsService, IAuthenticationService $pAuthenticationService)
     {
         $this->_admSettingsService = $pAdmSettingsService;
+        $this->_authenticationService = $pAuthenticationService;
+    }
+
+    /**
+     * Get administration settings.
+     */
+    public function getAdmSettings()
+    {
+        try {
+            $admSettings = $this->_admSettingsService->getAdmSettings();
+
+            $this->apiResponse(true, '', $admSettings);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -84,6 +104,17 @@ class AdmSettingsController extends ControllerBase
         $idLoggedUser = $_GET['idLoggedUser'];
 
         try {
+            $userDecoded = json_decode($user);
+
+            // Check for duplicate usernames in DB
+            $dbUser = $this->_authenticationService->getUserByUserName($userDecoded->UserName);
+
+            if ($dbUser->UserName === $userDecoded->UserName && $dbUser->Id !== $userDecoded->Id) {
+                // Conflict
+                $this->apiResponse(false, 'Uživatelské jméno již existuje', null, HttpStatusCode::CONFLICT);
+                exit;
+            }
+
             $this->_admSettingsService->userUpdate($user, $idLoggedUser);
 
             $this->apiResponse(true, '');
@@ -132,7 +163,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $commonRepository = new CommonRepository();
         $authenticationRepository = new AuthenticationRepository();
         $admSettingsService = new AdmSettingsService($admSettingsRepository, $commonRepository, $authenticationRepository);
-        $controller = new AdmSettingsController($admSettingsService);
+        $authenticationRepositiory = new AuthenticationRepository();
+        $authenticationService = new AuthenticationService($authenticationRepositiory);
+        $controller = new AdmSettingsController($admSettingsService, $authenticationService);
 
         if (method_exists($controller, $functionName)) {
             $request = new ServerRequest(

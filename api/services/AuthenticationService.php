@@ -38,7 +38,7 @@ class AuthenticationService implements IAuthenticationService
     {
         $id = (int) $idUser;
 
-        return $this->getUserByUserId($id);
+        return $this->_authenticationRepository->getUserByUserId($id);
     }
 
     public function insertUser(UserModel $user): int

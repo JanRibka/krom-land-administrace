@@ -1,24 +1,23 @@
-import UserEditModel from 'features/admSettings/models/UserEditModel';
-import UserModel from 'features/admSettings/models/UserModel';
-import { ChangeEvent, FormEvent, forwardRef, Ref } from 'react';
-import { useSelector } from 'react-redux';
-import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
-import {
-    selectAuthentication
-} from 'shared/infrastructure/store/authentication/authenticationSlice';
-import { nameof } from 'shared/nameof';
+import UserEditModel from "features/admSettings/models/UserEditModel";
+import UserModel from "features/admSettings/models/UserModel";
+import { ChangeEvent, FormEvent, forwardRef, Ref } from "react";
+import { useSelector } from "react-redux";
+import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
+import { selectAdmSettings } from "shared/infrastructure/store/admSettings/admSettingsSlice";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
+import { nameof } from "shared/nameof";
 
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Stack from "@mui/material/Stack";
+import { useTheme } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import DialogContentStyled from './styledComponents/DilogContentFormStyled';
+import DialogContentStyled from "./styledComponents/DilogContentFormStyled";
 
 interface IProps {
   userEdit: UserEditModel;
@@ -36,6 +35,7 @@ const DialogContentForm = forwardRef(
   (props: IProps, ref: Ref<HTMLFormElement>) => {
     // Store
     const authentication = useSelector(selectAuthentication);
+    const admSettings = useSelector(selectAdmSettings);
 
     // Constants
     const theme = useTheme();
@@ -154,16 +154,11 @@ const DialogContentForm = forwardRef(
                   disabled={authentication.UserId === props.userEdit.User.Id}
                   onChange={props.handleOnChangeSelect}
                 >
-                  {props.userEdit.DropDownsData.RoleListData.map(
-                    (item, index) => (
-                      <MenuItem
-                        value={item.Value}
-                        key={"user-role-key-" + index}
-                      >
-                        {item.Name}
-                      </MenuItem>
-                    )
-                  )}
+                  {admSettings.DropDownsData.RoleListData.map((item, index) => (
+                    <MenuItem value={item.Value} key={"user-role-key-" + index}>
+                      {item.Name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </>

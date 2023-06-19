@@ -54,7 +54,7 @@ class AuthenticationController extends ControllerBase
             $userName = $_POST['userName'];
             $password = $_POST['password'];
             $userRole = $_POST['userRole'];
-            $idParent = $_POST['idParent'];
+            $idLoggedUser = $_POST['idLoggedUser'];
 
             if (!(bool) $userName || !(bool) $password) {
                 $this->apiResponse(false, 'Uživatelské jméno a heslo jsou povinné', null, HttpStatusCode::BAD_REQUEST);
@@ -74,11 +74,14 @@ class AuthenticationController extends ControllerBase
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             // Store the new user
+            $loggedUser = $this->_authenticationService->getUserByUserId($idLoggedUser);
+            $idParent = (bool) $loggedUser->IdParent ? $loggedUser->IdParent : $loggedUser->Id;
+
             $user = new UserModel();
             $user->UserName = $userName;
             $user->Password = $hashedPassword;
             $user->UserRoleValue = $userRole;
-            $user->IdParent = $idParent === 'null' ? null : $idParent;
+            $user->IdParent = $idParent;
             $user->LoginCount = 0;
             $user->LoginAttemptCount = 0;
 

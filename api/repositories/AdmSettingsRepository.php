@@ -58,7 +58,7 @@ class AdmSettingsRepository implements IAdmSettingsRepository
                 $user->LastLoginAttempt = (bool) $childUser->LastLoginAttempt ? new \DateTime($childUser->LastLoginAttempt) : null;
                 $user->LoginCount = $childUser->LoginCount;
                 $user->LoginAttemptCount = $childUser->LoginAttemptCount;
-                $user->UserRoleValue = $loggedUser->UserRoleValue;
+                $user->UserRoleValue = $childUser->UserRoleValue;
 
                 array_push($result, $user);
             }
