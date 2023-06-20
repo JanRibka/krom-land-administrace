@@ -17,7 +17,11 @@ import Box from "@mui/material/Box";
 
 import HomeModel from "../models/HomeModel";
 
-const PageHeader = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const PageHeader = (props: IProps) => {
   // Store
   const home = useSelector(selectHome);
 
@@ -86,6 +90,7 @@ const PageHeader = () => {
           valueText={home.PageHeaderTextMain}
           nameColor={nameof<HomeModel>("PageHeaderTextMainColor")}
           valueColor={home.PageHeaderTextMainColor}
+          disable={props.disable}
           handleTextFieldOnBlur={handleTextFieldOnBlur}
         />
         <Box className='sub-section-separator'>
@@ -95,6 +100,7 @@ const PageHeader = () => {
             valueText={home.PageHeaderTextSecondary}
             nameColor={nameof<HomeModel>("PageHeaderTextSecondaryColor")}
             valueColor={home.PageHeaderTextSecondaryColor}
+            disable={props.disable}
             handleTextFieldOnBlur={handleTextFieldOnBlur}
           />
         </Box>
@@ -109,6 +115,7 @@ const PageHeader = () => {
             maxFileSize={1}
             location={ImageLocationEnum.HOME}
             id={home.Id}
+            disable={props.disable}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

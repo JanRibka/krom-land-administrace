@@ -17,7 +17,11 @@ import Box from "@mui/material/Box";
 
 import HomeModel from "../models/HomeModel";
 
-const AboutUs = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const AboutUs = (props: IProps) => {
   // Store
   const home = useSelector(selectHome);
 
@@ -81,6 +85,7 @@ const AboutUs = () => {
           value={home.AboutUs}
           placeholder='Popis'
           required
+          disable={props.disable}
           onChange={handleTextEditorOnChange}
         />
 
@@ -95,6 +100,7 @@ const AboutUs = () => {
             maxFileSize={1}
             location={ImageLocationEnum.HOME}
             id={home.Id}
+            disable={props.disable}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

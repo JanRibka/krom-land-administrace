@@ -7,7 +7,11 @@ import { nameof } from "shared/nameof";
 
 import GalleryModel from "../models/GalleryModel";
 
-const Seo = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const Seo = (props: IProps) => {
   // Store
   const gallery = useSelector(selectGallery);
 
@@ -31,6 +35,7 @@ const Seo = () => {
         nameDescription={nameof<GalleryModel>("Description")}
         valueTitle={gallery.Title}
         valueDescription={gallery.Description}
+        disable={props.disable}
         handleTextFieldOnBlur={handleTextFieldOnBlur}
       />
     </ErrorBoundary>

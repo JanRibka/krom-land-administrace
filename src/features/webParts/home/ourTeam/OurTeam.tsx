@@ -13,7 +13,11 @@ import TeamMemberModel from "../models/TeamMemberModel";
 import Member from "./member/Member";
 import ButtonWrapperStyled from "./styledComponents/ButtonWrapperStyled";
 
-const OurTeam = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const OurTeam = (props: IProps) => {
   // Store
   const home = useSelector(selectHome);
 
@@ -43,6 +47,7 @@ const OurTeam = () => {
             description={member.Description}
             image={member.Image}
             id={member.Id}
+            disable={props.disable}
           />
         );
       }
@@ -63,6 +68,7 @@ const OurTeam = () => {
             onClick={handleAddMemberOnClick}
             color='secondary'
             variant='contained'
+            disabled={props.disable}
             startIcon={<AddIcon />}
           >
             Přidat člena

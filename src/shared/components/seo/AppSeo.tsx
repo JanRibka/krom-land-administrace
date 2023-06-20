@@ -12,6 +12,7 @@ interface IProps {
   nameDescription: string;
   valueTitle: string;
   valueDescription: string;
+  disable: boolean;
   handleTextFieldOnBlur: (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
   ) => void;
@@ -32,6 +33,7 @@ const AppSeo = (props: IProps) => {
               variant='outlined'
               fullWidth
               required
+              disabled={props.disable}
               autoComplete='off'
               onBlur={props.handleTextFieldOnBlur}
             />
@@ -46,6 +48,7 @@ const AppSeo = (props: IProps) => {
               variant='outlined'
               fullWidth
               required
+              disabled={props.disable}
               autoComplete='off'
               onBlur={props.handleTextFieldOnBlur}
             />

@@ -8,7 +8,9 @@ import PageTitle from "shared/components/pageTitle/PageTitle";
 import { useRequest } from "shared/dataAccess/useRequest";
 import ContactDTO from "shared/DTOs/ContactDTO";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectContact } from "shared/infrastructure/store/webParts/webPartsSlice";
 
@@ -26,11 +28,13 @@ const Contact = () => {
   const [saving, setSaving] = useState<boolean>(false);
 
   // Store
-  const _webPartsService = new WebPartsService();
   const contact = useSelector(selectContact);
+  const authentication = useSelector(selectAuthentication);
 
   // Constants
+  const _webPartsService = new WebPartsService();
   const { handleContactUpdate } = useWebPartsSlice();
+  const disable = authentication.UserRole === UserRoleEnum.USER;
 
   /**
    * Get data
@@ -82,17 +86,17 @@ const Contact = () => {
       <FeatureStyled>
         <Stack spacing={4}>
           <PageTitle title='Kontakt' />
-          <Seo />
-          <PageHeader />
-          <GoogleMaps />
-          <Email />
+          <Seo disable={disable} />
+          <PageHeader disable={disable} />
+          <GoogleMaps disable={disable} />
+          <Email disable={disable} />
         </Stack>
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
 
       <Footer
-        disabled={!contact._dataLoaded}
+        disable={!contact._dataLoaded || disable}
         loading={saving}
         handleSaveOnClick={handleSaveOnClick}
       />

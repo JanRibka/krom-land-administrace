@@ -9,7 +9,11 @@ import { nameof } from "shared/nameof";
 
 import GalleryModel from "../models/GalleryModel";
 
-const ExternalGalleryLink = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const ExternalGalleryLink = (props: IProps) => {
   // Store
   const gallery = useSelector(selectGallery);
 
@@ -38,6 +42,7 @@ const ExternalGalleryLink = () => {
           variant='outlined'
           fullWidth
           required
+          disabled={props.disable}
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />

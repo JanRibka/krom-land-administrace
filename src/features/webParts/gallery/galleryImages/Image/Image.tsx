@@ -14,6 +14,7 @@ interface IProps {
   index: number;
   imageCount: number;
   image: ImageModel;
+  disable: boolean;
 }
 
 const Image = (props: IProps) => {
@@ -80,6 +81,7 @@ const Image = (props: IProps) => {
         maxFileSize={1}
         location={ImageLocationEnum.GALLERY_IMAGE}
         id={galleryImage?.Id ?? null}
+        disable={props.disable}
         onAfterFileUpload={handleOnAfterFileUpload}
         onAfterFileDelete={handleOnAfterFileDelete}
         onFileSave={handleOnFileSave}

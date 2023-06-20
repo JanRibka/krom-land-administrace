@@ -119,7 +119,7 @@ class ImageController extends ControllerBase
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_GET['function'])) {
         $functionName = $_GET['function'];
-        $userRoles = [UserRoleEnum::ADMIN];
+        $userRoles = [UserRoleEnum::ADMIN, UserRoleEnum::EDITOR];
 
         $imageRepository = new ImageRepository();
         $imageService = new ImageService($imageRepository);

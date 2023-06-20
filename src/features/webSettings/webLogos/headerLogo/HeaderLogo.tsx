@@ -12,7 +12,11 @@ import { nameof } from "shared/nameof";
 
 import WebLogosModel from "../models/WebLogosModel";
 
-const HeaderLogo = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const HeaderLogo = (props: IProps) => {
   // Store
   const webLogos = useSelector(selectWebLogos);
 
@@ -76,6 +80,7 @@ const HeaderLogo = () => {
           maxFileSize={1}
           location={ImageLocationEnum.WEB_LOGOS}
           id={webLogos.Id}
+          disable={props.disable}
           onAfterFileUpload={handleOnAfterFileUpload}
           onAfterFileDelete={handleOnAfterFileDelete}
           onFileSave={handleOnFileSave}

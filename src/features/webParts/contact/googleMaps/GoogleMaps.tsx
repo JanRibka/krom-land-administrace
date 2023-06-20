@@ -12,7 +12,11 @@ import Box from "@mui/material/Box";
 
 import { ContactModel } from "../models/ContactModel";
 
-const GoogleMaps = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const GoogleMaps = (props: IProps) => {
   // Store
   const contact = useSelector(selectContact);
 
@@ -41,6 +45,7 @@ const GoogleMaps = () => {
             variant='outlined'
             fullWidth
             required
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />

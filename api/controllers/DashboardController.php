@@ -117,6 +117,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $functionName = $_GET['function'];
         $userRoles = [UserRoleEnum::ADMIN];
 
+        switch ($functionName) {
+            case 'getRegistrations':
+            case 'getDashboard':
+            case 'getRegistrationForEdit':
+            case 'registrationUpdate':
+            case 'registrationDelete':
+                $userRoles = [
+                    UserRoleEnum::ADMIN,
+                    UserRoleEnum::EDITOR,
+                ];
+
+                break;
+        }
+
         $dashboardRepository = new DashboardRepository();
         $commonRepository = new CommonRepository();
         $dashboardService = new DashboardService($dashboardRepository, $commonRepository);

@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import FooterStyled from "./styledComponents/FooterStyled";
 
 interface IProps {
-  disabled: boolean;
+  disable: boolean;
   loading: boolean;
   handleSaveOnClick: () => void;
 }
@@ -18,7 +18,7 @@ const Footer = (props: IProps) => {
           <LoadingButton
             variant='contained'
             color='secondary'
-            disabled={props.disabled}
+            disabled={props.disable}
             onClick={props.handleSaveOnClick}
             loading={props.loading}
             startIcon={<SaveIcon />}

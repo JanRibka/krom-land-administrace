@@ -14,8 +14,11 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+
+import RegisterFormStyled from "./styledComponents/RegisterFormStyled";
 
 const RegisterForm = () => {
   // References
@@ -95,71 +98,76 @@ const RegisterForm = () => {
 
   return (
     <ErrorBoundary>
-      {/* Error field */}
-      <Typography
-        ref={refErr}
-        className={errMsg ? "err-msg" : "offscreen"}
-        aria-live='assertive'
-      >
-        {errMsg}
-      </Typography>
+      <RegisterFormStyled>
+        {/* Error field */}
+        <Typography
+          ref={refErr}
+          className={errMsg ? "err-msg" : "offscreen"}
+          aria-live='assertive'
+        >
+          {errMsg}
+        </Typography>
 
-      {/* Form */}
-      <form onSubmit={handleFormOnSubmit}>
-        {/* User name */}
-        <TextField
-          label='Email'
-          type='email'
-          id='user-name'
-          autoComplete='username'
-          onChange={(e) => setUserName(e.target.value)}
-          value={userName}
-          required
-        />
+        {/* Form */}
+        <form onSubmit={handleFormOnSubmit}>
+          <Stack spacing={2} direction='column'>
+            {/* User name */}
+            <TextField
+              label='Email'
+              type='email'
+              id='user-name'
+              autoComplete='username'
+              required
+              fullWidth
+              onChange={(e) => setUserName(e.target.value)}
+              value={userName}
+            />
 
-        {/* Password */}
-        <AppPassword
-          name='register-user'
-          minLength={5}
-          password={password}
-          handlePasswordOnChange={handlePasswordOnChange}
-          passwordConfirm={passwordConfirm}
-          handlePasswordConfirmOnChange={handlePasswordConfirmOnChange}
-          handleErrorOnChange={handleErrorOnChange}
-        />
+            {/* Password */}
+            <AppPassword
+              name='register-user'
+              minLength={5}
+              password={password}
+              handlePasswordOnChange={handlePasswordOnChange}
+              passwordConfirm={passwordConfirm}
+              handlePasswordConfirmOnChange={handlePasswordConfirmOnChange}
+              handleErrorOnChange={handleErrorOnChange}
+            />
 
-        {/* User role */}
-        <FormControl required>
-          <InputLabel id='user-role-label'>Role</InputLabel>
-          <Select
-            labelId='user-role-label'
-            id='user-role'
-            name=''
-            value={userRole}
-            label='Role'
-            required
-            onChange={(e) => setUserRole(e.target.value as number)}
-          >
-            {admSettings.DropDownsData.RoleListData.map((item, index) => (
-              <MenuItem value={item.Value} key={"user-role-key-" + index}>
-                {item.Name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            {/* User role */}
+            <FormControl required fullWidth>
+              <InputLabel id='user-role-label'>Role</InputLabel>
+              <Select
+                labelId='user-role-label'
+                id='user-role'
+                name=''
+                value={userRole}
+                label='Role'
+                required
+                onChange={(e) => setUserRole(e.target.value as number)}
+              >
+                {admSettings.DropDownsData.RoleListData.map((item, index) => (
+                  <MenuItem value={item.Value} key={"user-role-key-" + index}>
+                    {item.Name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-        {/* Submit button */}
-        <Box className='buttons-wrapper'>
-          <LoadingButton
-            type='submit'
-            variant='contained'
-            color='secondary'
-            loading={saving}
-          >
-            Vložit
-          </LoadingButton>
-        </Box>
-      </form>
+            {/* Submit button */}
+            <Box className='buttons-wrapper'>
+              <LoadingButton
+                type='submit'
+                variant='contained'
+                color='secondary'
+                loading={saving}
+              >
+                Vložit
+              </LoadingButton>
+            </Box>
+          </Stack>
+        </form>
+      </RegisterFormStyled>
     </ErrorBoundary>
   );
 };

@@ -11,7 +11,11 @@ import Stack from "@mui/material/Stack";
 
 import WebSettingsModel from "../models/WebSettingsModel";
 
-const Subject = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const Subject = (props: IProps) => {
   // Store
   const webSettings = useSelector(selectWebSettings);
 
@@ -41,6 +45,7 @@ const Subject = () => {
             variant='outlined'
             fullWidth
             required
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />
@@ -53,6 +58,7 @@ const Subject = () => {
             variant='outlined'
             fullWidth
             required
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />
@@ -65,6 +71,7 @@ const Subject = () => {
             variant='outlined'
             fullWidth
             required
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />

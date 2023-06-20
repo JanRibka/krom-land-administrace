@@ -1,26 +1,26 @@
-import DocumentService from 'features/DocumentService';
-import { ChangeEvent } from 'react';
-import DocumentModel from 'shared/models/DocumentModel';
-import { v4 as uuidv4 } from 'uuid';
+import DocumentService from "features/DocumentService";
+import { ChangeEvent } from "react";
+import DocumentModel from "shared/models/DocumentModel";
+import { v4 as uuidv4 } from "uuid";
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined';
-import { LoadingButton } from '@mui/lab';
-import Box from '@mui/material/Box';
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveAltOutlinedIcon from "@mui/icons-material/SaveAltOutlined";
+import { LoadingButton } from "@mui/lab";
+import Box from "@mui/material/Box";
 
-import AppNotification from '../notification/AppNotification';
-import ValidateFileSizeReturnModel from './models/ValidateFileSizeReturnModel ';
-import ValidateFileTypeReturnModel from './models/ValidateFileTypeReturnModel ';
-import DocumentUploadStyled from './styledComponents/DocumentUploadStyled';
+import AppNotification from "../notification/AppNotification";
+import ValidateFileSizeReturnModel from "./models/ValidateFileSizeReturnModel ";
+import ValidateFileTypeReturnModel from "./models/ValidateFileTypeReturnModel ";
+import DocumentUploadStyled from "./styledComponents/DocumentUploadStyled";
 
 interface IProps {
   document: DocumentModel;
   id: number | null;
   name: string;
   label: string;
-  disabled?: boolean;
   supportedExtensions: Array<string>;
   maxFileSize: number;
+  disable?: boolean;
   onAfterFileUpload: (
     fileName: string,
     name: string,
@@ -203,6 +203,7 @@ const DocumentUpload = (props: IProps) => {
                 onClick={onFileDeleteHandler}
                 color='secondary'
                 variant='contained'
+                disabled={props.disable}
               >
                 Smazat
               </LoadingButton>
@@ -217,6 +218,7 @@ const DocumentUpload = (props: IProps) => {
                 accept={getFileType(props.supportedExtensions)}
                 id={guid}
                 className='file-upload-input'
+                disabled={props.disable}
                 onChange={onFileUploadHandler}
               />
             </>
@@ -227,6 +229,7 @@ const DocumentUpload = (props: IProps) => {
               onClick={onFileSave}
               color='secondary'
               variant='contained'
+              disabled={props.disable}
             >
               Uložit
             </LoadingButton>

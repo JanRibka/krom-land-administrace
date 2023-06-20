@@ -8,7 +8,9 @@ import PageTitle from "shared/components/pageTitle/PageTitle";
 import { useRequest } from "shared/dataAccess/useRequest";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import WebLogosDTO from "shared/DTOs/WebLogosDTO";
+import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 import { useWebSettingsSlice } from "shared/infrastructure/store/webSettings/useWebSettingsSlice";
 import { selectWebLogos } from "shared/infrastructure/store/webSettings/webSettingsSlice";
 
@@ -23,10 +25,11 @@ const WebLogos = () => {
 
   // Store
   const webLogos = useSelector(selectWebLogos);
+  const authentication = useSelector(selectAuthentication);
 
   // Constants
-  // const _webPartsService = new WebPartsService();
   const { handleLogosUpdate } = useWebSettingsSlice();
+  const disable = authentication.UserRole === UserRoleEnum.USER;
 
   /**
    * Get data
@@ -78,14 +81,14 @@ const WebLogos = () => {
       <FeatureStyled>
         <Stack spacing={4}>
           <PageTitle title='Loga webu' />
-          <HeaderLogo />
+          <HeaderLogo disable={disable} />
         </Stack>
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
 
       <Footer
-        disabled={!webLogos._dataLoaded}
+        disable={!webLogos._dataLoaded || disable}
         loading={saving}
         handleSaveOnClick={handleSaveOnClick}
       />

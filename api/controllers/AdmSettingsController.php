@@ -149,7 +149,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $userRoles = [UserRoleEnum::ADMIN];
 
         switch ($functionName) {
+            case 'getAdmSettings':
             case 'getUsers':
+            case 'getUserForEdit':
+            case 'userUpdate':
                 $userRoles = [
                     UserRoleEnum::ADMIN,
                     UserRoleEnum::EDITOR,

@@ -7,6 +7,7 @@ interface IProps {
   valueText: string;
   nameColor: string;
   valueColor: string;
+  disable: boolean;
   handleTextFieldOnBlur: (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
   ) => void;
@@ -22,6 +23,7 @@ const AppPageHeader = (props: IProps) => {
         variant='outlined'
         fullWidth
         required
+        disabled={props.disable}
         autoComplete='off'
         onBlur={props.handleTextFieldOnBlur}
       />
@@ -31,6 +33,7 @@ const AppPageHeader = (props: IProps) => {
         value={props.valueColor}
         variant='outlined'
         fullWidth
+        disabled={props.disable}
         autoComplete='off'
         onBlur={props.handleTextFieldOnBlur}
       />

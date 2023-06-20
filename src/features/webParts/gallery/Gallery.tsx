@@ -8,7 +8,9 @@ import PageTitle from "shared/components/pageTitle/PageTitle";
 import { useRequest } from "shared/dataAccess/useRequest";
 import GalleryDTO from "shared/DTOs/GalleryDTO";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectGallery } from "shared/infrastructure/store/webParts/webPartsSlice";
 
@@ -27,10 +29,12 @@ const Gallery = () => {
 
   // Store
   const gallery = useSelector(selectGallery);
+  const authentication = useSelector(selectAuthentication);
 
   // Constants
   const _webPartsService = new WebPartsService();
   const { handleGalleryUpdate } = useWebPartsSlice();
+  const disable = authentication.UserRole === UserRoleEnum.USER;
 
   /**
    * Get data
@@ -82,17 +86,17 @@ const Gallery = () => {
       <FeatureStyled>
         <Stack spacing={4}>
           <PageTitle title='Galerie' />
-          <Seo />
-          <PageHeader />
-          <GalleryImages />
-          <ExternalGalleryLink />
+          <Seo disable={disable} />
+          <PageHeader disable={disable} />
+          <GalleryImages disable={disable} />
+          <ExternalGalleryLink disable={disable} />
         </Stack>
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
 
       <Footer
-        disabled={!gallery._dataLoaded}
+        disable={!gallery._dataLoaded || disable}
         loading={saving}
         handleSaveOnClick={handleSaveOnClick}
       />

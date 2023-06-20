@@ -7,7 +7,6 @@ import { usersGridName } from "shared/constants/gridNames";
 import { useRequest } from "shared/dataAccess/useRequest";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import UserDTO from "shared/DTOs/UserDTO";
-import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
 import { selectAdmSettings } from "shared/infrastructure/store/admSettings/admSettingsSlice";
 import { useAdmSettingsSlice } from "shared/infrastructure/store/admSettings/useAdmSettingsSlice";
@@ -114,7 +113,6 @@ const UsersTable = () => {
         <GridActionsCellItem
           icon={<EditIcon color='secondary' titleAccess='Editovat uživatele' />}
           label='Editovat uživatele'
-          disabled={authentication.UserRole !== UserRoleEnum.ADMIN}
           onClick={() => handleOnClickEditUser(params.id)}
         />,
       ],
@@ -314,7 +312,7 @@ const UsersTable = () => {
                 ? gridInitialState
                 : undefined
             }
-            pageSizeOptions={[5, 10, 15, 20]}
+            pageSizeOptions={[5, 10, 15]}
             onStateChange={handleOnStateChange}
             getRowClassName={(params) =>
               params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"

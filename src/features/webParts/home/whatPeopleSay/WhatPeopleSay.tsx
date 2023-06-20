@@ -1,20 +1,24 @@
-import SectionStyled from 'features/styledComponents/SectionStyled';
-import { useSelector } from 'react-redux';
-import SectionSubTitle from 'shared/components/sectionSubTitle/SectionSubTitle';
-import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
-import AppTextArea from 'shared/components/textArea/AppTextArea';
-import AppTextField from 'shared/components/textField/AppTextField';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectHome } from 'shared/infrastructure/store/webParts/webPartsSlice';
-import { nameof } from 'shared/nameof';
+import SectionStyled from "features/styledComponents/SectionStyled";
+import { useSelector } from "react-redux";
+import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
+import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import AppTextArea from "shared/components/textArea/AppTextArea";
+import AppTextField from "shared/components/textField/AppTextField";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
+import { nameof } from "shared/nameof";
 
-import Box from '@mui/system/Box';
-import Stack from '@mui/system/Stack';
+import Box from "@mui/system/Box";
+import Stack from "@mui/system/Stack";
 
-import HomeModel from '../models/HomeModel';
+import HomeModel from "../models/HomeModel";
 
-const WhatPeopleSay = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const WhatPeopleSay = (props: IProps) => {
   // Store
   const home = useSelector(selectHome);
 
@@ -44,6 +48,7 @@ const WhatPeopleSay = () => {
             value={home.PeopleSay1Text}
             fullWidth
             required
+            disabled={props.disable}
             rows={4}
             maxLength={1000}
             onBlur={handleTextFieldOnBlur}
@@ -55,12 +60,13 @@ const WhatPeopleSay = () => {
             variant='outlined'
             fullWidth
             required
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />
         </Stack>
 
-        {/* First person */}
+        {/* Second person */}
         <Box className='sub-section-separator'>
           <SectionSubTitle title='Druhá osoba' />
           <Stack spacing={2} direction='column'>
@@ -70,6 +76,7 @@ const WhatPeopleSay = () => {
               value={home.PeopleSay2Text}
               fullWidth
               required
+              disabled={props.disable}
               rows={4}
               maxLength={1000}
               onBlur={handleTextFieldOnBlur}
@@ -81,13 +88,14 @@ const WhatPeopleSay = () => {
               variant='outlined'
               fullWidth
               required
+              disabled={props.disable}
               autoComplete='off'
               onBlur={handleTextFieldOnBlur}
             />
           </Stack>
         </Box>
 
-        {/* Secons person */}
+        {/* Third person */}
         <Box className='sub-section-separator'>
           <SectionSubTitle title='Třetí osoba' />
           <Stack spacing={2} direction='column'>
@@ -97,6 +105,7 @@ const WhatPeopleSay = () => {
               value={home.PeopleSay3Text}
               fullWidth
               required
+              disabled={props.disable}
               rows={4}
               maxLength={1000}
               onBlur={handleTextFieldOnBlur}
@@ -108,6 +117,7 @@ const WhatPeopleSay = () => {
               variant='outlined'
               fullWidth
               required
+              disabled={props.disable}
               autoComplete='off'
               onBlur={handleTextFieldOnBlur}
             />

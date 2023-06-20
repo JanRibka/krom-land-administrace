@@ -9,6 +9,7 @@ interface IProps {
   name: string;
   placeholder?: string;
   required?: boolean;
+  disable: boolean;
   onChange: (value: string, name: string) => void;
 }
 
@@ -27,6 +28,7 @@ const AppTextEditor = (props: IProps) => {
         theme='snow'
         value={props.value}
         placeholder={placeholder}
+        readOnly={props.disable}
         onChange={handleOnChange}
       />
     </AppTextEditorStyled>

@@ -8,7 +8,9 @@ import PageTitle from "shared/components/pageTitle/PageTitle";
 import { useRequest } from "shared/dataAccess/useRequest";
 import ActionsDTO from "shared/DTOs/ActionsDTO";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectActions } from "shared/infrastructure/store/webParts/webPartsSlice";
 
@@ -28,10 +30,12 @@ const Actions = () => {
 
   // Store
   const actions = useSelector(selectActions);
+  const authentication = useSelector(selectAuthentication);
 
   // Constants
   const _webPartsService = new WebPartsService();
   const { handleActionsUpdate } = useWebPartsSlice();
+  const disable = authentication.UserRole === UserRoleEnum.USER;
 
   /**
    * Get data
@@ -83,18 +87,18 @@ const Actions = () => {
       <FeatureStyled>
         <Stack spacing={4}>
           <PageTitle title='Akce' />
-          <Seo />
-          <PageHeader />
-          <ActionDetails />
-          <DocumentsToDownload />
-          <Email />
+          <Seo disable={disable} />
+          <PageHeader disable={disable} />
+          <ActionDetails disable={disable} />
+          <DocumentsToDownload disable={disable} />
+          <Email disable={disable} />
         </Stack>
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
 
       <Footer
-        disabled={!actions._dataLoaded}
+        disable={!actions._dataLoaded || disable}
         loading={saving}
         handleSaveOnClick={handleSaveOnClick}
       />

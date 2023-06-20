@@ -9,7 +9,11 @@ import { nameof } from "shared/nameof";
 
 import ActionsModel from "../models/ActionsModel";
 
-const Email = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const Email = (props: IProps) => {
   // Contact
   const actions = useSelector(selectActions);
   const { handleActionsUpdate } = useWebPartsSlice();
@@ -35,6 +39,7 @@ const Email = () => {
           variant='outlined'
           fullWidth
           required
+          disabled={props.disable}
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />

@@ -339,6 +339,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
                 $disableVerification = true;
                 // no break
             case 'logout':
+            case 'passwordChange':
                 $userRoles = [
                     UserRoleEnum::ADMIN,
                     UserRoleEnum::EDITOR,

@@ -7,7 +7,11 @@ import { nameof } from "shared/nameof";
 
 import { ContactModel } from "../models/ContactModel";
 
-const Seo = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const Seo = (props: IProps) => {
   // Store
   const contact = useSelector(selectContact);
 
@@ -31,6 +35,7 @@ const Seo = () => {
         nameDescription={nameof<ContactModel>("Description")}
         valueTitle={contact.Title}
         valueDescription={contact.Description}
+        disable={props.disable}
         handleTextFieldOnBlur={handleTextFieldOnBlur}
       />
     </ErrorBoundary>

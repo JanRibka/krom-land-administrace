@@ -103,6 +103,7 @@ class AdmSettingsService implements IAdmSettingsService
         $newIdLoggedUser = (int) $idLoggedUser;
 
         if ($newId !== $newIdLoggedUser) {
+            $this->_authenticationRepository->deleteUser($newId);
         }
     }
 }

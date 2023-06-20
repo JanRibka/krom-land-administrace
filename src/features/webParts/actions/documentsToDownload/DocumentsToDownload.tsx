@@ -12,7 +12,11 @@ import Button from "@mui/material/Button";
 import Document from "./document/Document";
 import ButtonWrapperStyled from "./styledComponents/ButtonWrapperStyled";
 
-const DocumentsToDownload = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const DocumentsToDownload = (props: IProps) => {
   // Store
   const actions = useSelector(selectActions);
 
@@ -38,6 +42,7 @@ const DocumentsToDownload = () => {
             index={index}
             documentCount={documentCount}
             document={document.Document}
+            disable={props.disable}
           />
         );
       }
@@ -58,6 +63,7 @@ const DocumentsToDownload = () => {
             onClick={handleAddDocumentOnClick}
             color='secondary'
             variant='contained'
+            disabled={props.disable}
             startIcon={<AddIcon />}
           >
             Přidat dokument

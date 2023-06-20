@@ -8,7 +8,9 @@ import PageTitle from "shared/components/pageTitle/PageTitle";
 import { useRequest } from "shared/dataAccess/useRequest";
 import HomeDTO from "shared/DTOs/HomeDTO";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
 
@@ -28,10 +30,12 @@ const Home = () => {
 
   // Store
   const home = useSelector(selectHome);
+  const authentication = useSelector(selectAuthentication);
 
   // Constants
   const _webPartsService = new WebPartsService();
   const { handleHomeUpdate } = useWebPartsSlice();
+  const disable = authentication.UserRole === UserRoleEnum.USER;
 
   /**
    * Get data
@@ -88,18 +92,18 @@ const Home = () => {
       <FeatureStyled>
         <Stack spacing={4}>
           <PageTitle title='Úvod' />
-          <Seo />
-          <PageHeader />
-          <AboutUs />
-          <OurTeam />
-          <WhatPeopleSay />
+          <Seo disable={disable} />
+          <PageHeader disable={disable} />
+          <AboutUs disable={disable} />
+          <OurTeam disable={disable} />
+          <WhatPeopleSay disable={disable} />
         </Stack>
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
 
       <Footer
-        disabled={!home._dataLoaded}
+        disable={!home._dataLoaded || disable}
         loading={saving}
         handleSaveOnClick={handleSaveOnClick}
       />

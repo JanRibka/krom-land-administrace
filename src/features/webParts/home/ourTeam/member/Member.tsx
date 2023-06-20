@@ -23,6 +23,7 @@ interface IProps {
   description: string;
   image: ImageModel;
   id: number | null;
+  disable: boolean;
 }
 // TODO: Pokud p5id8m 4lena a neulo69m a ulo69m mu obr8zek a pak to xel0 neulo69m, tak se mi v public img za4nou hromadit soubory. D8 ta ulo6en9 obr8zku n2jak7 enable a6 po ulo6eni to p;jde. Nebo tam bude hl83ka, 6e se to mus9 nejprve ulo6it. POkud pridam clena, nastavim přiznak v homeSlice na true a az po ulozeni se da do false. Pokud bude true, nepujde obrazek ulozit. Musim pak nejak poresit id, at se to spravne ulozi
 const Member = (props: IProps) => {
@@ -102,6 +103,7 @@ const Member = (props: IProps) => {
             location={ImageLocationEnum.TEAM_MEMBERS}
             id={props.id}
             enbUploadIfIdWxists
+            disable={props.disable}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}
@@ -114,6 +116,7 @@ const Member = (props: IProps) => {
             variant='outlined'
             fullWidth
             required
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />
@@ -125,6 +128,7 @@ const Member = (props: IProps) => {
             variant='outlined'
             fullWidth
             required
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />
@@ -132,6 +136,7 @@ const Member = (props: IProps) => {
           <Button
             color='secondary'
             variant='outlined'
+            disabled={props.disable}
             startIcon={<DeleteIcon />}
             onClick={handleDeleteMemberOnClick}
           >

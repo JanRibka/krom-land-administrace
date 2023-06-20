@@ -7,7 +7,11 @@ import { nameof } from "shared/nameof";
 
 import ActionsModel from "../models/ActionsModel";
 
-const Seo = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const Seo = (props: IProps) => {
   // Store
   const actions = useSelector(selectActions);
 
@@ -31,6 +35,7 @@ const Seo = () => {
         nameDescription={nameof<ActionsModel>("Description")}
         valueTitle={actions.Title}
         valueDescription={actions.Description}
+        disable={props.disable}
         handleTextFieldOnBlur={handleTextFieldOnBlur}
       />
     </ErrorBoundary>

@@ -17,7 +17,11 @@ import Box from "@mui/material/Box";
 
 import ActionsModel from "../models/ActionsModel";
 
-const PageHeader = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const PageHeader = (props: IProps) => {
   // Store
   const actions = useSelector(selectActions);
 
@@ -86,6 +90,7 @@ const PageHeader = () => {
           valueText={actions.PageHeaderTextMain}
           nameColor={nameof<ActionsModel>("PageHeaderTextMainColor")}
           valueColor={actions.PageHeaderTextMainColor}
+          disable={props.disable}
           handleTextFieldOnBlur={handleTextFieldOnBlur}
         />
         <Box className='sub-section-separator'>
@@ -99,6 +104,7 @@ const PageHeader = () => {
             maxFileSize={1}
             location={ImageLocationEnum.ACTIONS}
             id={actions.Id}
+            disable={props.disable}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

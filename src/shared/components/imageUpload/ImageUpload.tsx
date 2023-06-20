@@ -18,13 +18,13 @@ interface IProps {
   image: ImageModel;
   name: string;
   label: string;
-  disabled?: boolean;
   newImageAlt: string;
   supportedExtensions: Array<string>;
   maxFileSize: number;
   location: ImageLocationEnum;
   id: number | null;
   enbUploadIfIdWxists?: boolean;
+  disable?: boolean;
   onAfterFileUpload: (
     fileName: string,
     name: string,
@@ -234,6 +234,7 @@ const ImageUpload = (props: IProps) => {
                 onClick={onFileDeleteHandler}
                 color='secondary'
                 variant='contained'
+                disabled={props.disable}
               >
                 Smazat
               </LoadingButton>
@@ -248,6 +249,7 @@ const ImageUpload = (props: IProps) => {
                 accept={getFileType(props.supportedExtensions)}
                 id={guid}
                 className='file-upload-input'
+                disabled={props.disable}
                 onChange={onFileUploadHandler}
               />
             </>
@@ -258,6 +260,7 @@ const ImageUpload = (props: IProps) => {
               onClick={onFileSave}
               color='secondary'
               variant='contained'
+              disabled={props.disable}
             >
               Uložit
             </LoadingButton>

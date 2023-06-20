@@ -7,7 +7,11 @@ import { nameof } from "shared/nameof";
 
 import HomeModel from "../models/HomeModel";
 
-const Seo = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const Seo = (props: IProps) => {
   // Store
   const home = useSelector(selectHome);
 
@@ -31,6 +35,7 @@ const Seo = () => {
         nameDescription={nameof<HomeModel>("Description")}
         valueTitle={home.Title}
         valueDescription={home.Description}
+        disable={props.disable}
         handleTextFieldOnBlur={handleTextFieldOnBlur}
       />
     </ErrorBoundary>

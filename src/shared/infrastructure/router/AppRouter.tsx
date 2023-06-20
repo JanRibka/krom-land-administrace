@@ -4,6 +4,7 @@ import UsersPage from "features/pages/admSettings/UsersPage";
 import DashboardPage from "features/pages/DashboardPage";
 import LoginPage from "features/pages/LoginPage";
 import PersistLoginPage from "features/pages/PersistLoginPage";
+import UnauthorizedPage from "features/pages/UnauthorizedPage";
 import ActionsPage from "features/pages/webParts/ActionsPage";
 import ContactPage from "features/pages/webParts/ContactPage";
 import GalleryPage from "features/pages/webParts/GalleryPage";
@@ -80,7 +81,13 @@ const AppRouter = () => {
       <Route element={<PersistLoginPage />}>
         <Route path={AppRoute.Base} element={<Layout />}>
           {/* Dashboard */}
-          <Route element={<RequireAuth allowedRoles={[UserRoleEnum.ADMIN]} />}>
+          <Route
+            element={
+              <RequireAuth
+                allowedRoles={[UserRoleEnum.ADMIN, UserRoleEnum.EDITOR]}
+              />
+            }
+          >
             <Route path={AppRoute.Dashboard} element={<DashboardPage />} />
           </Route>
 
@@ -137,6 +144,9 @@ const AppRouter = () => {
           >
             <Route path={AppRoute.Users} element={<UsersPage />} />
           </Route>
+
+          {/* Unathorized */}
+          <Route path={AppRoute.Unauthorized} element={<UnauthorizedPage />} />
         </Route>
       </Route>
       {/* Not found page */}

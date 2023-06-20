@@ -110,7 +110,7 @@ class DocumentController extends ControllerBase
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_GET['function'])) {
         $functionName = $_GET['function'];
-        $userRoles = [UserRoleEnum::ADMIN];
+        $userRoles = [UserRoleEnum::ADMIN, UserRoleEnum::EDITOR];
 
         $documentRepository = new DocumentRepository();
         $documentService = new DocumentService($documentRepository);

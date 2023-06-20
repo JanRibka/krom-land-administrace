@@ -8,7 +8,9 @@ import PageTitle from "shared/components/pageTitle/PageTitle";
 import { useRequest } from "shared/dataAccess/useRequest";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import WebSettingsDTO from "shared/DTOs/WebSettingsDTO";
+import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 import { useWebSettingsSlice } from "shared/infrastructure/store/webSettings/useWebSettingsSlice";
 import { selectWebSettings } from "shared/infrastructure/store/webSettings/webSettingsSlice";
 
@@ -27,10 +29,12 @@ const WebSettings = () => {
 
   // Store
   const webSettings = useSelector(selectWebSettings);
+  const authentication = useSelector(selectAuthentication);
 
   // Constants
   const _webSettingsService = new WebSettingsService();
   const { handleWebSettingsUpdate } = useWebSettingsSlice();
+  const disable = authentication.UserRole === UserRoleEnum.USER;
 
   /**
    * Get data
@@ -82,17 +86,17 @@ const WebSettings = () => {
       <FeatureStyled>
         <Stack spacing={4}>
           <PageTitle title='Nastavení webu' />
-          <SocialLinks />
-          <Subject />
-          <Address />
-          <Contact />
+          <SocialLinks disable={disable} />
+          <Subject disable={disable} />
+          <Address disable={disable} />
+          <Contact disable={disable} />
         </Stack>
 
         {isLoading && <AppLoader />}
       </FeatureStyled>
 
       <Footer
-        disabled={!webSettings._dataLoaded}
+        disable={!webSettings._dataLoaded || disable}
         loading={saving}
         handleSaveOnClick={handleSaveOnClick}
       />

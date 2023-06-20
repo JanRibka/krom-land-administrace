@@ -317,6 +317,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'POST
         $userRoles = [UserRoleEnum::ADMIN];
 
         switch ($functionName) {
+            case 'homeUpdate':
+            case 'actionsUpdate':
+            case 'galleryUpdate':
+            case 'contactUpdate':
+            case 'gdprUpdate':
+            case 'termsOfConditionsUpdate':
+                $userRoles = [
+                    UserRoleEnum::ADMIN,
+                    UserRoleEnum::EDITOR,
+                ];
+
+                break;
             case 'getHome':
             case 'getTeamMembers':
             case 'getActions':

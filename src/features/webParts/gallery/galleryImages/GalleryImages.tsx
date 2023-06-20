@@ -12,7 +12,11 @@ import Button from "@mui/material/Button";
 import Image from "./Image/Image";
 import ButtonWrapperStyled from "./styledComponents/ButtonWrapperStyled";
 
-const GalleryImages = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const GalleryImages = (props: IProps) => {
   // Store
   const gallery = useSelector(selectGallery);
 
@@ -38,6 +42,7 @@ const GalleryImages = () => {
             index={index}
             imageCount={imageCount}
             image={image.Image}
+            disable={props.disable}
           />
         );
       }
@@ -58,6 +63,7 @@ const GalleryImages = () => {
             onClick={handleAddImageOnClick}
             color='secondary'
             variant='contained'
+            disabled={props.disable}
             startIcon={<AddIcon />}
           >
             Přidat obrázek

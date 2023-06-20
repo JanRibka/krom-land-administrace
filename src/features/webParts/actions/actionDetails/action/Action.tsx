@@ -22,6 +22,7 @@ import ActionDetailModel from "../../models/ActionDetailModel";
 
 interface IProps {
   index: number;
+  disable: boolean;
 }
 
 const Action = (props: IProps) => {
@@ -140,6 +141,7 @@ const Action = (props: IProps) => {
           variant='outlined'
           fullWidth
           required
+          disabled={props.disable}
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />
@@ -150,6 +152,7 @@ const Action = (props: IProps) => {
           variant='outlined'
           fullWidth
           required
+          disabled={props.disable}
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />
@@ -158,6 +161,7 @@ const Action = (props: IProps) => {
           value={actionDetails[props.index]?.ActionDescritption ?? ""}
           placeholder='Popis akce'
           required
+          disable={props.disable}
           onChange={handleTextEditorOnChange}
         />
         <AppTextField
@@ -166,6 +170,7 @@ const Action = (props: IProps) => {
           value={actionDetails[props.index]?.VideoLink ?? ""}
           variant='outlined'
           fullWidth
+          disabled={props.disable}
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />
@@ -175,6 +180,7 @@ const Action = (props: IProps) => {
           value={actionDetails[props.index]?.Price ?? ""}
           variant='outlined'
           fullWidth
+          disabled={props.disable}
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />
@@ -182,12 +188,14 @@ const Action = (props: IProps) => {
           name={nameof<ActionDetailModel>("CapacityFull")}
           label='Kapacita naplněna'
           checked={actionDetails[props.index]?.CapacityFull ?? false}
+          disabled={props.disable}
           onChange={handleOnChangeCheckbox}
         />
         <AppCheckbox
           name={nameof<ActionDetailModel>("IsPriceRemark")}
           label='Zda poznámka k ceně'
           checked={actionDetails[props.index]?.IsPriceRemark ?? false}
+          disabled={props.disable}
           onChange={handleOnChangeCheckboxIsPriceRemark}
         />
         {actionDetails[props.index]?.IsPriceRemark && (
@@ -197,6 +205,7 @@ const Action = (props: IProps) => {
             value={actionDetails[props.index]?.PriceRemark ?? ""}
             variant='outlined'
             fullWidth
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />
@@ -207,6 +216,7 @@ const Action = (props: IProps) => {
           value={actionDetails[props.index]?.Place ?? ""}
           variant='outlined'
           fullWidth
+          disabled={props.disable}
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />
@@ -216,6 +226,7 @@ const Action = (props: IProps) => {
           value={actionDetails[props.index]?.Date ?? ""}
           variant='outlined'
           fullWidth
+          disabled={props.disable}
           autoComplete='off'
           onBlur={handleTextFieldOnBlur}
         />
@@ -224,6 +235,7 @@ const Action = (props: IProps) => {
           name={nameof<ActionDetailModel>("ActionOrder")}
           label='Pořadí'
           required
+          disabled={props.disable}
           selectedItem={
             actionDetails[props.index]?.ActionOrder?.toString() ?? ""
           }
@@ -238,6 +250,7 @@ const Action = (props: IProps) => {
           maxFileSize={1}
           location={ImageLocationEnum.ACTION_DETAILS}
           id={actionDetails[props.index]?.Id ?? null}
+          disable={props.disable}
           onAfterFileUpload={handleOnAfterFileUpload}
           onAfterFileDelete={handleOnAfterFileDelete}
           onFileSave={handleOnFileSave}

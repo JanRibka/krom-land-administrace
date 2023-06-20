@@ -17,7 +17,11 @@ import Box from "@mui/material/Box";
 
 import { ContactModel } from "../models/ContactModel";
 
-const PageHeader = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const PageHeader = (props: IProps) => {
   // Store
   const contact = useSelector(selectContact);
 
@@ -86,6 +90,7 @@ const PageHeader = () => {
           valueText={contact.PageHeaderTextMain}
           nameColor={nameof<ContactModel>("PageHeaderTextMainColor")}
           valueColor={contact.PageHeaderTextMainColor}
+          disable={props.disable}
           handleTextFieldOnBlur={handleTextFieldOnBlur}
         />
         <Box className='sub-section-separator'>
@@ -99,6 +104,7 @@ const PageHeader = () => {
             maxFileSize={1}
             location={ImageLocationEnum.CONTACT}
             id={contact.Id}
+            disable={props.disable}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

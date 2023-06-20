@@ -13,7 +13,11 @@ import Stack from "@mui/material/Stack";
 
 import WebSettingsModel from "../models/WebSettingsModel";
 
-const Address = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const Address = (props: IProps) => {
   // Store
   const webSettings = useSelector(selectWebSettings);
 
@@ -43,6 +47,7 @@ const Address = () => {
             variant='outlined'
             fullWidth
             required
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />
@@ -55,6 +60,7 @@ const Address = () => {
             variant='outlined'
             fullWidth
             required
+            disabled={props.disable}
             autoComplete='off'
             onBlur={handleTextFieldOnBlur}
           />
@@ -68,6 +74,7 @@ const Address = () => {
               variant='outlined'
               fullWidth
               required
+              disabled={props.disable}
               autoComplete='off'
               onBlur={handleTextFieldOnBlur}
             />

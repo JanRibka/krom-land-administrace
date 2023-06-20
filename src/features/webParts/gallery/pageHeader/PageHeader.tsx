@@ -17,7 +17,11 @@ import Box from "@mui/material/Box";
 
 import GalleryModel from "../models/GalleryModel";
 
-const PageHeader = () => {
+interface IProps {
+  disable: boolean;
+}
+
+const PageHeader = (props: IProps) => {
   // Store
   const gallery = useSelector(selectGallery);
 
@@ -87,6 +91,7 @@ const PageHeader = () => {
           valueText={gallery.PageHeaderTextMain}
           nameColor={nameof<GalleryModel>("PageHeaderTextMainColor")}
           valueColor={gallery.PageHeaderTextMainColor}
+          disable={props.disable}
           handleTextFieldOnBlur={handleTextFieldOnBlur}
         />
         <Box className='sub-section-separator'>
@@ -100,6 +105,7 @@ const PageHeader = () => {
             maxFileSize={1}
             location={ImageLocationEnum.GALLERY}
             id={gallery.Id}
+            disable={props.disable}
             onAfterFileUpload={handleOnAfterFileUpload}
             onAfterFileDelete={handleOnAfterFileDelete}
             onFileSave={handleOnFileSave}

@@ -80,6 +80,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $functionName = $_GET['function'];
         $userRoles = [UserRoleEnum::ADMIN];
 
+        switch ($functionName) {
+            case 'getWebSettings':
+            case 'getWebLogos':
+                $userRoles = [
+                    UserRoleEnum::ADMIN,
+                    UserRoleEnum::EDITOR,
+                    UserRoleEnum::USER,
+                ];
+
+                break;
+            case 'webSettingsUpdate':
+                $userRoles = [
+                    UserRoleEnum::ADMIN,
+                    UserRoleEnum::EDITOR,
+                ];
+
+                break;
+        }
+
         $webSettingsRepository = new WebSettingsRepository();
         $webSettingsService = new WebSettingsService($webSettingsRepository);
         $controller = new WebSettingsController($webSettingsService);

@@ -1,29 +1,31 @@
-import FeatureStyled from 'features/styledComponents/FeatureStyled';
-import SectionStyled from 'features/styledComponents/SectionStyled';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import Footer from 'shared/components/footer/Footer';
-import AppLoader from 'shared/components/loader/AppLoader';
-import AppNotification from 'shared/components/notification/AppNotification';
-import PageTitle from 'shared/components/pageTitle/PageTitle';
-import SectionSubTitle from 'shared/components/sectionSubTitle/SectionSubTitle';
-import SectionTitle from 'shared/components/sectionTitle/SectionTitle';
-import AppTextEditor from 'shared/components/textEditor/AppTextEditor';
-import AppTextField from 'shared/components/textField/AppTextField';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import ConditionsDTO from 'shared/DTOs/ConditionsDTO';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import ErrorBoundary from 'shared/infrastructure/ErrorBoundary';
-import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
-import { selectConditions } from 'shared/infrastructure/store/webParts/webPartsSlice';
-import ConditionsModel from 'shared/models/ConditionsModel';
-import { nameof } from 'shared/nameof';
+import FeatureStyled from "features/styledComponents/FeatureStyled";
+import SectionStyled from "features/styledComponents/SectionStyled";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import Footer from "shared/components/footer/Footer";
+import AppLoader from "shared/components/loader/AppLoader";
+import AppNotification from "shared/components/notification/AppNotification";
+import PageTitle from "shared/components/pageTitle/PageTitle";
+import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
+import SectionTitle from "shared/components/sectionTitle/SectionTitle";
+import AppTextEditor from "shared/components/textEditor/AppTextEditor";
+import AppTextField from "shared/components/textField/AppTextField";
+import { useRequest } from "shared/dataAccess/useRequest";
+import ConditionsDTO from "shared/DTOs/ConditionsDTO";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import { UserRoleEnum } from "shared/enums/UserRoleEnum";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
+import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
+import { selectConditions } from "shared/infrastructure/store/webParts/webPartsSlice";
+import ConditionsModel from "shared/models/ConditionsModel";
+import { nameof } from "shared/nameof";
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 
-import WebPartsService from '../WebPartsService';
-import { mapFromTermsOfConditionsDTO } from './save/mapFromTermsOfConditionsDTO';
+import WebPartsService from "../WebPartsService";
+import { mapFromTermsOfConditionsDTO } from "./save/mapFromTermsOfConditionsDTO";
 
 const TermsOfConditions = () => {
   // State
@@ -31,10 +33,12 @@ const TermsOfConditions = () => {
 
   // Store
   const conditions = useSelector(selectConditions);
+  const authentication = useSelector(selectAuthentication);
 
   // Constants
   const _webPartsService = new WebPartsService();
   const { handleConditionsUpdate } = useWebPartsSlice();
+  const disable = authentication.UserRole === UserRoleEnum.USER;
 
   // Other
   const handleTextFieldOnBlur = (
@@ -109,6 +113,7 @@ const TermsOfConditions = () => {
               variant='outlined'
               fullWidth
               required
+              disabled={disable}
               autoComplete='off'
               onBlur={handleTextFieldOnBlur}
             />
@@ -120,6 +125,7 @@ const TermsOfConditions = () => {
                 value={conditions.TermsOfConditionsText}
                 placeholder='Popis'
                 required
+                disable={disable}
                 onChange={handleTextEditorOnChange}
               />
             </Box>
@@ -130,7 +136,7 @@ const TermsOfConditions = () => {
       </FeatureStyled>
 
       <Footer
-        disabled={!conditions._conditionsLoaded}
+        disable={!conditions._conditionsLoaded || disable}
         loading={saving}
         handleSaveOnClick={handleSaveOnClick}
       />
