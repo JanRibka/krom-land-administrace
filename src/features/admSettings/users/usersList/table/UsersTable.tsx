@@ -53,9 +53,12 @@ const UsersTable = () => {
   }>({ id: 0, open: false });
 
   // Constants
+  const initialState: GridInitialStateCommunity = {
+    pagination: { paginationModel: { pageSize: 5 } },
+  };
   const gridSettingsName = usersGridName;
   const gridInitialState = JSON.parse(
-    localStorage.getItem(gridSettingsName) ?? "{}"
+    localStorage.getItem(gridSettingsName) ?? JSON.stringify(initialState)
   );
 
   // Store

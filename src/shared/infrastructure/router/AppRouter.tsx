@@ -3,6 +3,7 @@ import LayoutLogin from "features/layoutLogin/LayoutLogin";
 import UsersPage from "features/pages/admSettings/UsersPage";
 import DashboardPage from "features/pages/DashboardPage";
 import LoginPage from "features/pages/LoginPage";
+import NotFoundPage from "features/pages/NotFoundPage";
 import PersistLoginPage from "features/pages/PersistLoginPage";
 import UnauthorizedPage from "features/pages/UnauthorizedPage";
 import ActionsPage from "features/pages/webParts/ActionsPage";
@@ -147,11 +148,11 @@ const AppRouter = () => {
 
           {/* Unathorized */}
           <Route path={AppRoute.Unauthorized} element={<UnauthorizedPage />} />
+
+          {/* Not found page */}
+          <Route path='*' element={<NotFoundPage />}></Route>
         </Route>
       </Route>
-      {/* Not found page */}
-      {/* TODO: Přidat 404 stránku */}
-      <Route path='*' element={<div>NotFound</div>}></Route>
     </Routes>
   );
 };
