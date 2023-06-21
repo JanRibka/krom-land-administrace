@@ -1,6 +1,6 @@
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 
-import AppLoaderStyled from './styledComponents/AppLoaderStyled';
+import AppLoaderStyled from "./styledComponents/AppLoaderStyled";
 
 const AppLoader = () => {
   return (

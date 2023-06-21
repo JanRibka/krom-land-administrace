@@ -29,7 +29,7 @@ import SectionStyled from "./styledComponents/SectionStyled";
 
 const Login = () => {
   // References
-  const refUser = useRef<any>(null);
+  const refUser = useRef<HTMLDivElement>(null);
   const refErr = useRef<HTMLSpanElement>(null);
 
   // Store
@@ -51,7 +51,7 @@ const Login = () => {
 
   // Other
   useEffect(() => {
-    refUser.current.focus();
+    refUser.current?.querySelector("input")?.focus();
   }, []);
 
   useEffect(() => {

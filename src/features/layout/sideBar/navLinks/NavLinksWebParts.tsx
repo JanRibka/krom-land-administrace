@@ -74,7 +74,7 @@ const NavLinksWebParts = () => {
         <Link to={AppRoute.TermsOfConditions}>
           {
             <Box className='link-inner-wrapper'>
-              <GavelIcon /> Onchodní podmínky
+              <GavelIcon /> Obchodní podmínky
             </Box>
           }
         </Link>
