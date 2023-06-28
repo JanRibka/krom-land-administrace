@@ -14,6 +14,8 @@ require_once __DIR__.'/../models/authentication/UserModel.php';
 require_once __DIR__.'/../models/authentication/LoginResponseModel.php';
 require_once __DIR__.'/../models/authentication/RefreshTokenResponseModel.php';
 require_once __DIR__.'/../services/AuthenticationService.php';
+require_once __DIR__.'/../services/FileService.php';
+require_once __DIR__.'/../services/CommonService.php';
 require_once __DIR__.'/../constants/global.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
 require_once __DIR__.'/../middleware/verifyJWT.php';
@@ -31,7 +33,10 @@ use kromLand\api\models\authentication\RefreshTokenResponseModel;
 use kromLand\api\models\authentication\UserModel;
 use kromLand\api\repositories\AuthenticationRepository;
 use kromLand\api\services\AuthenticationService;
+use kromLand\api\services\CommonService;
+use kromLand\api\services\FileService;
 use kromLand\api\services\IAuthenticationService;
+use kromLand\api\services\ICommonService;
 
 use function kromLand\api\middleware\verifyJWT;
 use function kromLand\api\middleware\verifyRole;
@@ -39,10 +44,12 @@ use function kromLand\api\middleware\verifyRole;
 class AuthenticationController extends ControllerBase
 {
     private readonly IAuthenticationService $_authenticationService;
+    private readonly ICommonService $_commonService;
 
-    public function __construct(IAuthenticationService $pAuthenticationService)
+    public function __construct(IAuthenticationService $pAuthenticationService, ICommonService $pCommonService)
     {
         $this->_authenticationService = $pAuthenticationService;
+        $this->_commonService = $pCommonService;
     }
 
     /**
@@ -167,6 +174,9 @@ class AuthenticationController extends ControllerBase
                     $accessToken,
                     $dbUser->Id
                 );
+
+                // Clean up
+                $this->_commonService->cleanUp();
 
                 $this->apiResponse(true, '', $responseData);
             } else {
@@ -355,7 +365,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
 
         $authenticationRepository = new AuthenticationRepository();
         $authenticationService = new AuthenticationService($authenticationRepository);
-        $controller = new AuthenticationController($authenticationService);
+        $fileService = new FileService();
+        $commonService = new CommonService($fileService);
+        $controller = new AuthenticationController($authenticationService, $commonService);
 
         if (method_exists($controller, $functionName)) {
             $request = new ServerRequest(

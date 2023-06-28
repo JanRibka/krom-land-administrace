@@ -24,4 +24,9 @@ class FileService implements IFileService
             unlink($sourceFile);
         }
     }
+
+    public function getAllFiles(string $dir): array
+    {
+        return scandir($dir);
+    }
 }

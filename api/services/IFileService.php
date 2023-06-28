@@ -9,4 +9,6 @@ interface IFileService
     public function fileCopy(string $sourceFile, string $targetFile): void;
 
     public function fileDelete(string $sourceFile): void;
+
+    public function getAllFiles(string $sourceFile): array;
 }
