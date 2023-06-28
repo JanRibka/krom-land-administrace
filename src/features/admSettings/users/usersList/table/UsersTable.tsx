@@ -62,7 +62,7 @@ const UsersTable = () => {
   );
 
   // Store
-  const authSettings = useSelector(selectAdmSettings);
+  const admSettings = useSelector(selectAdmSettings);
   const authentication = useSelector(selectAuthentication);
 
   // Constants
@@ -86,10 +86,10 @@ const UsersTable = () => {
       ErrMsg: "",
       Data: [],
     },
-    [authSettings._usersLoaded],
+    [admSettings._usersLoaded],
     {
       apply: true,
-      condition: () => authSettings._usersLoaded === false,
+      condition: () => admSettings._usersLoaded === false,
     },
     (data) => {
       const dataType = typeof data;
@@ -305,7 +305,7 @@ const UsersTable = () => {
           <DataGrid
             apiRef={refApi}
             columns={columns}
-            rows={authSettings.Users}
+            rows={admSettings.Users}
             getRowId={(row) => row.Id}
             loading={isLoading}
             localeText={csCZ.components.MuiDataGrid.defaultProps.localeText}
