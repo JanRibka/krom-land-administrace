@@ -13,14 +13,14 @@ class FileService implements IFileService
 
     public function fileCopy(string $sourceFile, string $targetFile): void
     {
-        if (file_exists($sourceFile)) {
+        if (is_file($sourceFile)) {
             copy($sourceFile, $targetFile);
         }
     }
 
     public function fileDelete(string $sourceFile): void
     {
-        if (file_exists($sourceFile)) {
+        if (is_file($sourceFile)) {
             unlink($sourceFile);
         }
     }

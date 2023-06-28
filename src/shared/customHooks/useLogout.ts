@@ -1,9 +1,11 @@
-import Repository from "shared/infrastructure/repositiory/Repository";
-import { useAdmSettingsSlice } from "shared/infrastructure/store/admSettings/useAdmSettingsSlice";
-import { useAuthenticationSlice } from "shared/infrastructure/store/authentication/useAuthenticationSlice";
-import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
-import { useWebSettingsSlice } from "shared/infrastructure/store/webSettings/useWebSettingsSlice";
+import Repository from 'shared/infrastructure/repositiory/Repository';
+import { useAdmSettingsSlice } from 'shared/infrastructure/store/admSettings/useAdmSettingsSlice';
+import {
+    useAuthenticationSlice
+} from 'shared/infrastructure/store/authentication/useAuthenticationSlice';
+import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
+import { useWebPartsSlice } from 'shared/infrastructure/store/webParts/useWebPartsSlice';
+import { useWebSettingsSlice } from 'shared/infrastructure/store/webSettings/useWebSettingsSlice';
 
 const useLogout = () => {
   // Constants
@@ -23,11 +25,6 @@ const useLogout = () => {
   // Other
   const resetState = () => {
     handleAuthenticationReset();
-    handleDashboardUpdate({
-      _registrationsLoaded: false,
-      _dashboardLoaded: false,
-    });
-    handleAdmSettingsUpdate({ _usersLoaded: false, _admSettingsLoaded: false });
     handleHomeUpdate({ _dataLoaded: false });
     handleActionsUpdate({ _dataLoaded: false });
     handleGalleryUpdate({ _dataLoaded: false });
@@ -35,6 +32,11 @@ const useLogout = () => {
     handleConditionsUpdate({ _gdprLoaded: false, _conditionsLoaded: false });
     handleWebSettingsUpdate({ _dataLoaded: false });
     handleLogosUpdate({ _dataLoaded: false });
+    handleAdmSettingsUpdate({ _usersLoaded: false, _admSettingsLoaded: false });
+    handleDashboardUpdate({
+      _registrationsLoaded: false,
+      _dashboardLoaded: false,
+    });
   };
 
   const logout = async () => {

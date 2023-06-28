@@ -1,46 +1,35 @@
-import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import AppNotification from "shared/components/notification/AppNotification";
-import { registrationsGridName } from "shared/constants/gridNames";
-import { useRequest } from "shared/dataAccess/useRequest";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
-import RegistrationDTO from "shared/DTOs/RegistrationDTO";
-import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
-import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
-import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
-import * as XLSX from "xlsx";
-
-import EditIcon from "@mui/icons-material/Edit";
-import { ButtonProps } from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Box from "@mui/system/Box";
+import { mapFromRegistrationsDTO } from 'features/dashboard/save/mapFromRegistrationsDTO';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import AppNotification from 'shared/components/notification/AppNotification';
+import { registrationsGridName } from 'shared/constants/gridNames';
+import { useRequest } from 'shared/dataAccess/useRequest';
+import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
+import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
+import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
 import {
-  csCZ,
-  DataGrid,
-  GridActionsCellItem,
-  GridColDef,
-  GridExportMenuItemProps,
-  gridFilteredSortedRowIdsSelector,
-  GridPrintExportMenuItem,
-  GridRowId,
-  GridRowParams,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarContainerProps,
-  GridToolbarDensitySelector,
-  GridToolbarExportContainer,
-  GridToolbarFilterButton,
-  gridVisibleColumnFieldsSelector,
-  useGridApiRef,
-} from "@mui/x-data-grid";
-import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+    selectAuthentication
+} from 'shared/infrastructure/store/authentication/authenticationSlice';
+import { selectDashboard } from 'shared/infrastructure/store/dashboard/dashboardSlice';
+import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
+import * as XLSX from 'xlsx';
 
-import EditRegistrationDialog from "./editRegistrationDIalog/EditRegistrationDialog";
-import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
-import TableFilterDate, {
-  IGridSettingsDateFilter,
-} from "./tableFilterDate/TableFilterDate";
+import EditIcon from '@mui/icons-material/Edit';
+import { ButtonProps } from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/system/Box';
+import {
+    csCZ, DataGrid, GridActionsCellItem, GridColDef, GridExportMenuItemProps,
+    gridFilteredSortedRowIdsSelector, GridPrintExportMenuItem, GridRowId, GridRowParams,
+    GridToolbarColumnsButton, GridToolbarContainer, GridToolbarContainerProps,
+    GridToolbarDensitySelector, GridToolbarExportContainer, GridToolbarFilterButton,
+    gridVisibleColumnFieldsSelector, useGridApiRef
+} from '@mui/x-data-grid';
+import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
+
+import EditRegistrationDialog from './editRegistrationDIalog/EditRegistrationDialog';
+import RegistrationsTableStyled from './styledComponents/RegistrationsTableStyled';
+import TableFilterDate, { IGridSettingsDateFilter } from './tableFilterDate/TableFilterDate';
 
 const RegistrationsTable = () => {
   // References
@@ -60,8 +49,6 @@ const RegistrationsTable = () => {
   const gridInitialState = JSON.parse(
     localStorage.getItem(gridSettingsName) ?? JSON.stringify(initialState)
   );
-
-  // Constants
   const gridSettingsDateFilterName = registrationsGridName + "-settings";
   const gridSettingsDateFilter = JSON.parse(
     localStorage.getItem(gridSettingsDateFilterName) ?? "{}"
@@ -70,12 +57,11 @@ const RegistrationsTable = () => {
     Object.keys(gridSettingsDateFilter).length > 0
       ? (gridSettingsDateFilter as IGridSettingsDateFilter)
       : ({ from: null, to: null } as IGridSettingsDateFilter);
+  const { handleDashboardUpdate } = useDashboardSlice();
 
   // Store
   const dashboard = useSelector(selectDashboard);
-
-  // Constants
-  const { handleDashboardUpdate } = useDashboardSlice();
+  const authentication = useSelector(selectAuthentication);
 
   // Other
 
@@ -99,7 +85,8 @@ const RegistrationsTable = () => {
     [dashboard._registrationsLoaded],
     {
       apply: true,
-      condition: () => dashboard._registrationsLoaded === false,
+      condition: () =>
+        dashboard._registrationsLoaded === false && !!authentication.UserName,
     },
     (data) => {
       const dataType = typeof data;
