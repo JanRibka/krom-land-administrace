@@ -1,36 +1,46 @@
-import UserModel from 'features/admSettings/models/UserModel';
-import { mapFromUsersDTO } from 'features/admSettings/save/mapFromUsersDTO';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import AppNotification from 'shared/components/notification/AppNotification';
-import { usersGridName } from 'shared/constants/gridNames';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import UserDTO from 'shared/DTOs/UserDTO';
-import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
-import { selectAdmSettings } from 'shared/infrastructure/store/admSettings/admSettingsSlice';
-import { useAdmSettingsSlice } from 'shared/infrastructure/store/admSettings/useAdmSettingsSlice';
-import {
-    selectAuthentication
-} from 'shared/infrastructure/store/authentication/authenticationSlice';
-import { nameof } from 'shared/nameof';
-import * as XLSX from 'xlsx';
+import UserModel from "features/admSettings/models/UserModel";
+import { mapFromUsersDTO } from "features/admSettings/save/mapFromUsersDTO";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import AppNotification from "shared/components/notification/AppNotification";
+import { usersGridName } from "shared/constants/gridNames";
+import { useRequest } from "shared/dataAccess/useRequest";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import UserDTO from "shared/DTOs/UserDTO";
+import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
+import { selectAdmSettings } from "shared/infrastructure/store/admSettings/admSettingsSlice";
+import { useAdmSettingsSlice } from "shared/infrastructure/store/admSettings/useAdmSettingsSlice";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
+import { nameof } from "shared/nameof";
+import * as XLSX from "xlsx";
 
-import EditIcon from '@mui/icons-material/Edit';
-import { ButtonProps } from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/system/Box';
+import EditIcon from "@mui/icons-material/Edit";
+import { ButtonProps } from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/system/Box";
 import {
-    csCZ, DataGrid, GridActionsCellItem, GridColDef, GridExportMenuItemProps,
-    gridFilteredSortedRowIdsSelector, GridPrintExportMenuItem, GridRowId, GridRowParams,
-    GridToolbarColumnsButton, GridToolbarContainer, GridToolbarContainerProps,
-    GridToolbarDensitySelector, GridToolbarExportContainer, GridToolbarFilterButton,
-    gridVisibleColumnFieldsSelector, useGridApiRef
-} from '@mui/x-data-grid';
-import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
+  csCZ,
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridExportMenuItemProps,
+  gridFilteredSortedRowIdsSelector,
+  GridPrintExportMenuItem,
+  GridRowId,
+  GridRowParams,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarContainerProps,
+  GridToolbarDensitySelector,
+  GridToolbarExportContainer,
+  GridToolbarFilterButton,
+  gridVisibleColumnFieldsSelector,
+  useGridApiRef,
+} from "@mui/x-data-grid";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
-import EditUserDialog from './editUserDIalog/EditUserDialog';
-import UsersTableStyled from './styledComponents/UsersTableStyled';
+import EditUserDialog from "./editUserDIalog/EditUserDialog";
+import UsersTableStyled from "./styledComponents/UsersTableStyled";
 
 const UsersTable = () => {
   // References
@@ -304,7 +314,7 @@ const UsersTable = () => {
             initialState={
               Object.keys(gridInitialState).length > 0
                 ? gridInitialState
-                : undefined
+                : initialState
             }
             pageSizeOptions={[5, 10, 15]}
             onStateChange={handleOnStateChange}

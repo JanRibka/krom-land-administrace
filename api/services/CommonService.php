@@ -16,11 +16,18 @@ class CommonService implements ICommonService
     public function cleanUp(): void
     {
         $targetDir = __DIR__.'/../../upload/';
-        $files = $this->_fileService->getAllFiles($targetDir);
+        $fileNames = $this->_fileService->getAllFiles($targetDir);
 
-        foreach ($files as $file) {
-            if ($file !== '.' && $file !== '..') {
-                $this->_fileService->fileDelete($targetDir.$file);
+        foreach ($fileNames as $fileName) {
+            if ($fileName !== '.' && $fileName !== '..') {
+                $createdTimestamp = filectime($targetDir.$fileName);
+                $createdDateTime = new \DateTime();
+                $createdDateTime->setTimestamp($createdTimestamp);
+                $weekAgo = new \DateTime('-1 week');
+
+                if ($createdDateTime < $weekAgo) {
+                    $this->_fileService->fileDelete($targetDir.$fileName);
+                }
             }
         }
     }

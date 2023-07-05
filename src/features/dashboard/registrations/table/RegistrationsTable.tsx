@@ -1,35 +1,47 @@
-import { mapFromRegistrationsDTO } from 'features/dashboard/save/mapFromRegistrationsDTO';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import AppNotification from 'shared/components/notification/AppNotification';
-import { registrationsGridName } from 'shared/constants/gridNames';
-import { useRequest } from 'shared/dataAccess/useRequest';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
-import { toAppDateFormat } from 'shared/helpers/dateTimeHelpers';
-import {
-    selectAuthentication
-} from 'shared/infrastructure/store/authentication/authenticationSlice';
-import { selectDashboard } from 'shared/infrastructure/store/dashboard/dashboardSlice';
-import { useDashboardSlice } from 'shared/infrastructure/store/dashboard/useDashboardSlice';
-import * as XLSX from 'xlsx';
+import { mapFromRegistrationsDTO } from "features/dashboard/save/mapFromRegistrationsDTO";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import AppNotification from "shared/components/notification/AppNotification";
+import { registrationsGridName } from "shared/constants/gridNames";
+import { useRequest } from "shared/dataAccess/useRequest";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import RegistrationDTO from "shared/DTOs/RegistrationDTO";
+import { toAppDateFormat } from "shared/helpers/dateTimeHelpers";
+import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
+import { selectDashboard } from "shared/infrastructure/store/dashboard/dashboardSlice";
+import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
+import * as XLSX from "xlsx";
 
-import EditIcon from '@mui/icons-material/Edit';
-import { ButtonProps } from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/system/Box';
+import EditIcon from "@mui/icons-material/Edit";
+import { ButtonProps } from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/system/Box";
 import {
-    csCZ, DataGrid, GridActionsCellItem, GridColDef, GridExportMenuItemProps,
-    gridFilteredSortedRowIdsSelector, GridPrintExportMenuItem, GridRowId, GridRowParams,
-    GridToolbarColumnsButton, GridToolbarContainer, GridToolbarContainerProps,
-    GridToolbarDensitySelector, GridToolbarExportContainer, GridToolbarFilterButton,
-    gridVisibleColumnFieldsSelector, useGridApiRef
-} from '@mui/x-data-grid';
-import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
+  csCZ,
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridExportMenuItemProps,
+  gridFilteredSortedRowIdsSelector,
+  GridPrintExportMenuItem,
+  GridRowId,
+  GridRowParams,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarContainerProps,
+  GridToolbarDensitySelector,
+  GridToolbarExportContainer,
+  GridToolbarFilterButton,
+  gridVisibleColumnFieldsSelector,
+  useGridApiRef,
+} from "@mui/x-data-grid";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
-import EditRegistrationDialog from './editRegistrationDIalog/EditRegistrationDialog';
-import RegistrationsTableStyled from './styledComponents/RegistrationsTableStyled';
-import TableFilterDate, { IGridSettingsDateFilter } from './tableFilterDate/TableFilterDate';
+import EditRegistrationDialog from "./editRegistrationDIalog/EditRegistrationDialog";
+import RegistrationsTableStyled from "./styledComponents/RegistrationsTableStyled";
+import TableFilterDate, {
+  IGridSettingsDateFilter,
+} from "./tableFilterDate/TableFilterDate";
 
 const RegistrationsTable = () => {
   // References
@@ -476,7 +488,7 @@ const RegistrationsTable = () => {
             initialState={
               Object.keys(gridInitialState).length > 0
                 ? gridInitialState
-                : undefined
+                : initialState
             }
             pageSizeOptions={[25, 50, 75, 100]}
             onStateChange={handleOnStateChange}
