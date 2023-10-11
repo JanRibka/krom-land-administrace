@@ -4,7 +4,7 @@ namespace kromLand\api\controllers;
 
 use kromLand\api\enums\HttpStatusCode;
 
-require_once __DIR__.'/../enums/httpStatucCode.php';
+require_once __DIR__.'/../enums/HttpStatucCode.php';
 
 class ControllerBase
 {
