@@ -14,7 +14,7 @@ header('Access-Control-Allow-Methods: GET, POST');
 header('Content-Type: application/json');
 
 require_once __DIR__.'/./ControllerBase.php';
-require_once __DIR__.'/../enums/httpStatucCode.php';
+require_once __DIR__.'/../enums/HttpStatucCode.php';
 require_once __DIR__.'/../constants/global.php';
 require_once __DIR__.'/../enums/UserRoleEnum.php';
 require_once __DIR__.'/../middleware/verifyJWT.php';

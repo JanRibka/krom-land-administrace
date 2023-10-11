@@ -8,7 +8,7 @@ header('Access-Control-Allow-Methods: GET, POST');
 header('Content-Type: application/json');
 
 require_once __DIR__.'/./ControllerBase.php';
-require_once __DIR__.'/../enums/httpStatucCode.php';
+require_once __DIR__.'/../enums/HttpStatucCode.php';
 require_once __DIR__.'/../repositories/AuthenticationRepository.php';
 require_once __DIR__.'/../models/authentication/UserModel.php';
 require_once __DIR__.'/../models/authentication/LoginResponseModel.php';
