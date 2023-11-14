@@ -11,6 +11,7 @@ export type AppRoute =
   | "/admin/webSettings"
   | "/admin/logos"
   | "/admin/users"
+  | "/admin/admSettings"
   | "/admin/unauthorized"
   | "/admin/notfound";
 
@@ -27,6 +28,7 @@ export const AppRoute = {
   WebSettings: "/admin/webSettings" as AppRoute,
   Logos: "/admin/logos" as AppRoute,
   Users: "/admin/users" as AppRoute,
+  AdmSettings: "/admin/admSettings" as AppRoute,
   Unauthorized: "/admin/unauthorized" as AppRoute,
   Notfound: "/admin/notfound" as AppRoute,
 };

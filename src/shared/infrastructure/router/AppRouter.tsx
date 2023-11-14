@@ -1,5 +1,6 @@
 import Layout from "features/layout/Layout";
 import LayoutLogin from "features/layoutLogin/LayoutLogin";
+import AdmSettingsPage from "features/pages/admSettings/AdmSettingsPage";
 import UsersPage from "features/pages/admSettings/UsersPage";
 import DashboardPage from "features/pages/DashboardPage";
 import LoginPage from "features/pages/LoginPage";
@@ -143,6 +144,7 @@ const AppRouter = () => {
               />
             }
           >
+            <Route path={AppRoute.AdmSettings} element={<AdmSettingsPage />} />
             <Route path={AppRoute.Users} element={<UsersPage />} />
           </Route>
 
@@ -150,7 +152,7 @@ const AppRouter = () => {
           <Route path={AppRoute.Unauthorized} element={<UnauthorizedPage />} />
 
           {/* Not found page */}
-          <Route path='*' element={<NotFoundPage />}></Route>
+          <Route path="*" element={<NotFoundPage />}></Route>
         </Route>
       </Route>
     </Routes>
