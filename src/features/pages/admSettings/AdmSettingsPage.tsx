@@ -1,11 +1,11 @@
-import Users from "features/admSettings/users/Users";
+import AdmSettings from "features/admSettings/admSettings/AdmSettings";
 
 import PageStyled from "../styledComponents/PageStyled";
 
 const AdmSettingsPage = () => {
   return (
     <PageStyled component="main">
-      <Users />
+      <AdmSettings />
     </PageStyled>
   );
 };

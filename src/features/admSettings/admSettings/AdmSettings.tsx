@@ -1,15 +1,25 @@
 import FeatureStyled from "features/styledComponents/FeatureStyled";
+import { useSelector } from "react-redux";
 import AppLoader from "shared/components/loader/AppLoader";
+import AppNotification from "shared/components/notification/AppNotification";
 import PageTitle from "shared/components/pageTitle/PageTitle";
 import { useRequest } from "shared/dataAccess/useRequest";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import AdmSettingsDTO from "shared/DTOs/AdmSettingsDTO";
+import JsonResultObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
+import { selectAdmSettings } from "shared/infrastructure/store/admSettings/admSettingsSlice";
 
 import Stack from "@mui/material/Stack";
 
+import { mapFromAdmSettingsDTO } from "../save/mapFromAdmSettingsDTO";
+import TableOfKeys from "./tableOfKeys/TableOfKeys";
+
 const AdmSettings = () => {
+  // Store
+  const admSettings = useSelector(selectAdmSettings);
+
   // Get data
-  const { isLoading } = useRequest<JsonResulObjectDataDTO<AdmSettingsDTO>>(
+  const { isLoading } = useRequest<JsonResultObjectDataDTO<AdmSettingsDTO>>(
     {
       url: (process.env.REACT_APP_API_URL ?? "") + "AdmSettingsController.php",
       params: new URLSearchParams({
@@ -24,7 +34,7 @@ const AdmSettings = () => {
     [],
     {
       apply: true,
-      condition: () => admSettingd._admSettingsLoaded === false,
+      condition: () => admSettings._admSettingsLoaded === false,
     },
     (data) => {
       const dataType = typeof data;
@@ -45,6 +55,7 @@ const AdmSettings = () => {
       <FeatureStyled>
         <Stack spacing={4}>
           <PageTitle title="Nastavení administrace" />
+          <TableOfKeys />
         </Stack>
 
         {isLoading && <AppLoader />}
@@ -54,3 +65,6 @@ const AdmSettings = () => {
 };
 
 export default AdmSettings;
+function handleAdmSettingsUpdate(arg0: any) {
+  throw new Error("Function not implemented.");
+}
