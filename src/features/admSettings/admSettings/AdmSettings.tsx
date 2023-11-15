@@ -43,7 +43,7 @@ const AdmSettings = () => {
         AppNotification("Chyba", String(data), "danger");
       } else {
         if (data.Success) {
-          handleAdmSettingsUpdate(mapFromAdmSettingsDTO(data?.Data));
+          handleAdmSettingsUpdate(mapFromAdmSettingsDTO(data?.Data ?? null));
         } else {
           AppNotification("Chyba", data.ErrMsg ?? "", "danger");
         }

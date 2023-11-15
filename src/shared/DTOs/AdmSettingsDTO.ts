@@ -1,7 +1,7 @@
-import DropDownsDataModel from "features/admSettings/models/DropDownsDataModel";
+import TableOfKeysModel from "shared/models/TableOfKeysModel";
 
 export default class AdmSettingsDTO {
-  DropDownsData: DropDownsDataModel | null = null;
+  DropDownsData: TableOfKeysModel[] | null = null;
 
   public constructor(init?: Partial<AdmSettingsDTO>) {
     Object.assign(this, init);

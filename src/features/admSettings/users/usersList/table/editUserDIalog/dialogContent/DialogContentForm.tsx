@@ -45,16 +45,16 @@ const DialogContentForm = forwardRef(
     return (
       <DialogContentStyled>
         <form ref={ref} onSubmit={props.handleFormOnSubmit}>
-          <Stack spacing={2} direction='column'>
+          <Stack spacing={2} direction="column">
             <>
               <Stack spacing={2} direction={rowDirection}>
                 <TextField
-                  label='Uživatelské jméno'
+                  label="Uživatelské jméno"
                   required
                   fullWidth
-                  variant='outlined'
-                  type='email'
-                  autoComplete='off'
+                  variant="outlined"
+                  type="email"
+                  autoComplete="off"
                   name={nameof<UserModel>("UserName")}
                   value={props.userEdit.User.UserName}
                   onChange={props.handleTextFieldOnChange}
@@ -63,11 +63,11 @@ const DialogContentForm = forwardRef(
                   }}
                 />
                 <TextField
-                  label='Datum vytvoření'
+                  label="Datum vytvoření"
                   fullWidth
-                  variant='outlined'
-                  type='string'
-                  autoComplete='off'
+                  variant="outlined"
+                  type="string"
+                  autoComplete="off"
                   disabled
                   name={nameof<UserModel>("DateCreated")}
                   value={toAppDateFormat(props.userEdit.User.DateCreated)}
@@ -81,11 +81,11 @@ const DialogContentForm = forwardRef(
             <>
               <Stack spacing={2} direction={rowDirection}>
                 <TextField
-                  label='Poslední přihlášení'
+                  label="Poslední přihlášení"
                   fullWidth
-                  variant='outlined'
-                  type='string'
-                  autoComplete='off'
+                  variant="outlined"
+                  type="string"
+                  autoComplete="off"
                   disabled
                   name={nameof<UserModel>("LastLogin")}
                   value={toAppDateFormat(props.userEdit.User.LastLogin)}
@@ -95,11 +95,11 @@ const DialogContentForm = forwardRef(
                   }}
                 />
                 <TextField
-                  label='Poslední pokus o přihlášení'
+                  label="Poslední pokus o přihlášení"
                   fullWidth
-                  variant='outlined'
-                  type='string'
-                  autoComplete='off'
+                  variant="outlined"
+                  type="string"
+                  autoComplete="off"
                   disabled
                   name={nameof<UserModel>("LastLoginAttempt")}
                   value={toAppDateFormat(props.userEdit.User.LastLoginAttempt)}
@@ -113,11 +113,11 @@ const DialogContentForm = forwardRef(
             <>
               <Stack spacing={2} direction={rowDirection}>
                 <TextField
-                  label='Počet přihlášení'
+                  label="Počet přihlášení"
                   fullWidth
-                  variant='outlined'
-                  type='number'
-                  autoComplete='off'
+                  variant="outlined"
+                  type="number"
+                  autoComplete="off"
                   disabled
                   name={nameof<UserModel>("LoginCount")}
                   value={props.userEdit.User.LoginCount}
@@ -127,11 +127,11 @@ const DialogContentForm = forwardRef(
                   }}
                 />
                 <TextField
-                  label='Počet pokusů o přihlášení'
+                  label="Počet pokusů o přihlášení"
                   fullWidth
-                  variant='outlined'
-                  type='number'
-                  autoComplete='off'
+                  variant="outlined"
+                  type="number"
+                  autoComplete="off"
                   disabled
                   name={nameof<UserModel>("LoginAttemptCount")}
                   value={props.userEdit.User.LoginAttemptCount}
@@ -144,17 +144,17 @@ const DialogContentForm = forwardRef(
             </>
             <>
               <FormControl required>
-                <InputLabel id='user-role-label'>Role</InputLabel>
+                <InputLabel id="user-role-label">Role</InputLabel>
                 <Select
-                  labelId='user-role-label'
-                  id='user-role'
+                  labelId="user-role-label"
+                  id="user-role"
                   name={nameof<UserModel>("UserRoleValue")}
                   value={props.userEdit.User.UserRoleValue}
-                  label='Role'
+                  label="Role"
                   disabled={authentication.UserId === props.userEdit.User.Id}
                   onChange={props.handleOnChangeSelect}
                 >
-                  {admSettings.DropDownsData.RoleListData.map((item, index) => (
+                  {admSettings.RoleList.map((item, index) => (
                     <MenuItem value={item.Value} key={"user-role-key-" + index}>
                       {item.Name}
                     </MenuItem>
@@ -164,8 +164,8 @@ const DialogContentForm = forwardRef(
             </>
           </Stack>
           <Button
-            type='submit'
-            className='user-submit-button'
+            type="submit"
+            className="user-submit-button"
             sx={{ display: "none" }}
           >
             submit

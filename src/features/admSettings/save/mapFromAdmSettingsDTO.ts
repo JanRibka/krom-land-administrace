@@ -1,13 +1,27 @@
 import AdmSettingsDTO from "shared/DTOs/AdmSettingsDTO";
-import { AdmSettingsState } from "shared/infrastructure/store/admSettings/admSettingsSlice";
+import {
+  AdmSettingsState,
+  DropDownsDataType,
+} from "shared/infrastructure/store/admSettings/admSettingsSlice";
 
-import DropDownsDataModel from "../models/DropDownsDataModel";
+export const mapFromAdmSettingsDTO = (admSettings: AdmSettingsDTO | null) => {
+  let dropDownsData: DropDownsDataType = {};
 
-export const mapFromAdmSettingsDTO = (
-  admSettingsDTO?: AdmSettingsDTO | null
-) => {
+  admSettings?.DropDownsData?.forEach((item) => {
+    if (!dropDownsData[item.GroupKey]) {
+      dropDownsData[item.GroupKey] = {};
+    }
+
+    if (!dropDownsData[item.GroupKey][item.Key]) {
+      dropDownsData[item.GroupKey][item.Key] = [];
+    }
+
+    dropDownsData[item.GroupKey][item.Key].push(item);
+  });
+
   const result: Partial<AdmSettingsState> = {
-    DropDownsData: admSettingsDTO?.DropDownsData ?? new DropDownsDataModel(),
+    DropDownsData: dropDownsData,
   };
+
   return result;
 };

@@ -1,20 +1,28 @@
-import DropDownsDataModel from "features/admSettings/models/DropDownsDataModel";
 import UserModel from "features/admSettings/models/UserModel";
+import TableOfKeysModel from "shared/models/TableOfKeysModel";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import AppState from "../AppState";
 
+export type DropDownsDataType = {
+  [key: string]: { [key: string]: TableOfKeysModel[] };
+};
+
 export interface AdmSettingsState {
   Users: UserModel[];
-  DropDownsData: DropDownsDataModel;
+  RoleList: TableOfKeysModel[];
+  DropDownsData: DropDownsDataType;
+  _roleListLoaded: boolean;
   _admSettingsLoaded: boolean;
   _usersLoaded: boolean;
 }
 
 export const initialState: AdmSettingsState = {
   Users: [],
-  DropDownsData: new DropDownsDataModel(),
+  RoleList: [],
+  DropDownsData: {},
+  _roleListLoaded: false,
   _admSettingsLoaded: false,
   _usersLoaded: false,
 };

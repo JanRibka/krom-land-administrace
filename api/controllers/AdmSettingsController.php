@@ -4,39 +4,39 @@ namespace komLand\api\controllers;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use kromLand\api\controllers\ControllerBase;
-use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
+use kromLand\api\enums\HttpStatusCode;
+use kromLand\api\controllers\ControllerBase;
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header('Content-Type: application/json');
 
-require_once __DIR__.'/./ControllerBase.php';
-require_once __DIR__.'/../enums/HttpStatucCode.php';
-require_once __DIR__.'/../constants/global.php';
-require_once __DIR__.'/../enums/UserRoleEnum.php';
-require_once __DIR__.'/../middleware/verifyJWT.php';
-require_once __DIR__.'/../middleware/verifyRole.php';
-require_once __DIR__.'/../repositories/AdmSettingsRepository.php';
-require_once __DIR__.'/../services/AdmSettingsService.php';
-require_once __DIR__.'/../repositories/CommonRepository.php';
-require_once __DIR__.'/../repositories/AuthenticationRepository.php';
-require_once __DIR__.'/../repositories/AdmSettingsRepository.php';
-require_once __DIR__.'/../services/AuthenticationService.php';
-require_once __DIR__.'/../repositories/AuthenticationRepository.php';
+require_once __DIR__ . '/./ControllerBase.php';
+require_once __DIR__ . '/../enums/HttpStatucCode.php';
+require_once __DIR__ . '/../constants/global.php';
+require_once __DIR__ . '/../enums/UserRoleEnum.php';
+require_once __DIR__ . '/../middleware/verifyJWT.php';
+require_once __DIR__ . '/../middleware/verifyRole.php';
+require_once __DIR__ . '/../repositories/AdmSettingsRepository.php';
+require_once __DIR__ . '/../services/AdmSettingsService.php';
+require_once __DIR__ . '/../repositories/CommonRepository.php';
+require_once __DIR__ . '/../repositories/AuthenticationRepository.php';
+require_once __DIR__ . '/../repositories/AdmSettingsRepository.php';
+require_once __DIR__ . '/../services/AuthenticationService.php';
+require_once __DIR__ . '/../repositories/AuthenticationRepository.php';
+
+use kromLand\api\services\AdmSettingsService;
+use kromLand\api\services\IAdmSettingsService;
+use function kromLand\api\middleware\verifyJWT;
+use kromLand\api\repositories\CommonRepository;
+use function kromLand\api\middleware\verifyRole;
+use kromLand\api\services\AuthenticationService;
+use kromLand\api\services\IAuthenticationService;
 
 use kromLand\api\repositories\AdmSettingsRepository;
 use kromLand\api\repositories\AuthenticationRepository;
-use kromLand\api\repositories\CommonRepository;
-use kromLand\api\services\AdmSettingsService;
-use kromLand\api\services\AuthenticationService;
-use kromLand\api\services\IAdmSettingsService;
-use kromLand\api\services\IAuthenticationService;
-
-use function kromLand\api\middleware\verifyJWT;
-use function kromLand\api\middleware\verifyRole;
 
 class AdmSettingsController extends ControllerBase
 {
@@ -52,10 +52,10 @@ class AdmSettingsController extends ControllerBase
     /**
      * Get administration settings.
      */
-    public function getAdmSettings()
+    public function getRoleList()
     {
         try {
-            $admSettings = $this->_admSettingsService->getAdmSettings();
+            $admSettings = $this->_admSettingsService->getRoleList();
 
             $this->apiResponse(true, '', $admSettings);
         } catch (\Exception $ex) {
@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $userRoles = [UserRoleEnum::ADMIN];
 
         switch ($functionName) {
-            case 'getAdmSettings':
+            case 'getRoleList':
             case 'getUsers':
             case 'getUserForEdit':
             case 'userUpdate':
@@ -166,8 +166,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
         $commonRepository = new CommonRepository();
         $authenticationRepository = new AuthenticationRepository();
         $admSettingsService = new AdmSettingsService($admSettingsRepository, $commonRepository, $authenticationRepository);
-        $authenticationRepositiory = new AuthenticationRepository();
-        $authenticationService = new AuthenticationService($authenticationRepositiory);
+        $authenticationRepository = new AuthenticationRepository();
+        $authenticationService = new AuthenticationService($authenticationRepository);
         $controller = new AdmSettingsController($admSettingsService, $authenticationService);
 
         if (method_exists($controller, $functionName)) {

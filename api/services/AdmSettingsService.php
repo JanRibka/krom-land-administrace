@@ -2,19 +2,19 @@
 
 namespace kromLand\api\services;
 
-use kromLand\api\models\admSettings\AdmSettingsModel;
-use kromLand\api\models\admSettings\DropDownsDataModel;
-use kromLand\api\models\admSettings\UserEditModel;
-use kromLand\api\models\authentication\UserModel;
-use kromLand\api\repositories\IAdmSettingsRepository;
-use kromLand\api\repositories\IAuthenticationRepository;
 use kromLand\api\repositories\ICommonRepository;
+use kromLand\api\models\authentication\UserModel;
+use kromLand\api\models\admSettings\UserEditModel;
+use kromLand\api\models\admSettings\AdmSettingsModel;
+use kromLand\api\repositories\IAdmSettingsRepository;
+use kromLand\api\models\admSettings\DropDownsDataModel;
+use kromLand\api\repositories\IAuthenticationRepository;
 
-require_once __DIR__.'/./IAdmSettingsService.php';
-require_once __DIR__.'/../repositories/IAdmSettingsRepository.php';
-require_once __DIR__.'/../models/admSettings/AdmSettingsModel.php';
-require_once __DIR__.'/../models/admSettings/UserEditModel.php';
-require_once __DIR__.'/../models/admSettings/DropDownsDataModel.php';
+require_once __DIR__ . '/./IAdmSettingsService.php';
+require_once __DIR__ . '/../repositories/IAdmSettingsRepository.php';
+require_once __DIR__ . '/../models/admSettings/AdmSettingsModel.php';
+require_once __DIR__ . '/../models/admSettings/UserEditModel.php';
+require_once __DIR__ . '/../models/admSettings/DropDownsDataModel.php';
 
 class AdmSettingsService implements IAdmSettingsService
 {
@@ -32,19 +32,12 @@ class AdmSettingsService implements IAdmSettingsService
         $this->_authenticationRepository = $pAuthenticationRepository;
     }
 
-    public function getAdmSettings(): AdmSettingsModel
+    public function getRoleList() : array
     {
-        $roleList = $this->_commonRepository->getTableOfKeyByGroupKey('ROLE_LIST');
-
-        $admSettings = new AdmSettingsModel();
-        $admSettings->DropDownsData = new DropDownsDataModel(
-            $roleList
-        );
-
-        return $admSettings;
+        return $this->_commonRepository->getTableOfKeyByGroupKey('ROLE_LIST');
     }
 
-    public function getUsersByLoggedUseId(string $idLoggedUser): array
+    public function getUsersByLoggedUseId(string $idLoggedUser) : array
     {
         $id = (int) $idLoggedUser;
 
@@ -69,7 +62,7 @@ class AdmSettingsService implements IAdmSettingsService
         return $result;
     }
 
-    public function getUsersForEdit(string $id): UserEditModel
+    public function getUsersForEdit(string $id) : UserEditModel
     {
         $id = (int) $id;
 
@@ -81,7 +74,7 @@ class AdmSettingsService implements IAdmSettingsService
         return $userEdit;
     }
 
-    public function userUpdate(string $userEncoded, string $idLoggedUser): void
+    public function userUpdate(string $userEncoded, string $idLoggedUser) : void
     {
         $idLoggedUser = (int) $idLoggedUser;
         $userDecoded = json_decode($userEncoded);
@@ -97,7 +90,7 @@ class AdmSettingsService implements IAdmSettingsService
         $this->_authenticationRepository->updateUser($user);
     }
 
-    public function userDelete(string $id, string $idLoggedUser): void
+    public function userDelete(string $id, string $idLoggedUser) : void
     {
         $newId = (int) $id;
         $newIdLoggedUser = (int) $idLoggedUser;

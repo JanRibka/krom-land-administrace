@@ -103,20 +103,20 @@ const RegisterForm = () => {
         <Typography
           ref={refErr}
           className={errMsg ? "err-msg" : "offscreen"}
-          aria-live='assertive'
+          aria-live="assertive"
         >
           {errMsg}
         </Typography>
 
         {/* Form */}
         <form onSubmit={handleFormOnSubmit}>
-          <Stack spacing={2} direction='column'>
+          <Stack spacing={2} direction="column">
             {/* User name */}
             <TextField
-              label='Email'
-              type='email'
-              id='user-name'
-              autoComplete='username'
+              label="Email"
+              type="email"
+              id="user-name"
+              autoComplete="username"
               required
               fullWidth
               onChange={(e) => setUserName(e.target.value)}
@@ -125,7 +125,7 @@ const RegisterForm = () => {
 
             {/* Password */}
             <AppPassword
-              name='register-user'
+              name="register-user"
               minLength={5}
               password={password}
               handlePasswordOnChange={handlePasswordOnChange}
@@ -136,17 +136,17 @@ const RegisterForm = () => {
 
             {/* User role */}
             <FormControl required fullWidth>
-              <InputLabel id='user-role-label'>Role</InputLabel>
+              <InputLabel id="user-role-label">Role</InputLabel>
               <Select
-                labelId='user-role-label'
-                id='user-role'
-                name=''
+                labelId="user-role-label"
+                id="user-role"
+                name=""
                 value={userRole}
-                label='Role'
+                label="Role"
                 required
                 onChange={(e) => setUserRole(e.target.value as number)}
               >
-                {admSettings.DropDownsData.RoleListData.map((item, index) => (
+                {admSettings.RoleList.map((item, index) => (
                   <MenuItem value={item.Value} key={"user-role-key-" + index}>
                     {item.Name}
                   </MenuItem>
@@ -155,11 +155,11 @@ const RegisterForm = () => {
             </FormControl>
 
             {/* Submit button */}
-            <Box className='buttons-wrapper'>
+            <Box className="buttons-wrapper">
               <LoadingButton
-                type='submit'
-                variant='contained'
-                color='secondary'
+                type="submit"
+                variant="contained"
+                color="secondary"
                 loading={saving}
               >
                 Vložit
