@@ -65,7 +65,7 @@ const Table = (props: IProps) => {
       ...rowModesModel,
       [id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
-    const editedRow = rows.find((row) => row.Id === id);
+    const editedRow = rows.find((row) => row.Uuid === id);
     if (editedRow!.IsNew) {
       setRows(rows.filter((row) => row.Id !== id));
     }
