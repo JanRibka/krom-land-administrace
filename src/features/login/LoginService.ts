@@ -32,7 +32,7 @@ export default class LoginService {
         }),
         data: data,
       });
-      console.log(response);
+
       if (!!response.data?.Data) result = response.data;
       else if (!response.data?.Success) {
         result = {

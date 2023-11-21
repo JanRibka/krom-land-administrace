@@ -58,7 +58,7 @@ const Gallery = () => {
     },
     (data) => {
       const dataType = typeof data;
-      console.log(data);
+
       if (dataType === "string") {
         AppNotification("Chyba", String(data), "danger");
       } else {
@@ -85,7 +85,7 @@ const Gallery = () => {
     <ErrorBoundary>
       <FeatureStyled>
         <Stack spacing={4}>
-          <PageTitle title='Galerie' />
+          <PageTitle title="Galerie" />
           <Seo disable={disable} />
           <PageHeader disable={disable} />
           <GalleryImages disable={disable} />

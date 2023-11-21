@@ -58,7 +58,7 @@ const Contact = () => {
     },
     (data) => {
       const dataType = typeof data;
-      console.log(data);
+
       if (dataType === "string") {
         AppNotification("Chyba", String(data), "danger");
       } else {
@@ -85,7 +85,7 @@ const Contact = () => {
     <ErrorBoundary>
       <FeatureStyled>
         <Stack spacing={4}>
-          <PageTitle title='Kontakt' />
+          <PageTitle title="Kontakt" />
           <Seo disable={disable} />
           <PageHeader disable={disable} />
           <GoogleMaps disable={disable} />

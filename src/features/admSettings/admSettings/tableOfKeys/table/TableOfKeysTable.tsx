@@ -51,7 +51,7 @@ const TableOfKeysTable = () => {
       }
     }
   );
-  console.log(admSettings);
+
   return (
     <Box>
       {Object.keys(admSettings.DropDownsData).map((key, index) => (

@@ -21,7 +21,6 @@ export default class DocumentService {
         data: formData,
       }
     );
-    console.log(response);
 
     const dataType = typeof response.data;
 
@@ -59,7 +58,6 @@ export default class DocumentService {
         id: id,
       },
     });
-    console.log(response);
 
     const dataType = typeof response.data;
 
@@ -96,8 +94,6 @@ export default class DocumentService {
     );
 
     let result: number | null = null;
-    console.log(response);
-
     const dataType = typeof response.data;
 
     if (dataType === "string") {
