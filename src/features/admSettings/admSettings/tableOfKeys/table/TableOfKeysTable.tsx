@@ -1,6 +1,7 @@
 import mapFromDropDownsDataDTO from "features/admSettings/save/mapFromDropDownsDataDTO";
 import { useSelector } from "react-redux";
 import AppNotification from "shared/components/notification/AppNotification";
+import SectionSubTitle from "shared/components/sectionSubTitle/SectionSubTitle";
 import { useRequest } from "shared/dataAccess/useRequest";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import { selectAdmSettings } from "shared/infrastructure/store/admSettings/admSettingsSlice";
@@ -38,7 +39,7 @@ const TableOfKeysTable = () => {
     },
     (data) => {
       const dataType = typeof data;
-      console.log(data);
+
       if (dataType === "string") {
         AppNotification("Chyba", String(data), "danger");
       } else {
@@ -54,12 +55,21 @@ const TableOfKeysTable = () => {
   return (
     <Box>
       {Object.keys(admSettings.DropDownsData).map((key, index) => (
-        <Table
-          key={`drop_downs_data_table_${key}_${index}`}
-          isLoading={isLoading}
-          groupKey={key}
-          data={admSettings.DropDownsData?.[key]}
-        />
+        <Box
+          sx={{
+            "&:not(:first-of-type)": {
+              marginTop: "32px",
+            },
+          }}
+        >
+          <SectionSubTitle title={key} />
+          <Table
+            key={`drop_downs_data_table_${key}_${index}`}
+            isLoading={isLoading}
+            groupKey={key}
+            data={admSettings.DropDownsData?.[key]}
+          />
+        </Box>
       ))}
     </Box>
   );

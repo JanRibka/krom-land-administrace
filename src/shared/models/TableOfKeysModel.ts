@@ -1,5 +1,5 @@
 export default class TableOfKeysModel {
-  Id: number = 0;
+  Id: number | null = null;
   GroupKey: string = "";
   Key: string = "";
   Value: number = 0;

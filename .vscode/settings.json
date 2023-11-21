@@ -1,4 +1,19 @@
 {
   "php.version": "8.25",
-  "cSpell.words": ["Číselníky", "nameof"]
+  "cSpell.words": [
+    "Číselníky",
+    "Editovat",
+    "Hodnota",
+    "Chyba",
+    "Klíč",
+    "nameof",
+    "Popisek",
+    "Povoleno",
+    "Přidat",
+    "Smazat",
+    "Uložit",
+    "uuidv",
+    "záznam",
+    "Zrušit"
+  ]
 }

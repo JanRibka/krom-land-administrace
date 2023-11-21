@@ -5,10 +5,6 @@ import { gridClasses } from "@mui/x-data-grid";
 const ODD_OPACITY = 0.5;
 
 const TableStyled = styled(Box)(({ theme }) => ({
-  "&:not(:first-of-type)": {
-    marginTop: "32px",
-  },
-
   ".grid-wrapper": {
     height: "fit-content",
 
