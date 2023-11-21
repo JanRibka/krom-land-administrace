@@ -7,6 +7,10 @@ use kromLand\api\models\admSettings\AdmSettingsModel;
 
 interface IAdmSettingsService
 {
+    public function getAdmSettings() : AdmSettingsModel;
+
+    public function getDropDownsData() : array;
+
     public function getRoleList() : array;
 
     public function getUsersByLoggedUseId(string $idLoggedUser) : array;

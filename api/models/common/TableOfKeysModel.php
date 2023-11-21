@@ -5,7 +5,7 @@ namespace kromLand\api\models\document;
 class TableOfKeysModel
 {
     public int $Id;
-    public string $GrpupKey;
+    public string $GroupKey;
     public string $Key;
     public int $Value;
     public string $Name;
@@ -14,7 +14,7 @@ class TableOfKeysModel
     public function __construct(int $id, string $groupKey, string $key, int $value, string $name, bool $enabled)
     {
         $this->Id = $id;
-        $this->GrpupKey = $groupKey;
+        $this->GroupKey = $groupKey;
         $this->Key = $key;
         $this->Value = $value;
         $this->Name = $name;

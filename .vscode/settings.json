@@ -1,3 +1,4 @@
 {
-  "php.version": "8.25"
+  "php.version": "8.25",
+  "cSpell.words": ["Číselníky", "nameof"]
 }

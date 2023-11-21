@@ -32,6 +32,21 @@ class AdmSettingsService implements IAdmSettingsService
         $this->_authenticationRepository = $pAuthenticationRepository;
     }
 
+    public function getAdmSettings() : AdmSettingsModel
+    {
+        $dropDownData = $this->_commonRepository->getDropDownsData();
+
+        $admSettings = new AdmSettingsModel();
+        $admSettings->DropDownsData = $dropDownData;
+
+        return $admSettings;
+    }
+
+    public function getDropDownsData() : array
+    {
+        return $this->_commonRepository->getDropDownsData();
+    }
+
     public function getRoleList() : array
     {
         return $this->_commonRepository->getTableOfKeyByGroupKey('ROLE_LIST');

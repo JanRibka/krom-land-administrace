@@ -6,7 +6,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import AppState from "../AppState";
 
 export type DropDownsDataType = {
-  [key: string]: { [key: string]: TableOfKeysModel[] };
+  [key: string]: TableOfKeysModel[];
 };
 
 export interface AdmSettingsState {

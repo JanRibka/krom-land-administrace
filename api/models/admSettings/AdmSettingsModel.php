@@ -4,5 +4,5 @@ namespace kromLand\api\models\admSettings;
 
 class AdmSettingsModel
 {
-    public DropDownsDataModel $DropDownsData;
+    public array $DropDownsData;
 }
