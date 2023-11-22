@@ -10,6 +10,7 @@ import { selectAuthentication } from "shared/infrastructure/store/authentication
 
 import Stack from "@mui/material/Stack";
 
+import AdmSettingsService from "../AdmSettingsService";
 import TableOfKeys from "./tableOfKeys/TableOfKeys";
 
 const AdmSettings = () => {
@@ -21,6 +22,7 @@ const AdmSettings = () => {
   const authentication = useSelector(selectAuthentication);
 
   // Constants
+  const _admSettingsService = new AdmSettingsService();
   const disable = authentication.UserRole === UserRoleEnum.USER;
 
   // Other
@@ -29,7 +31,7 @@ const AdmSettings = () => {
 
     setSaving(true);
 
-    // await _webPartsService.actionsUpdate();
+    await _admSettingsService.dropDownsDataUpdate();
 
     setSaving(false);
   };

@@ -63,6 +63,24 @@ class AdmSettingsController extends ControllerBase
     }
 
     /**
+     * Update číselníků
+     * @return void
+     * @author Jan Ribka
+     */
+    public function dropDownsDataUpdate()
+    {
+        $dropDownsData = file_get_contents('php://input');
+
+        try {
+            $this->_admSettingsService->dropDownsDataUpdate($dropDownsData);
+
+            $this->apiResponse(true, '');
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Get user role list
      */
     public function getRoleList()

@@ -2,12 +2,12 @@
 
 namespace kromLand\api\services;
 
+use kromLand\api\models\common\TableOfKeysModel;
 use kromLand\api\repositories\ICommonRepository;
 use kromLand\api\models\authentication\UserModel;
 use kromLand\api\models\admSettings\UserEditModel;
 use kromLand\api\models\admSettings\AdmSettingsModel;
 use kromLand\api\repositories\IAdmSettingsRepository;
-use kromLand\api\models\admSettings\DropDownsDataModel;
 use kromLand\api\repositories\IAuthenticationRepository;
 
 require_once __DIR__ . '/./IAdmSettingsService.php';
@@ -15,6 +15,7 @@ require_once __DIR__ . '/../repositories/IAdmSettingsRepository.php';
 require_once __DIR__ . '/../models/admSettings/AdmSettingsModel.php';
 require_once __DIR__ . '/../models/admSettings/UserEditModel.php';
 require_once __DIR__ . '/../models/admSettings/DropDownsDataModel.php';
+require_once __DIR__ . '/../models/common/TableOfKeysModel.php';
 
 class AdmSettingsService implements IAdmSettingsService
 {
@@ -45,6 +46,27 @@ class AdmSettingsService implements IAdmSettingsService
     public function getDropDownsData() : array
     {
         return $this->_commonRepository->getDropDownsData();
+    }
+
+    public function dropDownsDataUpdate(string $dropDownsData) : void
+    {
+        $dropDownsDataEncoded = json_decode($dropDownsData);
+        $dropDownsDataModel = [];
+
+        foreach ($dropDownsDataEncoded as $item) {
+            array_push(
+                $dropDownsDataModel,
+                new TableOfKeysModel(
+                    $item->Id,
+                    $item->GroupKey,
+                    $item->Key,
+                    $item->Value,
+                    $item->Name,
+                    $item->Enabled)
+            );
+        }
+
+        $this->_admSettingsRepository->dropDownsDataUpdate($dropDownsDataModel);
     }
 
     public function getRoleList() : array

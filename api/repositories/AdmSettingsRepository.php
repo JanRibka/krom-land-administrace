@@ -5,15 +5,15 @@ namespace kromLand\api\repositories;
 use kromLand\api\enums\UserRoleEnum;
 use kromLand\api\models\authentication\UserModel;
 
-require_once __DIR__.'/../config/db.php';
-require_once __DIR__.'/./IAdmSettingsRepository.php';
-require_once __DIR__.'/../../vendor/autoload.php';
-require_once __DIR__.'/../../vendor/dibi/dibi/src/Dibi/dibi.php';
-require_once __DIR__.'/./../models/authentication/UserModel.php';
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/./IAdmSettingsRepository.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/dibi/dibi/src/Dibi/dibi.php';
+require_once __DIR__ . '/./../models/authentication/UserModel.php';
 
 class AdmSettingsRepository implements IAdmSettingsRepository
 {
-    public function getUsersByLoggedUseId(int $idLoggedUser): array
+    public function getUsersByLoggedUseId(int $idLoggedUser) : array
     {
         $result = [];
 
@@ -23,7 +23,7 @@ class AdmSettingsRepository implements IAdmSettingsRepository
             ->where('l.Id = %i', $idLoggedUser)
             ->fetch();
 
-        if (!(bool) $loggedUser) {
+        if (! (bool) $loggedUser) {
             return $result;
         }
 
@@ -65,5 +65,35 @@ class AdmSettingsRepository implements IAdmSettingsRepository
         }
 
         return $result;
+    }
+
+    public function dropDownsDataUpdate(array $dropDownsData) : void
+    {
+        $connection = \dibi::getConnection();
+        $transactions = new \Inlm\DibiTransactions\Transactions($connection);
+
+        try {
+            $transactions->begin();
+            $connection->query('DELETE FROM tableOfKeys');
+
+            foreach ($dropDownsData as $row) {
+
+                $arr = [
+                    'GroupKey' => $row->GroupKey,
+                    'Key' => $row->Key,
+                    'Value' => $row->Value,
+                    'Name' => $row->Name,
+                    'Enabled' => $row->Enabled,
+                ];
+
+                $connection->query('INSERT INTO tableOfKeys', $arr);
+            }
+
+
+            $transactions->commit();
+        } catch (\Exception $ex) {
+            $transactions->rollback();
+            throw new \Exception($ex->getMessage(), $ex->getCode(), $ex);
+        }
     }
 }

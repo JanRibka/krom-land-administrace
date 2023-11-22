@@ -11,6 +11,8 @@ interface IAdmSettingsService
 
     public function getDropDownsData() : array;
 
+    public function dropDownsDataUpdate(string $dropDownsData) : void;
+
     public function getRoleList() : array;
 
     public function getUsersByLoggedUseId(string $idLoggedUser) : array;

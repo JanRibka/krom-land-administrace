@@ -2,6 +2,7 @@
   "require": {
     "dibi/dibi": "^4.2",
     "firebase/php-jwt": "^6.4",
-    "guzzlehttp/guzzle": "^7.5"
+    "guzzlehttp/guzzle": "^7.5",
+    "inlm/dibi-transactions": "^1.0"
   }
 }

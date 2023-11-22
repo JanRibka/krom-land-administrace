@@ -5,6 +5,7 @@ import Repository from "shared/infrastructure/repositiory/Repository";
 import { store } from "shared/infrastructure/store/store";
 
 import UserModel from "./models/UserModel";
+import mapToDropDownsDataDTO from "./save/mapToDropDownsDataDTO";
 
 export default class AdmSettingsService {
   private _repo = new Repository();
@@ -79,7 +80,7 @@ export default class AdmSettingsService {
         AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
       }
     } else {
-      AppNotification("Úspěch", "Uživatel uložena", "success");
+      AppNotification("Úspěch", "Uživatel uložen", "success");
       result = true;
     }
 
@@ -175,6 +176,40 @@ export default class AdmSettingsService {
           ErrMsg: err.response?.data?.ErrMsg,
         };
       }
+    }
+
+    return result;
+  }
+
+  public async dropDownsDataUpdate() {
+    let result = false;
+    const _store = store.getState();
+    const dropDownsData = mapToDropDownsDataDTO(
+      _store.admSettings.DropDownsData
+    );
+
+    const response = await this._repo.post<any, JsonResulObjectDTO>({
+      url: (process.env.REACT_APP_API_URL ?? "") + "AdmSettingsController.php",
+      params: new URLSearchParams({
+        function: "dropDownsDataUpdate",
+      }),
+      data: dropDownsData,
+    });
+
+    const dataType = typeof response.data;
+
+    if (dataType === "string") {
+      AppNotification("Chyba", String(response.data), "danger");
+    } else if (dataType === "object") {
+      if (response.data?.Success) {
+        AppNotification("Úspěch", "Číselníky uloženy", "success");
+        result = true;
+      } else {
+        AppNotification("Chyba", response.data?.ErrMsg ?? "", "danger");
+      }
+    } else {
+      AppNotification("Úspěch", "Číselníky uloženy", "success");
+      result = true;
     }
 
     return result;

@@ -1,23 +1,23 @@
-import AppNotification from 'shared/components/notification/AppNotification';
-import ActionsDTO from 'shared/DTOs/ActionsDTO';
-import ConditionsDTO from 'shared/DTOs/ConditionsDTO';
-import ContactDTO from 'shared/DTOs/ContactDTO';
-import GalleryDTO from 'shared/DTOs/GalleryDTO';
-import HomeDTO from 'shared/DTOs/HomeDTO';
-import JsonResulObjectDataDTO from 'shared/DTOs/JsonResulObjectDataDTO';
-import JsonResulObjectDTO from 'shared/DTOs/JsonResulObjectDTO';
-import TeamMemberDTO from 'shared/DTOs/TeamMemberDTO';
-import Repository from 'shared/infrastructure/repositiory/Repository';
-import { store } from 'shared/infrastructure/store/store';
-import ImageModel from 'shared/models/ImageModel';
+import AppNotification from "shared/components/notification/AppNotification";
+import ActionsDTO from "shared/DTOs/ActionsDTO";
+import ConditionsDTO from "shared/DTOs/ConditionsDTO";
+import ContactDTO from "shared/DTOs/ContactDTO";
+import GalleryDTO from "shared/DTOs/GalleryDTO";
+import HomeDTO from "shared/DTOs/HomeDTO";
+import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
+import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
+import TeamMemberDTO from "shared/DTOs/TeamMemberDTO";
+import Repository from "shared/infrastructure/repositiory/Repository";
+import { store } from "shared/infrastructure/store/store";
+import ImageModel from "shared/models/ImageModel";
 
-import { mapToActionsDTO } from './actions/save/mapToActionsDTO';
-import { mapToContactDTO } from './contact/save/mapToContactDTO';
-import { mapToGalleryDTO } from './gallery/save/mapToGalleryDTO';
-import { mapToGdprDTO } from './gdpr/save/mapToGdprDTO';
-import TeamMemberModel from './home/models/TeamMemberModel';
-import { mapToHomeDTO } from './home/save/mapToHomeDTO';
-import { mapToTermsOfConditionsDTO } from './termsOfConditions/save/mapToTermsOfConditionsDTO';
+import { mapToActionsDTO } from "./actions/save/mapToActionsDTO";
+import { mapToContactDTO } from "./contact/save/mapToContactDTO";
+import { mapToGalleryDTO } from "./gallery/save/mapToGalleryDTO";
+import { mapToGdprDTO } from "./gdpr/save/mapToGdprDTO";
+import TeamMemberModel from "./home/models/TeamMemberModel";
+import { mapToHomeDTO } from "./home/save/mapToHomeDTO";
+import { mapToTermsOfConditionsDTO } from "./termsOfConditions/save/mapToTermsOfConditionsDTO";
 
 export default class WebPartsService {
   private _repo = new Repository();
