@@ -19,6 +19,7 @@ const mapFromDropDownsDataDTO = (
 
   const result: Partial<AdmSettingsState> = {
     DropDownsData: dropDownsData,
+    _roleListLoaded: true,
   };
 
   return result;

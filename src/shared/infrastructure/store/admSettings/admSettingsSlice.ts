@@ -1,3 +1,4 @@
+import { GridRowDataModel } from "features/admSettings/admSettings/tableOfKeys/table/Table";
 import UserModel from "features/admSettings/models/UserModel";
 import TableOfKeysModel from "shared/models/TableOfKeysModel";
 
@@ -38,6 +39,32 @@ export const admSettingsSlice = createSlice({
       return {
         ...state,
         ...action.payload,
+      };
+    },
+
+    tableOfKeyUpdate: (state, action: PayloadAction<GridRowDataModel[]>) => {
+      const groupKey = action.payload[0].GroupKey;
+
+      const newDropDownsData = { ...state.DropDownsData };
+
+      Object.keys(newDropDownsData).forEach((item) => {
+        if (item === groupKey) {
+          newDropDownsData[item] = action.payload.map((item) => {
+            return {
+              Id: item.Id,
+              GroupKey: item.GroupKey,
+              Key: item.Key,
+              Name: item.Name,
+              Value: item.Value,
+              Enabled: item.Enabled,
+            } as TableOfKeysModel;
+          });
+        }
+      });
+
+      return {
+        ...state,
+        DropDownsData: newDropDownsData,
       };
     },
   },

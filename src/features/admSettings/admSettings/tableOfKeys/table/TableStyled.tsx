@@ -19,6 +19,12 @@ const TableStyled = styled(Box)(({ theme }) => ({
       },
     },
 
+    ".MuiCheckbox-root": {
+      svg: {
+        fill: theme.palette.primary.dark,
+      },
+    },
+
     [`& .${gridClasses.row}.even`]: {
       backgroundColor: theme.palette.primary.light,
       "&:hover, &.Mui-hovered": {

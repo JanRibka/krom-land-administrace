@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAdmSettingsSlice } from "shared/infrastructure/store/admSettings/useAdmSettingsSlice";
 import TableOfKeysModel from "shared/models/TableOfKeysModel";
 import { nameof } from "shared/nameof";
 import { v4 as uuidv4 } from "uuid";
@@ -15,6 +16,7 @@ import {
   GridActionsCellItem,
   GridColDef,
   GridEventListener,
+  GridPreProcessEditCellProps,
   GridRowEditStopReasons,
   GridRowId,
   GridRowModes,
@@ -31,12 +33,13 @@ interface IProps {
   data: TableOfKeysModel[] | undefined;
 }
 
-interface GridRowDataModel extends TableOfKeysModel {
+export interface GridRowDataModel extends TableOfKeysModel {
   Uuid: string;
   IsNew: boolean;
 }
 
 const Table = (props: IProps) => {
+  // State
   const [rows, setRows] = useState<GridRowDataModel[]>(
     props.data?.map((item) => {
       return {
@@ -48,6 +51,10 @@ const Table = (props: IProps) => {
   );
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
+  // Constants
+  const { handleTableOfKeysUpdate } = useAdmSettingsSlice();
+
+  // Other
   const handleEditClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
@@ -57,7 +64,10 @@ const Table = (props: IProps) => {
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    setRows(rows.filter((row) => row.Uuid !== id));
+    const newRows = rows.filter((row) => row.Uuid !== id);
+
+    setRows(newRows);
+    handleTableOfKeysUpdate(newRows);
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -86,13 +96,54 @@ const Table = (props: IProps) => {
       IsNew: false,
     };
 
-    setRows(rows.map((row) => (row.Id === newRow.Id ? updatedRow : row)));
+    const newRows = rows.map((row) =>
+      row.Uuid === newRow.Uuid ? updatedRow : row
+    );
+
+    setRows(newRows);
+    handleTableOfKeysUpdate(newRows);
 
     return updatedRow;
   };
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
     setRowModesModel(newRowModesModel);
+  };
+
+  const EditToolbar = () => {
+    const handleClick = () => {
+      const uuid = uuidv4();
+
+      setRows((oldRows) => [
+        ...oldRows,
+        {
+          Uuid: uuid,
+          Id: null,
+          GroupKey: oldRows?.[0]?.GroupKey ?? "",
+          Key: "",
+          Name: "",
+          Value: 0,
+          Enabled: true,
+          IsNew: true,
+        } as GridRowDataModel,
+      ]);
+
+      setRowModesModel((oldModel) => ({
+        ...oldModel,
+        [uuid]: {
+          mode: GridRowModes.Edit,
+          fieldToFocus: nameof<TableOfKeysModel>("Key"),
+        },
+      }));
+    };
+
+    return (
+      <GridToolbarContainer>
+        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+          Přidat záznam
+        </Button>
+      </GridToolbarContainer>
+    );
   };
 
   // Columns definition
@@ -102,7 +153,12 @@ const Table = (props: IProps) => {
       field: nameof<TableOfKeysModel>("Key"),
       width: 150,
       type: "string",
-      editable: false,
+      editable: true,
+      preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+        const hasError = !!!params.props.value;
+
+        return { ...params.props, error: hasError };
+      },
     },
     {
       headerName: "Popisek",
@@ -111,6 +167,11 @@ const Table = (props: IProps) => {
       flex: 1,
       type: "string",
       editable: true,
+      preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+        const hasError = !!!params.props.value;
+
+        return { ...params.props, error: hasError };
+      },
     },
     {
       headerName: "Hodnota",
@@ -118,6 +179,11 @@ const Table = (props: IProps) => {
       width: 100,
       type: "number",
       editable: true,
+      preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+        const hasError = !!!params.props.value;
+
+        return { ...params.props, error: hasError };
+      },
     },
     {
       headerName: "Povoleno",
@@ -148,7 +214,6 @@ const Table = (props: IProps) => {
             <GridActionsCellItem
               icon={<CancelIcon />}
               label="Zrušit"
-              className="textPrimary"
               onClick={handleCancelClick(id)}
               color="inherit"
             />,
@@ -159,7 +224,6 @@ const Table = (props: IProps) => {
           <GridActionsCellItem
             icon={<EditIcon />}
             label="Editovat"
-            className="textPrimary"
             onClick={handleEditClick(id)}
             color="inherit"
           />,
@@ -174,42 +238,6 @@ const Table = (props: IProps) => {
       },
     },
   ];
-
-  const EditToolbar = () => {
-    const handleClick = () => {
-      const uuid = uuidv4();
-
-      setRows((oldRows) => [
-        ...oldRows,
-        {
-          Uuid: uuid,
-          Id: null,
-          GroupKey: oldRows?.[0]?.GroupKey ?? "",
-          Key: "",
-          Name: "",
-          Value: 0,
-          Enabled: true,
-          IsNew: true,
-        } as GridRowDataModel,
-      ]);
-
-      setRowModesModel((oldModel) => ({
-        ...oldModel,
-        [uuid]: {
-          mode: GridRowModes.Edit,
-          fieldToFocus: nameof<TableOfKeysModel>("Name"),
-        },
-      }));
-    };
-
-    return (
-      <GridToolbarContainer>
-        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-          Přidat záznam
-        </Button>
-      </GridToolbarContainer>
-    );
-  };
 
   return (
     <TableStyled>

@@ -35,7 +35,7 @@ const TableOfKeysTable = () => {
     [],
     {
       apply: true,
-      condition: () => admSettings._admSettingsLoaded === false,
+      condition: () => admSettings._roleListLoaded === false,
     },
     (data) => {
       const dataType = typeof data;
