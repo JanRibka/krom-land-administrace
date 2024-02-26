@@ -252,6 +252,7 @@ const Action = (props: IProps) => {
           maxFileSize={1}
           location={ImageLocationEnum.ACTION_DETAILS}
           id={actionDetails[props.index]?.Id ?? null}
+          enbUploadIfIdWxists
           disable={props.disable}
           onAfterFileUpload={handleOnAfterFileUpload}
           onAfterFileDelete={handleOnAfterFileDelete}

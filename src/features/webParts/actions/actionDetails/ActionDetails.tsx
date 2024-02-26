@@ -26,18 +26,16 @@ const ActionDetails = (props: IProps) => {
   const { handleActionsActionDetailAdd } = useWebPartsSlice();
   const orderData: IAppSelectMenuItem[] = [];
 
-  webParts.Actions.ActionDetails.forEach((item) => {
-    if (!item.Delete) {
-      const value: number = orderData.length + 1;
+  webParts.Actions.ActionDetails.forEach((item, index) => {
+    const value: number = index + 1;
 
-      orderData.push({
-        value: value,
-        label: value.toString(),
-        name: "",
-        kod: "",
-        isDisabled: false,
-      });
-    }
+    orderData.push({
+      value: value,
+      label: value.toString(),
+      name: "",
+      kod: "",
+      isDisabled: false,
+    });
   });
 
   // Other
