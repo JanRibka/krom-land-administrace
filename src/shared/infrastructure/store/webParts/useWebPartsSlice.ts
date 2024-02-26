@@ -56,6 +56,10 @@ export const useWebPartsSlice = () => {
     dispatch(actions.actionsImageUpdate({ name, image }));
   };
 
+  const handleActionsActionDetailAdd = () => {
+    dispatch(actions.actionsActionDetailAdd());
+  };
+
   const handleActionUpdate = (
     action: Partial<ActionDetailModel>,
     index: number
@@ -123,6 +127,7 @@ export const useWebPartsSlice = () => {
     handleHomeTeamMemberUpdate,
     handleActionsUpdate,
     handleActionsImageUpdate,
+    handleActionsActionDetailAdd,
     handleActionUpdate,
     handleActionsDocumentAdd,
     handleActionsDocumentUpdate,

@@ -1,27 +1,27 @@
 <?php
-define("APP_ENV", "TEST"); # LOCAL / TEST / PROD
+define("APP_ENV", "LOCAL"); # LOCAL / TEST / PROD
 
 // Připojení k db
 $dbHost = [
-    "LOCAL" => "",
+    "LOCAL" => "localhost",
     "TEST" => "sql5.webzdarma.cz",
     "PROD" => "sql4.webzdarma.cz"
 ];
 
 $dbUserName = [
-    "LOCAL" => "",
+    "LOCAL" => "phpmyadmin",
     "TEST" => "ribkavyvojkv3055",
     "PROD" => "kromlandcz6333"
 ];
 
 $dbPassword = [
-    "LOCAL" => "",
+    "LOCAL" => "password",
     "TEST" => "9*45253qv4h.MM9Wy8Jq",
     "PROD" => ",yxi30nUd4-@vwrz)(3Q"
 ];
 
 $dbDatabase = [
-    "LOCAL" => "",
+    "LOCAL" => "kromlandcz6333",
     "TEST" => "ribkavyvojkv3055",
     "PROD" => "kromlandcz6333"
 ];

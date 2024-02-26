@@ -15,6 +15,8 @@ import ImageModel from "shared/models/ImageModel";
 import { nameof } from "shared/nameof";
 import ActionImageType from "shared/types/ActionImageType";
 
+import DeleteIcon from "@mui/icons-material/Delete";
+import Button from "@mui/material/Button";
 import { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 
@@ -23,6 +25,7 @@ import ActionDetailModel from "../../models/ActionDetailModel";
 interface IProps {
   index: number;
   disable: boolean;
+  orderData: IAppSelectMenuItem[];
 }
 
 const Action = (props: IProps) => {
@@ -33,11 +36,6 @@ const Action = (props: IProps) => {
   // Constants
   const _imageService = new ImageService();
   const { handleActionUpdate } = useWebPartsSlice();
-  const orderData: IAppSelectMenuItem[] = [
-    { value: 1, label: "1", name: "", kod: "", isDisabled: false },
-    { value: 2, label: "2", name: "", kod: "", isDisabled: false },
-    { value: 3, label: "3", name: "", kod: "", isDisabled: false },
-  ];
 
   // Other
   const handleTextFieldOnBlur = (
@@ -131,69 +129,73 @@ const Action = (props: IProps) => {
     handleActionUpdate({ [name as ActionImageType]: image }, props.index);
   };
 
+  const handleDeleteActionOnClick = () => {
+    handleActionUpdate({ Delete: true }, props.index);
+  };
+
   return (
     <ErrorBoundary>
-      <Stack spacing={2} direction='column'>
+      <Stack spacing={2} direction="column">
         <AppTextField
           name={nameof<ActionDetailModel>("MonthName")}
-          label='Měsíc'
+          label="Měsíc"
           value={actionDetails[props.index]?.MonthName ?? ""}
-          variant='outlined'
+          variant="outlined"
           fullWidth
           required
           disabled={props.disable}
-          autoComplete='off'
+          autoComplete="off"
           onBlur={handleTextFieldOnBlur}
         />
         <AppTextField
           name={nameof<ActionDetailModel>("ActionName")}
-          label='Název akce'
+          label="Název akce"
           value={actionDetails[props.index]?.ActionName ?? ""}
-          variant='outlined'
+          variant="outlined"
           fullWidth
           required
           disabled={props.disable}
-          autoComplete='off'
+          autoComplete="off"
           onBlur={handleTextFieldOnBlur}
         />
         <AppTextEditor
           name={nameof<ActionDetailModel>("ActionDescritption")}
           value={actionDetails[props.index]?.ActionDescritption ?? ""}
-          placeholder='Popis akce'
+          placeholder="Popis akce"
           required
           disable={props.disable}
           onChange={handleTextEditorOnChange}
         />
         <AppTextField
           name={nameof<ActionDetailModel>("VideoLink")}
-          label='Odkaz na video (Pouze Youtube)'
+          label="Odkaz na video (Pouze Youtube)"
           value={actionDetails[props.index]?.VideoLink ?? ""}
-          variant='outlined'
+          variant="outlined"
           fullWidth
           disabled={props.disable}
-          autoComplete='off'
+          autoComplete="off"
           onBlur={handleTextFieldOnBlur}
         />
         <AppTextField
           name={nameof<ActionDetailModel>("Price")}
-          label='Cena'
+          label="Cena"
           value={actionDetails[props.index]?.Price ?? ""}
-          variant='outlined'
+          variant="outlined"
           fullWidth
           disabled={props.disable}
-          autoComplete='off'
+          autoComplete="off"
           onBlur={handleTextFieldOnBlur}
         />
         <AppCheckbox
           name={nameof<ActionDetailModel>("CapacityFull")}
-          label='Kapacita naplněna'
+          label="Kapacita naplněna"
           checked={actionDetails[props.index]?.CapacityFull ?? false}
           disabled={props.disable}
           onChange={handleOnChangeCheckbox}
         />
         <AppCheckbox
           name={nameof<ActionDetailModel>("IsPriceRemark")}
-          label='Zda poznámka k ceně'
+          label="Zda poznámka k ceně"
           checked={actionDetails[props.index]?.IsPriceRemark ?? false}
           disabled={props.disable}
           onChange={handleOnChangeCheckboxIsPriceRemark}
@@ -201,39 +203,39 @@ const Action = (props: IProps) => {
         {actionDetails[props.index]?.IsPriceRemark && (
           <AppTextField
             name={nameof<ActionDetailModel>("PriceRemark")}
-            label='Poznámka k ceně'
+            label="Poznámka k ceně"
             value={actionDetails[props.index]?.PriceRemark ?? ""}
-            variant='outlined'
+            variant="outlined"
             fullWidth
             disabled={props.disable}
-            autoComplete='off'
+            autoComplete="off"
             onBlur={handleTextFieldOnBlur}
           />
         )}
         <AppTextField
           name={nameof<ActionDetailModel>("Place")}
-          label='Místo'
+          label="Místo"
           value={actionDetails[props.index]?.Place ?? ""}
-          variant='outlined'
+          variant="outlined"
           fullWidth
           disabled={props.disable}
-          autoComplete='off'
+          autoComplete="off"
           onBlur={handleTextFieldOnBlur}
         />
         <AppTextField
           name={nameof<ActionDetailModel>("Date")}
-          label='Datum'
+          label="Datum"
           value={actionDetails[props.index]?.Date ?? ""}
-          variant='outlined'
+          variant="outlined"
           fullWidth
           disabled={props.disable}
-          autoComplete='off'
+          autoComplete="off"
           onBlur={handleTextFieldOnBlur}
         />
         <AppSelect
-          data={orderData}
+          data={props.orderData}
           name={nameof<ActionDetailModel>("ActionOrder")}
-          label='Pořadí'
+          label="Pořadí"
           required
           disabled={props.disable}
           selectedItem={
@@ -244,7 +246,7 @@ const Action = (props: IProps) => {
         <ImageUpload
           image={actionDetails[props.index]?.Image ?? new ImageModel()}
           name={nameof<ActionDetailModel>("Image")}
-          label='Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB'
+          label="Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB"
           supportedExtensions={["png", "jpg", "jpeg", "webp"]}
           newImageAlt={"Obrázek akce KROM Land " + props.index}
           maxFileSize={1}
@@ -255,6 +257,16 @@ const Action = (props: IProps) => {
           onAfterFileDelete={handleOnAfterFileDelete}
           onFileSave={handleOnFileSave}
         />
+
+        <Button
+          color="secondary"
+          variant="outlined"
+          disabled={props.disable}
+          startIcon={<DeleteIcon />}
+          onClick={handleDeleteActionOnClick}
+        >
+          Odebrat akci
+        </Button>
       </Stack>
     </ErrorBoundary>
   );

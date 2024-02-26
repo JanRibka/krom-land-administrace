@@ -116,6 +116,19 @@ export const webPartsSlice = createSlice({
 
       (state.Actions[action.payload.name] as ImageModel) = newImage;
     },
+    actionsActionDetailAdd: (state, action: Action) => {
+      const newActionDetails = [...state.Actions.ActionDetails];
+
+      newActionDetails.push(new ActionDetailModel());
+
+      return {
+        ...state,
+        Actions: {
+          ...state.Actions,
+          ActionDetails: newActionDetails,
+        },
+      };
+    },
     actionUpdate: (
       state,
       action: PayloadAction<{

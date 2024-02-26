@@ -14,6 +14,7 @@ export default class ActionDetailModel {
   Place: string = "";
   Date: string = "";
   CapacityFull: boolean = false;
+  Delete: boolean = false;
 
   public constructor(init?: Partial<ActionDetailModel>) {
     Object.assign(this, init);
