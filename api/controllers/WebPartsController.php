@@ -4,35 +4,35 @@ namespace komLand\api\controllers;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use kromLand\api\controllers\ControllerBase;
-use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
-use kromLand\api\models\webParts\actions\ActionsModel;
-use kromLand\api\models\webParts\conditions\ConditionsModel;
-use kromLand\api\models\webParts\contact\ContactModel;
-use kromLand\api\models\webParts\gallery\GalleryModel;
-use kromLand\api\models\webParts\home\HomeModel;
-use kromLand\api\repositories\WebPartsRepository;
+use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\services\FileService;
-use kromLand\api\services\IWebPartsService;
 use kromLand\api\services\WebPartsService;
-
+use kromLand\api\services\IWebPartsService;
+use kromLand\api\controllers\ControllerBase;
 use function kromLand\api\middleware\verifyJWT;
 use function kromLand\api\middleware\verifyRole;
+use kromLand\api\models\webParts\home\HomeModel;
+use kromLand\api\repositories\WebPartsRepository;
+use kromLand\api\models\webParts\actions\ActionsModel;
+use kromLand\api\models\webParts\contact\ContactModel;
+
+use kromLand\api\models\webParts\gallery\GalleryModel;
+use kromLand\api\models\webParts\conditions\ConditionsModel;
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header('Content-Type: application/json');
 
-require_once __DIR__.'/./ControllerBase.php';
-require_once __DIR__.'/../enums/HttpStatucCode.php';
-require_once __DIR__.'/../enums/UserRoleEnum.php';
-require_once __DIR__.'/../middleware/verifyJWT.php';
-require_once __DIR__.'/../middleware/verifyRole.php';
-require_once __DIR__.'/../repositories/WebPartsRepository.php';
-require_once __DIR__.'/../services/WebPartsService.php';
-require_once __DIR__.'/../services/FileService.php';
+require_once __DIR__ . '/./ControllerBase.php';
+require_once __DIR__ . '/../enums/HttpStatucCode.php';
+require_once __DIR__ . '/../enums/UserRoleEnum.php';
+require_once __DIR__ . '/../middleware/verifyJWT.php';
+require_once __DIR__ . '/../middleware/verifyRole.php';
+require_once __DIR__ . '/../repositories/WebPartsRepository.php';
+require_once __DIR__ . '/../services/WebPartsService.php';
+require_once __DIR__ . '/../services/FileService.php';
 
 class WebPartsController extends ControllerBase
 {
@@ -143,7 +143,7 @@ class WebPartsController extends ControllerBase
                 [],
             );
 
-            $this->_webPartstService->actionsUpdate($actions);
+            $this->_webPartstService->actionsUpdate($actions, 1);
 
             $this->apiResponse(true, '');
         } catch (\Exception $ex) {
@@ -357,15 +357,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'POST
                 $_SERVER
             );
             $response = new Response();
-            $response = verifyJWT($request, $response,
+            $response = verifyJWT(
+                $request,
+                $response,
                 function ($request, $response) use ($controller, $functionName, $userRoles) {
-                    return verifyRole($userRoles)($request, $response,
+                    return verifyRole($userRoles)(
+                        $request,
+                        $response,
                         function ($request, $response) use ($controller, $functionName) {
                             call_user_func([$controller, $functionName]);
 
                             return $response;
-                        }, false);
-                }, false);
+                        },
+                        false
+                    );
+                },
+                false
+            );
 
             $statusCode = $response->getStatusCode();
 

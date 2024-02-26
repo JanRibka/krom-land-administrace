@@ -2,11 +2,11 @@
 
 namespace kromLand\api\services;
 
+use kromLand\api\models\webParts\home\HomeModel;
 use kromLand\api\models\webParts\actions\ActionsModel;
-use kromLand\api\models\webParts\conditions\ConditionsModel;
 use kromLand\api\models\webParts\contact\ContactModel;
 use kromLand\api\models\webParts\gallery\GalleryModel;
-use kromLand\api\models\webParts\home\HomeModel;
+use kromLand\api\models\webParts\conditions\ConditionsModel;
 
 interface IWebPartsService
 {
@@ -20,11 +20,11 @@ interface IWebPartsService
 
     public function getActions(int $id): ActionsModel;
 
-    public function actionsUpdate(ActionsModel $actions): void;
+    public function actionsUpdate(ActionsModel $actions, int $actionId): void;
 
     public function getActionDetails(int $actionId): array;
 
-    public function actionDetailsUpdate(array $actionDetails): void;
+    public function actionDetailsUpdate(array $actionDetails, int $actionId): void;
 
     public function getDocumentsToDownload(): array;
 

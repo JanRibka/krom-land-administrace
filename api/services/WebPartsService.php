@@ -2,14 +2,14 @@
 
 namespace kromLand\api\services;
 
-require_once __DIR__.'/./IWebPartsService.php';
+require_once __DIR__ . '/./IWebPartsService.php';
 
-use kromLand\api\models\webParts\actions\ActionsModel;
-use kromLand\api\models\webParts\conditions\ConditionsModel;
-use kromLand\api\models\webParts\contact\ContactModel;
-use kromLand\api\models\webParts\gallery\GalleryModel;
 use kromLand\api\models\webParts\home\HomeModel;
 use kromLand\api\repositories\IWebPartsRepository;
+use kromLand\api\models\webParts\actions\ActionsModel;
+use kromLand\api\models\webParts\contact\ContactModel;
+use kromLand\api\models\webParts\gallery\GalleryModel;
+use kromLand\api\models\webParts\conditions\ConditionsModel;
 
 class WebPartsService implements IWebPartsService
 {
@@ -58,7 +58,7 @@ class WebPartsService implements IWebPartsService
 
                 $image = json_decode($member->Image);
                 $imageName = $image->Name;
-                $imagePath = __DIR__.'/../../../publicImg/'.$imageName;
+                $imagePath = __DIR__ . '/../../../publicImg/' . $imageName;
 
                 $this->_fileService->fileDelete($imagePath);
             } elseif (count($item) > 0) {
@@ -78,7 +78,7 @@ class WebPartsService implements IWebPartsService
         return $actions;
     }
 
-    public function actionsUpdate(ActionsModel $actions): void
+    public function actionsUpdate(ActionsModel $actions, int $actionId): void
     {
         $this->_webPartsRepository->actionsUpdate($actions);
         $this->_webPartsRepository->actionDetailsUpdate($actions->ActionDetails);
@@ -89,8 +89,33 @@ class WebPartsService implements IWebPartsService
         return $this->_webPartsRepository->getActionDetails($actionId);
     }
 
-    public function actionDetailsUpdate(array $actionDetails): void
+    public function actionDetailsUpdate(array $actionDetails, int $actionId): void
     {
+        $actionDetailsDb = $this->getActionDetails($actionId);
+
+        foreach ($actionDetails as $detail) {
+            $id = $detail->Id;
+            $item = array_filter($actionDetailsDb, function ($f) use ($id) {
+                if ($f->Id == $id) {
+                    return $f;
+                }
+            });
+
+            if ($detail->Delete) {
+                $this->_webPartsRepository->ima($id);
+
+                $image = json_decode($detail->Image);
+                $imageName = $image->Name;
+                $imagePath = __DIR__ . '/../../../publicImg/' . $imageName;
+
+                $this->_fileService->fileDelete($imagePath);
+            } elseif (count($item) > 0) {
+                $this->_webPartsRepository->($detail->Name, $detail->Description, $id);
+            } else {
+                $this->_webPartsRepository->($detail->Image, $detail->Name, $detail->Description);
+            }
+        }
+
         $this->_webPartsRepository->actionDetailsUpdate($actionDetails);
     }
 
