@@ -1,4 +1,5 @@
 import AppNotification from "shared/components/notification/AppNotification";
+import ActionDetailDTO from "shared/DTOs/ActionDetailDTO";
 import ActionsDTO from "shared/DTOs/ActionsDTO";
 import ConditionsDTO from "shared/DTOs/ConditionsDTO";
 import ContactDTO from "shared/DTOs/ContactDTO";
@@ -11,6 +12,7 @@ import Repository from "shared/infrastructure/repositiory/Repository";
 import { store } from "shared/infrastructure/store/store";
 import ImageModel from "shared/models/ImageModel";
 
+import ActionDetailModel from "./actions/models/ActionDetailModel";
 import { mapToActionsDTO } from "./actions/save/mapToActionsDTO";
 import { mapToContactDTO } from "./contact/save/mapToContactDTO";
 import { mapToGalleryDTO } from "./gallery/save/mapToGalleryDTO";
@@ -108,6 +110,46 @@ export default class WebPartsService {
     } else {
       AppNotification("Úspěch", "Úspěšně uloženo", "success");
     }
+  }
+
+  /**
+   * Get action details
+   * @returns
+   */
+  public async getActionDetails() {
+    let result: ActionDetailModel[] | null = null;
+
+    const response = await this._repo.get<
+      JsonResulObjectDataDTO<ActionDetailDTO[]>
+    >({
+      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
+      params: new URLSearchParams({
+        function: "getActionDetails",
+      }),
+      returnError: true,
+    });
+
+    result =
+      response.Data?.map(
+        (item) =>
+          new ActionDetailModel({
+            Id: item.Id ?? item.Id ?? 0,
+            ActionOrder: item.ActionOrder ?? 0,
+            MonthName: item.MonthName ?? "",
+            Image: !!item?.Image ? JSON.parse(item.Image) : new ImageModel(),
+            ActionName: item.ActionName ?? "",
+            ActionDescritption: item.ActionDescritption ?? "",
+            VideoLink: item.VideoLink ?? "",
+            Price: item.Price ?? "",
+            IsPriceRemark: item.IsPriceRemark === "1",
+            PriceRemark: item.PriceRemark ?? "",
+            Place: item.Place ?? "",
+            Date: item.Date ?? "",
+            CapacityFull: item.CapacityFull === "1",
+          })
+      ) ?? [];
+
+    return result;
   }
 
   /**

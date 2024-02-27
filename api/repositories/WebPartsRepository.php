@@ -2,29 +2,29 @@
 
 namespace kromLand\api\repositories;
 
-require_once __DIR__.'/../config/db.php';
-require_once __DIR__.'/../../vendor/autoload.php';
-require_once __DIR__.'/../../vendor/dibi/dibi/src/Dibi/dibi.php';
-require_once __DIR__.'/../models/webParts/home/TeamMemberModel.php';
-require_once __DIR__.'/../models/webParts/home/HomeModel.php';
-require_once __DIR__.'/../models/webParts/actions/ActionsModel.php';
-require_once __DIR__.'/../models/webParts/actions/ActionDetailModel.php';
-require_once __DIR__.'/../models/webParts/actions/DocumentToDownloadModel.php';
-require_once __DIR__.'/../models/webParts/gallery/GalleryModel.php';
-require_once __DIR__.'/../models/webParts/gallery/GalleryImageModel.php';
-require_once __DIR__.'/../models/webParts/contact/ContactModel.php';
-require_once __DIR__.'/../models/webParts/conditions/ConditionsModel.php';
-require_once __DIR__.'/./IWebPartsRepository.php';
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/dibi/dibi/src/Dibi/dibi.php';
+require_once __DIR__ . '/../models/webParts/home/TeamMemberModel.php';
+require_once __DIR__ . '/../models/webParts/home/HomeModel.php';
+require_once __DIR__ . '/../models/webParts/actions/ActionsModel.php';
+require_once __DIR__ . '/../models/webParts/actions/ActionDetailModel.php';
+require_once __DIR__ . '/../models/webParts/actions/DocumentToDownloadModel.php';
+require_once __DIR__ . '/../models/webParts/gallery/GalleryModel.php';
+require_once __DIR__ . '/../models/webParts/gallery/GalleryImageModel.php';
+require_once __DIR__ . '/../models/webParts/contact/ContactModel.php';
+require_once __DIR__ . '/../models/webParts/conditions/ConditionsModel.php';
+require_once __DIR__ . '/./IWebPartsRepository.php';
 
-use kromLand\api\models\webParts\actions\ActionDetailModel;
-use kromLand\api\models\webParts\actions\ActionsModel;
-use kromLand\api\models\webParts\actions\DocumentToDownloadModel;
-use kromLand\api\models\webParts\conditions\ConditionsModel;
-use kromLand\api\models\webParts\contact\ContactModel;
-use kromLand\api\models\webParts\gallery\GalleryImageModel;
-use kromLand\api\models\webParts\gallery\GalleryModel;
 use kromLand\api\models\webParts\home\HomeModel;
+use kromLand\api\models\webParts\actions\ActionsModel;
+use kromLand\api\models\webParts\contact\ContactModel;
+use kromLand\api\models\webParts\gallery\GalleryModel;
 use kromLand\api\models\webParts\home\TeamMemberModel;
+use kromLand\api\models\webParts\actions\ActionDetailModel;
+use kromLand\api\models\webParts\gallery\GalleryImageModel;
+use kromLand\api\models\webParts\conditions\ConditionsModel;
+use kromLand\api\models\webParts\actions\DocumentToDownloadModel;
 
 class WebPartsRepository implements IWebPartsRepository
 {
@@ -61,20 +61,21 @@ class WebPartsRepository implements IWebPartsRepository
     public function homeUpdate(HomeModel $home): void
     {
         \dibi::query(
-            'UPDATE home as h SET', [
-              'Title' => $home->Title,
-              'Description' => $home->Description,
-              'PageHeaderTextMain' => $home->PageHeaderTextMain,
-              'PageHeaderTextMainColor' => $home->PageHeaderTextMainColor,
-              'PageHeaderTextSecondary' => $home->PageHeaderTextSecondary,
-              'PageHeaderTextSecondaryColor' => $home->PageHeaderTextSecondaryColor,
-              'AboutUs' => $home->AboutUs,
-              'PeopleSay1Text' => $home->PeopleSay1Text,
-              'PeopleSay1Name' => $home->PeopleSay1Name,
-              'PeopleSay2Text' => $home->PeopleSay2Text,
-              'PeopleSay2Name' => $home->PeopleSay2Name,
-              'PeopleSay3Text' => $home->PeopleSay3Text,
-              'PeopleSay3Name' => $home->PeopleSay3Name,
+            'UPDATE home as h SET',
+            [
+                'Title' => $home->Title,
+                'Description' => $home->Description,
+                'PageHeaderTextMain' => $home->PageHeaderTextMain,
+                'PageHeaderTextMainColor' => $home->PageHeaderTextMainColor,
+                'PageHeaderTextSecondary' => $home->PageHeaderTextSecondary,
+                'PageHeaderTextSecondaryColor' => $home->PageHeaderTextSecondaryColor,
+                'AboutUs' => $home->AboutUs,
+                'PeopleSay1Text' => $home->PeopleSay1Text,
+                'PeopleSay1Name' => $home->PeopleSay1Name,
+                'PeopleSay2Text' => $home->PeopleSay2Text,
+                'PeopleSay2Name' => $home->PeopleSay2Name,
+                'PeopleSay3Text' => $home->PeopleSay3Text,
+                'PeopleSay3Name' => $home->PeopleSay3Name,
             ],
             'WHERE h.Id = %i',
             $home->Id
@@ -111,7 +112,7 @@ class WebPartsRepository implements IWebPartsRepository
             'Image' => $image,
             'Name' => $name,
             'Description' => $description,
-          ];
+        ];
 
         \dibi::query('INSERT INTO teamMembers', $arr);
 
@@ -125,7 +126,7 @@ class WebPartsRepository implements IWebPartsRepository
         $arr = [
             'Name' => $name,
             'Description' => $description,
-          ];
+        ];
 
         \dibi::query(
             'UPDATE teamMembers as tm SET',
@@ -160,12 +161,13 @@ class WebPartsRepository implements IWebPartsRepository
     public function actionsUpdate(ActionsModel $actions): void
     {
         \dibi::query(
-            'UPDATE actions as a SET', [
-              'Title' => $actions->Title,
-              'Description' => $actions->Description,
-              'PageHeaderTextMain' => $actions->PageHeaderTextMain,
-              'PageHeaderTextMainColor' => $actions->PageHeaderTextMainColor,
-              'EmailKromLand' => $actions->EmailKromLand,
+            'UPDATE actions as a SET',
+            [
+                'Title' => $actions->Title,
+                'Description' => $actions->Description,
+                'PageHeaderTextMain' => $actions->PageHeaderTextMain,
+                'PageHeaderTextMainColor' => $actions->PageHeaderTextMainColor,
+                'EmailKromLand' => $actions->EmailKromLand,
             ],
             'WHERE a.Id = %i',
             $actions->Id
@@ -204,27 +206,55 @@ class WebPartsRepository implements IWebPartsRepository
         return $result;
     }
 
-    public function actionDetailsUpdate(array $actionDetails): void
+    public function actionDetailsInsert(mixed $detail, int $actionsId): int
     {
-        foreach ($actionDetails as $detail) {
-            \dibi::query(
-                'UPDATE actionDetails as ad SET', [
-                  'ActionOrder' => $detail->ActionOrder,
-                  'MonthName' => $detail->MonthName,
-                  'ActionName' => $detail->ActionName,
-                  'ActionDescritption' => $detail->ActionDescritption,
-                  'VideoLink' => $detail->VideoLink,
-                  'Price' => $detail->Price,
-                  'IsPriceRemark' => $detail->IsPriceRemark,
-                  'PriceRemark' => $detail->PriceRemark,
-                  'Place' => $detail->Place,
-                  'Date' => $detail->Date,
-                  'CapacityFull' => $detail->CapacityFull,
-                ],
-                'WHERE ad.Id = %i',
-                $detail->Id
-            );
-        }
+        $arr = [
+            'ActionsId' => $actionsId,
+            'ActionOrder' => $detail->ActionOrder,
+            'MonthName' => $detail->MonthName,
+            'ActionName' => $detail->ActionName,
+            'ActionDescritption' => $detail->ActionDescritption,
+            'VideoLink' => $detail->VideoLink,
+            'Price' => $detail->Price,
+            'IsPriceRemark' => $detail->IsPriceRemark,
+            'PriceRemark' => $detail->PriceRemark,
+            'Place' => $detail->Place,
+            'Date' => $detail->Date,
+            'CapacityFull' => $detail->CapacityFull,
+        ];
+
+        \dibi::query('INSERT INTO actionDetails', $arr);
+
+        $id = \dibi::getInsertId();
+
+        return $id;
+    }
+
+    public function actionDetailsUpdate(mixed $detail): void
+    {
+        \dibi::query(
+            'UPDATE actionDetails as ad SET',
+            [
+                'ActionOrder' => $detail->ActionOrder,
+                'MonthName' => $detail->MonthName,
+                'ActionName' => $detail->ActionName,
+                'ActionDescritption' => $detail->ActionDescritption,
+                'VideoLink' => $detail->VideoLink,
+                'Price' => $detail->Price,
+                'IsPriceRemark' => $detail->IsPriceRemark,
+                'PriceRemark' => $detail->PriceRemark,
+                'Place' => $detail->Place,
+                'Date' => $detail->Date,
+                'CapacityFull' => $detail->CapacityFull,
+            ],
+            'WHERE ad.Id = %i',
+            $detail->Id
+        );
+    }
+
+    public function actionDetailDelete(int $id): void
+    {
+        \dibi::query('DELETE FROM actionDetails as tm WHERE tm.Id = %i', $id);
     }
 
     public function getDocumentsToDownload(): array
@@ -270,12 +300,13 @@ class WebPartsRepository implements IWebPartsRepository
     public function galleryUpdate(GalleryModel $gallery): void
     {
         \dibi::query(
-            'UPDATE gallery as g SET', [
-              'Title' => $gallery->Title,
-              'Description' => $gallery->Description,
-              'PageHeaderTextMain' => $gallery->PageHeaderTextMain,
-              'PageHeaderTextMainColor' => $gallery->PageHeaderTextMainColor,
-              'ExternalGalleryLink' => $gallery->ExternalGalleryLink,
+            'UPDATE gallery as g SET',
+            [
+                'Title' => $gallery->Title,
+                'Description' => $gallery->Description,
+                'PageHeaderTextMain' => $gallery->PageHeaderTextMain,
+                'PageHeaderTextMainColor' => $gallery->PageHeaderTextMainColor,
+                'ExternalGalleryLink' => $gallery->ExternalGalleryLink,
             ],
             'WHERE g.Id = %i',
             $gallery->Id
@@ -325,13 +356,14 @@ class WebPartsRepository implements IWebPartsRepository
     public function contactUpdate(ContactModel $contact): void
     {
         \dibi::query(
-            'UPDATE contact as c SET', [
-              'Title' => $contact->Title,
-              'Description' => $contact->Description,
-              'PageHeaderTextMain' => $contact->PageHeaderTextMain,
-              'PageHeaderTextMainColor' => $contact->PageHeaderTextMainColor,
-              'GoogleMapsUrl' => $contact->GoogleMapsUrl,
-              'Email' => $contact->Email,
+            'UPDATE contact as c SET',
+            [
+                'Title' => $contact->Title,
+                'Description' => $contact->Description,
+                'PageHeaderTextMain' => $contact->PageHeaderTextMain,
+                'PageHeaderTextMainColor' => $contact->PageHeaderTextMainColor,
+                'GoogleMapsUrl' => $contact->GoogleMapsUrl,
+                'Email' => $contact->Email,
             ],
             'WHERE c.Id = %i',
             $contact->Id
@@ -354,9 +386,10 @@ class WebPartsRepository implements IWebPartsRepository
     public function gdprUpdate(ConditionsModel $conditions): void
     {
         \dibi::query(
-            'UPDATE conditions as c SET', [
-              'GdprLabel' => $conditions->Label,
-              'GdprText' => $conditions->Text,
+            'UPDATE conditions as c SET',
+            [
+                'GdprLabel' => $conditions->Label,
+                'GdprText' => $conditions->Text,
             ],
             'WHERE c.Id = %i',
             $conditions->Id
@@ -379,9 +412,10 @@ class WebPartsRepository implements IWebPartsRepository
     public function termsOfConditionsUpdate(ConditionsModel $conditions): void
     {
         \dibi::query(
-            'UPDATE conditions as c SET', [
-              'TermsOfConditionsLabel' => $conditions->Label,
-              'TermsOfConditionsText' => $conditions->Text,
+            'UPDATE conditions as c SET',
+            [
+                'TermsOfConditionsLabel' => $conditions->Label,
+                'TermsOfConditionsText' => $conditions->Text,
             ],
             'WHERE c.Id = %i',
             $conditions->Id

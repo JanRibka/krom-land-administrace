@@ -18,23 +18,24 @@ class ActionDetailModel
     public $Place;
     public $Date;
     public $CapacityFull;
+    public $Delete;
 
     public function __construct(
-    $id,
-    $actionsId,
-    $actionOrder,
-    $monthName,
-    $image,
-    $actionName,
-    $actionDescritption,
-    $videoLink,
-    $price,
-    $isPriceRemark,
-    $priceRemark,
-    $place,
-    $date,
-    $capacityFull,
-  ) {
+        $id,
+        $actionsId,
+        $actionOrder,
+        $monthName,
+        $image,
+        $actionName,
+        $actionDescritption,
+        $videoLink,
+        $price,
+        $isPriceRemark,
+        $priceRemark,
+        $place,
+        $date,
+        $capacityFull,
+    ) {
         $this->Id = $id;
         $this->ActionsId = $actionsId;
         $this->ActionOrder = $actionOrder;

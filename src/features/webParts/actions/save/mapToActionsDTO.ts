@@ -28,6 +28,7 @@ export const mapToActionsDTO = (actions: ActionsModel) => {
           Place: item.Place,
           Date: item.Date,
           CapacityFull: item.CapacityFull === true ? "1" : "0",
+          Delete: item.Delete,
         })
     ),
     DocumentsToDownload: [],

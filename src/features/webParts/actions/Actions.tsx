@@ -78,6 +78,11 @@ const Actions = () => {
     setSaving(true);
 
     await _webPartsService.actionsUpdate();
+    const actionDetails = await _webPartsService.getActionDetails();
+
+    if (!!actionDetails) {
+      handleActionsUpdate({ ActionDetails: actionDetails });
+    }
 
     setSaving(false);
   };
@@ -86,7 +91,7 @@ const Actions = () => {
     <ErrorBoundary>
       <FeatureStyled>
         <Stack spacing={4}>
-          <PageTitle title='Akce' />
+          <PageTitle title="Akce" />
           <Seo disable={disable} />
           <PageHeader disable={disable} />
           <ActionDetails disable={disable} />

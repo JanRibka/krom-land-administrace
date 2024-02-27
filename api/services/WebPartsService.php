@@ -81,7 +81,7 @@ class WebPartsService implements IWebPartsService
     public function actionsUpdate(ActionsModel $actions, int $actionId): void
     {
         $this->_webPartsRepository->actionsUpdate($actions);
-        $this->_webPartsRepository->actionDetailsUpdate($actions->ActionDetails);
+        $this->actionDetailsUpdate($actions->ActionDetails, $actionId);
     }
 
     public function getActionDetails(int $actionId): array
@@ -95,14 +95,14 @@ class WebPartsService implements IWebPartsService
 
         foreach ($actionDetails as $detail) {
             $id = $detail->Id;
-            $item = array_filter($actionDetailsDb, function ($f) use ($id) {
+            $item = array_filter($actionDetailsDb, function ($f) use ($id, $actionId) {
                 if ($f->Id == $id) {
                     return $f;
                 }
             });
 
             if ($detail->Delete) {
-                $this->_webPartsRepository->ima($id);
+                $this->_webPartsRepository->actionDetailDelete($id);
 
                 $image = json_decode($detail->Image);
                 $imageName = $image->Name;
@@ -110,13 +110,11 @@ class WebPartsService implements IWebPartsService
 
                 $this->_fileService->fileDelete($imagePath);
             } elseif (count($item) > 0) {
-                $this->_webPartsRepository->($detail->Name, $detail->Description, $id);
+                $this->_webPartsRepository->actionDetailsUpdate($detail);
             } else {
-                $this->_webPartsRepository->($detail->Image, $detail->Name, $detail->Description);
+                $this->_webPartsRepository->actionDetailsInsert($detail, $actionId);
             }
         }
-
-        $this->_webPartsRepository->actionDetailsUpdate($actionDetails);
     }
 
     public function getDocumentsToDownload(): array

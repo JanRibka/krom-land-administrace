@@ -152,6 +152,20 @@ class WebPartsController extends ControllerBase
     }
 
     /**
+     * Get Action Details.
+     */
+    public function getActionDetails()
+    {
+        try {
+            $actionDetails = $this->_webPartstService->getActionDetails(1);
+
+            $this->apiResponse(true, '', $actionDetails);
+        } catch (\Exception $ex) {
+            $this->apiResponse(false, $ex->getMessage(), null, HttpStatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Get Gallery data.
      */
     public function getGallery()
