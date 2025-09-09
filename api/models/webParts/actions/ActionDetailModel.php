@@ -19,6 +19,7 @@ class ActionDetailModel
     public $Date;
     public $CapacityFull;
     public $Delete;
+    public $DisplayTShirtSize;
 
     public function __construct(
         $id,
@@ -35,6 +36,7 @@ class ActionDetailModel
         $place,
         $date,
         $capacityFull,
+        $displayTShirtSize
     ) {
         $this->Id = $id;
         $this->ActionsId = $actionsId;
@@ -50,5 +52,6 @@ class ActionDetailModel
         $this->Place = $place;
         $this->Date = $date;
         $this->CapacityFull = $capacityFull;
+        $this->DisplayTShirtSize = $displayTShirtSize;
     }
 }

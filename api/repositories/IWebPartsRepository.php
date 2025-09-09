@@ -6,7 +6,6 @@ use kromLand\api\models\webParts\home\HomeModel;
 use kromLand\api\models\webParts\actions\ActionsModel;
 use kromLand\api\models\webParts\contact\ContactModel;
 use kromLand\api\models\webParts\gallery\GalleryModel;
-use kromLand\api\models\webParts\actions\ActionDetailModel;
 use kromLand\api\models\webParts\conditions\ConditionsModel;
 
 interface IWebPartsRepository

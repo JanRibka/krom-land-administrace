@@ -34,6 +34,7 @@ export const mapFromActionsDTO = (actionsDTO?: ActionsDTO | null) => {
             Place: item.Place ?? "",
             Date: item.Date ?? "",
             CapacityFull: item.CapacityFull === "1",
+            DisplayTShirtSize: item.DisplayTShirtSize === "1",
           })
       ) ?? [],
     DocumentsToDownload:

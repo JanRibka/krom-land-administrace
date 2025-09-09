@@ -15,6 +15,7 @@ export default class ActionDetailModel {
   Date: string = "";
   CapacityFull: boolean = false;
   Delete: boolean = false;
+  DisplayTShirtSize: boolean = false;
 
   public constructor(init?: Partial<ActionDetailModel>) {
     Object.assign(this, init);

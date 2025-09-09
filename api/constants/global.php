@@ -1,5 +1,5 @@
 <?php
-define("APP_ENV", "LOCAL"); # LOCAL / TEST / PROD
+define("APP_ENV", "TEST"); # LOCAL / TEST / PROD
 
 // Připojení k db
 $dbHost = [

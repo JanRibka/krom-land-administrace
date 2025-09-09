@@ -198,6 +198,7 @@ class WebPartsRepository implements IWebPartsRepository
                 $detail->Place,
                 $detail->Date,
                 $detail->CapacityFull,
+                $detail->DisplayTShirtSize,
             );
 
             array_push($result, $newDetail);
@@ -221,6 +222,7 @@ class WebPartsRepository implements IWebPartsRepository
             'Place' => $detail->Place,
             'Date' => $detail->Date,
             'CapacityFull' => $detail->CapacityFull,
+            'DisplayTShirtSize' => $detail->DisplayTShirtSize,
         ];
 
         \dibi::query('INSERT INTO actionDetails', $arr);
@@ -246,6 +248,7 @@ class WebPartsRepository implements IWebPartsRepository
                 'Place' => $detail->Place,
                 'Date' => $detail->Date,
                 'CapacityFull' => $detail->CapacityFull,
+                'DisplayTShirtSize' => $detail->DisplayTShirtSize,
             ],
             'WHERE ad.Id = %i',
             $detail->Id

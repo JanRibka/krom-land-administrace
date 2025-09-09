@@ -187,6 +187,13 @@ const Action = (props: IProps) => {
           onBlur={handleTextFieldOnBlur}
         />
         <AppCheckbox
+          name={nameof<ActionDetailModel>("DisplayTShirtSize")}
+          label="Zobrazit výběr velikosti trička"
+          checked={actionDetails[props.index]?.DisplayTShirtSize ?? false}
+          disabled={props.disable}
+          onChange={handleOnChangeCheckbox}
+        />
+        <AppCheckbox
           name={nameof<ActionDetailModel>("CapacityFull")}
           label="Kapacita naplněna"
           checked={actionDetails[props.index]?.CapacityFull ?? false}

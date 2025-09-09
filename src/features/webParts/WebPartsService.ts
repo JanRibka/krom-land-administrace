@@ -88,7 +88,7 @@ export default class WebPartsService {
   public async actionsUpdate() {
     const state = store.getState();
     const actions: ActionsDTO = mapToActionsDTO(state.webParts.Actions);
-
+    console.log(actions);
     const response = await this._repo.post<any, JsonResulObjectDTO>({
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
@@ -146,6 +146,7 @@ export default class WebPartsService {
             Place: item.Place ?? "",
             Date: item.Date ?? "",
             CapacityFull: item.CapacityFull === "1",
+            DisplayTShirtSize: item.DisplayTShirtSize === "1",
           })
       ) ?? [];
 

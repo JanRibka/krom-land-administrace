@@ -29,6 +29,7 @@ export const mapToActionsDTO = (actions: ActionsModel) => {
           Date: item.Date,
           CapacityFull: item.CapacityFull === true ? "1" : "0",
           Delete: item.Delete,
+          DisplayTShirtSize: item.DisplayTShirtSize === true ? "1" : "0",
         })
     ),
     DocumentsToDownload: [],
