@@ -124,9 +124,9 @@ const RegistrationsTable = () => {
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
           icon={
-            <EditIcon color='secondary' titleAccess='Editovat registraci' />
+            <EditIcon color="secondary" titleAccess="Editovat registraci" />
           }
-          label='Editovat registraci'
+          label="Editovat registraci"
           onClick={() => handleOnClickEditRegistration(params.id)}
         />,
       ],
@@ -330,6 +330,15 @@ const RegistrationsTable = () => {
       resizable: true,
     },
     {
+      headerName: "Velikost trika",
+      field: "other_t_shirt_size",
+      width: 150,
+      type: "string",
+      editable: false,
+      sortable: true,
+      resizable: true,
+    },
+    {
       headerName: "Datum registrace",
       field: "registration_date",
       width: 150,
@@ -476,7 +485,7 @@ const RegistrationsTable = () => {
     <>
       <RegistrationsTableStyled>
         <TableFilterDate />
-        <Box className='grid-wrapper'>
+        <Box className="grid-wrapper">
           <DataGrid
             apiRef={refApi}
             columns={columns}

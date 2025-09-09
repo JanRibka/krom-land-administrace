@@ -27,6 +27,7 @@ class RegistrationDTO {
   other_pay_method: number | null = null;
   other_pay_method_name: string | null = null;
   other_other_info: string | null = null;
+  other_t_shirt_size: string | null = null;
   registration_date: DateTimeDTO | null = null;
   payed: boolean | null = null;
   state: number | null = null;
