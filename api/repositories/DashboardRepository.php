@@ -2,11 +2,11 @@
 
 namespace kromLand\api\repositories;
 
-require_once __DIR__.'/../config/db.php';
-require_once __DIR__.'/../../vendor/autoload.php';
-require_once __DIR__.'/../../vendor/dibi/dibi/src/Dibi/dibi.php';
-require_once __DIR__.'/./IDashboardRepository.php';
-require_once __DIR__.'/../models/dashboard/RegistrationModel.php';
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/dibi/dibi/src/Dibi/dibi.php';
+require_once __DIR__ . '/./IDashboardRepository.php';
+require_once __DIR__ . '/../models/dashboard/RegistrationModel.php';
 
 use kromLand\api\models\dashboard\RegistrationModel;
 
@@ -18,10 +18,10 @@ class DashboardRepository implements IDashboardRepository
         $dateToFormatted = $dateTo?->format('Y-m-d');
 
         $registrations = \dibi::select('*')
-          ->from('registrations')
-          ->as('r')
-          ->where('r.registration_date BETWEEN IFNULL(%s, "1900-01-01") AND IFNULL(%s, "2999-12-31")', $dateFromFormatted, $dateToFormatted)
-          ->fetchAll();
+            ->from('registrations')
+            ->as('r')
+            ->where('r.registration_date BETWEEN IFNULL(%s, "1900-01-01") AND IFNULL(%s, "2999-12-31")', $dateFromFormatted, $dateToFormatted)
+            ->fetchAll();
 
         $registrationsModel = [];
 
@@ -51,6 +51,7 @@ class DashboardRepository implements IDashboardRepository
             $newRegistration->other_pickup_person = $registraion->other_pickup_person;
             $newRegistration->other_pay_method = $registraion->other_pay_method;
             $newRegistration->other_other_info = $registraion->other_other_info;
+            $newRegistration->other_t_shirt_size = $registraion->other_t_shirt_size;
             $newRegistration->registration_date = $registraion->registration_date ? new \DateTime($registraion->registration_date) : null;
             $newRegistration->payed = $registraion->payed;
             $newRegistration->state = $registraion->state;
@@ -95,6 +96,7 @@ class DashboardRepository implements IDashboardRepository
         $registrationModel->other_how_children_arrives = $registration->other_how_children_arrives;
         $registrationModel->other_pickup_person = $registration->other_pickup_person;
         $registrationModel->other_pay_method = $registration->other_pay_method;
+        $registrationModel->other_t_shirt_size = $registration->other_t_shirt_size;
         $registrationModel->other_other_info = $registration->other_other_info;
         $registrationModel->registration_date = $registration->registration_date ? new \DateTime($registration->registration_date) : null;
         $registrationModel->payed = $registration->payed;
@@ -132,6 +134,7 @@ class DashboardRepository implements IDashboardRepository
             'other_pickup_person' => $registration->other_pickup_person,
             'other_pay_method' => $registration->other_pay_method,
             'other_other_info' => $registration->other_other_info,
+            'other_t_shirt_size' => $registration->other_t_shirt_size,
             'payed' => $registration->payed,
             'state' => $registration->state,
             'action_price' => $registration->action_price,

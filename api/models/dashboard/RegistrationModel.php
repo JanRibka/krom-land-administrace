@@ -30,6 +30,7 @@ class RegistrationModel
     public int $other_pay_method;
     public string $other_pay_method_name;
     public string $other_other_info;
+    public ?string $other_t_shirt_size;
     public \DateTime $registration_date;
     public bool $payed;
     public int $state;

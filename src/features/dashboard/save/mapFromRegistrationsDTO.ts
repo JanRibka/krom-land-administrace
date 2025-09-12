@@ -1,7 +1,7 @@
-import RegistrationDTO from 'shared/DTOs/RegistrationDTO';
-import { DashboardState } from 'shared/infrastructure/store/dashboard/dashboardSlice';
+import RegistrationDTO from "shared/DTOs/RegistrationDTO";
+import { DashboardState } from "shared/infrastructure/store/dashboard/dashboardSlice";
 
-import RegistrationModel from '../models/RegistrationModel';
+import RegistrationModel from "../models/RegistrationModel";
 
 export const mapFromRegistrationsDTO = (
   registrationsDTO?: RegistrationDTO[] | null
@@ -38,6 +38,7 @@ export const mapFromRegistrationsDTO = (
           other_pay_method: item.other_pay_method,
           other_pay_method_name: item.other_pay_method_name,
           other_other_info: item.other_other_info,
+          other_t_shirt_size: item.other_t_shirt_size,
           registration_date: new Date(item.registration_date?.date ?? ""),
           payed: item.payed,
           state: item.state,

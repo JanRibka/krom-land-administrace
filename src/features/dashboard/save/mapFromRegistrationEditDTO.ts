@@ -1,5 +1,5 @@
 import RegistrationEditDTO from "shared/DTOs/RegistrationEditDTO";
-import SelectDataModel from "shared/models/SelectDataModel";
+import SelectDataModel from "shared/models/RegistrationDataModel";
 
 import RegistrationEditModel from "../models/RegistrationEditModel";
 import RegistrationModel from "../models/RegistrationModel";
@@ -45,6 +45,7 @@ export const mapFromRegistrationEditDTO = (
       other_pay_method_name:
         registrationEditDTO?.Registration.other_pay_method_name,
       other_other_info: registrationEditDTO?.Registration.other_other_info,
+      other_t_shirt_size: registrationEditDTO?.Registration.other_t_shirt_size,
       registration_date: new Date(
         registrationEditDTO?.Registration.registration_date?.date ?? ""
       ),

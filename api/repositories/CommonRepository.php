@@ -12,10 +12,11 @@ require_once __DIR__ . '/../models/common/TableOfKeysModel.php';
 
 class CommonRepository implements ICommonRepository
 {
-    public function getDropDownsData() : array
+    public function getDropDownsData(): array
     {
         $tablesOfKeys = \dibi::query(
-            'SELECT * FROM tableOfKeys')->fetchAll();
+            'SELECT * FROM tableOfKeys'
+        )->fetchAll();
 
         $tablesOfKeysModel = [];
 
@@ -35,7 +36,7 @@ class CommonRepository implements ICommonRepository
         return $tablesOfKeysModel;
     }
 
-    public function getTableOfKeyByGroupKey($groupKey) : array
+    public function getTableOfKeyByGroupKey($groupKey): array
     {
         $tablesOfKeys = \dibi::query(
             'SELECT * FROM tableOfKeys as tok WHERE tok.GroupKey = %s',
@@ -60,7 +61,7 @@ class CommonRepository implements ICommonRepository
         return $tablesOfKeysModel;
     }
 
-    public function getVariableSymbolById(int $variableSymbolId) : string
+    public function getVariableSymbolById(int $variableSymbolId): string
     {
         $variableSymbol = \dibi::query(
             'SELECT VariableSymbol FROM variableSymbols as vs WHERE vs.Id = %i',
@@ -68,5 +69,14 @@ class CommonRepository implements ICommonRepository
         )->fetch();
 
         return $variableSymbol['VariableSymbol'];
+
     }
+
+    public function getTShirtSizes(): array
+    {
+        return \dibi::query(
+            'SELECT * FROM tShirtSizes'
+        )->fetchAll();
+    }
+
 }

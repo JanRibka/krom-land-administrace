@@ -28,6 +28,7 @@ import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
+import { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 
 import DialogContentForm from "./dialogContent/DialogContentForm";
@@ -211,6 +212,15 @@ const EditRegistrationDialog = (props: IProps) => {
     });
   };
 
+  const handleOnChangeSelect = (event: SelectChangeEvent<string>) => {
+    const { name, value } = event.target;
+
+    setRegistrationEdit({
+      ...registrationEdit,
+      Registration: { ...registrationEdit.Registration, [name]: value },
+    });
+  };
+
   const handleOnClickDelete = () => {
     setDelConfirmDialogOpn(true);
   };
@@ -282,11 +292,11 @@ const EditRegistrationDialog = (props: IProps) => {
           handleCloseDialogOnClick();
         }}
       >
-        <Box className='title-wrapper'>
+        <Box className="title-wrapper">
           <DialogTitle>
             Editace registrace
             <IconButton
-              aria-label='close'
+              aria-label="close"
               onClick={() => {
                 handleCloseDialogOnClick();
               }}
@@ -311,11 +321,12 @@ const EditRegistrationDialog = (props: IProps) => {
             handleOnChangeTelInput={handleOnChangeTelInput}
             handleFormOnSubmit={handleFormOnSubmit}
             handleOnChangeRadio={handleOnChangeRadio}
+            handleSelectOnChange={handleOnChangeSelect}
           />
 
           {/* Loader */}
           {(isLoading || deleting || updating) && (
-            <Box className='loader-wrapper'>
+            <Box className="loader-wrapper">
               <Box>
                 <AppLoader />
               </Box>
@@ -323,21 +334,21 @@ const EditRegistrationDialog = (props: IProps) => {
           )}
         </DialogContent>
         <DialogActionsStyled>
-          <Box className='buttons-wrapper'>
-            <Box className='left-buttons'>
+          <Box className="buttons-wrapper">
+            <Box className="left-buttons">
               <LoadingButton
-                variant='contained'
-                color='secondary'
+                variant="contained"
+                color="secondary"
                 loading={deleting}
                 onClick={handleOnClickDelete}
               >
                 Smazat
               </LoadingButton>
             </Box>
-            <Box className='right-buttons'>
+            <Box className="right-buttons">
               <Button
-                variant='outlined'
-                color='secondary'
+                variant="outlined"
+                color="secondary"
                 onClick={() => {
                   handleCloseDialogOnClick();
                 }}
@@ -345,8 +356,8 @@ const EditRegistrationDialog = (props: IProps) => {
                 Zavřít
               </Button>
               <LoadingButton
-                variant='contained'
-                color='secondary'
+                variant="contained"
+                color="secondary"
                 loading={updating}
                 onClick={handleOnClickSave}
               >
@@ -358,12 +369,12 @@ const EditRegistrationDialog = (props: IProps) => {
       </ActionRegistrationDialogStyled>
 
       <AnoNeDialog
-        title='Upozornění'
+        title="Upozornění"
         isOpen={delConfirmDialogOpn}
         setIsOpen={setDelConfirmDialogOpn}
         onClickAnoButton={handleDeleteConfirm}
-        anoButtonTitle='Smazat'
-        neButtonTitle='Zavřít'
+        anoButtonTitle="Smazat"
+        neButtonTitle="Zavřít"
         content={
           <Typography>Přejete si smazat vybranou registraci?</Typography>
         }

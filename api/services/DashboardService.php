@@ -2,18 +2,18 @@
 
 namespace kromLand\api\services;
 
-use kromLand\api\models\dashboard\DashboardModel;
-use kromLand\api\models\dashboard\RegistrationEditModel;
-use kromLand\api\models\dashboard\RegistrationModel;
-use kromLand\api\models\dashboard\SelectsDataModel;
 use kromLand\api\repositories\ICommonRepository;
-use kromLand\api\repositories\IDashboardRepository;
 use kromLand\api\repositories\IDashboardService;
+use kromLand\api\models\dashboard\DashboardModel;
+use kromLand\api\models\dashboard\SelectsDataModel;
+use kromLand\api\repositories\IDashboardRepository;
+use kromLand\api\models\dashboard\RegistrationModel;
+use kromLand\api\models\dashboard\RegistrationEditModel;
 
-require_once __DIR__.'/./IDashboardService.php';
-require_once __DIR__.'/../models/dashboard/DashboardModel.php';
-require_once __DIR__.'/../models/dashboard/RegistrationEditModel.php';
-require_once __DIR__.'/../models/dashboard/SelectsDataModel.php';
+require_once __DIR__ . '/./IDashboardService.php';
+require_once __DIR__ . '/../models/dashboard/DashboardModel.php';
+require_once __DIR__ . '/../models/dashboard/RegistrationEditModel.php';
+require_once __DIR__ . '/../models/dashboard/SelectsDataModel.php';
 
 class DashboardService implements IDashboardService
 {
@@ -26,16 +26,16 @@ class DashboardService implements IDashboardService
         $this->_commonRepository = $pCommonRepository;
     }
 
-public function getDashboard(): DashboardModel
-{
-    $dashboard = new DashboardModel(
-        new \DateTime(),
-        new \DateTime(),
-        []
-    );
+    public function getDashboard(): DashboardModel
+    {
+        $dashboard = new DashboardModel(
+            new \DateTime(),
+            new \DateTime(),
+            []
+        );
 
-    return $dashboard;
-}
+        return $dashboard;
+    }
 
     public function getRegistrations(string $dateFrom, string $dateTo): array
     {
@@ -96,13 +96,15 @@ public function getDashboard(): DashboardModel
         $childArrivesKeys = $this->_commonRepository->getTableOfKeyByGroupKey('CHILD_ARRIVES');
         $paymentMethodKeys = $this->_commonRepository->getTableOfKeyByGroupKey('PAYMENT_METHOD');
         $registrationStateKeys = $this->_commonRepository->getTableOfKeyByGroupKey('REGISTRATION_STATE');
+        $tShirtSizes = $this->_commonRepository->getTShirtSizes();
 
         $result->Registration = $registration;
         $result->Registration->variable_symbol_name = $variableSymbol;
         $result->SelectsData = new SelectsDataModel(
             $childArrivesKeys,
             $paymentMethodKeys,
-            $registrationStateKeys
+            $registrationStateKeys,
+            $tShirtSizes
         );
 
         return $result;
@@ -137,6 +139,7 @@ public function getDashboard(): DashboardModel
         $registration->other_pickup_person = $registrationDecoded->other_pickup_person;
         $registration->other_pay_method = $registrationDecoded->other_pay_method;
         $registration->other_other_info = $registrationDecoded->other_other_info;
+        $registration->other_t_shirt_size = $registrationDecoded->other_t_shirt_size;
         $registration->payed = $registrationDecoded->payed;
         $registration->state = $registrationDecoded->state;
         $registration->action_price = $registrationDecoded->action_price;

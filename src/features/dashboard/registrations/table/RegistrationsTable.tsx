@@ -330,7 +330,7 @@ const RegistrationsTable = () => {
       resizable: true,
     },
     {
-      headerName: "Velikost trika",
+      headerName: "Velikost trička",
       field: "other_t_shirt_size",
       width: 150,
       type: "string",

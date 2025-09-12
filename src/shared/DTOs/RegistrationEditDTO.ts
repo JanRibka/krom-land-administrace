@@ -1,10 +1,10 @@
-import SelectDataModel from "shared/models/SelectDataModel";
+import RegistrationDataModel from "shared/models/RegistrationDataModel";
 
 import RegistrationDTO from "./RegistrationDTO";
 
 export default class RegistrationEditDTO {
   Registration: RegistrationDTO = new RegistrationDTO();
-  SelectsData: SelectDataModel = new SelectDataModel();
+  SelectsData: RegistrationDataModel = new RegistrationDataModel();
 
   public constructor(init?: Partial<RegistrationEditDTO>) {
     Object.assign(this, init);

@@ -6,7 +6,9 @@ interface ICommonRepository
 {
     public function getDropDownsData();
 
-    public function getTableOfKeyByGroupKey(string $groupKey) : array;
+    public function getTableOfKeyByGroupKey(string $groupKey): array;
 
-    public function getVariableSymbolById(int $variableSymbolId) : string;
+    public function getVariableSymbolById(int $variableSymbolId): string;
+
+    public function getTShirtSizes(): array;
 }

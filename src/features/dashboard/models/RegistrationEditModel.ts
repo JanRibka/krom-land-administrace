@@ -1,4 +1,4 @@
-import SelectDataModel from "shared/models/SelectDataModel";
+import SelectDataModel from "shared/models/RegistrationDataModel";
 
 import RegistrationModel from "./RegistrationModel";
 
