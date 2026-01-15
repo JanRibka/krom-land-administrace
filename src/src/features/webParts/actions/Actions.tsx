@@ -42,7 +42,7 @@ const Actions = () => {
    */
   const { isLoading } = useRequest<JsonResulObjectDataDTO<ActionsDTO>>(
     {
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "getActions",

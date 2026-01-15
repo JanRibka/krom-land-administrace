@@ -41,7 +41,7 @@ const Contact = () => {
    */
   const { isLoading } = useRequest<JsonResulObjectDataDTO<ContactDTO>>(
     {
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "getContact",

@@ -1,4 +1,5 @@
 import "dayjs/locale/cs";
+import cs from "dayjs/locale/cs";
 
 import dayjs, { Dayjs } from "dayjs";
 import React, { useEffect, useState } from "react";
@@ -26,6 +27,8 @@ interface IProps {
 }
 
 const AppDatePicker = (props: IProps) => {
+  dayjs.locale(cs);
+
   const [value, setValue] = useState<Dayjs | null>(null);
 
   useEffect(() => {
@@ -54,7 +57,7 @@ const AppDatePicker = (props: IProps) => {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='cs'>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="cs">
       <AppDatePickerStyled
         label={props.label}
         minDate={dayjs("0001-01-01")}

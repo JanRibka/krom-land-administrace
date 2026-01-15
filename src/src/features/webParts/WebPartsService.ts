@@ -32,7 +32,7 @@ export default class WebPartsService {
     const conditions: HomeDTO = mapToHomeDTO(state.webParts.Home);
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "homeUpdate",
@@ -61,7 +61,7 @@ export default class WebPartsService {
     const response = await this._repo.get<
       JsonResulObjectDataDTO<TeamMemberDTO[]>
     >({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "getTeamMembers",
@@ -92,7 +92,7 @@ export default class WebPartsService {
     const actions: ActionsDTO = mapToActionsDTO(state.webParts.Actions);
     console.log(actions);
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "actionsUpdate",
@@ -125,7 +125,7 @@ export default class WebPartsService {
     const response = await this._repo.get<
       JsonResulObjectDataDTO<ActionDetailDTO[]>
     >({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "getActionDetails",
@@ -165,7 +165,7 @@ export default class WebPartsService {
     const gallery: GalleryDTO = mapToGalleryDTO(state.webParts.Gallery);
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "galleryUpdate",
@@ -196,7 +196,7 @@ export default class WebPartsService {
     const contact: ContactDTO = mapToContactDTO(state.webParts.Contact);
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "contactUpdate",
@@ -227,7 +227,7 @@ export default class WebPartsService {
     const conditions: ConditionsDTO = mapToGdprDTO(state.webParts.Conditions);
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "gdprUpdate",
@@ -260,7 +260,7 @@ export default class WebPartsService {
     );
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "termsOfConditionsUpdate",

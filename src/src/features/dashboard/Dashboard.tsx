@@ -27,7 +27,7 @@ const Dashboard = () => {
    */
   const { isLoading } = useRequest<JsonResulObjectDataDTO<DashboardDTO>>(
     {
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
       params: new URLSearchParams({
         function: "getDashboard",

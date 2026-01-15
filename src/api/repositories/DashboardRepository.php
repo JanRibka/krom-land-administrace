@@ -14,8 +14,8 @@ class DashboardRepository implements IDashboardRepository
 {
     public function getRegistrations(\DateTime|null $dateFrom, \DateTime|null $dateTo): array
     {
-        $dateFromFormatted = $dateFrom?->format('Y-m-d');
-        $dateToFormatted = $dateTo?->format('Y-m-d');
+        $dateFromFormatted = $dateFrom?->format('Y-m-d H:i:s');
+        $dateToFormatted = $dateTo?->format('Y-m-d H:i:s');
 
         $registrations = \dibi::select('*')
             ->from('registrations')

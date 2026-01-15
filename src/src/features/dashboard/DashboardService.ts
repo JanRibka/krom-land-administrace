@@ -13,7 +13,7 @@ export default class DashBoardService {
   public async registrationDelete(registrationId: number) {
     let result = false;
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
       params: new URLSearchParams({
         function: "registrationDelete",
@@ -48,7 +48,7 @@ export default class DashBoardService {
     formData.append("registration", registrationEncoded);
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "DashboardController.php",
       params: new URLSearchParams({
         function: "registrationUpdate",

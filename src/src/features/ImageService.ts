@@ -15,7 +15,7 @@ export default class ImageService {
   public async imageUpload(formData: FormData) {
     const response = await this._repo.post<any, JsonResulObjectDataDTO<string>>(
       {
-        baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+        baseUrl: process.env.REACT_APP_API_BASE_URL,
         url: (process.env.REACT_APP_API_URL ?? "") + "ImageController.php",
         params: new URLSearchParams({
           function: "imageUpload",
@@ -52,7 +52,7 @@ export default class ImageService {
     id: number | null
   ) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "ImageController.php",
       params: new URLSearchParams({
         function: "imageDelete",
@@ -96,7 +96,7 @@ export default class ImageService {
       any,
       JsonResulObjectDataDTO<number | null>
     >({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "ImageController.php",
       params: new URLSearchParams({
         function: "imageSave",

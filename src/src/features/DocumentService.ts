@@ -14,7 +14,7 @@ export default class DocumentService {
   public async documentUpload(formData: FormData) {
     const response = await this._repo.post<any, JsonResulObjectDataDTO<string>>(
       {
-        baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+        baseUrl: process.env.REACT_APP_API_BASE_URL,
         url: (process.env.REACT_APP_API_URL ?? "") + "DocumentController.php",
         params: new URLSearchParams({
           function: "documentUpload",
@@ -49,7 +49,7 @@ export default class DocumentService {
     id: number | null
   ) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "DocumentController.php",
       params: new URLSearchParams({
         function: "documentDelete",
@@ -84,7 +84,7 @@ export default class DocumentService {
   public async documentSave(document: DocumentModel, id: number | null) {
     const response = await this._repo.post<any, JsonResulObjectDataDTO<number>>(
       {
-        baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+        baseUrl: process.env.REACT_APP_API_BASE_URL,
         url: (process.env.REACT_APP_API_URL ?? "") + "DocumentController.php",
         params: new URLSearchParams({
           function: "documentSave",

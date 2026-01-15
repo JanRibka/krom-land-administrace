@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AppDatePicker from "shared/components/datePicker/AppDatePicker";
 import { registrationsGridName } from "shared/constants/gridNames";
-import { addTimeZoneOffsetSetZeroHours } from "shared/helpers/dateTimeHelpers";
 import { useDashboardSlice } from "shared/infrastructure/store/dashboard/useDashboardSlice";
 import { nameof } from "shared/nameof";
 
@@ -28,9 +27,17 @@ const TableFilterDate = () => {
   const gridSettingsDateFilter = JSON.parse(
     localStorage.getItem(gridSettingsDateFilterName) ?? "{}"
   );
+
   const gridDateFilter: IGridSettingsDateFilter =
     Object.keys(gridSettingsDateFilter).length > 0
-      ? (gridSettingsDateFilter as IGridSettingsDateFilter)
+      ? ({
+          from: gridSettingsDateFilter.from
+            ? new Date(gridSettingsDateFilter.from)
+            : null,
+          to: gridSettingsDateFilter.to
+            ? new Date(gridSettingsDateFilter.to)
+            : null,
+        } as IGridSettingsDateFilter)
       : ({ from: null, to: null } as IGridSettingsDateFilter);
 
   // State
@@ -45,7 +52,7 @@ const TableFilterDate = () => {
   ) => {
     let newDateFilter: IGridSettingsDateFilter = {
       ...dateFilter,
-      [name]: val === null ? null : addTimeZoneOffsetSetZeroHours(val),
+      [name]: val === null ? null : val,
     };
 
     newDateFilter = {
@@ -68,7 +75,22 @@ const TableFilterDate = () => {
 
     localStorage.setItem(
       gridSettingsDateFilterName,
-      JSON.stringify(newDateFilter)
+      JSON.stringify({
+        from: newDateFilter.from
+          ? (() => {
+              const date = new Date(newDateFilter.from);
+              date.setHours(0, 0, 0, 0);
+              return date;
+            })()
+          : null,
+        to: newDateFilter.to
+          ? (() => {
+              const date = new Date(newDateFilter.to);
+              date.setHours(23, 59, 59, 999);
+              return date;
+            })()
+          : null,
+      })
     );
   };
 

@@ -42,7 +42,7 @@ const Home = () => {
    */
   const { isLoading } = useRequest<JsonResulObjectDataDTO<HomeDTO>>(
     {
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
       params: new URLSearchParams({
         function: "getHome",

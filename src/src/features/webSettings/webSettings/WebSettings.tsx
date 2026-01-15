@@ -41,7 +41,7 @@ const WebSettings = () => {
    */
   const { isLoading } = useRequest<JsonResulObjectDataDTO<WebSettingsDTO>>(
     {
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "WebSettingsController.php",
       params: new URLSearchParams({
         function: "getWebSettings",

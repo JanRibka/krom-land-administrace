@@ -40,7 +40,7 @@ const useLogout = () => {
   const logout = async () => {
     try {
       await _repository.post({
-        baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+        baseUrl: process.env.REACT_APP_API_BASE_URL,
         url:
           (process.env.REACT_APP_API_URL ?? "") +
           "AuthenticationController.php",

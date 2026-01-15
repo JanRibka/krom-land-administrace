@@ -19,7 +19,7 @@ export default class AdmSettingsService {
     let result = false;
     const _store = store.getState();
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "AdmSettingsController.php",
       params: new URLSearchParams({
         function: "userDelete",
@@ -61,7 +61,7 @@ export default class AdmSettingsService {
     formData.append("user", userEncoded);
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "AdmSettingsController.php",
       params: new URLSearchParams({
         function: "userUpdate",
@@ -102,7 +102,7 @@ export default class AdmSettingsService {
     data.append("password", password);
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url:
         (process.env.REACT_APP_API_URL ?? "") + "AuthenticationController.php",
       params: new URLSearchParams({
@@ -156,7 +156,7 @@ export default class AdmSettingsService {
         any,
         JsonResulObjectDataDTO<string>
       >({
-        baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+        baseUrl: process.env.REACT_APP_API_BASE_URL,
         url:
           (process.env.REACT_APP_API_URL ?? "") +
           "AuthenticationController.php",
@@ -193,7 +193,7 @@ export default class AdmSettingsService {
     );
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
-      baseUrl: process.env.REACT_APP_API_BASE_URL ?? "",
+      baseUrl: process.env.REACT_APP_API_BASE_URL,
       url: (process.env.REACT_APP_API_URL ?? "") + "AdmSettingsController.php",
       params: new URLSearchParams({
         function: "dropDownsDataUpdate",
