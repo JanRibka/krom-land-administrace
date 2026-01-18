@@ -26,7 +26,7 @@ class RegistrationModel {
   other_pay_method_name: string = "";
   other_other_info: string = "";
   other_t_shirt_size: string = "";
-  registration_date: Date = new Date();
+  registration_date: string = "";
   payed: boolean = false;
   state: number = 0;
   state_name: string = "";

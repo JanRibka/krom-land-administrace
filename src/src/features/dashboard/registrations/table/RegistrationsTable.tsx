@@ -348,7 +348,7 @@ const RegistrationsTable = () => {
       sortable: true,
       resizable: true,
       valueGetter: (params) => {
-        return toAppDateFormat(params.value);
+        return toAppDateFormat(new Date(params.value as string));
       },
     },
     {

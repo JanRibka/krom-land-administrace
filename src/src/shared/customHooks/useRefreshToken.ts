@@ -22,7 +22,6 @@ export const useRefreshToken = () => {
         {
           withCredentials: true,
           headers: {
-            "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json",
           },
           params: new URLSearchParams({

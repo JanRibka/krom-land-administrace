@@ -512,7 +512,13 @@ const DialogContentForm = forwardRef(
                   autoComplete="off"
                   disabled
                   name={nameof<RegistrationModel>("registration_date")}
-                  value={props.registrationEdit.Registration.registration_date?.toLocaleDateString()}
+                  value={
+                    props.registrationEdit.Registration.registration_date
+                      ? new Date(
+                          props.registrationEdit.Registration.registration_date
+                        ).toLocaleDateString()
+                      : ""
+                  }
                   onChange={props.handleTextFieldOnChange}
                   inputProps={{
                     maxLength: 50,

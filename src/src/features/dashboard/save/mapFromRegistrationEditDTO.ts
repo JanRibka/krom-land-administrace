@@ -46,9 +46,8 @@ export const mapFromRegistrationEditDTO = (
         registrationEditDTO?.Registration.other_pay_method_name,
       other_other_info: registrationEditDTO?.Registration.other_other_info,
       other_t_shirt_size: registrationEditDTO?.Registration.other_t_shirt_size,
-      registration_date: new Date(
-        registrationEditDTO?.Registration.registration_date?.date ?? ""
-      ),
+      registration_date:
+        registrationEditDTO?.Registration.registration_date?.date ?? "",
       payed: registrationEditDTO?.Registration.payed,
       state: registrationEditDTO?.Registration.state,
       state_name: registrationEditDTO?.Registration.state_name,

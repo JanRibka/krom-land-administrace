@@ -15,8 +15,8 @@ export default class Repository extends RepositoryBase {
           params: request.params,
           withCredentials: request.withCredentials,
           headers: {
-            "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json",
+            ...request.headers,
           },
         })
         .then((response: AxiosResponse<T>) => {
