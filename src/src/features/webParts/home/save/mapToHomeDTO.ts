@@ -16,6 +16,10 @@ export const mapToHomeDTO = (home: HomeModel) => {
     MainImage: null,
     AboutUs: home.AboutUs,
     AboutUsImage: null,
+    news: home.news,
+    newsImage: home.newsImage
+      ? JSON.stringify(home.newsImage)
+      : JSON.stringify(new ImageModel()),
     PeopleSay1Id: home.PeopleSay1?.idHomeTestimonial ?? null,
     PeopleSay1Text: home.PeopleSay1?.text ?? null,
     PeopleSay1Name: home.PeopleSay1?.name ?? null,

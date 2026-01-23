@@ -20,6 +20,10 @@ export const mapFromHomeDTO = (homeDTO?: HomeDTO | null) => {
     AboutUsImage: !!homeDTO?.aboutUsImage
       ? homeDTO?.aboutUsImage
       : ({ path: "", name: "", alt: "" } as ImageModel),
+    news: homeDTO?.news ?? null,
+    newsImage: !!homeDTO?.newsImage
+      ? homeDTO.newsImage
+      : ({ path: "", name: "", alt: "" } as ImageModel),
     PeopleSay1: homeDTO?.testimonials?.find((f) => f.order === 1) ?? null,
     PeopleSay2: homeDTO?.testimonials?.find((f) => f.order === 2) ?? null,
     PeopleSay3: homeDTO?.testimonials?.find((f) => f.order === 3) ?? null,

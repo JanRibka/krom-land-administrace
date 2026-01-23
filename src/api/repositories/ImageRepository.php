@@ -171,4 +171,9 @@ class ImageRepository implements IImageRepository
             ->where('Id = %i', $webLogosId)
             ->execute();
     }
+
+    public function imageInsertNews(ImageModel $image): int
+    {
+        return 1;
+    }
 }

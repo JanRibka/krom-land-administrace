@@ -14,6 +14,7 @@ import Stack from "@mui/material/Stack";
 
 import WebPartsService from "../WebPartsService";
 import AboutUs from "./aboutUs/AboutUs";
+import News from "./news/News";
 import OurTeam from "./ourTeam/OurTeam";
 import PageHeader from "./pageHeader/PageHeader";
 import Seo from "./seo/Seo";
@@ -54,6 +55,7 @@ const Home = () => {
           <PageTitle title="Úvod" />
           <Seo disable={disable} />
           <PageHeader disable={disable} />
+          <News disable={disable} />
           <AboutUs disable={disable} />
           <OurTeam disable={disable} />
           <WhatPeopleSay disable={disable} />

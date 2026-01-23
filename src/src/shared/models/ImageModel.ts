@@ -1,4 +1,5 @@
 export default class ImageModel {
+  id: number | null = null;
   path: string = "";
   alt: string = "";
   name: string = "";
