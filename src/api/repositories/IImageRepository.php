@@ -2,13 +2,15 @@
 
 namespace kromLand\api\repositories;
 
+use kromLand\api\models\image\ImageModel;
+
 interface IImageRepository
 {
-    public function imageUpdateHome(string $image, string $itemName, int $homeId): void;
+    public function imageUpdateHome(ImageModel $image, string $itemName, int $homeId): void;
 
     public function imageInsertTeamMembers(string $image): int;
 
-    public function imageUpdateTeamMembers(string $image, int $teamMemberId): void;
+    public function imageUpdateTeamMembers(ImageModel $image, int $teamMemberId): void;
 
     public function imageUpdateActions(string $image, string $itemName, int $actionsId): void;
 

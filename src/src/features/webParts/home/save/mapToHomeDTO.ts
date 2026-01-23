@@ -1,10 +1,11 @@
-import HomeDTO from 'shared/DTOs/HomeDTO';
-import TeamMemberDTO from 'shared/DTOs/TeamMemberDTO';
+import { HomeOldApiDTO } from "shared/DTOs/HomeOldApiDTO";
+import { TeamMemberOldApiDTO } from "shared/DTOs/TeamMemberOldApiDTO";
+import ImageModel from "shared/models/ImageModel";
 
-import HomeModel from '../models/HomeModel';
+import HomeModel from "../models/HomeModel";
 
 export const mapToHomeDTO = (home: HomeModel) => {
-  const result: HomeDTO = {
+  const result: HomeOldApiDTO = {
     Id: home.Id,
     Title: home.Title,
     Description: home.Description,
@@ -15,22 +16,28 @@ export const mapToHomeDTO = (home: HomeModel) => {
     MainImage: null,
     AboutUs: home.AboutUs,
     AboutUsImage: null,
-    PeopleSay1Text: home.PeopleSay1Text,
-    PeopleSay1Name: home.PeopleSay1Name,
-    PeopleSay2Text: home.PeopleSay2Text,
-    PeopleSay2Name: home.PeopleSay2Name,
-    PeopleSay3Text: home.PeopleSay3Text,
-    PeopleSay3Name: home.PeopleSay3Name,
-    TeamMembers: home.TeamMembers.map(
-      (member) =>
-        new TeamMemberDTO({
-          Id: member.Id,
-          Image: JSON.stringify(member.Image),
-          Name: member.Name,
-          Description: member.Description,
-          Delete: member.Delete,
-        })
-    ),
+    PeopleSay1Id: home.PeopleSay1?.idHomeTestimonial ?? null,
+    PeopleSay1Text: home.PeopleSay1?.text ?? null,
+    PeopleSay1Name: home.PeopleSay1?.name ?? null,
+    PeopleSay2Id: home.PeopleSay2?.idHomeTestimonial ?? null,
+    PeopleSay2Text: home.PeopleSay2?.text ?? null,
+    PeopleSay2Name: home.PeopleSay2?.name ?? null,
+    PeopleSay3Id: home.PeopleSay3?.idHomeTestimonial ?? null,
+    PeopleSay3Text: home.PeopleSay3?.text ?? null,
+    PeopleSay3Name: home.PeopleSay3?.name ?? null,
+    TeamMembers:
+      home.TeamMembers.map(
+        (member) =>
+          ({
+            Id: member.Id,
+            Image: member.Image
+              ? JSON.stringify(member.Image)
+              : JSON.stringify(new ImageModel()),
+            Name: member.Name ?? "",
+            Description: member.Description ?? "",
+            Delete: member.Delete ?? false,
+          }) as TeamMemberOldApiDTO,
+      ) ?? [],
   };
 
   return result;

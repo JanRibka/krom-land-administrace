@@ -36,7 +36,7 @@ const Member = (props: IProps) => {
 
   // Other
   const handleTextFieldOnBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
   ) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
@@ -48,12 +48,12 @@ const Member = (props: IProps) => {
     fileName: string,
     name: string,
     alt: string,
-    destination: string
+    destination: string,
   ) => {
     const image = new ImageModel({
-      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
-      Alt: alt,
-      Name: fileName,
+      path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      alt: alt,
+      name: fileName,
     });
 
     handleHomeTeamMemberUpdate({ [name]: image }, props.index);
@@ -69,14 +69,14 @@ const Member = (props: IProps) => {
 
     image = {
       ...image,
-      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+      path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
     };
 
     await _imageService.imageSave(
       image,
       name,
       ImageLocationEnum.TEAM_MEMBERS,
-      props.id
+      props.id,
     );
 
     handleHomeTeamMemberUpdate({ [name]: image }, props.index);
@@ -90,11 +90,11 @@ const Member = (props: IProps) => {
     <Box>
       <Box className={props.index > 0 ? "sub-section-separator" : undefined}>
         <SectionSubTitle title={"Člen " + props.memberCount} />
-        <Stack spacing={2} direction='column'>
+        <Stack spacing={2} direction="column">
           <ImageUpload
             image={props.image}
             name={nameof<TeamMemberModel>("Image")}
-            label='Ideální rozlišení obrázku 500 x 300px. Max. velikost 1MB'
+            label="Ideální rozlišení obrázku 500 x 300px. Max. velikost 1MB"
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
             newImageAlt={
               "Fotka člena našeho týmu " + props.memberCount + " | KROM Land"
@@ -111,31 +111,31 @@ const Member = (props: IProps) => {
 
           <AppTextField
             name={nameof<TeamMemberModel>("Name")}
-            label='Jméno'
+            label="Jméno"
             value={props.name}
-            variant='outlined'
+            variant="outlined"
             fullWidth
             required
             disabled={props.disable}
-            autoComplete='off'
+            autoComplete="off"
             onBlur={handleTextFieldOnBlur}
           />
 
           <AppTextField
             name={nameof<TeamMemberModel>("Description")}
-            label='Popis'
+            label="Popis"
             value={props.description}
-            variant='outlined'
+            variant="outlined"
             fullWidth
             required
             disabled={props.disable}
-            autoComplete='off'
+            autoComplete="off"
             onBlur={handleTextFieldOnBlur}
           />
 
           <Button
-            color='secondary'
-            variant='outlined'
+            color="secondary"
+            variant="outlined"
             disabled={props.disable}
             startIcon={<DeleteIcon />}
             onClick={handleDeleteMemberOnClick}

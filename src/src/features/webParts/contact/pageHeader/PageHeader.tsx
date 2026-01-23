@@ -31,7 +31,7 @@ const PageHeader = (props: IProps) => {
 
   // Other
   const handleTextFieldOnBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
   ) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
@@ -43,12 +43,12 @@ const PageHeader = (props: IProps) => {
     fileName: string,
     name: string,
     alt: string,
-    destination: string
+    destination: string,
   ) => {
     const image = new ImageModel({
-      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
-      Alt: alt,
-      Name: fileName,
+      path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      alt: alt,
+      name: fileName,
     });
 
     handleContactUpdate({ [name]: image });
@@ -63,28 +63,28 @@ const PageHeader = (props: IProps) => {
 
     image = {
       ...image,
-      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+      path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
     };
 
     const result = await _imageService.imageSave(
       image,
       name,
       ImageLocationEnum.CONTACT,
-      contact.Id
+      contact.Id,
     );
 
     if (result) {
       handleContactImageUpdate(name as ContactImageType, {
-        Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+        path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
       });
     }
   };
 
   return (
     <ErrorBoundary>
-      <SectionStyled component='section'>
-        <SectionTitle title='Hlavička stránky' />
-        <SectionSubTitle title='Hlavní text' />
+      <SectionStyled component="section">
+        <SectionTitle title="Hlavička stránky" />
+        <SectionSubTitle title="Hlavní text" />
         <AppPageHeader
           nameText={nameof<ContactModel>("PageHeaderTextMain")}
           valueText={contact.PageHeaderTextMain}
@@ -93,14 +93,14 @@ const PageHeader = (props: IProps) => {
           disable={props.disable}
           handleTextFieldOnBlur={handleTextFieldOnBlur}
         />
-        <Box className='sub-section-separator'>
-          <SectionSubTitle title='Obrázek' />
+        <Box className="sub-section-separator">
+          <SectionSubTitle title="Obrázek" />
           <ImageUpload
             image={contact.MainImage}
             name={nameof<ContactModel>("MainImage")}
-            label='Ideální rozlišení obrázku 1903 x 350px. Max. velikost 1MB'
+            label="Ideální rozlišení obrázku 1903 x 350px. Max. velikost 1MB"
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
-            newImageAlt='Úvodní obrázek stránky kontakt | KROM Land'
+            newImageAlt="Úvodní obrázek stránky kontakt | KROM Land"
             maxFileSize={1}
             location={ImageLocationEnum.CONTACT}
             id={contact.Id}

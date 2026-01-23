@@ -1,7 +1,7 @@
 export default class ImageModel {
-  Path: string = "";
-  Alt: string = "";
-  Name: string = "";
+  path: string = "";
+  alt: string = "";
+  name: string = "";
 
   public constructor(init?: Partial<ImageModel>) {
     Object.assign(this, init);

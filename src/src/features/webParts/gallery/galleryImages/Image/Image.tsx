@@ -32,12 +32,12 @@ const Image = (props: IProps) => {
     fileName: string,
     name: string,
     alt: string,
-    destination: string
+    destination: string,
   ) => {
     const image = new ImageModel({
-      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
-      Alt: alt,
-      Name: fileName,
+      path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      alt: alt,
+      name: fileName,
     });
 
     handleGalleryGalleryImageUpdate({ [name]: image }, props.index);
@@ -52,20 +52,20 @@ const Image = (props: IProps) => {
 
     image = {
       ...image,
-      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+      path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
     };
 
     const result = await _imageService.imageSave(
       image,
       name,
       ImageLocationEnum.GALLERY_IMAGE,
-      galleryImage.Id
+      galleryImage.Id,
     );
 
     if (!!result) {
       handleGalleryGalleryImageUpdate(
         { [name]: image, Id: result },
-        props.index
+        props.index,
       );
     }
   };
@@ -75,7 +75,7 @@ const Image = (props: IProps) => {
       <ImageUpload
         image={props.image}
         name={nameof<GalleryImageModel>("Image")}
-        label='Ideální rozlišení obrázku 1920 x 1280px. Max. velikost 1MB'
+        label="Ideální rozlišení obrázku 1920 x 1280px. Max. velikost 1MB"
         supportedExtensions={["png", "jpg", "jpeg", "webp"]}
         newImageAlt={"Obrázek z akce KROM Land " + props.index}
         maxFileSize={1}

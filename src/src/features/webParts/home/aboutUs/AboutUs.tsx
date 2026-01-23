@@ -38,12 +38,12 @@ const AboutUs = (props: IProps) => {
     fileName: string,
     name: string,
     alt: string,
-    destination: string
+    destination: string,
   ) => {
     const image = new ImageModel({
-      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
-      Alt: alt,
-      Name: fileName,
+      path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      alt: alt,
+      name: fileName,
     });
 
     handleHomeUpdate({ [name]: image });
@@ -58,45 +58,45 @@ const AboutUs = (props: IProps) => {
 
     image = {
       ...image,
-      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+      path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
     };
 
     const result = await _imageService.imageSave(
       image,
       name,
       ImageLocationEnum.HOME,
-      home.Id
+      home.Id,
     );
 
     if (result) {
       handleHomeImageUpdate(name as HomeImageType, {
-        Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+        path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
       });
     }
   };
 
   return (
     <ErrorBoundary>
-      <SectionStyled component='section'>
-        <SectionTitle title='O nás' />
-        <SectionSubTitle title='Popis' />
+      <SectionStyled component="section">
+        <SectionTitle title="O nás" />
+        <SectionSubTitle title="Popis" />
         <AppTextEditor
           name={nameof<HomeModel>("AboutUs")}
           value={home.AboutUs}
-          placeholder='Popis'
+          placeholder="Popis"
           required
           disable={props.disable}
           onChange={handleTextEditorOnChange}
         />
 
-        <Box className='sub-section-separator'>
-          <SectionSubTitle title='Obrázek' />
+        <Box className="sub-section-separator">
+          <SectionSubTitle title="Obrázek" />
           <ImageUpload
             image={home.AboutUsImage}
             name={nameof<HomeModel>("AboutUsImage")}
-            label='Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB'
+            label="Ideální rozlišení obrázku 1000 x 1000px. Max. velikost 1MB"
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
-            newImageAlt='Rodina je základ všeho | KROM Land'
+            newImageAlt="Rodina je základ všeho | KROM Land"
             maxFileSize={1}
             location={ImageLocationEnum.HOME}
             id={home.Id}

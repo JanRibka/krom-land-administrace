@@ -79,10 +79,13 @@ class WebPartsController extends ControllerBase
                 $data->MainImage,
                 $data->AboutUs,
                 $data->AboutUsImage,
+                $data->PeopleSay1Id,
                 $data->PeopleSay1Text,
                 $data->PeopleSay1Name,
+                $data->PeopleSay2Id,
                 $data->PeopleSay2Text,
                 $data->PeopleSay2Name,
+                $data->PeopleSay3Id,
                 $data->PeopleSay3Text,
                 $data->PeopleSay3Name,
                 $data->TeamMembers

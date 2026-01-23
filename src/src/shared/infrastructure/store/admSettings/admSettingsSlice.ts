@@ -3,8 +3,7 @@ import UserModel from "features/admSettings/models/UserModel";
 import TableOfKeysModel from "shared/models/TableOfKeysModel";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import AppState from "../AppState";
+import { RootState } from "../store";
 
 export type DropDownsDataType = {
   [key: string]: TableOfKeysModel[];
@@ -34,7 +33,7 @@ export const admSettingsSlice = createSlice({
   reducers: {
     admSettingsUpdate: (
       state,
-      action: PayloadAction<Partial<AdmSettingsState>>
+      action: PayloadAction<Partial<AdmSettingsState>>,
     ) => {
       return {
         ...state,
@@ -75,4 +74,4 @@ export const actions = admSettingsSlice.actions;
 export default admSettingsSlice.reducer;
 
 // Selectors
-export const selectAdmSettings = (state: AppState) => state.admSettings;
+export const selectAdmSettings = (state: RootState) => state.admSettings;

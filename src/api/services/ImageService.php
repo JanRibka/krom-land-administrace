@@ -6,7 +6,7 @@ use kromLand\api\enums\ImageLocationEnum;
 use kromLand\api\models\image\ImageModel;
 use kromLand\api\repositories\IImageRepository;
 
-require_once __DIR__.'/./IImageService.php';
+require_once __DIR__ . '/./IImageService.php';
 
 class ImageService implements IImageService
 {
@@ -24,10 +24,10 @@ class ImageService implements IImageService
         if (($image === ImageLocationEnum::GALLERY && isset($id)) || ($image !== ImageLocationEnum::GALLERY && isset($id))) {
             switch ($location) {
                 case ImageLocationEnum::HOME:
-                    $this->_imageRepository->imageUpdateHome($imageEncoded, $itemName, $id);
+                    $this->_imageRepository->imageUpdateHome($image, $itemName, $id);
                     break;
                 case ImageLocationEnum::TEAM_MEMBERS:
-                    $this->_imageRepository->imageUpdateTeamMembers($imageEncoded, $id);
+                    $this->_imageRepository->imageUpdateTeamMembers($image, $id);
                     break;
                 case ImageLocationEnum::ACTIONS:
                     $this->_imageRepository->imageUpdateActions($imageEncoded, $itemName, $id);
@@ -73,10 +73,10 @@ class ImageService implements IImageService
 
             switch ($location) {
                 case ImageLocationEnum::HOME:
-                    $this->_imageRepository->imageUpdateHome($imageEncoded, $itemName, $id);
+                    $this->_imageRepository->imageUpdateHome($image, $itemName, $id);
                     break;
                 case ImageLocationEnum::TEAM_MEMBERS:
-                    $this->_imageRepository->imageUpdateTeamMembers($imageEncoded, $id);
+                    $this->_imageRepository->imageUpdateTeamMembers($image, $id);
                     break;
                 case ImageLocationEnum::ACTIONS:
                     $this->_imageRepository->imageUpdateActions($imageEncoded, $itemName, $id);

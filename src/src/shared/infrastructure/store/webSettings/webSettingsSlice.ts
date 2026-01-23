@@ -2,8 +2,7 @@ import WebLogosModel from "features/webSettings/webLogos/models/WebLogosModel";
 import WebSettingsModel from "features/webSettings/webSettings/models/WebSettingsModel";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import AppState from "../AppState";
+import { RootState } from "../store";
 
 export interface WebSettingsState {
   WebSettings: WebSettingsModel;
@@ -21,7 +20,7 @@ export const webSettingsSlice = createSlice({
   reducers: {
     webSettingsUpdate: (
       state,
-      action: PayloadAction<Partial<WebSettingsModel>>
+      action: PayloadAction<Partial<WebSettingsModel>>,
     ) => {
       return {
         ...state,
@@ -49,6 +48,6 @@ export const actions = webSettingsSlice.actions;
 export default webSettingsSlice.reducer;
 
 // Selectors
-export const selectWebSettings = (state: AppState) =>
+export const selectWebSettings = (state: RootState) =>
   state.webSettings.WebSettings;
-export const selectWebLogos = (state: AppState) => state.webSettings.WebLogos;
+export const selectWebLogos = (state: RootState) => state.webSettings.WebLogos;

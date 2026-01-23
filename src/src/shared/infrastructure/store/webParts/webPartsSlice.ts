@@ -14,8 +14,7 @@ import GalleryImageType from "shared/types/GalleryImageType";
 import HomeImageType from "shared/types/HomeImageType";
 
 import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import AppState from "../AppState";
+import { RootState } from "../store";
 
 export interface WebPartsState {
   Home: HomeModel;
@@ -55,7 +54,10 @@ export const webPartsSlice = createSlice({
     },
     homeImageUpdate: (
       state,
-      action: PayloadAction<{ name: HomeImageType; image: Partial<ImageModel> }>
+      action: PayloadAction<{
+        name: HomeImageType;
+        image: Partial<ImageModel>;
+      }>,
     ) => {
       const newImage: ImageModel = {
         ...(state.Home[action.payload.name] as ImageModel),
@@ -79,7 +81,10 @@ export const webPartsSlice = createSlice({
     },
     homeTeamMemberUpdate: (
       state,
-      action: PayloadAction<{ member: Partial<TeamMemberModel>; index: number }>
+      action: PayloadAction<{
+        member: Partial<TeamMemberModel>;
+        index: number;
+      }>,
     ) => {
       let newTeamMembers = [...state.Home.TeamMembers];
       const teamMember = {
@@ -107,7 +112,7 @@ export const webPartsSlice = createSlice({
       action: PayloadAction<{
         name: ActionsImageType;
         image: Partial<ImageModel>;
-      }>
+      }>,
     ) => {
       const newImage: ImageModel = {
         ...(state.Actions[action.payload.name] as ImageModel),
@@ -134,7 +139,7 @@ export const webPartsSlice = createSlice({
       action: PayloadAction<{
         actionDetail: Partial<ActionDetailModel>;
         index: number;
-      }>
+      }>,
     ) => {
       const newActionDetails = [...state.Actions.ActionDetails];
 
@@ -163,7 +168,7 @@ export const webPartsSlice = createSlice({
       action: PayloadAction<{
         document: Partial<DocumentToDownloadModel>;
         index: number;
-      }>
+      }>,
     ) => {
       let newDocumentsToDownload = [...state.Actions.DocumentsToDownload];
       const document = {
@@ -191,7 +196,7 @@ export const webPartsSlice = createSlice({
       action: PayloadAction<{
         name: GalleryImageType;
         image: Partial<ImageModel>;
-      }>
+      }>,
     ) => {
       const newImage: ImageModel = {
         ...(state.Gallery[action.payload.name] as ImageModel),
@@ -218,7 +223,7 @@ export const webPartsSlice = createSlice({
       action: PayloadAction<{
         image: Partial<GalleryImageModel>;
         index: number;
-      }>
+      }>,
     ) => {
       let newGalleryImages = [...state.Gallery.Images];
       const image = {
@@ -253,7 +258,7 @@ export const webPartsSlice = createSlice({
       action: PayloadAction<{
         name: ContactImageType;
         image: Partial<ImageModel>;
-      }>
+      }>,
     ) => {
       const newImage: ImageModel = {
         ...(state.Contact[action.payload.name] as ImageModel),
@@ -264,7 +269,7 @@ export const webPartsSlice = createSlice({
     },
     conditionsUpdate: (
       state,
-      action: PayloadAction<Partial<ConditionsModel>>
+      action: PayloadAction<Partial<ConditionsModel>>,
     ) => {
       const newConditions = {
         ...state.Conditions,
@@ -284,9 +289,9 @@ export const actions = webPartsSlice.actions;
 export default webPartsSlice.reducer;
 
 // Selectors
-export const selectWebParts = (state: AppState) => state.webParts;
-export const selectHome = (state: AppState) => state.webParts.Home;
-export const selectActions = (state: AppState) => state.webParts.Actions;
-export const selectGallery = (state: AppState) => state.webParts.Gallery;
-export const selectContact = (state: AppState) => state.webParts.Contact;
-export const selectConditions = (state: AppState) => state.webParts.Conditions;
+export const selectWebParts = (state: RootState) => state.webParts;
+export const selectHome = (state: RootState) => state.webParts.Home;
+export const selectActions = (state: RootState) => state.webParts.Actions;
+export const selectGallery = (state: RootState) => state.webParts.Gallery;
+export const selectContact = (state: RootState) => state.webParts.Contact;
+export const selectConditions = (state: RootState) => state.webParts.Conditions;

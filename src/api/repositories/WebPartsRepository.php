@@ -46,10 +46,13 @@ class WebPartsRepository implements IWebPartsRepository
             $home->MainImage,
             $home->AboutUs,
             $home->AboutUsImage,
+            $home->peopleSay1Id,
             $home->PeopleSay1Text,
             $home->PeopleSay1Name,
+            $home->peopleSay2Id,
             $home->PeopleSay2Text,
             $home->PeopleSay2Name,
+            $home->peopleSay3Id,
             $home->PeopleSay3Text,
             $home->PeopleSay3Name,
             []
@@ -60,9 +63,14 @@ class WebPartsRepository implements IWebPartsRepository
 
     public function homeUpdate(HomeModel $home): void
     {
-        \dibi::query(
-            'UPDATE home as h SET',
-            [
+        $connection = \dibi::getConnection();
+        $transactions = new \Inlm\DibiTransactions\Transactions($connection);
+
+        try {
+            $transactions->begin();
+
+            // 1. Update základních dat v tabulce 'home' (zůstává update, protože záznam vždy existuje)
+            $homeData = [
                 'Title' => $home->Title,
                 'Description' => $home->Description,
                 'PageHeaderTextMain' => $home->PageHeaderTextMain,
@@ -70,27 +78,124 @@ class WebPartsRepository implements IWebPartsRepository
                 'PageHeaderTextSecondary' => $home->PageHeaderTextSecondary,
                 'PageHeaderTextSecondaryColor' => $home->PageHeaderTextSecondaryColor,
                 'AboutUs' => $home->AboutUs,
-                'PeopleSay1Text' => $home->PeopleSay1Text,
-                'PeopleSay1Name' => $home->PeopleSay1Name,
-                'PeopleSay2Text' => $home->PeopleSay2Text,
-                'PeopleSay2Name' => $home->PeopleSay2Name,
-                'PeopleSay3Text' => $home->PeopleSay3Text,
-                'PeopleSay3Name' => $home->PeopleSay3Name,
-            ],
-            'WHERE h.Id = %i',
-            $home->Id
-        );
+            ];
+            $connection->query("UPDATE home SET %a WHERE IdHome = %i", $homeData, $home->Id);
+
+            // 2. Upsert obrázků v 'homeImage' (insert nebo update na základě (IdHome, Type))
+            if (!empty($home->MainImage)) {
+                $connection->query("INSERT INTO homeImage (Type, Path, Alt, Name, IdHome) VALUES (%s, %s, %s, %s, %i)
+                            ON DUPLICATE KEY UPDATE Path = VALUES(Path), Alt = VALUES(Alt), Name = VALUES(Name)",
+                    'main',
+                    $home->MainImage,
+                    '',
+                    '',
+                    $home->Id
+                );
+            }
+            if (!empty($home->AboutUsImage)) {
+                $connection->query("INSERT INTO homeImage (Type, Path, Alt, Name, IdHome) VALUES (%s, %s, %s, %s, %i)
+                            ON DUPLICATE KEY UPDATE Path = VALUES(Path), Alt = VALUES(Alt), Name = VALUES(Name)",
+                    'about_us',
+                    $home->AboutUsImage,
+                    '',
+                    '',
+                    $home->Id
+                );
+            }
+
+            // 3. Upsert testimonials v 'homeTestimonials' (na základě IdHomeTestimonial)
+            $testimonials = [
+                ['IdHomeTestimonial' => $home->PeopleSay1Id, 'Text' => $home->PeopleSay1Text, 'Name' => $home->PeopleSay1Name, 'Order' => 1],
+                ['IdHomeTestimonial' => $home->PeopleSay2Id, 'Text' => $home->PeopleSay2Text, 'Name' => $home->PeopleSay2Name, 'Order' => 2],
+                ['IdHomeTestimonial' => $home->PeopleSay3Id, 'Text' => $home->PeopleSay3Text, 'Name' => $home->PeopleSay3Name, 'Order' => 3],
+            ];
+            foreach ($testimonials as $testimonial) {
+                if (!empty($testimonial['Text']) && !empty($testimonial['Name'])) {
+                    if (!empty($testimonial['IdHomeTestimonial'])) {
+                        // update
+                        $connection->query(
+                            "UPDATE homeTestimonials SET Text = %s, Name = %s WHERE IdHomeTestimonial = %i",
+                            $testimonial['Text'],
+                            $testimonial['Name'],
+                            $testimonial['IdHomeTestimonial']
+                        );
+                    } else {
+                        // insert
+                        $connection->query(
+                            "INSERT INTO homeTestimonials (Text, Name, `Order`, IdHome) VALUES (%s, %s, %i, %i)",
+                            $testimonial['Text'],
+                            $testimonial['Name'],
+                            $testimonial['Order'],
+                            $home->Id
+                        );
+                    }
+                }
+            }
+
+            // 4. Update/Insert/Delete team members v 'homeTeamMembers' na základě Id a Delete flag
+            if (is_array($home->TeamMembers)) {
+                foreach ($home->TeamMembers as $member) {
+                    $id = $member->IdHomeTeamMembers ?? 0;
+                    $delete = $member->Delete ?? false;
+                    $name = $member->Name ?? '';
+                    $description = $member->Description ?? '';
+                    $imageJson = $member->Image ?? '{}';
+                    $imageData = json_decode($imageJson, true);
+                    $imagePath = $imageData['path'] ?? '';
+                    $imageAlt = $imageData['alt'] ?? '';
+                    $imageName = $imageData['name'] ?? '';
+
+                    if ($delete && $id > 0) {
+                        // delete
+                        $connection->query("DELETE FROM homeTeamMembers WHERE IdHomeTeamMembers = %i", $id);
+                    } elseif (!empty($name)) {
+                        if ($id > 0) {
+                            // update
+                            $connection->query(
+                                "UPDATE homeTeamMembers SET Name = %s, Description = %s, ImagePath = %s, ImageAlt = %s, ImageName = %s WHERE IdHomeTeamMembers = %i",
+                                $name,
+                                $description,
+                                $imagePath,
+                                $imageAlt,
+                                $imageName,
+                                $id
+                            );
+                        } else {
+                            // insert
+                            $connection->query(
+                                "INSERT INTO homeTeamMembers (Name, Description, ImagePath, ImageAlt, ImageName, IdHome) VALUES (%s, %s, %s, %s, %s, %i)",
+                                $name,
+                                $description,
+                                $imagePath,
+                                $imageAlt,
+                                $imageName,
+                                $home->Id
+                            );
+                        }
+                    }
+                }
+            }
+
+            $transactions->commit();
+        } catch (\Exception $ex) {
+            $transactions->rollback();
+            throw new \Exception($ex->getMessage(), $ex->getCode(), $ex);
+        }
     }
 
     public function getTeamMembers(): array
     {
         $result = [];
-        $teamMembers = \dibi::query('SELECT * FROM teamMembers as tm')->fetchAll();
+        $teamMembers = \dibi::query('SELECT * FROM homeTeamMembers as htm')->fetchAll();
 
         foreach ($teamMembers as $member) {
             $newMember = new TeamMemberModel(
-                $member->Id,
-                $member->Image,
+                $member->IdHomeTeamMembers,
+                $member->Image = json_encode([
+                    'path' => $member->ImagePath,
+                    'alt' => $member->ImageAlt,
+                    'name' => $member->ImageName,
+                ]),
                 $member->Name,
                 $member->Description,
             );

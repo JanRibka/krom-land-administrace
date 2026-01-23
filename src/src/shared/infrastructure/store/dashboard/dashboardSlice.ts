@@ -1,8 +1,7 @@
 import RegistrationModel from "features/dashboard/models/RegistrationModel";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import AppState from "../AppState";
+import { RootState } from "../store";
 
 export interface DashboardState {
   FilterDateFrom: Date | null;
@@ -26,7 +25,7 @@ export const dashboardSlice = createSlice({
   reducers: {
     dashboardUpdate: (
       state,
-      action: PayloadAction<Partial<DashboardState>>
+      action: PayloadAction<Partial<DashboardState>>,
     ) => {
       return {
         ...state,
@@ -41,4 +40,4 @@ export const actions = dashboardSlice.actions;
 export default dashboardSlice.reducer;
 
 // Selectors
-export const selectDashboard = (state: AppState) => state.dashboard;
+export const selectDashboard = (state: RootState) => state.dashboard;

@@ -1,4 +1,5 @@
 import ImageModel from "shared/models/ImageModel";
+import { Testimonial } from "shared/models/Testimonial";
 
 import TeamMemberModel from "./TeamMemberModel";
 
@@ -13,12 +14,9 @@ export default class HomeModel {
   MainImage: ImageModel = new ImageModel();
   AboutUs: string = "";
   AboutUsImage: ImageModel = new ImageModel();
-  PeopleSay1Text: string = "";
-  PeopleSay1Name: string = "";
-  PeopleSay2Text: string = "";
-  PeopleSay2Name: string = "";
-  PeopleSay3Text: string = "";
-  PeopleSay3Name: string = "";
+  PeopleSay1: Testimonial | null = null;
+  PeopleSay2: Testimonial | null = null;
+  PeopleSay3: Testimonial | null = null;
   TeamMembers: TeamMemberModel[] = [];
   _dataLoaded: boolean = false;
 

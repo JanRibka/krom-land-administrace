@@ -1,6 +1,5 @@
 import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import AppState from "../AppState";
+import { RootState } from "../store";
 
 export interface AuthenticationState {
   UserName: string;
@@ -26,7 +25,7 @@ export const authenticationSlice = createSlice({
   reducers: {
     authenticationUpdate: (
       state,
-      action: PayloadAction<Partial<AuthenticationState>>
+      action: PayloadAction<Partial<AuthenticationState>>,
     ) => {
       return {
         ...state,
@@ -50,4 +49,4 @@ export const actions = authenticationSlice.actions;
 export default authenticationSlice.reducer;
 
 // Selectors
-export const selectAuthentication = (state: AppState) => state.authentication;
+export const selectAuthentication = (state: RootState) => state.authentication;

@@ -33,7 +33,15 @@ class WebPartsService implements IWebPartsService
     public function homeUpdate(HomeModel $home): void
     {
         $this->_webPartsRepository->homeUpdate($home);
-        $this->teamMembersUpdate($home->TeamMembers);
+
+        // After successful DB update, delete image files for members marked for delete
+        if (is_array($home->TeamMembers)) {
+            foreach ($home->TeamMembers as $member) {
+                if (($member->Delete ?? false) && ($member->IdHomeTeamMembers ?? 0) > 0) {
+                    $this->deleteMemberImage($member);
+                }
+            }
+        }
     }
 
     public function getTeamMembers(): array
@@ -56,11 +64,7 @@ class WebPartsService implements IWebPartsService
             if ($member->Delete) {
                 $this->_webPartsRepository->teamMemberImageDelete($id);
 
-                $image = json_decode($member->Image);
-                $imageName = $image->Name;
-                $imagePath = __DIR__ . '/../../../publicImg/' . $imageName;
-
-                $this->_fileService->fileDelete($imagePath);
+                $this->deleteMemberImage($member);
             } elseif (count($item) > 0) {
                 $this->_webPartsRepository->teamMemberImageUpdate($member->Name, $member->Description, $id);
             } else {
@@ -104,11 +108,7 @@ class WebPartsService implements IWebPartsService
             if ($detail->Delete) {
                 $this->_webPartsRepository->actionDetailDelete($id);
 
-                $image = json_decode($detail->Image);
-                $imageName = $image->Name;
-                $imagePath = __DIR__ . '/../../../publicImg/' . $imageName;
-
-                $this->_fileService->fileDelete($imagePath);
+                $this->deleteMemberImage($detail);
             } elseif (count($item) > 0) {
                 $this->_webPartsRepository->actionDetailsUpdate($detail);
             } else {
@@ -168,5 +168,16 @@ class WebPartsService implements IWebPartsService
     public function termsOfConditionsUpdate(ConditionsModel $conditions): void
     {
         $this->_webPartsRepository->termsOfConditionsUpdate($conditions);
+    }
+
+    private function deleteMemberImage($member): void
+    {
+        $imageJson = $member->Image ?? '{}';
+        $image = json_decode($imageJson);
+        $imageName = $image->Name ?? '';
+        if (!empty($imageName)) {
+            $imagePath = __DIR__ . '/../../../publicImg/' . $imageName;
+            $this->_fileService->fileDelete($imagePath);
+        }
     }
 }

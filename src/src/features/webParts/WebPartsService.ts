@@ -4,10 +4,10 @@ import ActionsDTO from "shared/DTOs/ActionsDTO";
 import ConditionsDTO from "shared/DTOs/ConditionsDTO";
 import ContactDTO from "shared/DTOs/ContactDTO";
 import GalleryDTO from "shared/DTOs/GalleryDTO";
-import HomeDTO from "shared/DTOs/HomeDTO";
+import { HomeDTO } from "shared/DTOs/HomeDTO";
 import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import JsonResulObjectDTO from "shared/DTOs/JsonResulObjectDTO";
-import TeamMemberDTO from "shared/DTOs/TeamMemberDTO";
+import { TeamMemberDTO } from "shared/DTOs/TeamMemberDTO";
 import Repository from "shared/infrastructure/repositiory/Repository";
 import { store } from "shared/infrastructure/store/store";
 import ImageModel from "shared/models/ImageModel";
@@ -29,7 +29,7 @@ export default class WebPartsService {
    */
   public async homeUpdate() {
     const state = store.getState();
-    const conditions: HomeDTO = mapToHomeDTO(state.webParts.Home);
+    const conditions = mapToHomeDTO(state.webParts.Home);
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({
       baseUrl: process.env.REACT_APP_API_BASE_URL,
@@ -73,12 +73,12 @@ export default class WebPartsService {
       response.Data?.map(
         (member) =>
           new TeamMemberModel({
-            Id: member.Id ?? 0,
-            Image: !!member.Image ? JSON.parse(member.Image) : new ImageModel(),
-            Name: member.Name ?? "",
-            Description: member.Description ?? "",
+            Id: member.idHomeTeamMembers ?? 0,
+            Image: !!member.image ? member.image : new ImageModel(),
+            Name: member.name ?? "",
+            Description: member.description ?? "",
             Delete: false,
-          })
+          }),
       ) ?? [];
 
     return result;
@@ -151,7 +151,7 @@ export default class WebPartsService {
             Date: item.Date ?? "",
             CapacityFull: item.CapacityFull === "1",
             DisplayTShirtSize: item.DisplayTShirtSize === "1",
-          })
+          }),
       ) ?? [];
 
     return result;
@@ -256,7 +256,7 @@ export default class WebPartsService {
   public async termsOfConditionsUpdate() {
     const state = store.getState();
     const conditions: ConditionsDTO = mapToTermsOfConditionsDTO(
-      state.webParts.Conditions
+      state.webParts.Conditions,
     );
 
     const response = await this._repo.post<any, JsonResulObjectDTO>({

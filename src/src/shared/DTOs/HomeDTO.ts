@@ -1,25 +1,22 @@
-import TeamMemberDTO from "./TeamMemberDTO";
+import ImageModel from "shared/models/ImageModel";
+import { News } from "shared/models/News";
+import { Testimonial } from "shared/models/Testimonial";
 
-export default class HomeDTO {
-  Id: number | null = null;
-  Title: string | null = null;
-  Description: string | null = null;
-  PageHeaderTextMain: string | null = null;
-  PageHeaderTextMainColor: string | null = null;
-  PageHeaderTextSecondary: string | null = null;
-  PageHeaderTextSecondaryColor: string | null = null;
-  MainImage: string | null = null;
-  AboutUs: string | null = null;
-  AboutUsImage: string | null = null;
-  PeopleSay1Text: string | null = null;
-  PeopleSay1Name: string | null = null;
-  PeopleSay2Text: string | null = null;
-  PeopleSay2Name: string | null = null;
-  PeopleSay3Text: string | null = null;
-  PeopleSay3Name: string | null = null;
-  TeamMembers: TeamMemberDTO[] | null = null;
+import { TeamMemberDTO } from "./TeamMemberDTO";
 
-  public constructor(init?: Partial<HomeDTO>) {
-    Object.assign(this, init);
-  }
+export interface HomeDTO {
+  idHome: number;
+  title: string | null;
+  description: string | null;
+  pageHeaderTextMain: string | null;
+  pageHeaderTextMainColor: string | null;
+  pageHeaderTextSecondary: string | null;
+  pageHeaderTextSecondaryColor: string | null;
+  mainImage: ImageModel | null;
+  aboutUs: string | null;
+  aboutUsImage: ImageModel | null;
+  news: News[] | null;
+  newsImage: ImageModel | null;
+  teamMembers: TeamMemberDTO[] | null;
+  testimonials: Testimonial[] | null;
 }

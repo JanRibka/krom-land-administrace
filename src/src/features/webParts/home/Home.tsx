@@ -1,17 +1,13 @@
 import FeatureStyled from "features/styledComponents/FeatureStyled";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useHomeGetData } from "shared/api/home/hooks/useHomeGetData";
 import Footer from "shared/components/footer/Footer";
 import AppLoader from "shared/components/loader/AppLoader";
-import AppNotification from "shared/components/notification/AppNotification";
 import PageTitle from "shared/components/pageTitle/PageTitle";
-import { useRequest } from "shared/dataAccess/useRequest";
-import HomeDTO from "shared/DTOs/HomeDTO";
-import JsonResulObjectDataDTO from "shared/DTOs/JsonResulObjectDataDTO";
 import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
-import { useWebPartsSlice } from "shared/infrastructure/store/webParts/useWebPartsSlice";
 import { selectHome } from "shared/infrastructure/store/webParts/webPartsSlice";
 
 import Stack from "@mui/material/Stack";
@@ -20,7 +16,6 @@ import WebPartsService from "../WebPartsService";
 import AboutUs from "./aboutUs/AboutUs";
 import OurTeam from "./ourTeam/OurTeam";
 import PageHeader from "./pageHeader/PageHeader";
-import { mapFromHomeDTO } from "./save/mapFromHomeDTO";
 import Seo from "./seo/Seo";
 import WhatPeopleSay from "./whatPeopleSay/WhatPeopleSay";
 
@@ -34,44 +29,12 @@ const Home = () => {
 
   // Constants
   const _webPartsService = new WebPartsService();
-  const { handleHomeUpdate } = useWebPartsSlice();
   const disable = authentication.UserRole === UserRoleEnum.USER;
 
   /**
    * Get data
    */
-  const { isLoading } = useRequest<JsonResulObjectDataDTO<HomeDTO>>(
-    {
-      baseUrl: process.env.REACT_APP_API_BASE_URL,
-      url: (process.env.REACT_APP_API_URL ?? "") + "WebPartsController.php",
-      params: new URLSearchParams({
-        function: "getHome",
-      }),
-    },
-    {
-      Success: false,
-      ErrMsg: "",
-      Data: new HomeDTO(),
-    },
-    [],
-    {
-      apply: true,
-      condition: () => home._dataLoaded === false,
-    },
-    (data) => {
-      const dataType = typeof data;
-
-      if (dataType === "string") {
-        AppNotification("Chyba", String(data), "danger");
-      } else {
-        if (data.Success) {
-          handleHomeUpdate(mapFromHomeDTO(data?.Data));
-        } else {
-          AppNotification("Chyba", data.ErrMsg ?? "", "danger");
-        }
-      }
-    }
-  );
+  const { isLoading, refetch } = useHomeGetData();
 
   const handleSaveOnClick = async () => {
     if (saving) return;
@@ -79,11 +42,7 @@ const Home = () => {
     setSaving(true);
 
     await _webPartsService.homeUpdate();
-    const teamMembers = await _webPartsService.getTeamMembers();
-
-    if (!!teamMembers) {
-      handleHomeUpdate({ TeamMembers: teamMembers });
-    }
+    await refetch();
 
     setSaving(false);
   };

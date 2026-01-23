@@ -2,8 +2,10 @@
 
 namespace kromLand\api\repositories;
 
-require_once __DIR__.'/../config/db.php';
-require_once __DIR__.'/./IImageRepository.php';
+use kromLand\api\models\image\ImageModel;
+
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/./IImageRepository.php';
 
 class ImageRepository implements IImageRepository
 {
@@ -14,24 +16,37 @@ class ImageRepository implements IImageRepository
         ];
 
         \dibi::query(
-            'UPDATE home as h SET', $arr,
-            'WHERE h.Id = %i',
+            'UPDATE home as h SET',
+            $arr,
+            'WHERE h.IdHome = %i',
             $homeId
         );
     }
 
-    public function imageUpdateHome(string $image, string $itemName, int $homeId): void
+    public function imageUpdateHome(ImageModel $image, string $itemName, int $homeId): void
     {
-        $arr = [
-            $itemName => $image,
-        ];
+        // Use ImageModel properties
+        $path = $image->Path ?? '';
+        $alt = $image->Alt ?? '';
+        $name = $image->Name ?? '';
 
-        \dibi::query(
-            'UPDATE home as h SET',
-            $arr,
-            'WHERE h.Id = %i',
-            $homeId
-        );
+        $type = '';
+        if ($itemName === 'MainImage') {
+            $type = 'home_main';
+        } elseif ($itemName === 'AboutUsImage') {
+            $type = 'home_about_us';
+        }
+
+        // Check if image with type 'home_main' exists in homeImage table
+        $existing = \dibi::query('SELECT IdHomeImage FROM homeImage WHERE IdHome = %i AND Type = %s', $homeId, $type)->fetchSingle();
+
+        if ($existing) {
+            // Update existing
+            \dibi::query('UPDATE homeImage SET Path = %s, Alt = %s, Name = %s WHERE IdHomeImage = %i', $path, $alt, $name, $existing);
+        } else {
+            // Insert new
+            \dibi::query('INSERT INTO homeImage (Type, Path, Alt, Name, IdHome) VALUES (%s, %s, %s, %s, %i)', $type, $path, $alt, $name, $homeId);
+        }
     }
 
     public function imageInsertTeamMembers(string $image): int
@@ -48,18 +63,13 @@ class ImageRepository implements IImageRepository
         return \dibi::getInsertId();
     }
 
-    public function imageUpdateTeamMembers(string $image, int $teamMemberId): void
+    public function imageUpdateTeamMembers(ImageModel $image, int $teamMemberId): void
     {
-        $arr = [
-            'Image' => $image,
-        ];
+        $path = $image->Path ?? '';
+        $alt = $image->Alt ?? '';
+        $name = $image->Name ?? '';
 
-        \dibi::query(
-            'UPDATE teamMembers as tm SET',
-            $arr,
-            'WHERE tm.Id = %i',
-            $teamMemberId
-        );
+        \dibi::query('UPDATE homeTeamMembers SET ImagePath = %s, ImageAlt = %s, ImageName = %s WHERE IdHomeTeamMembers = %i', $path, $alt, $name, $teamMemberId);
     }
 
     public function imageUpdateActions(string $image, string $itemName, int $actionsId): void
@@ -125,7 +135,8 @@ class ImageRepository implements IImageRepository
         ];
 
         \dibi::query(
-            'UPDATE galleryImages as gi SET', $arr,
+            'UPDATE galleryImages as gi SET',
+            $arr,
             'WHERE gi.Id = %i',
             $galleryImageId
         );
@@ -138,7 +149,8 @@ class ImageRepository implements IImageRepository
         ];
 
         \dibi::query(
-            'UPDATE contact as c SET', $arr,
+            'UPDATE contact as c SET',
+            $arr,
             'WHERE c.Id = %i',
             $contactId
         );

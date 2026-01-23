@@ -39,7 +39,7 @@ const Action = (props: IProps) => {
 
   // Other
   const handleTextFieldOnBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
   ) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
@@ -60,7 +60,7 @@ const Action = (props: IProps) => {
 
   const handleOnChangeCheckbox = (
     e: ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ) => {
     const name = e.target.name;
 
@@ -69,7 +69,7 @@ const Action = (props: IProps) => {
 
   const handleOnChangeCheckboxIsPriceRemark = (
     e: ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ) => {
     const name = e.target.name;
 
@@ -91,12 +91,12 @@ const Action = (props: IProps) => {
     fileName: string,
     name: string,
     alt: string,
-    destination: string
+    destination: string,
   ) => {
     const image = new ImageModel({
-      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
-      Alt: alt,
-      Name: fileName,
+      path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      alt: alt,
+      name: fileName,
     });
 
     handleActionUpdate({ [name]: image }, props.index);
@@ -105,7 +105,7 @@ const Action = (props: IProps) => {
   const handleOnAfterFileDelete = (name: string) => {
     handleActionUpdate(
       { [name as ActionImageType]: new ImageModel() },
-      props.index
+      props.index,
     );
   };
 
@@ -116,14 +116,14 @@ const Action = (props: IProps) => {
 
     image = {
       ...image,
-      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+      path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
     };
 
     await _imageService.imageSave(
       image,
       name,
       ImageLocationEnum.ACTION_DETAILS,
-      actionDetails[props.index].Id
+      actionDetails[props.index].Id,
     );
 
     handleActionUpdate({ [name as ActionImageType]: image }, props.index);

@@ -29,7 +29,7 @@ interface IProps {
     fileName: string,
     name: string,
     alt: string,
-    destination: string
+    destination: string,
   ) => void;
   onAfterFileDelete?: (name: string) => void;
   onFileSave: (name: string) => void;
@@ -150,7 +150,7 @@ const ImageUpload = (props: IProps) => {
         AppNotification(
           "Info",
           "Pro nahrání obrázku je nejprve potřeba sekci uložit",
-          "info"
+          "info",
         );
 
         return false;
@@ -164,7 +164,7 @@ const ImageUpload = (props: IProps) => {
         AppNotification(
           "Chyba",
           `Přípona ${validate.Extension} není podporována`,
-          "danger"
+          "danger",
         );
 
         return false;
@@ -191,22 +191,22 @@ const ImageUpload = (props: IProps) => {
         fileName,
         props.name,
         props.newImageAlt,
-        "/upload/"
+        "/upload/",
       );
     }
   };
 
   const onFileDeleteHandler = async () => {
-    const dirPath = props.image.Path.includes("/admin")
-      ? process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? ""
-      : process.env.REACT_APP_IMAGES_PATH ?? "";
+    const dirPath = props.image.path.includes("/admin")
+      ? (process.env.REACT_APP_ADMIN_UPLOAD_PATH ?? "")
+      : (process.env.REACT_APP_IMAGES_PATH ?? "");
 
     await _imageService.imageDelete(
-      props.image.Name,
+      props.image.name,
       dirPath,
       props.name,
       props.location,
-      props.id
+      props.id,
     );
 
     props.onAfterFileDelete?.(props.name);
@@ -219,21 +219,21 @@ const ImageUpload = (props: IProps) => {
   return (
     <ImageUploadStyled>
       <Box
-        component='img'
-        src={props.image.Path}
-        alt='Obrázek nenahrán'
-        loading='lazy'
+        component="img"
+        src={props.image.path}
+        alt="Obrázek nenahrán"
+        loading="lazy"
       />
-      <Box className='buttons-wrapper'>
-        <Box component='span'>{props.label}</Box>
-        <Box className='buttons-inner-wrapper'>
-          {!!props.image.Name ? (
+      <Box className="buttons-wrapper">
+        <Box component="span">{props.label}</Box>
+        <Box className="buttons-inner-wrapper">
+          {!!props.image.name ? (
             <Box>
               <LoadingButton
                 startIcon={<DeleteIcon />}
                 onClick={onFileDeleteHandler}
-                color='secondary'
-                variant='contained'
+                color="secondary"
+                variant="contained"
                 disabled={props.disable}
               >
                 Smazat
@@ -241,25 +241,25 @@ const ImageUpload = (props: IProps) => {
             </Box>
           ) : (
             <>
-              <label className='file-upload-label' htmlFor={guid}>
+              <label className="file-upload-label" htmlFor={guid}>
                 Nahrát
               </label>
               <input
-                type='file'
+                type="file"
                 accept={getFileType(props.supportedExtensions)}
                 id={guid}
-                className='file-upload-input'
+                className="file-upload-input"
                 disabled={props.disable}
                 onChange={onFileUploadHandler}
               />
             </>
           )}
-          {!!props.image.Path.includes("/admin") && (
+          {!!props.image.path.includes("/admin") && (
             <LoadingButton
               startIcon={<SaveAltOutlinedIcon />}
               onClick={onFileSave}
-              color='secondary'
-              variant='contained'
+              color="secondary"
+              variant="contained"
               disabled={props.disable}
             >
               Uložit

@@ -2,28 +2,28 @@
 
 use GuzzleHttp\Psr7\Response;
 
-require_once __DIR__.'/./ControllerBase.php';
-require_once __DIR__.'/../middleware/verifyJWT.php';
-require_once __DIR__.'/../middleware/verifyRole.php';
-require_once __DIR__.'/../../vendor/autoload.php';
-require_once __DIR__.'/../enums/UserRoleEnum.php';
-require_once __DIR__.'/../enums/ImageLocationEnum.php';
-require_once __DIR__.'/../repositories/ImageRepository.php';
-require_once __DIR__.'/../services/ImageService.php';
-require_once __DIR__.'/../services/FileService.php';
-require_once __DIR__.'/../models/image/ImageModel.php';
-require_once __DIR__.'/../helpers/enumHelper.php';
+require_once __DIR__ . '/./ControllerBase.php';
+require_once __DIR__ . '/../middleware/verifyJWT.php';
+require_once __DIR__ . '/../middleware/verifyRole.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../enums/UserRoleEnum.php';
+require_once __DIR__ . '/../enums/ImageLocationEnum.php';
+require_once __DIR__ . '/../repositories/ImageRepository.php';
+require_once __DIR__ . '/../services/ImageService.php';
+require_once __DIR__ . '/../services/FileService.php';
+require_once __DIR__ . '/../models/image/ImageModel.php';
+require_once __DIR__ . '/../helpers/enumHelper.php';
 
 use GuzzleHttp\Psr7\ServerRequest;
-use kromLand\api\controllers\ControllerBase;
-use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\enums\UserRoleEnum;
-use kromLand\api\models\image\ImageModel;
-use kromLand\api\repositories\ImageRepository;
+use kromLand\api\enums\HttpStatusCode;
 use kromLand\api\services\FileService;
 use kromLand\api\services\IFileService;
-use kromLand\api\services\IImageService;
 use kromLand\api\services\ImageService;
+use kromLand\api\services\IImageService;
+use kromLand\api\models\image\ImageModel;
+use kromLand\api\controllers\ControllerBase;
+use kromLand\api\repositories\ImageRepository;
 
 use function kromLand\api\middleware\verifyJWT;
 use function kromLand\api\middleware\verifyRole;
@@ -47,7 +47,7 @@ class ImageController extends ControllerBase
         try {
             $newImageName = $_POST['fileName'];
             $sourceDir = $_FILES['file']['tmp_name'];
-            $targetDir = __DIR__.'/../../upload/'.$newImageName;
+            $targetDir = __DIR__ . '/../../upload/' . $newImageName;
 
             $this->_fileService->uploadedFileSave($sourceDir, $targetDir);
 
@@ -71,7 +71,7 @@ class ImageController extends ControllerBase
             $itemName = $data->itemName;
             $imageName = $data->imageName;
             $directory = $data->directory;
-            $filePath = __DIR__.$directory.$imageName;
+            $filePath = __DIR__ . $directory . $imageName;
 
             $this->_fileService->fileDelete($filePath);
             $this->_imageService->imageDelete($id, $imageLocation, $itemName);
@@ -92,17 +92,17 @@ class ImageController extends ControllerBase
             $data = json_decode($jsonData);
             $id = $data?->id ?? null;
             $image = $data->image;
-            $imageName = $data->image->Name;
+            $imageName = $data->image->name;
             $imageLocation = $data->location;
             $imageLocation = getValueFromImageLocationEnumByNumber($imageLocation);
             $itemName = $data->itemName;
-            $sourceImage = __DIR__.'/../../upload/'.$imageName;
-            $targetImage = __DIR__.'/../../../publicImg/'.$imageName;
+            $sourceImage = __DIR__ . '/../../upload/' . $imageName;
+            $targetImage = __DIR__ . '/../../../publicImg/' . $imageName;
 
             $image = new ImageModel(
-                $image->Path,
-                $image->Alt,
-                $image->Name
+                $image->path,
+                $image->alt,
+                $image->name
             );
 
             $savedDocumentId = $this->_imageService->imageSave($image, $id, $imageLocation, $itemName);
@@ -133,15 +133,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SERVER
             );
             $response = new Response();
-            $response = verifyJWT($request, $response,
+            $response = verifyJWT(
+                $request,
+                $response,
                 function ($request, $response) use ($controller, $functionName, $userRoles) {
-                    return verifyRole($userRoles)($request, $response,
+                    return verifyRole($userRoles)(
+                        $request,
+                        $response,
                         function ($request, $response) use ($controller, $functionName) {
                             call_user_func([$controller, $functionName]);
 
                             return $response;
-                        }, false);
-                }, false);
+                        },
+                        false
+                    );
+                },
+                false
+            );
 
             $statusCode = $response->getStatusCode();
 

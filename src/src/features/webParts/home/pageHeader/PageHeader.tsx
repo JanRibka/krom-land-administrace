@@ -31,7 +31,7 @@ const PageHeader = (props: IProps) => {
 
   // Other
   const handleTextFieldOnBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
   ) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
@@ -43,12 +43,12 @@ const PageHeader = (props: IProps) => {
     fileName: string,
     name: string,
     alt: string,
-    destination: string
+    destination: string,
   ) => {
     const image = new ImageModel({
-      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
-      Alt: alt,
-      Name: fileName,
+      path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      alt: alt,
+      name: fileName,
     });
 
     handleHomeUpdate({ [name]: image });
@@ -63,28 +63,28 @@ const PageHeader = (props: IProps) => {
 
     image = {
       ...image,
-      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+      path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
     };
 
     const result = await _imageService.imageSave(
       image,
       name,
       ImageLocationEnum.HOME,
-      home.Id
+      home.Id,
     );
 
     if (result) {
       handleHomeImageUpdate(name as HomeImageType, {
-        Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+        path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
       });
     }
   };
 
   return (
     <ErrorBoundary>
-      <SectionStyled component='section'>
-        <SectionTitle title='Hlavička stránky' />
-        <SectionSubTitle title='Hlavní text' />
+      <SectionStyled component="section">
+        <SectionTitle title="Hlavička stránky" />
+        <SectionSubTitle title="Hlavní text" />
         <AppPageHeader
           nameText={nameof<HomeModel>("PageHeaderTextMain")}
           valueText={home.PageHeaderTextMain}
@@ -93,8 +93,8 @@ const PageHeader = (props: IProps) => {
           disable={props.disable}
           handleTextFieldOnBlur={handleTextFieldOnBlur}
         />
-        <Box className='sub-section-separator'>
-          <SectionSubTitle title='Vedlejší text' />
+        <Box className="sub-section-separator">
+          <SectionSubTitle title="Vedlejší text" />
           <AppPageHeader
             nameText={nameof<HomeModel>("PageHeaderTextSecondary")}
             valueText={home.PageHeaderTextSecondary}
@@ -104,14 +104,14 @@ const PageHeader = (props: IProps) => {
             handleTextFieldOnBlur={handleTextFieldOnBlur}
           />
         </Box>
-        <Box className='sub-section-separator'>
-          <SectionSubTitle title='Obrázek' />
+        <Box className="sub-section-separator">
+          <SectionSubTitle title="Obrázek" />
           <ImageUpload
             image={home.MainImage ?? new ImageModel()}
             name={nameof<HomeModel>("MainImage")}
-            label='Ideální rozlišení obrázku 1903 x 760px. Max. velikost 1MB'
+            label="Ideální rozlišení obrázku 1903 x 760px. Max. velikost 1MB"
             supportedExtensions={["png", "jpg", "jpeg"]}
-            newImageAlt='Úvodní obrázek stránky úvod | KROM Land'
+            newImageAlt="Úvodní obrázek stránky úvod | KROM Land"
             maxFileSize={1}
             location={ImageLocationEnum.HOME}
             id={home.Id}

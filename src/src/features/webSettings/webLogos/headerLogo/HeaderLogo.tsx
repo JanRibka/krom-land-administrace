@@ -29,12 +29,12 @@ const HeaderLogo = (props: IProps) => {
     fileName: string,
     name: string,
     alt: string,
-    destination: string
+    destination: string,
   ) => {
     const image = new ImageModel({
-      Path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
-      Alt: alt,
-      Name: fileName,
+      path: (process.env.PUBLIC_URL ?? "") + destination + fileName,
+      alt: alt,
+      name: fileName,
     });
 
     handleLogosUpdate({ [name]: image });
@@ -49,14 +49,14 @@ const HeaderLogo = (props: IProps) => {
 
     image = {
       ...image,
-      Path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.Name,
+      path: (process.env.REACT_APP_WEB_PUBLIC_IMG_URL ?? "") + image.name,
     };
 
     const result = await _imageService.imageSave(
       image,
       name,
       ImageLocationEnum.WEB_LOGOS,
-      webLogos.Id
+      webLogos.Id,
     );
 
     if (result) {
@@ -68,15 +68,15 @@ const HeaderLogo = (props: IProps) => {
 
   return (
     <ErrorBoundary>
-      <SectionStyled component='section'>
-        <SectionTitle title='Hlavička stránky' />
+      <SectionStyled component="section">
+        <SectionTitle title="Hlavička stránky" />
 
         <ImageUpload
           image={webLogos.HeaderLogo ?? new ImageModel()}
           name={nameof<WebLogosModel>("HeaderLogo")}
-          label='Ideální rozlišení loga 252 x 100px. Max. velikost 1MB'
+          label="Ideální rozlišení loga 252 x 100px. Max. velikost 1MB"
           supportedExtensions={["png", "svg"]}
-          newImageAlt='Logo hlavičky | KROM Land'
+          newImageAlt="Logo hlavičky | KROM Land"
           maxFileSize={1}
           location={ImageLocationEnum.WEB_LOGOS}
           id={webLogos.Id}

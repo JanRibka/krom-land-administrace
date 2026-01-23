@@ -27,25 +27,50 @@ const WhatPeopleSay = (props: IProps) => {
 
   // Other
   const handleTextFieldOnBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
   ) => {
     const name: string = e.target.name;
     const value: string = e.target.value;
+    const currentValue = home[name as keyof HomeModel];
 
-    handleHomeUpdate({ [name]: value });
+    handleHomeUpdate({
+      [name]: {
+        ...(currentValue && typeof currentValue === "object"
+          ? currentValue
+          : {}),
+        text: value,
+      },
+    });
+  };
+
+  const handleNameFieldOnBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
+  ) => {
+    const name: string = e.target.name;
+    const value: string = e.target.value;
+    const currentValue = home[name as keyof HomeModel];
+
+    handleHomeUpdate({
+      [name]: {
+        ...(currentValue && typeof currentValue === "object"
+          ? currentValue
+          : {}),
+        name: value,
+      },
+    });
   };
 
   return (
     <ErrorBoundary>
-      <SectionStyled component='section'>
-        <SectionTitle title='Říkají o nás' />
+      <SectionStyled component="section">
+        <SectionTitle title="Říkají o nás" />
         {/* First person */}
-        <SectionSubTitle title='První osoba' />
-        <Stack spacing={2} direction='column'>
+        <SectionSubTitle title="První osoba" />
+        <Stack spacing={2} direction="column">
           <AppTextArea
-            name={nameof<HomeModel>("PeopleSay1Text")}
-            label='Popis'
-            value={home.PeopleSay1Text}
+            name={nameof<HomeModel>("PeopleSay1")}
+            label="Popis"
+            value={home.PeopleSay1?.text ?? ""}
             fullWidth
             required
             disabled={props.disable}
@@ -54,26 +79,26 @@ const WhatPeopleSay = (props: IProps) => {
             onBlur={handleTextFieldOnBlur}
           />
           <AppTextField
-            name={nameof<HomeModel>("PeopleSay1Name")}
-            label='Jméno'
-            value={home.PeopleSay1Name}
-            variant='outlined'
+            name={nameof<HomeModel>("PeopleSay1")}
+            label="Jméno"
+            value={home.PeopleSay1?.name ?? ""}
+            variant="outlined"
             fullWidth
             required
             disabled={props.disable}
-            autoComplete='off'
-            onBlur={handleTextFieldOnBlur}
+            autoComplete="off"
+            onBlur={handleNameFieldOnBlur}
           />
         </Stack>
 
         {/* Second person */}
-        <Box className='sub-section-separator'>
-          <SectionSubTitle title='Druhá osoba' />
-          <Stack spacing={2} direction='column'>
+        <Box className="sub-section-separator">
+          <SectionSubTitle title="Druhá osoba" />
+          <Stack spacing={2} direction="column">
             <AppTextArea
-              name={nameof<HomeModel>("PeopleSay2Text")}
-              label='Popis'
-              value={home.PeopleSay2Text}
+              name={nameof<HomeModel>("PeopleSay2")}
+              label="Popis"
+              value={home.PeopleSay2?.text ?? ""}
               fullWidth
               required
               disabled={props.disable}
@@ -82,27 +107,27 @@ const WhatPeopleSay = (props: IProps) => {
               onBlur={handleTextFieldOnBlur}
             />
             <AppTextField
-              name={nameof<HomeModel>("PeopleSay2Name")}
-              label='Jméno'
-              value={home.PeopleSay2Name}
-              variant='outlined'
+              name={nameof<HomeModel>("PeopleSay2")}
+              label="Jméno"
+              value={home.PeopleSay2?.name ?? ""}
+              variant="outlined"
               fullWidth
               required
               disabled={props.disable}
-              autoComplete='off'
-              onBlur={handleTextFieldOnBlur}
+              autoComplete="off"
+              onBlur={handleNameFieldOnBlur}
             />
           </Stack>
         </Box>
 
         {/* Third person */}
-        <Box className='sub-section-separator'>
-          <SectionSubTitle title='Třetí osoba' />
-          <Stack spacing={2} direction='column'>
+        <Box className="sub-section-separator">
+          <SectionSubTitle title="Třetí osoba" />
+          <Stack spacing={2} direction="column">
             <AppTextArea
-              name={nameof<HomeModel>("PeopleSay3Text")}
-              label='Popis'
-              value={home.PeopleSay3Text}
+              name={nameof<HomeModel>("PeopleSay3")}
+              label="Popis"
+              value={home.PeopleSay3?.text ?? ""}
               fullWidth
               required
               disabled={props.disable}
@@ -111,15 +136,15 @@ const WhatPeopleSay = (props: IProps) => {
               onBlur={handleTextFieldOnBlur}
             />
             <AppTextField
-              name={nameof<HomeModel>("PeopleSay3Name")}
-              label='Jméno'
-              value={home.PeopleSay3Name}
-              variant='outlined'
+              name={nameof<HomeModel>("PeopleSay3")}
+              label="Jméno"
+              value={home.PeopleSay3?.name ?? ""}
+              variant="outlined"
               fullWidth
               required
               disabled={props.disable}
-              autoComplete='off'
-              onBlur={handleTextFieldOnBlur}
+              autoComplete="off"
+              onBlur={handleNameFieldOnBlur}
             />
           </Stack>
         </Box>

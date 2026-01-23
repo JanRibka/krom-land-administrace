@@ -1,11 +1,9 @@
-export default class TeamMemberDTO {
-  Id: number | null = null;
-  Image: string | null = null;
-  Name: string | null = null;
-  Description: string | null = null;
-  Delete: boolean | null = null;
+import ImageModel from "shared/models/ImageModel";
 
-  public constructor(init?: Partial<TeamMemberDTO>) {
-    Object.assign(this, init);
-  }
+export interface TeamMemberDTO {
+  idHomeTeamMembers: number;
+  name: string | null;
+  description: string | null;
+  delete: boolean | null;
+  image: ImageModel | null;
 }
