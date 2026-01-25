@@ -8,12 +8,14 @@ import HomeModel from "features/webParts/home/models/HomeModel";
 import TeamMemberModel from "features/webParts/home/models/TeamMemberModel";
 import ConditionsModel from "shared/models/ConditionsModel";
 import ImageModel from "shared/models/ImageModel";
+import { News } from "shared/models/News";
 import ActionsImageType from "shared/types/ActionsImageType";
 import ContactImageType from "shared/types/ContactImageType";
 import GalleryImageType from "shared/types/GalleryImageType";
 import HomeImageType from "shared/types/HomeImageType";
 
 import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { RootState } from "../store";
 
 export interface WebPartsState {
@@ -280,6 +282,54 @@ export const webPartsSlice = createSlice({
         ...state,
         Conditions: newConditions,
       };
+    },
+    homeNewsImageUpdate: (
+      state,
+      action: PayloadAction<Partial<ImageModel>>,
+    ) => {
+      let newNewsImage = { ...state.Home.NewsImage };
+      const newsImage = {
+        ...newNewsImage,
+        ...action.payload,
+      };
+
+      state.Home.NewsImage = newsImage;
+    },
+    homeNewsAdd: (state, action: Action) => {
+      const newNews = [...(state.Home.News ?? [])];
+
+      newNews.push({
+        idHomeNews: null,
+        title: "",
+        content: "",
+        createdAt: null,
+        delete: false,
+      } satisfies News);
+
+      return {
+        ...state,
+        Home: {
+          ...state.Home,
+          News: newNews,
+        },
+      };
+    },
+    homeNewsUpdate: (
+      state,
+      action: PayloadAction<{
+        news: Partial<News>;
+        index: number;
+      }>,
+    ) => {
+      let newNews = [...(state.Home.News ?? [])];
+      const news = {
+        ...newNews[action.payload.index],
+        ...action.payload.news,
+      };
+
+      newNews[action.payload.index] = news;
+
+      state.Home.News = newNews;
     },
   },
 });

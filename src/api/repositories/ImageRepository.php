@@ -25,6 +25,12 @@ class ImageRepository implements IImageRepository
 
     public function imageUpdateHome(ImageModel $image, string $itemName, int $homeId): void
     {
+
+        if ($itemName === 'NewsImage') {
+            \dibi::query('DELETE FROM homeNewsImage as hni WHERE hni.IdHomeNewsImage = %i', $image->Id);
+            return;
+        }
+
         // Use ImageModel properties
         $path = $image->Path ?? '';
         $alt = $image->Alt ?? '';
@@ -172,8 +178,14 @@ class ImageRepository implements IImageRepository
             ->execute();
     }
 
-    public function imageInsertNews(ImageModel $image): int
+    public function imageInsertNews(ImageModel $image, int $homeId): int
     {
-        return 1;
+        $path = $image->Path ?? '';
+        $alt = $image->Alt ?? '';
+        $name = $image->Name ?? '';
+
+        \dibi::query('INSERT INTO homeNewsImage (Path, Alt, Name, IdHome) VALUES (%s, %s, %s, %i)', $path, $alt, $name, $homeId);
+
+        return \dibi::getInsertId();
     }
 }

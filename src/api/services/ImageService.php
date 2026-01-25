@@ -21,7 +21,12 @@ class ImageService implements IImageService
     {
         $imageEncoded = json_encode($image);
 
-        if (($image === ImageLocationEnum::GALLERY && isset($id)) || ($image !== ImageLocationEnum::GALLERY && isset($id))) {
+        if (
+            ($location === ImageLocationEnum::GALLERY && isset($id))
+            || ((($location !== ImageLocationEnum::GALLERY && $location !== ImageLocationEnum::HOME)
+                || ($location === ImageLocationEnum::HOME && $itemName !== "NewsImage")) && isset($id))
+            || ($location === ImageLocationEnum::HOME && isset($id) && isset($image?->Id) && $itemName === 'NewsImage')
+        ) {
             switch ($location) {
                 case ImageLocationEnum::HOME:
                     $this->_imageRepository->imageUpdateHome($image, $itemName, $id);
@@ -55,19 +60,22 @@ class ImageService implements IImageService
                     return $this->_imageRepository->imageInsertTeamMembers($imageEncoded);
                 case ImageLocationEnum::GALLERY_IMAGE:
                     return $this->_imageRepository->imageInsertGalleryImage($imageEncoded);
+                case ImageLocationEnum::HOME:
+                    return $this->_imageRepository->imageInsertNews($image, $id);
                 default:
                     return null;
             }
         }
     }
 
-    public function imageDelete(int|null $id, ImageLocationEnum $location, string $itemName): void
+    public function imageDelete(int|null $id, ImageLocationEnum $location, string $itemName, ?int $imageId = null): void
     {
         if (isset($id)) {
             $image = new ImageModel(
                 '',
                 '',
-                ''
+                '',
+                $imageId
             );
             $imageEncoded = json_encode($image);
 

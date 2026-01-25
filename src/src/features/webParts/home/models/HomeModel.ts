@@ -15,8 +15,8 @@ export default class HomeModel {
   MainImage: ImageModel = new ImageModel();
   AboutUs: string = "";
   AboutUsImage: ImageModel = new ImageModel();
-  news: News[] | null = null;
-  newsImage: ImageModel = new ImageModel();
+  News: News[] | null = null;
+  NewsImage: ImageModel = new ImageModel();
   PeopleSay1: Testimonial | null = null;
   PeopleSay2: Testimonial | null = null;
   PeopleSay3: Testimonial | null = null;

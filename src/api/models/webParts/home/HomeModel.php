@@ -11,9 +11,8 @@ class HomeModel
     public $PageHeaderTextMainColor;
     public $PageHeaderTextSecondary;
     public $PageHeaderTextSecondaryColor;
-    public $MainImage;
     public $AboutUs;
-    public $AboutUsImage;
+    public $News;
     public $PeopleSay1Id;
     public $PeopleSay1Text;
     public $PeopleSay1Name;
@@ -33,9 +32,8 @@ class HomeModel
         $pageHeaderTextMainColor,
         $pageHeaderTextSecondary,
         $pageHeaderTextSecondaryColor,
-        $mainImage,
         $aboutUs,
-        $aboutUsImage,
+        $news,
         $peopleSay1Id,
         $peopleSay1Text,
         $peopleSay1Name,
@@ -54,9 +52,8 @@ class HomeModel
         $this->PageHeaderTextMainColor = $pageHeaderTextMainColor;
         $this->PageHeaderTextSecondary = $pageHeaderTextSecondary;
         $this->PageHeaderTextSecondaryColor = $pageHeaderTextSecondaryColor;
-        $this->MainImage = $mainImage;
         $this->AboutUs = $aboutUs;
-        $this->AboutUsImage = $aboutUsImage;
+        $this->News = $news;
         $this->PeopleSay1Id = $peopleSay1Id;
         $this->PeopleSay1Text = $peopleSay1Text;
         $this->PeopleSay1Name = $peopleSay1Name;

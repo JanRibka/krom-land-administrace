@@ -9,6 +9,7 @@ import TeamMemberModel from "features/webParts/home/models/TeamMemberModel";
 import { useDispatch } from "react-redux";
 import ConditionsModel from "shared/models/ConditionsModel";
 import ImageModel from "shared/models/ImageModel";
+import { News } from "shared/models/News";
 import ActionsImageType from "shared/types/ActionsImageType";
 import ContactImageType from "shared/types/ContactImageType";
 import GalleryImageType from "shared/types/GalleryImageType";
@@ -29,7 +30,7 @@ export const useWebPartsSlice = () => {
 
   const handleHomeImageUpdate = (
     name: HomeImageType,
-    image: Partial<ImageModel>
+    image: Partial<ImageModel>,
   ) => {
     dispatch(actions.homeImageUpdate({ name, image }));
   };
@@ -40,7 +41,7 @@ export const useWebPartsSlice = () => {
 
   const handleHomeTeamMemberUpdate = (
     member: Partial<TeamMemberModel>,
-    index: number
+    index: number,
   ) => {
     dispatch(actions.homeTeamMemberUpdate({ member, index }));
   };
@@ -51,7 +52,7 @@ export const useWebPartsSlice = () => {
 
   const handleActionsImageUpdate = (
     name: ActionsImageType,
-    image: Partial<ImageModel>
+    image: Partial<ImageModel>,
   ) => {
     dispatch(actions.actionsImageUpdate({ name, image }));
   };
@@ -62,7 +63,7 @@ export const useWebPartsSlice = () => {
 
   const handleActionUpdate = (
     action: Partial<ActionDetailModel>,
-    index: number
+    index: number,
   ) => {
     dispatch(actions.actionUpdate({ actionDetail: action, index }));
   };
@@ -73,7 +74,7 @@ export const useWebPartsSlice = () => {
 
   const handleActionsDocumentUpdate = (
     document: Partial<DocumentToDownloadModel>,
-    index: number
+    index: number,
   ) => {
     dispatch(actions.actionsDocumentUpadate({ document, index }));
   };
@@ -84,7 +85,7 @@ export const useWebPartsSlice = () => {
 
   const handleGalleryMainImageUpdate = (
     name: GalleryImageType,
-    image: Partial<ImageModel>
+    image: Partial<ImageModel>,
   ) => {
     dispatch(actions.galleryMainImageUpdate({ name, image }));
   };
@@ -95,7 +96,7 @@ export const useWebPartsSlice = () => {
 
   const handleGalleryGalleryImageUpdate = (
     image: Partial<GalleryImageModel>,
-    index: number
+    index: number,
   ) => {
     dispatch(actions.galleryGalleryImageUpadate({ image, index }));
   };
@@ -110,13 +111,25 @@ export const useWebPartsSlice = () => {
 
   const handleContactImageUpdate = (
     name: ContactImageType,
-    image: Partial<ImageModel>
+    image: Partial<ImageModel>,
   ) => {
     dispatch(actions.contactImageUpdate({ name, image }));
   };
 
   const handleConditionsUpdate = (conditions: Partial<ConditionsModel>) => {
     dispatch(actions.conditionsUpdate(conditions));
+  };
+
+  const handleNewsImageUpdate = (image: Partial<ImageModel>) => {
+    dispatch(actions.homeNewsImageUpdate(image));
+  };
+
+  const handleHomeNewsAdd = () => {
+    dispatch(actions.homeNewsAdd());
+  };
+
+  const handleHomeNewsUpdate = (news: Partial<News>, index: number) => {
+    dispatch(actions.homeNewsUpdate({ news, index }));
   };
 
   return {
@@ -139,5 +152,8 @@ export const useWebPartsSlice = () => {
     handleContactUpdate,
     handleContactImageUpdate,
     handleConditionsUpdate,
+    handleNewsImageUpdate,
+    handleHomeNewsAdd,
+    handleHomeNewsUpdate,
   };
 };

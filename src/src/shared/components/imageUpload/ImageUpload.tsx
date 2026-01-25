@@ -207,6 +207,7 @@ const ImageUpload = (props: IProps) => {
       props.name,
       props.location,
       props.id,
+      props.image.id,
     );
 
     props.onAfterFileDelete?.(props.name);

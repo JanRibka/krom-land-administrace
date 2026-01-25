@@ -21,7 +21,7 @@ export default class ImageService {
           function: "imageUpload",
         }),
         data: formData,
-      }
+      },
     );
 
     const dataType = typeof response.data;
@@ -49,7 +49,8 @@ export default class ImageService {
     directory: string,
     name: string,
     location: ImageLocationEnum,
-    id: number | null
+    id: number | null,
+    imageId?: number | null,
   ) {
     const response = await this._repo.post<any, JsonResulObjectDTO>({
       baseUrl: process.env.REACT_APP_API_BASE_URL,
@@ -63,6 +64,7 @@ export default class ImageService {
         itemName: name,
         id: id,
         location: location,
+        imageId: imageId ?? null,
       },
     });
 
@@ -90,7 +92,7 @@ export default class ImageService {
     image: ImageModel,
     name: string,
     location: ImageLocationEnum,
-    id: number | null
+    id: number | null,
   ) {
     const response = await this._repo.post<
       any,

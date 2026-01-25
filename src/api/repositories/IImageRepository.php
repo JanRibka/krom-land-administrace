@@ -27,5 +27,6 @@ interface IImageRepository
     public function imageDeleteGalleryImage(int $galleryImageId): void;
 
     public function imageUpdateWebLogos(string $image, string $itemName, int $webLogosId): void;
-    public function imageInsertNews(ImageModel $image): int;
+
+    public function imageInsertNews(ImageModel $image, int $homeId): int;
 }

@@ -1,6 +1,7 @@
 export interface News {
-  idHomeNews: number;
+  idHomeNews: number | null;
   title: string;
   content: string;
-  createdAt: Date;
+  createdAt: Date | null;
+  delete: boolean;
 }

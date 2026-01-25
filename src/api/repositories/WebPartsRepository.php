@@ -81,29 +81,7 @@ class WebPartsRepository implements IWebPartsRepository
             ];
             $connection->query("UPDATE home SET %a WHERE IdHome = %i", $homeData, $home->Id);
 
-            // 2. Upsert obrázků v 'homeImage' (insert nebo update na základě (IdHome, Type))
-            if (!empty($home->MainImage)) {
-                $connection->query("INSERT INTO homeImage (Type, Path, Alt, Name, IdHome) VALUES (%s, %s, %s, %s, %i)
-                            ON DUPLICATE KEY UPDATE Path = VALUES(Path), Alt = VALUES(Alt), Name = VALUES(Name)",
-                    'main',
-                    $home->MainImage,
-                    '',
-                    '',
-                    $home->Id
-                );
-            }
-            if (!empty($home->AboutUsImage)) {
-                $connection->query("INSERT INTO homeImage (Type, Path, Alt, Name, IdHome) VALUES (%s, %s, %s, %s, %i)
-                            ON DUPLICATE KEY UPDATE Path = VALUES(Path), Alt = VALUES(Alt), Name = VALUES(Name)",
-                    'about_us',
-                    $home->AboutUsImage,
-                    '',
-                    '',
-                    $home->Id
-                );
-            }
-
-            // 3. Upsert testimonials v 'homeTestimonials' (na základě IdHomeTestimonial)
+            // 2. Upsert testimonials v 'homeTestimonials' (na základě IdHomeTestimonial)
             $testimonials = [
                 ['IdHomeTestimonial' => $home->PeopleSay1Id, 'Text' => $home->PeopleSay1Text, 'Name' => $home->PeopleSay1Name, 'Order' => 1],
                 ['IdHomeTestimonial' => $home->PeopleSay2Id, 'Text' => $home->PeopleSay2Text, 'Name' => $home->PeopleSay2Name, 'Order' => 2],
@@ -132,10 +110,10 @@ class WebPartsRepository implements IWebPartsRepository
                 }
             }
 
-            // 4. Update/Insert/Delete team members v 'homeTeamMembers' na základě Id a Delete flag
+            // 3. Update/Insert/Delete team members v 'homeTeamMembers' na základě Id a Delete flag
             if (is_array($home->TeamMembers)) {
                 foreach ($home->TeamMembers as $member) {
-                    $id = $member->IdHomeTeamMembers ?? 0;
+                    $id = $member->Id ?? 0;
                     $delete = $member->Delete ?? false;
                     $name = $member->Name ?? '';
                     $description = $member->Description ?? '';
@@ -169,6 +147,39 @@ class WebPartsRepository implements IWebPartsRepository
                                 $imagePath,
                                 $imageAlt,
                                 $imageName,
+                                $home->Id
+                            );
+                        }
+                    }
+                }
+            }
+
+            // 4. Update/Insert/Delete news v 'homeNews' na základě Id a Delete flag
+            if (is_array($home->News)) {
+                foreach ($home->News as $item) {
+                    $id = $item->idHomeNews ?? 0;
+                    $delete = $item->delete ?? false;
+                    $title = $item->title ?? '';
+                    $content = $item->content ?? '';
+
+                    if ($delete && $id > 0) {
+                        // delete
+                        $connection->query("DELETE FROM homeNews WHERE IdHomeNews = %i", $id);
+                    } else {
+                        if ($id > 0) {
+                            // update
+                            $connection->query(
+                                "UPDATE homeNews SET Title = %s, Content = %s WHERE IdHomeNews = %i",
+                                $title,
+                                $content,
+                                $id
+                            );
+                        } else {
+                            // insert
+                            $connection->query(
+                                "INSERT INTO homeNews (Title, Content, IdHome) VALUES (%s, %s, %i)",
+                                $title,
+                                $content,
                                 $home->Id
                             );
                         }

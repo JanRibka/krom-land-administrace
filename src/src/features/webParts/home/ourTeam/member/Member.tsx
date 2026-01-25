@@ -94,7 +94,7 @@ const Member = (props: IProps) => {
           <ImageUpload
             image={props.image}
             name={nameof<TeamMemberModel>("Image")}
-            label="Ideální rozlišení obrázku 500 x 300px. Max. velikost 1MB"
+            label="Ideální rozlišení obrázku 1066 x 800px. Max. velikost 1MB"
             supportedExtensions={["png", "jpg", "jpeg", "webp"]}
             newImageAlt={
               "Fotka člena našeho týmu " + props.memberCount + " | KROM Land"

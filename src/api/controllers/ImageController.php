@@ -70,11 +70,12 @@ class ImageController extends ControllerBase
             $id = $data->id;
             $itemName = $data->itemName;
             $imageName = $data->imageName;
+            $imageId = $data->imageId;
             $directory = $data->directory;
             $filePath = __DIR__ . $directory . $imageName;
 
             $this->_fileService->fileDelete($filePath);
-            $this->_imageService->imageDelete($id, $imageLocation, $itemName);
+            $this->_imageService->imageDelete($id, $imageLocation, $itemName, $imageId);
 
             $this->apiResponse(true, '');
         } catch (Exception $ex) {
@@ -102,7 +103,8 @@ class ImageController extends ControllerBase
             $image = new ImageModel(
                 $image->path,
                 $image->alt,
-                $image->name
+                $image->name,
+                $image->id ?? null
             );
 
             $savedDocumentId = $this->_imageService->imageSave($image, $id, $imageLocation, $itemName);

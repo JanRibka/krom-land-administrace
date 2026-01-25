@@ -13,8 +13,8 @@ export interface HomeOldApiDTO {
   MainImage: string | null;
   AboutUs: string | null;
   AboutUsImage: string | null;
-  news: News[] | null;
-  newsImage: string | null;
+  News: News[] | null;
+  NewsImage: string | null;
   PeopleSay1Id: number | null;
   PeopleSay1Text: string | null;
   PeopleSay1Name: string | null;
