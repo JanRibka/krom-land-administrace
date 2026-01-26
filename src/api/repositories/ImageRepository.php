@@ -27,14 +27,14 @@ class ImageRepository implements IImageRepository
     {
 
         if ($itemName === 'NewsImage') {
-            \dibi::query('DELETE FROM homeNewsImage as hni WHERE hni.IdHomeNewsImage = %i', $image->Id);
+            \dibi::query('DELETE FROM homeNewsImage as hni WHERE hni.IdHomeNewsImage = %i', $image->id);
             return;
         }
 
         // Use ImageModel properties
-        $path = $image->Path ?? '';
-        $alt = $image->Alt ?? '';
-        $name = $image->Name ?? '';
+        $path = $image->path ?? '';
+        $alt = $image->alt ?? '';
+        $name = $image->name ?? '';
 
         $type = '';
         if ($itemName === 'MainImage') {
@@ -71,9 +71,9 @@ class ImageRepository implements IImageRepository
 
     public function imageUpdateTeamMembers(ImageModel $image, int $teamMemberId): void
     {
-        $path = $image->Path ?? '';
-        $alt = $image->Alt ?? '';
-        $name = $image->Name ?? '';
+        $path = $image->path ?? '';
+        $alt = $image->alt ?? '';
+        $name = $image->name ?? '';
 
         \dibi::query('UPDATE homeTeamMembers SET ImagePath = %s, ImageAlt = %s, ImageName = %s WHERE IdHomeTeamMembers = %i', $path, $alt, $name, $teamMemberId);
     }
@@ -180,9 +180,9 @@ class ImageRepository implements IImageRepository
 
     public function imageInsertNews(ImageModel $image, int $homeId): int
     {
-        $path = $image->Path ?? '';
-        $alt = $image->Alt ?? '';
-        $name = $image->Name ?? '';
+        $path = $image->path ?? '';
+        $alt = $image->alt ?? '';
+        $name = $image->name ?? '';
 
         \dibi::query('INSERT INTO homeNewsImage (Path, Alt, Name, IdHome) VALUES (%s, %s, %s, %i)', $path, $alt, $name, $homeId);
 
