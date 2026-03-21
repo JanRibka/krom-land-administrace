@@ -6,6 +6,7 @@ import {
   useUpdatePageDataMutation,
 } from "entities/renting";
 import React from "react";
+import AppNotification from "shared/components/notification/AppNotification";
 import { UserRoleEnum } from "shared/enums/UserRoleEnum";
 import { selectAuthentication } from "shared/infrastructure/store/authentication/authenticationSlice";
 import { useAppSelector } from "shared/infrastructure/store/store";
@@ -30,7 +31,15 @@ export function useRentingPage() {
   };
 
   const handleSaveOnClick = async () => {
-    await updatePageData(renting);
+    try {
+      await updatePageData(renting).unwrap();
+    } catch (error: any) {
+      if (typeof error === "string") {
+        AppNotification("Chyba", "Chyba při ukládání dat", "danger");
+      } else {
+        AppNotification("Chyba", error.message, "danger");
+      }
+    }
   };
 
   return {
@@ -43,4 +52,4 @@ export function useRentingPage() {
     // Helpery pro nameof, aby se nemusely importovat v komponentě
     nameofRenting: (prop: keyof RentingData) => nameof<RentingData>(prop),
   };
-};
+}
