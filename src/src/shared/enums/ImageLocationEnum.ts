@@ -8,4 +8,5 @@ export enum ImageLocationEnum {
   GALLERY_IMAGE,
   CONTACT,
   WEB_LOGOS,
+  RENTING,
 }

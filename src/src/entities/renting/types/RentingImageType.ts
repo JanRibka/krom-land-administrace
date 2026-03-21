@@ -1,0 +1,1 @@
+export type RentingImageType = "mainImage";

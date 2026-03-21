@@ -1,28 +1,28 @@
-import Layout from "features/layout/Layout";
-import LayoutLogin from "features/layoutLogin/LayoutLogin";
-import AdmSettingsPage from "pages/admSettings/AdmSettingsPage";
-import UsersPage from "pages/admSettings/UsersPage";
-import DashboardPage from "pages/DashboardPage";
-import LoginPage from "pages/LoginPage";
-import NotFoundPage from "pages/NotFoundPage";
-import PersistLoginPage from "pages/PersistLoginPage";
-import Renting from "pages/Renting";
-import UnauthorizedPage from "pages/UnauthorizedPage";
-import ActionsPage from "pages/webParts/ActionsPage";
-import ContactPage from "pages/webParts/ContactPage";
-import GalleryPage from "pages/webParts/GalleryPage";
-import GdprPage from "pages/webParts/GdprPage";
-import HomePage from "pages/webParts/HomePage";
-import TermsOfConditionsPage from "pages/webParts/TermsOfConditionsPage";
-import WebLogosPage from "pages/webSettings/WebLogosPage";
-import WebSettingsPage from "pages/webSettings/WebSettingsPage";
-import { useEffect } from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import RequireAuth from "shared/components/requireAuth/RequireAuth";
-import usePrevious from "shared/customHooks/usePrevious";
-import { UserRoleEnum } from "shared/enums/UserRoleEnum";
+import Layout from 'features/layout/Layout';
+import LayoutLogin from 'features/layoutLogin/LayoutLogin';
+import AdmSettingsPage from 'pages/admSettings/AdmSettingsPage';
+import UsersPage from 'pages/admSettings/UsersPage';
+import DashboardPage from 'pages/DashboardPage';
+import LoginPage from 'pages/LoginPage';
+import NotFoundPage from 'pages/NotFoundPage';
+import PersistLoginPage from 'pages/PersistLoginPage';
+import Renting from 'pages/Renting/Renting';
+import UnauthorizedPage from 'pages/UnauthorizedPage';
+import ActionsPage from 'pages/webParts/ActionsPage';
+import ContactPage from 'pages/webParts/ContactPage';
+import GalleryPage from 'pages/webParts/GalleryPage';
+import GdprPage from 'pages/webParts/GdprPage';
+import HomePage from 'pages/webParts/HomePage';
+import TermsOfConditionsPage from 'pages/webParts/TermsOfConditionsPage';
+import WebLogosPage from 'pages/webSettings/WebLogosPage';
+import WebSettingsPage from 'pages/webSettings/WebSettingsPage';
+import { useEffect } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import RequireAuth from 'shared/components/requireAuth/RequireAuth';
+import usePrevious from 'shared/customHooks/usePrevious';
+import { UserRoleEnum } from 'shared/enums/UserRoleEnum';
 
-import { AppRoute } from "./appRoutes";
+import { AppRoute } from './appRoutes';
 
 const AppRouter = () => {
   // Constants

@@ -29,4 +29,6 @@ interface IImageRepository
     public function imageUpdateWebLogos(string $image, string $itemName, int $webLogosId): void;
 
     public function imageInsertNews(ImageModel $image, int $homeId): int;
+
+    public function imageUpdateRenting(string $image, int $idRentingPage): void;
 }

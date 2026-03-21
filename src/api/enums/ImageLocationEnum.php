@@ -13,4 +13,5 @@ enum ImageLocationEnum
     case GALLERY_IMAGE;
     case CONTACT;
     case WEB_LOGOS;
+    case RENTING;
 }

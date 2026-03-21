@@ -1,13 +1,14 @@
+import { rentingReducer } from "entities/renting";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import { mainBaseApi } from "../../api/mainBaseApi";
 import admSettingsReduce from "./admSettings/admSettingsSlice";
-
 import authenticationReduce from "./authentication/authenticationSlice";
 import dashboardReduce from "./dashboard/dashboardSlice";
 import webPartsReduce from "./webParts/webPartsSlice";
 import webSettingsReduce from "./webSettings/webSettingsSlice";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const rootReducer = combineReducers({
   authentication: authenticationReduce,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   webParts: webPartsReduce,
   webSettings: webSettingsReduce,
   admSettings: admSettingsReduce,
+  renting: rentingReducer,
   [mainBaseApi.reducerPath]: mainBaseApi.reducer,
 });
 

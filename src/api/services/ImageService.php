@@ -51,6 +51,9 @@ class ImageService implements IImageService
                     break;
                 case ImageLocationEnum::WEB_LOGOS:
                     $this->_imageRepository->imageUpdateWebLogos($imageEncoded, $itemName, $id);
+                    break;
+                case ImageLocationEnum::RENTING:
+                    $this->_imageRepository->imageUpdateRenting($imageEncoded, $id);
             }
 
             return $id;
@@ -103,6 +106,9 @@ class ImageService implements IImageService
                     break;
                 case ImageLocationEnum::WEB_LOGOS:
                     $this->_imageRepository->imageUpdateWebLogos($imageEncoded, $itemName, $id);
+                    break;
+                case ImageLocationEnum::RENTING:
+                    $this->_imageRepository->imageUpdateRenting($imageEncoded, $id);
                     break;
             }
         }

@@ -188,4 +188,15 @@ class ImageRepository implements IImageRepository
 
         return \dibi::getInsertId();
     }
+
+    public function imageUpdateRenting(string $image, int $idRentingPage): void
+    {
+        $arr = [
+            "MainImage" => $image,
+        ];
+
+        \dibi::update('rentingPage', $arr)
+            ->where('IdRentingPage = %i', $idRentingPage)
+            ->execute();
+    }
 }

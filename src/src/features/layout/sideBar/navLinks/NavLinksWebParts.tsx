@@ -1,24 +1,24 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import AttractionsOutlinedIcon from '@mui/icons-material/AttractionsOutlined';
-import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
-import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
-import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
-import GavelIcon from '@mui/icons-material/Gavel';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import Box from '@mui/material/Box';
+import AttractionsOutlinedIcon from "@mui/icons-material/AttractionsOutlined";
+import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
+import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
+import FaceRetouchingOffIcon from "@mui/icons-material/FaceRetouchingOff";
+import GavelIcon from "@mui/icons-material/Gavel";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import Box from "@mui/material/Box";
 
-import { AppRoute } from '../../../../shared/infrastructure/router/appRoutes';
-import NavLinksStyled from './styledComponents/NavLinksStyled';
+import { AppRoute } from "../../../../shared/infrastructure/router/appRoutes";
+import NavLinksStyled from "./styledComponents/NavLinksStyled";
 
 const NavLinksWebParts = () => {
   return (
-    <NavLinksStyled component='ul'>
+    <NavLinksStyled component="ul">
       {/* Home */}
-      <Box component='li' data-route={AppRoute.Home} title='Úvod'>
+      <Box component="li" data-route={AppRoute.Home} title="Úvod">
         <Link to={AppRoute.Home}>
           {
-            <Box className='link-inner-wrapper'>
+            <Box className="link-inner-wrapper">
               <HomeOutlinedIcon /> Úvod
             </Box>
           }
@@ -26,21 +26,32 @@ const NavLinksWebParts = () => {
       </Box>
 
       {/* Actions */}
-      <Box component='li' data-route={AppRoute.Actions} title='Akce'>
+      <Box component="li" data-route={AppRoute.Actions} title="Akce">
         <Link to={AppRoute.Actions}>
           {
-            <Box className='link-inner-wrapper'>
+            <Box className="link-inner-wrapper">
               <AttractionsOutlinedIcon /> Akce
             </Box>
           }
         </Link>
       </Box>
 
+      {/* Renting */}
+      <Box component="li" data-route={AppRoute.Renting} title="Půjčovna">
+        <Link to={AppRoute.Renting}>
+          {
+            <Box className="link-inner-wrapper">
+              <AttractionsOutlinedIcon /> Půjčovna
+            </Box>
+          }
+        </Link>
+      </Box>
+
       {/* Gallery */}
-      <Box component='li' data-route={AppRoute.Gallery} title='Galerie'>
+      <Box component="li" data-route={AppRoute.Gallery} title="Galerie">
         <Link to={AppRoute.Gallery}>
           {
-            <Box className='link-inner-wrapper'>
+            <Box className="link-inner-wrapper">
               <CollectionsOutlinedIcon /> Galerie
             </Box>
           }
@@ -48,10 +59,10 @@ const NavLinksWebParts = () => {
       </Box>
 
       {/* Contact */}
-      <Box component='li' data-route={AppRoute.Contact} title='Kontakt'>
+      <Box component="li" data-route={AppRoute.Contact} title="Kontakt">
         <Link to={AppRoute.Contact}>
           {
-            <Box className='link-inner-wrapper'>
+            <Box className="link-inner-wrapper">
               <ContactMailOutlinedIcon /> Kontakt
             </Box>
           }
@@ -59,10 +70,10 @@ const NavLinksWebParts = () => {
       </Box>
 
       {/* GDPR */}
-      <Box component='li' data-route={AppRoute.Gdpr} title='GDPR'>
+      <Box component="li" data-route={AppRoute.Gdpr} title="GDPR">
         <Link to={AppRoute.Gdpr}>
           {
-            <Box className='link-inner-wrapper'>
+            <Box className="link-inner-wrapper">
               <FaceRetouchingOffIcon /> GDPR
             </Box>
           }
@@ -71,13 +82,13 @@ const NavLinksWebParts = () => {
 
       {/* Terms of conditions */}
       <Box
-        component='li'
+        component="li"
         data-route={AppRoute.TermsOfConditions}
-        title='Obchodní podmínky'
+        title="Obchodní podmínky"
       >
         <Link to={AppRoute.TermsOfConditions}>
           {
-            <Box className='link-inner-wrapper'>
+            <Box className="link-inner-wrapper">
               <GavelIcon /> Obchodní podmínky
             </Box>
           }
