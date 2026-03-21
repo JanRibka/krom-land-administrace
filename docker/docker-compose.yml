@@ -1,3 +1,5 @@
+name: kromland-administrace-api
+
 services:
   app:
     build:
@@ -6,54 +8,66 @@ services:
     container_name: krom-land-administrace-api
     restart: always
     working_dir: /var/www/html/api/
-    depends_on:
-      - db
     volumes:
       - ../src:/var/www/html
-    environment:
-      XDEBUG_MODE: debug
-      XDEBUG_CONFIG: "client_host=host.docker.internal client_port=9003 start_with_request=yes"
+      - ./local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      - krom-land-administrace-api-network
+    depends_on:
+      - db
 
   nginx:
     image: nginx:latest
     container_name: krom-land-administrace-nginx
-    restart: always
     ports:
-      - "3000:80"
-      - "3443:443"
+      - "3020:80"
+      - "3444:443"
     volumes:
       - ../src:/var/www/html
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
       - ./certs:/etc/nginx/certs:ro
     depends_on:
       - app
+    networks:
+      - krom-land-administrace-api-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   db:
     image: mysql:8.0
-    container_name: krom-land-db
+    container_name: krom-land-administrace-db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: kromland
       MYSQL_USER: kromuser
       MYSQL_PASSWORD: krompassword
     ports:
-      - "3307:3306"
+      - "3308:3306"
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - krom-land-administrace-api-network
 
   phpmyadmin:
     image: phpmyadmin:latest
-    container_name: krom-land-phpmyadmin
+    container_name: krom-land-administrace-phpmyadmin
     restart: always
     ports:
-      - "3010:80"
+      - "3025:80"
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: rootpassword
     depends_on:
       - db
+    networks:
+      - krom-land-administrace-api-network
+
+networks:
+  krom-land-administrace-api-network:
+    driver: bridge
 
 volumes:
   db_data:

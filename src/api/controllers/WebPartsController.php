@@ -16,15 +16,12 @@ use kromLand\api\models\webParts\home\HomeModel;
 use kromLand\api\repositories\WebPartsRepository;
 use kromLand\api\models\webParts\actions\ActionsModel;
 use kromLand\api\models\webParts\contact\ContactModel;
-
 use kromLand\api\models\webParts\gallery\GalleryModel;
 use kromLand\api\models\webParts\conditions\ConditionsModel;
 
-if (\defined('APP_ENV') && APP_ENV !== 'LOCAL') {
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET, POST');
-}
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: *');
+header('Access-Control-Allow-Methods: GET, POST');
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/./ControllerBase.php';

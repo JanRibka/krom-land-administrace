@@ -1,16 +1,40 @@
 FROM php:8.4-fpm
 
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
-    zip \
-    unzip \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    && docker-php-ext-install pdo_mysql mysqli mbstring
+    zip \
+    unzip
 
-WORKDIR /var/www/html/api/
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /var/www/html/api/vendor /var/www/html/vendor
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mysqli mbstring exif pcntl bcmath gd
+
+# Get Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Install Xdebug and Redis
+RUN pecl install xdebug \
+    && pecl install redis \
+    && docker-php-ext-enable xdebug \
+    && docker-php-ext-enable redis
+
+# Copy Xdebug configuration
+COPY xdebug.ini "${PHP_INI_DIR}/conf.d"
+
+# Set working directory
+WORKDIR /var/www/html/api
+
+# Pre-create Xdebug log and ensure permissions
+RUN touch /tmp/xdebug.log && chmod 777 /tmp/xdebug.log
+
+# Expose port 9000
+EXPOSE 9000
+
+CMD ["php-fpm"]

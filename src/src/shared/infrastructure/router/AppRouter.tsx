@@ -1,20 +1,21 @@
 import Layout from "features/layout/Layout";
 import LayoutLogin from "features/layoutLogin/LayoutLogin";
-import AdmSettingsPage from "features/pages/admSettings/AdmSettingsPage";
-import UsersPage from "features/pages/admSettings/UsersPage";
-import DashboardPage from "features/pages/DashboardPage";
-import LoginPage from "features/pages/LoginPage";
-import NotFoundPage from "features/pages/NotFoundPage";
-import PersistLoginPage from "features/pages/PersistLoginPage";
-import UnauthorizedPage from "features/pages/UnauthorizedPage";
-import ActionsPage from "features/pages/webParts/ActionsPage";
-import ContactPage from "features/pages/webParts/ContactPage";
-import GalleryPage from "features/pages/webParts/GalleryPage";
-import GdprPage from "features/pages/webParts/GdprPage";
-import HomePage from "features/pages/webParts/HomePage";
-import TermsOfConditionsPage from "features/pages/webParts/TermsOfConditionsPage";
-import WebLogosPage from "features/pages/webSettings/WebLogosPage";
-import WebSettingsPage from "features/pages/webSettings/WebSettingsPage";
+import AdmSettingsPage from "pages/admSettings/AdmSettingsPage";
+import UsersPage from "pages/admSettings/UsersPage";
+import DashboardPage from "pages/DashboardPage";
+import LoginPage from "pages/LoginPage";
+import NotFoundPage from "pages/NotFoundPage";
+import PersistLoginPage from "pages/PersistLoginPage";
+import Renting from "pages/Renting";
+import UnauthorizedPage from "pages/UnauthorizedPage";
+import ActionsPage from "pages/webParts/ActionsPage";
+import ContactPage from "pages/webParts/ContactPage";
+import GalleryPage from "pages/webParts/GalleryPage";
+import GdprPage from "pages/webParts/GdprPage";
+import HomePage from "pages/webParts/HomePage";
+import TermsOfConditionsPage from "pages/webParts/TermsOfConditionsPage";
+import WebLogosPage from "pages/webSettings/WebLogosPage";
+import WebSettingsPage from "pages/webSettings/WebSettingsPage";
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import RequireAuth from "shared/components/requireAuth/RequireAuth";
@@ -107,6 +108,7 @@ const AppRouter = () => {
           >
             <Route path={AppRoute.Home} element={<HomePage />} />
             <Route path={AppRoute.Actions} element={<ActionsPage />} />
+            <Route path={AppRoute.Renting} element={<Renting />} />
             <Route path={AppRoute.Gallery} element={<GalleryPage />} />
             <Route path={AppRoute.Contact} element={<ContactPage />} />
             <Route path={AppRoute.Gdpr} element={<GdprPage />} />

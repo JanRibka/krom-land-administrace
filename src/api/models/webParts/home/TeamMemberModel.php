@@ -42,5 +42,3 @@ class TeamMemberModel
         $this->Description = $description;
     }
 }
-?>
-

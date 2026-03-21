@@ -14,14 +14,13 @@ const RefreshToken = () => {
     const requestIntercept = axios.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
-          config.headers[
-            "Authorization"
-          ] = `Bearer ${authentication.AccessToken}`;
+          config.headers["Authorization"] =
+            `Bearer ${authentication.AccessToken}`;
         }
 
         return config;
       },
-      (error) => Promise.reject(error)
+      (error) => Promise.reject(error),
     );
 
     const responseIntercept = axios.interceptors.response.use(
@@ -43,7 +42,7 @@ const RefreshToken = () => {
         }
 
         return Promise.reject(error);
-      }
+      },
     );
 
     return () => {

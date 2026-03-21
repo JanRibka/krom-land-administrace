@@ -4,6 +4,7 @@ export type AppRoute =
   | "/admin/login"
   | "/admin/home"
   | "/admin/actions"
+  | "/admin/renting"
   | "/admin/gallery"
   | "/admin/contact"
   | "/admin/gdpr"
@@ -21,6 +22,7 @@ export const AppRoute = {
   Login: "/admin/login" as AppRoute,
   Home: "/admin/home" as AppRoute,
   Actions: "/admin/actions" as AppRoute,
+  Renting: "/admin/renting" as AppRoute,
   Gallery: "/admin/gallery" as AppRoute,
   Contact: "/admin/contact" as AppRoute,
   Gdpr: "/admin/gdpr" as AppRoute,
