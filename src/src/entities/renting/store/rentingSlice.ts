@@ -2,6 +2,7 @@ import ImageModel from "shared/models/ImageModel";
 
 import { createSlice } from "@reduxjs/toolkit";
 
+import { mapRentingDataToState } from "../mappers/mapRentingDataToState";
 import { RentingData, RentingImageType } from "../types";
 
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -24,18 +25,9 @@ export const rentingSlice = createSlice({
   initialState,
   reducers: {
     setRentingFromData: (state, action: PayloadAction<RentingData>) => {
-      const data = action.payload;
-
       return {
         ...state,
-        idRentingPage: data.idRentingPage,
-        title: data.title,
-        description: data.description,
-        pageHeaderTextMain: data.pageHeaderTextMain,
-        pageHeaderTextMainColor: data.pageHeaderTextMainColor,
-        mainImage: data.mainImage,
-        items: data.items,
-        decorationThemes: data.decorationThemes,
+        ...mapRentingDataToState(action.payload),
         _dataLoaded: true,
       };
     },

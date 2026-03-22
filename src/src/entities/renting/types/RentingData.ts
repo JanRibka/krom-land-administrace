@@ -1,5 +1,3 @@
-import ImageModel from "shared/models/ImageModel";
-
 import { RentingDecorationTheme } from "./RentingDecorationTheme";
 import { RentingItem } from "./RentingItem";
 
@@ -9,7 +7,7 @@ export interface RentingData {
   description: string;
   pageHeaderTextMain: string;
   pageHeaderTextMainColor: string;
-  mainImage: ImageModel;
+  mainImage: string;
   items: RentingItem[];
   decorationThemes: RentingDecorationTheme[];
 }

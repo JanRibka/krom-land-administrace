@@ -1,6 +1,8 @@
 import { mainBaseApi } from "shared/api/mainBaseApi";
 
+import { mapRentingStateToData } from "../mappers/mapRentingStateToData";
 import { RentingData } from "../types/RentingData";
+import type { RentingState } from "../store/RentingState";
 
 const basePath = "renting";
 
@@ -12,11 +14,11 @@ export const rentingApi = mainBaseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    updatePageData: build.mutation<void, RentingData>({
-      query: (data) => ({
+    updatePageData: build.mutation<void, RentingState>({
+      query: (state) => ({
         url: `${basePath}/updateRentingPageData`,
         method: "POST",
-        body: data,
+        body: mapRentingStateToData(state),
       }),
     }),
   }),
