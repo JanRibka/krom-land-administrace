@@ -1,9 +1,9 @@
-import Alert from "@mui/material/Alert";
-
 import { RentingItem } from "entities/renting";
 import SectionStyled from "features/styledComponents/SectionStyled";
 import SectionTitle from "shared/components/sectionTitle/SectionTitle";
 import { AppDataGrid } from "shared/components/table";
+
+import Alert from "@mui/material/Alert";
 
 import { useRentingItemsEditor } from "./hooks/useRentingItemsEditor";
 
@@ -19,8 +19,8 @@ const RentingItemsEditor = ({ data }: RentingItemsEditorProps) => {
       <SectionTitle title="Položky k zapůjčení" />
 
       <Alert severity="info" sx={{ mb: 2 }}>
-        Aby bylo možné vybrat témata dekorací, musí jedna z položek obsahovat kód{" "}
-        <strong>DECORATION</strong>.
+        Aby bylo možné vybrat témata dekorací, musí alespoň jedna z položek
+        obsahovat kód <strong>DECORATION</strong>.
       </Alert>
 
       <AppDataGrid

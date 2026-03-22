@@ -33,6 +33,7 @@ export function useRentingPage() {
   const handleSaveOnClick = async () => {
     try {
       await updatePageData(renting).unwrap();
+      AppNotification("Úspěch", "Úspěšně uloženo", "success");
     } catch (error: any) {
       if (typeof error === "string") {
         AppNotification("Chyba", "Chyba při ukládání dat", "danger");
