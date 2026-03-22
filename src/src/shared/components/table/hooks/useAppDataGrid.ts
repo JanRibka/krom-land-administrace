@@ -15,14 +15,25 @@ import { AppDataGridRowModel } from "../types/AppDataGridRowModel";
 export function useAppDataGrid<T extends Record<string, any>>(
   props: AppDataGridProps<T>,
 ) {
-  const [rows, setRows] = useState<AppDataGridRowModel[]>(
-    props.data?.map((item) => ({
-      ...item,
-      uuid: uuidv4(),
-      isNew: false,
-    })) ?? [],
-  );
+  // Pouze nové (dosud neuložené) řádky jsou v lokálním state
+  const [newRows, setNewRows] = useState<AppDataGridRowModel[]>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+
+  // Sestaví finální pole řádků: existující data ze store + nové neuložené řádky
+  const storeRows: AppDataGridRowModel[] = (props.data ?? []).map((item) => ({
+    ...item,
+    _tempId: undefined,
+    isNew: false,
+  }));
+  const rows: AppDataGridRowModel[] = [...storeRows, ...newRows];
+
+  // Vrátí ID řádku — pro nové řádky _tempId, pro existující idField
+  const getRowId = useCallback(
+    (row: AppDataGridRowModel): GridRowId => {
+      return row._tempId ?? row[props.idField as string];
+    },
+    [props.idField],
+  );
 
   const handleEditClick = useCallback(
     (id: GridRowId) => () => {
@@ -40,11 +51,19 @@ export function useAppDataGrid<T extends Record<string, any>>(
 
   const handleDeleteClick = useCallback(
     (id: GridRowId) => () => {
-      const newRows = rows.filter((row) => row.uuid !== id);
-      setRows(newRows);
-      props.onUpdate(newRows as unknown as T[]);
+      // Zkusit smazat z nových řádků
+      const isNew = newRows.some((row) => row._tempId === id);
+      if (isNew) {
+        setNewRows((prev) => prev.filter((row) => row._tempId !== id));
+      } else {
+        // Smazat z store dat a odeslat do store
+        const updated = (props.data ?? []).filter(
+          (item) => item[props.idField as string] !== id,
+        );
+        props.onUpdate(updated);
+      }
     },
-    [rows, props],
+    [newRows, props],
   );
 
   const handleCancelClick = useCallback(
@@ -53,12 +72,10 @@ export function useAppDataGrid<T extends Record<string, any>>(
         ...rowModesModel,
         [id]: { mode: GridRowModes.View, ignoreModifications: true },
       });
-      const editedRow = rows.find((row) => row.uuid === id);
-      if (editedRow?.isNew) {
-        setRows(rows.filter((row) => row.uuid !== id));
-      }
+      // Pokud je to nový řádek, odstraníme ho
+      setNewRows((prev) => prev.filter((row) => row._tempId !== id));
     },
-    [rowModesModel, rows],
+    [rowModesModel],
   );
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
@@ -72,12 +89,21 @@ export function useAppDataGrid<T extends Record<string, any>>(
 
   const processRowUpdate = (newRow: AppDataGridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
-    const newRows = rows.map((row) =>
-      row.uuid === newRow.uuid ? updatedRow : row,
-    );
 
-    setRows(newRows);
-    props.onUpdate(newRows as unknown as T[]);
+    if (newRow._tempId) {
+      // Nový řádek — přesuneme ze newRows do store
+      const { _tempId, isNew, ...rowData } = updatedRow;
+      setNewRows((prev) => prev.filter((row) => row._tempId !== newRow._tempId));
+      props.onUpdate([...(props.data ?? []), rowData as unknown as T]);
+    } else {
+      // Existující řádek — aktualizujeme v store
+      const updated = (props.data ?? []).map((item) =>
+        item[props.idField as string] === newRow[props.idField as string]
+          ? ({ ...item, ...newRow } as T)
+          : item,
+      );
+      props.onUpdate(updated);
+    }
 
     return updatedRow;
   };
@@ -87,22 +113,23 @@ export function useAppDataGrid<T extends Record<string, any>>(
   };
 
   const handleAddRow = () => {
-    const uuid = uuidv4();
-    const newRow = {
+    const tempId = uuidv4();
+    const newRow: AppDataGridRowModel = {
       ...props.getNewRow(),
-      uuid,
+      _tempId: tempId,
       isNew: true,
     };
 
-    setRows((oldRows) => [...oldRows, newRow]);
+    setNewRows((prev) => [...prev, newRow]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [uuid]: { mode: GridRowModes.Edit },
+      [tempId]: { mode: GridRowModes.Edit },
     }));
   };
 
   return {
     rows,
+    getRowId,
     rowModesModel,
     handleEditClick,
     handleSaveClick,

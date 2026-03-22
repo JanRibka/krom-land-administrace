@@ -1,5 +1,5 @@
 export interface AppDataGridRowModel {
-  uuid: string;
+  _tempId?: string;
   isNew: boolean;
   [key: string]: any;
 }

@@ -8,7 +8,6 @@ import AppDataGridStyled from "./components/AppDataGridStyled";
 import { useAppDataGrid } from "./hooks/useAppDataGrid";
 import { useAppDataGridColumns } from "./hooks/useAppDataGridColumns";
 import { AppDataGridProps } from "./types/AppDataGridProps";
-import { AppDataGridRowModel } from "./types/AppDataGridRowModel";
 
 const EditToolbar = ({ handleAddRow }: { handleAddRow: () => void }) => {
   return (
@@ -25,6 +24,7 @@ const AppDataGrid = <T extends Record<string, any>>(
 ) => {
   const {
     rows,
+    getRowId,
     rowModesModel,
     handleEditClick,
     handleSaveClick,
@@ -51,7 +51,7 @@ const AppDataGrid = <T extends Record<string, any>>(
         <DataGrid
           rows={rows}
           columns={[...props.columns, actionColumn]}
-          getRowId={(row: AppDataGridRowModel) => row.uuid}
+          getRowId={getRowId}
           editMode="row"
           loading={props.loading}
           rowModesModel={rowModesModel}
