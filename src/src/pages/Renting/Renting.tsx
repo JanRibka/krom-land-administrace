@@ -2,6 +2,7 @@ import FeatureStyled from "features/styledComponents/FeatureStyled";
 import PageStyled from "pages/styledComponents/PageStyled";
 import Footer from "shared/components/footer/Footer";
 import AppLoader from "shared/components/loader/AppLoader";
+import ErrorBoundary from "shared/infrastructure/ErrorBoundary";
 import { PageHead } from "widgets/PageHead";
 import { RentingManagement } from "widgets/RentingManagement";
 
@@ -21,28 +22,29 @@ const Renting = () => {
   } = useRentingPage();
 
   return (
-    <PageStyled>
-      <FeatureStyled>
-        <Stack spacing={4}>
-          <PageHead
-            disable={disable}
-            nameTitle={nameofRenting("title")}
-            nameDescription={nameofRenting("description")}
-            valueTitle={renting.title}
-            valueDescription={renting.description}
-            handleTextFieldOnBlur={handleTextFieldOnBlur}
-          />
-          <RentingManagement renting={renting} />
-        </Stack>
+    <PageStyled component="main">
+      <ErrorBoundary>
+        <FeatureStyled>
+          <Stack spacing={4}>
+            <PageHead
+              disable={disable}
+              nameTitle={nameofRenting("title")}
+              nameDescription={nameofRenting("description")}
+              valueTitle={renting.title}
+              valueDescription={renting.description}
+              handleTextFieldOnBlur={handleTextFieldOnBlur}
+            />
+            <RentingManagement renting={renting} />
+          </Stack>
 
-        {isLoading && <AppLoader />}
-      </FeatureStyled>
-
-      <Footer
-        disable={!renting._dataLoaded || disable}
-        loading={isSaving}
-        handleSaveOnClick={handleSaveOnClick}
-      />
+          {isLoading && <AppLoader />}
+        </FeatureStyled>
+        <Footer
+          disable={!renting._dataLoaded || disable}
+          loading={isSaving}
+          handleSaveOnClick={handleSaveOnClick}
+        />
+      </ErrorBoundary>
     </PageStyled>
   );
 };

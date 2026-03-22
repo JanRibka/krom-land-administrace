@@ -15,7 +15,7 @@ export const rentingApi = mainBaseApi.injectEndpoints({
     updatePageData: build.mutation<void, RentingData>({
       query: (data) => ({
         url: `${basePath}/updateRentingPageData`,
-        method: "PATCH",
+        method: "POST",
         body: data,
       }),
     }),
