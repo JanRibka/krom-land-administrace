@@ -3,4 +3,6 @@ export interface RentingDecorationTheme {
   name: string;
   code: string;
   isActive: boolean;
+  price?: number;
+  remark?: string;
 }

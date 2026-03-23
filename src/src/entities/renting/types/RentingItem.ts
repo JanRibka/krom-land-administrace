@@ -3,4 +3,6 @@ export interface RentingItem {
   name: string;
   code: string;
   isActive: boolean;
+  price?: number;
+  remark?: string;
 }

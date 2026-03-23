@@ -15,6 +15,8 @@ export function useRentingDecorationThemesEditor() {
     name: "",
     code: "",
     isActive: true,
+    price: 0,
+    remark: "",
   });
 
   return {

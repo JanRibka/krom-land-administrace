@@ -24,6 +24,21 @@ export function useRentingItemsColumns() {
       width: 100,
       editable: true,
     },
+    {
+      field: nameof<RentingItem>("price"),
+      headerName: "Cena",
+      type: "number",
+      width: 120,
+      editable: true,
+    },
+    {
+      field: nameof<RentingItem>("remark"),
+      headerName: "Poznámka",
+      type: "string",
+      flex: 2,
+      minWidth: 200,
+      editable: true,
+    },
   ];
 
   return { columns };
