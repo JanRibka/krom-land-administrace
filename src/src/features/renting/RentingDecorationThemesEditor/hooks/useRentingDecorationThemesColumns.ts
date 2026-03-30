@@ -30,6 +30,7 @@ export function useRentingDecorationThemesColumns() {
       type: "number",
       width: 120,
       editable: true,
+      valueParser: (value: any) => (value === "" ? null : Number(value)),
     },
     {
       field: nameof<RentingDecorationTheme>("remark"),

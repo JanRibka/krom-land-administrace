@@ -15,7 +15,7 @@ export function useRentingItemsEditor() {
     name: "",
     code: "",
     isActive: true,
-    price: 0,
+    price: null,
     remark: "",
   });
 
