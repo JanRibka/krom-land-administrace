@@ -13,7 +13,14 @@ export function mapRentingStateToData(state: RentingState): RentingData {
     pageHeaderTextMain: state.pageHeaderTextMain,
     pageHeaderTextMainColor: state.pageHeaderTextMainColor,
     mainImage: JSON.stringify(state.mainImage),
-    items: state.items,
-    decorationThemes: state.decorationThemes,
+    items: state.items.map((item) => ({
+      ...item,
+      idRentingItem: item.idRentingItem < 0 ? 0 : item.idRentingItem,
+    })),
+    decorationThemes: state.decorationThemes.map((theme) => ({
+      ...theme,
+      idRentingDecorationTheme:
+        theme.idRentingDecorationTheme < 0 ? 0 : theme.idRentingDecorationTheme,
+    })),
   };
 }

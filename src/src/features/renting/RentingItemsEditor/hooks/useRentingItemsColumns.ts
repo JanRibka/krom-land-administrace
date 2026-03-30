@@ -32,15 +32,15 @@ export function useRentingItemsColumns() {
       editable: true,
       valueParser: (value: any) => (value === "" ? null : Number(value)),
     },
-    {
-      field: nameof<RentingItem>("remark"),
-      headerName: "Poznámka",
-      type: "string",
-      flex: 2,
-      minWidth: 200,
-      editable: true,
-    },
+    // {
+    //   field: nameof<RentingItem>("remark"),
+    //   headerName: "Poznámka",
+    //   type: "string",
+    //   flex: 2,
+    //   minWidth: 200,
+    //   editable: true,
+    // },
   ];
 
   return { columns };
-};
+}
